@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+
+  <style name="MaterialTheme.TabTheme">
+    <item name="android:textColor">@color/color_white</item>
+  </style>
+
+  <style name="MaterialTheme" parent="android:Theme.Material.Light">
+    <item name="android:colorPrimary">@color/color_primary</item>
+    <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="android:colorAccent">@color/color_accent</item>
+
+    <item name="android:actionBarTabTextStyle">@style/MaterialTheme.TabTheme</item>
+  </style>
+
+
+
+</resources>
