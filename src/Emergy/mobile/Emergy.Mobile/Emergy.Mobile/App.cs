@@ -13,7 +13,10 @@ namespace Emergy.Mobile
         public App()
         {
             // The root page of your application
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage())
+            {
+                Title = "Emergy"
+            };
         }
         private static readonly ViewModelLocator _locator = new ViewModelLocator();
         public static ViewModelLocator Locator {

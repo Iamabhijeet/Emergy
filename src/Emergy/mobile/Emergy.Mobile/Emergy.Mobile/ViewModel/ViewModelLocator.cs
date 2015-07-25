@@ -45,13 +45,7 @@ namespace Emergy.Mobile.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
         }
 
-        public MainViewModel MainViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
 
 
         public static void Cleanup()

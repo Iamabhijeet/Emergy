@@ -5,6 +5,9 @@
   <style name="MaterialTheme.TabTheme">
     <item name="android:textColor">@color/color_white</item>
   </style>
+  <style name="MaterialTheme.ActionBar.Text" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/color_white</item>
+  </style>
 
   <style name="MaterialTheme" parent="android:Theme.Material.Light">
     <item name="android:colorPrimary">@color/color_primary</item>
@@ -12,6 +15,7 @@
     <item name="android:colorAccent">@color/color_accent</item>
 
     <item name="android:actionBarTabTextStyle">@style/MaterialTheme.TabTheme</item>
+    <item name="android:titleTextStyle">@style/MaterialTheme.ActionBar.Text</item>
   </style>
 
 
