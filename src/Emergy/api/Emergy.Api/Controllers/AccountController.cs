@@ -11,6 +11,7 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Emergy.Api;
+using Emergy.Api.Data.Models;
 using Emergy.Api.Models;
 using Emergy.Api.Services;
 

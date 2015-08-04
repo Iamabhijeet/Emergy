@@ -1,0 +1,10 @@
+{
+  "AppSettings": {
+    "SiteTitle": "Emergy.Api.Data Library"
+  },
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-Emergy.Api-7a19dec9-d3b8-4ba7-95f6-df7d29a18c35;Trusted_Connection=True;MultipleActiveResultSets=true"
+    }
+  }
+}

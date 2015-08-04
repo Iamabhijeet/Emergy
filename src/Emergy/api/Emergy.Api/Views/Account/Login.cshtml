@@ -1,7 +1,11 @@
 ﻿@using System.Collections.Generic
+@using System.Threading.Tasks
+@using Emergy.Api.Data.Models
+@using Emergy.Api.Models
 @using Microsoft.AspNet.Http
 @using Microsoft.AspNet.Http.Authentication
-@model LoginViewModel
+@using Microsoft.AspNet.Identity
+@model Emergy.Api.Models.LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{

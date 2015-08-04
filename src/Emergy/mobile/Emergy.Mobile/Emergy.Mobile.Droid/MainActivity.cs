@@ -26,10 +26,7 @@ namespace Emergy.Mobile.Droid
             if (actionBarTitleId > 0)
             {
                 TextView title = FindViewById<TextView>(actionBarTitleId);
-                if (title != null)
-                {
-                    title.SetTextColor(Color.White);
-                }
+                title?.SetTextColor(Color.White);
             }
 
             if ((int) Android.OS.Build.VERSION.SdkInt >= 21)
