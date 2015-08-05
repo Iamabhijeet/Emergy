@@ -22,7 +22,7 @@ namespace Emergy.Api.Data.Models
 
         [ForeignKey("AdministratorId")]
         public ApplicationUser Administrator { get; set; }
-        public int AdministratorId { get; set; }
+        public string AdministratorId { get; set; }
 
         public ICollection<ApplicationUser> Clients { get; set; }
 

@@ -28,7 +28,7 @@ namespace Emergy.Api.Data.Models
 
         [ForeignKey("CreatorId")]
         public ApplicationUser Creator { get; set; }
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
 
         [ForeignKey("UnitId")]
         public Unit Unit { get; set; }
