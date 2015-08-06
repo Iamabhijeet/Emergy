@@ -94,6 +94,7 @@
     <Compile Include="Models\Enums\AccountType.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

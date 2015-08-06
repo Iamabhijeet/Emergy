@@ -34,6 +34,10 @@ namespace Emergy.Api.Data.Models
         public Unit Unit { get; set; }
         public int UnitId { get; set; }
 
+        [ForeignKey("LocationId")]
+        public Location Location { get; set; }
+        public int LocationId { get; set; }
+
         [Required]
         public DateTime DateCreated { get; set; }
     }
