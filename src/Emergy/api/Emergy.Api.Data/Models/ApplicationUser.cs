@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -25,13 +27,27 @@ namespace Emergy.Api.Data.Models
             return await manager.CreateIdentityAsync(this, authenticationType);
         }
 
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Surname { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public DateTime BirthDate { get; set; }
 
+        [ForeignKey("ProfilePhotoImageId")]
+        public Image ProfilePhoto { get; set; }
+        public int ProfilePhotoImageId { get; set; }
 
         public ICollection<Report> Reports { get; set; }
         public ICollection<Unit> Units { get; set; }
 
         public AccountType AccountType { get; set; }
         public AccountPlan AccountPlan { get; set; }
+
+        [Required]
+        public DateTime DateRegistered { get; set; }
     }
 
 

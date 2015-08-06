@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Emergy.Api.Models;
+using Microsoft.Owin.Security.OAuth;
 
 namespace Emergy.Api
 {
@@ -65,6 +66,22 @@ namespace Emergy.Api
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            PublicClientId = "self";
+            OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/Token"),
+                Provider = new OAuthAuthorizationServerProvider(),
+                AuthorizeEndpointPath = new PathString("/api/Account/Login"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AllowInsecureHttp = true
+            };
+
+            // Enable the application to use bearer tokens to authenticate users
+            app.UseOAuthBearerTokens(OAuthOptions);
         }
+
+        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        public static string PublicClientId { get; private set; }
     }
 }

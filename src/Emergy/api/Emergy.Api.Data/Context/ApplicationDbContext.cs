@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,10 @@ namespace Emergy.Api.Data.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext()
+          : base("DefaultConnection")
+        {
+        }
         /// <summary>
         ///  Ovdje mapiramo relacije iz baze podataka pomocu entity framework fluent apija.
         /// </summary>
@@ -19,7 +24,7 @@ namespace Emergy.Api.Data.Context
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            // builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             // table mappings
 
             builder.Entity<Image>().ToTable("Images");
@@ -45,5 +50,10 @@ namespace Emergy.Api.Data.Context
             return InstanceHolder.Value;
         }
         private static readonly Lazy<ApplicationDbContext> InstanceHolder = new Lazy<ApplicationDbContext>(() => new ApplicationDbContext());
+
+        protected override void Dispose(bool disposing)
+        {
+           
+        }
     }
 }
