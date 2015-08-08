@@ -1,3 +1,5 @@
+using Emergy.Api.Data.Models;
+
 namespace Emergy.Api.Data.Migrations
 {
     using System;
@@ -26,6 +28,7 @@ namespace Emergy.Api.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+       
         }
     }
 }

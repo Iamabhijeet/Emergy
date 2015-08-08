@@ -15,8 +15,9 @@ namespace Emergy.Api.Data.Configurations
             ToTable("Reports");
 
             HasMany(x => x.Photos)
-              .WithOptional()
+              .WithOptional(x => x.Report)
               .WillCascadeOnDelete(true);
+
         }
     }
 }

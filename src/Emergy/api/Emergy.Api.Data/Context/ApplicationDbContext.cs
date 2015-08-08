@@ -24,7 +24,7 @@ namespace Emergy.Api.Data.Context
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             // table mappings
 
             builder.Entity<Image>().ToTable("Images");
@@ -33,13 +33,14 @@ namespace Emergy.Api.Data.Context
 
             builder.Configurations.Add(new ReportConfiguration());
             builder.Configurations.Add(new UnitConfiguration());
-
+            builder.Configurations.Add(new ProfilePhotoConfiguration());
         }
 
         public DbSet<Unit> Units { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
 
         /// <summary>
         /// Singleton

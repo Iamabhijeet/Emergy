@@ -31,14 +31,15 @@ namespace Emergy.Api.Data.Models
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
+
+        public Gender Gender { get; set; }
+
         [Required]
         public string Country { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
 
-        [ForeignKey("ProfilePhotoImageId")]
-        public Image ProfilePhoto { get; set; }
-        public int ProfilePhotoImageId { get; set; }
+        public ProfilePhoto ProfilePhoto { get; set; }
 
         public ICollection<Report> Reports { get; set; }
         public ICollection<Unit> Units { get; set; }

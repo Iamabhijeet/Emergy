@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\ProfilePhotoConfiguration.cs" />
     <Compile Include="Configurations\ReportConfiguration.cs" />
     <Compile Include="Configurations\UnitConfiguration.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
@@ -93,8 +94,10 @@
     <Compile Include="Models\Enums\AccountPlan.cs" />
     <Compile Include="Models\Enums\AccountType.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\ProfilePhoto.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
