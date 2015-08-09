@@ -10,15 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2DFF8
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{16A53356-F87C-4EFA-B0C3-CC86C7D0ACFA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{EC3FFFAC-41CD-4DBE-A5CD-07F5EE5B6070}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Api.Data", "api\Emergy.Api.Data\Emergy.Api.Data.csproj", "{1A144824-2DAA-4358-86D7-E8E50FB0E220}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Api.Core", "api\Emergy.Api.Core\Emergy.Api.Core.csproj", "{836D9F1D-F80F-41A9-A301-18CE788D9DF2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D85C75E7-298A-4A93-8445-284CD8455588}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Api", "api\Emergy.Api\Emergy.Api.csproj", "{7F33AF10-3376-4EA5-BF4B-3E46C0D985E0}"
 EndProject
