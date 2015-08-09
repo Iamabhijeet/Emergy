@@ -144,11 +144,6 @@
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Emergy.Mobile\Emergy.Mobile.csproj">
-      <Name>Emergy.Mobile</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportv4-18">
       <Visible>False</Visible>
       <Version>22.2.0.0</Version>
