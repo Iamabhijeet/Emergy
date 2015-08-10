@@ -1,0 +1,123 @@
+﻿CREATE TABLE [dbo].[Images] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Url] [nvarchar](max),
+    [Base64] [varbinary](max),
+    [Report_Id] [int],
+    CONSTRAINT [PK_dbo.Images] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[Reports] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Title] [nvarchar](50) NOT NULL,
+    [ReportType] [int] NOT NULL,
+    [Description] [nvarchar](200) NOT NULL,
+    [UnitId] [int] NOT NULL,
+    [CreatorId] [nvarchar](128),
+    [LocationId] [int] NOT NULL,
+    [DateCreated] [datetime] NOT NULL,
+    CONSTRAINT [PK_dbo.Reports] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[AspNetUsers] (
+    [Id] [nvarchar](128) NOT NULL,
+    [Name] [nvarchar](max) NOT NULL,
+    [Surname] [nvarchar](max) NOT NULL,
+    [BirthDate] [datetime] NOT NULL,
+    [Gender] [int] NOT NULL,
+    [Country] [nvarchar](max) NOT NULL,
+    [AccountType] [int] NOT NULL,
+    [DateRegistered] [datetime] NOT NULL,
+    [Email] [nvarchar](256),
+    [EmailConfirmed] [bit] NOT NULL,
+    [PasswordHash] [nvarchar](max),
+    [SecurityStamp] [nvarchar](max),
+    [PhoneNumber] [nvarchar](max),
+    [PhoneNumberConfirmed] [bit] NOT NULL,
+    [TwoFactorEnabled] [bit] NOT NULL,
+    [LockoutEndDateUtc] [datetime],
+    [LockoutEnabled] [bit] NOT NULL,
+    [AccessFailedCount] [int] NOT NULL,
+    [UserName] [nvarchar](256) NOT NULL,
+    [ProfilePhoto_Id] [int] NOT NULL,
+    CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[AspNetUserClaims] (
+    [Id] [int] NOT NULL IDENTITY,
+    [UserId] [nvarchar](128) NOT NULL,
+    [ClaimType] [nvarchar](max),
+    [ClaimValue] [nvarchar](max),
+    CONSTRAINT [PK_dbo.AspNetUserClaims] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[AspNetUserLogins] (
+    [LoginProvider] [nvarchar](128) NOT NULL,
+    [ProviderKey] [nvarchar](128) NOT NULL,
+    [UserId] [nvarchar](128) NOT NULL,
+    CONSTRAINT [PK_dbo.AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey], [UserId])
+)
+CREATE TABLE [dbo].[ProfilePhotos] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Url] [nvarchar](max),
+    [Base64] [varbinary](max),
+    CONSTRAINT [PK_dbo.ProfilePhotos] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[AspNetUserRoles] (
+    [UserId] [nvarchar](128) NOT NULL,
+    [RoleId] [nvarchar](128) NOT NULL,
+    CONSTRAINT [PK_dbo.AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId])
+)
+CREATE TABLE [dbo].[Units] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Name] [nvarchar](50) NOT NULL,
+    [AdministratorId] [nvarchar](128),
+    [DateCreated] [datetime] NOT NULL,
+    CONSTRAINT [PK_dbo.Units] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[Locations] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Latitude] [float] NOT NULL,
+    [Longitude] [float] NOT NULL,
+    [Name] [nvarchar](max),
+    [DateCaptured] [datetime] NOT NULL,
+    CONSTRAINT [PK_dbo.Locations] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[AspNetRoles] (
+    [Id] [nvarchar](128) NOT NULL,
+    [Name] [nvarchar](256) NOT NULL,
+    CONSTRAINT [PK_dbo.AspNetRoles] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[Units2Clients] (
+    [UnitId] [int] NOT NULL,
+    [ClientId] [nvarchar](128) NOT NULL,
+    CONSTRAINT [PK_dbo.Units2Clients] PRIMARY KEY ([UnitId], [ClientId])
+)
+CREATE INDEX [IX_Report_Id] ON [dbo].[Images]([Report_Id])
+CREATE INDEX [IX_UnitId] ON [dbo].[Reports]([UnitId])
+CREATE INDEX [IX_CreatorId] ON [dbo].[Reports]([CreatorId])
+CREATE INDEX [IX_LocationId] ON [dbo].[Reports]([LocationId])
+CREATE UNIQUE INDEX [UserNameIndex] ON [dbo].[AspNetUsers]([UserName])
+CREATE INDEX [IX_ProfilePhoto_Id] ON [dbo].[AspNetUsers]([ProfilePhoto_Id])
+CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserClaims]([UserId])
+CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserLogins]([UserId])
+CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserRoles]([UserId])
+CREATE INDEX [IX_RoleId] ON [dbo].[AspNetUserRoles]([RoleId])
+CREATE INDEX [IX_AdministratorId] ON [dbo].[Units]([AdministratorId])
+CREATE UNIQUE INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]([Name])
+CREATE INDEX [IX_UnitId] ON [dbo].[Units2Clients]([UnitId])
+CREATE INDEX [IX_ClientId] ON [dbo].[Units2Clients]([ClientId])
+ALTER TABLE [dbo].[Images] ADD CONSTRAINT [FK_dbo.Images_dbo.Reports_Report_Id] FOREIGN KEY ([Report_Id]) REFERENCES [dbo].[Reports] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.AspNetUsers_CreatorId] FOREIGN KEY ([CreatorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Locations_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Locations] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [FK_dbo.AspNetUsers_dbo.ProfilePhotos_ProfilePhoto_Id] FOREIGN KEY ([ProfilePhoto_Id]) REFERENCES [dbo].[ProfilePhotos] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Units] ADD CONSTRAINT [FK_dbo.Units_dbo.AspNetUsers_AdministratorId] FOREIGN KEY ([AdministratorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id])
+ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.AspNetUsers_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+CREATE TABLE [dbo].[__MigrationHistory] (
+    [MigrationId] [nvarchar](150) NOT NULL,
+    [ContextKey] [nvarchar](300) NOT NULL,
+    [Model] [varbinary](max) NOT NULL,
+    [ProductVersion] [nvarchar](32) NOT NULL,
+    CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY ([MigrationId], [ContextKey])
+)

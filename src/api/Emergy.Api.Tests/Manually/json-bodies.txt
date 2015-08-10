@@ -1,0 +1,12 @@
+﻿{
+    "UserName" : "gboduljak",
+    "Name" : "Gabrijel",
+    "Surname" : "Boduljak",
+    "Email" : "gboduljak@outlook.com",
+    "Gender" : "0",
+    "Password" : "damngoood123",
+    "ConfirmPassword" : "damngoood123",
+    "Country" : "Croatia",
+    "BirthDate" :"1999-04-23",
+    "AccountType":"0"
+}
