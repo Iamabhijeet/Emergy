@@ -240,11 +240,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Emergy.Api.Core\Emergy.Core.csproj">
+    <ProjectReference Include="..\..\Emergy.Core\Emergy.Core.csproj">
       <Project>{836d9f1d-f80f-41a9-a301-18ce788d9df2}</Project>
       <Name>Emergy.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Emergy.Api.Data\Emergy.Data.csproj">
+    <ProjectReference Include="..\..\Emergy.Data\Emergy.Data.csproj">
       <Project>{1a144824-2daa-4358-86d7-e8e50fb0e220}</Project>
       <Name>Emergy.Data</Name>
     </ProjectReference>

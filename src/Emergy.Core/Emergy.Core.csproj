@@ -65,7 +65,7 @@
     <Compile Include="Repositories\UnitsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Emergy.Api.Data\Emergy.Data.csproj">
+    <ProjectReference Include="..\Emergy.Data\Emergy.Data.csproj">
       <Project>{1a144824-2daa-4358-86d7-e8e50fb0e220}</Project>
       <Name>Emergy.Data</Name>
     </ProjectReference>

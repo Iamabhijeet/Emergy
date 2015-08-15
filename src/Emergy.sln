@@ -12,9 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2DFF8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{EC3FFFAC-41CD-4DBE-A5CD-07F5EE5B6070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Data", "api\Emergy.Api.Data\Emergy.Data.csproj", "{1A144824-2DAA-4358-86D7-E8E50FB0E220}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Data", "Emergy.Data\Emergy.Data.csproj", "{1A144824-2DAA-4358-86D7-E8E50FB0E220}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Core", "api\Emergy.Api.Core\Emergy.Core.csproj", "{836D9F1D-F80F-41A9-A301-18CE788D9DF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Core", "Emergy.Core\Emergy.Core.csproj", "{836D9F1D-F80F-41A9-A301-18CE788D9DF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emergy.Api", "api\Emergy.Api\Emergy.Api.csproj", "{7F33AF10-3376-4EA5-BF4B-3E46C0D985E0}"
 EndProject
