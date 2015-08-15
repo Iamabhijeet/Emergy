@@ -86,18 +86,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\ReportConfiguration.cs" />
+    <Compile Include="Configurations\ReportDetailsConfiguration.cs" />
+    <Compile Include="Configurations\ReportTypeConfiguration.cs" />
     <Compile Include="Configurations\UnitConfiguration.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AdditionalProperty.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="Models\Enums\AccountType.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Enums\AdditionalPropertyType.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
-    <Compile Include="Models\Enums\ReportType.cs" />
+    <Compile Include="Models\Enums\LocationType.cs" />
+    <Compile Include="Models\Enums\ReportStatus.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ProfilePhoto.cs" />
     <Compile Include="Models\Report.cs" />
+    <Compile Include="Models\ReportDetails.cs" />
+    <Compile Include="Models\ReportType.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

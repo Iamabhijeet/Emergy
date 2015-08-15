@@ -11,6 +11,7 @@ namespace Emergy.Data.Models
         public Unit()
         {
             Clients = new HashSet<ApplicationUser>();
+            AdditionalProperties = new HashSet<AdditionalProperty>();
         }
 
         [Required]
@@ -22,6 +23,7 @@ namespace Emergy.Data.Models
         public string AdministratorId { get; set; }
 
         public ICollection<ApplicationUser> Clients { get; set; }
+        public ICollection<AdditionalProperty> AdditionalProperties { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }

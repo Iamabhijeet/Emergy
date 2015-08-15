@@ -9,6 +9,10 @@ namespace Emergy.Data.Configurations
         {
             ToTable("Units");
 
+            HasMany(x => x.AdditionalProperties)
+             .WithOptional()
+             .WillCascadeOnDelete(true);
+
             HasMany(x => x.Clients)
               .WithMany(x => x.Units)
               .Map(mapping =>

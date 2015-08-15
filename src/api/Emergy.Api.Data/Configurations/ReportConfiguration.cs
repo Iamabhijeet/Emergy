@@ -9,10 +9,12 @@ namespace Emergy.Data.Configurations
         {
             ToTable("Reports");
 
+            HasRequired(x => x.ReportType)
+                .WithRequiredPrincipal(x => x.Report);
+
             HasMany(x => x.Photos)
               .WithOptional(x => x.Report)
               .WillCascadeOnDelete(true);
-
         }
     }
 }
