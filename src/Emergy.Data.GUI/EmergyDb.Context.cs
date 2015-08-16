@@ -26,17 +26,17 @@ namespace Emergy.Data.GUI
         }
     
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AdditionalProperty> AdditionalProperties { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<ProfilePhoto> ProfilePhotos { get; set; }
-        public virtual DbSet<ReportDetail> ReportDetails { get; set; }
-        public virtual DbSet<Report> Reports { get; set; }
-        public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<AdditionalProperties> AdditionalProperties { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Images> Images { get; set; }
+        public virtual DbSet<Locations> Locations { get; set; }
+        public virtual DbSet<ProfilePhotos> ProfilePhotos { get; set; }
+        public virtual DbSet<ReportDetails> ReportDetails { get; set; }
+        public virtual DbSet<Reports> Reports { get; set; }
+        public virtual DbSet<Units> Units { get; set; }
     }
 }

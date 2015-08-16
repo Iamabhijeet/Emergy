@@ -12,7 +12,7 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class Image
+    public partial class Images
     {
         public int Id { get; set; }
         public string Url { get; set; }
@@ -20,7 +20,7 @@ namespace Emergy.Data.GUI
         public Nullable<int> Report_Id { get; set; }
         public Nullable<int> Category_Id { get; set; }
     
-        public virtual Category Category { get; set; }
-        public virtual Report Report { get; set; }
+        public virtual Categories Categories { get; set; }
+        public virtual Reports Reports { get; set; }
     }
 }

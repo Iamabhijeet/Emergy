@@ -146,6 +146,9 @@ ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.A
 ALTER TABLE [dbo].[Units] ADD CONSTRAINT [FK_dbo.Units_dbo.AspNetUsers_AdministratorId] FOREIGN KEY ([AdministratorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
 ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.AspNetUsers_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Reports] ADD [CategoryId] [int]
+CREATE INDEX [IX_CategoryId] ON [dbo].[Reports]([CategoryId])
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Categories_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[Categories] ([Id])
 CREATE TABLE [dbo].[__MigrationHistory] (
     [MigrationId] [nvarchar](150) NOT NULL,
     [ContextKey] [nvarchar](300) NOT NULL,

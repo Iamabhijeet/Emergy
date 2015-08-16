@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="EmergyDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -141,6 +141,7 @@
           <Property Name="DateHappened" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Unit_Id" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
         </EntityType>
         <EntityType Name="Units">
           <Key>
@@ -311,6 +312,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Reports_dbo_Categories_CategoryId">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Reports_dbo_Locations_LocationId">
           <End Role="Locations" Type="Self.Locations" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -391,7 +404,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ModelStoreContainer">
+        <EntityContainer Name="EmergyDbModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AdditionalProperties" EntityType="Self.AdditionalProperties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -451,6 +464,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_Categories_CategoryId" Association="Self.FK_dbo_Reports_dbo_Categories_CategoryId">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Reports_dbo_Locations_LocationId" Association="Self.FK_dbo_Reports_dbo_Locations_LocationId">
             <End Role="Locations" EntitySet="Locations" />
             <End Role="Reports" EntitySet="Reports" />
@@ -480,7 +497,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="EmergyDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -491,7 +508,7 @@
           <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="AdditionalProperty">
+        <EntityType Name="AdditionalProperties">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -502,10 +519,10 @@
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Unit_Id" Type="Int32" />
           <Property Name="ReportDetails_Id" Type="Int32" />
-          <NavigationProperty Name="ReportDetail" Relationship="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" FromRole="AdditionalProperties" ToRole="ReportDetails" />
-          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_AdditionalProperties_dbo_Units_Unit_Id" FromRole="AdditionalProperties" ToRole="Units" />
+          <NavigationProperty Name="ReportDetails" Relationship="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" FromRole="AdditionalProperties" ToRole="ReportDetails" />
+          <NavigationProperty Name="Units" Relationship="Self.FK_dbo_AdditionalProperties_dbo_Units_Unit_Id" FromRole="AdditionalProperties" ToRole="Units" />
         </EntityType>
-        <EntityType Name="AspNetRole">
+        <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -513,7 +530,7 @@
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="AspNetUserClaim">
+        <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -521,9 +538,9 @@
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="AspNetUserLogin">
+        <EntityType Name="AspNetUserLogins">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
@@ -532,9 +549,9 @@
           <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="AspNetUser">
+        <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -559,23 +576,24 @@
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="ProfilePhoto" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" FromRole="AspNetUsers" ToRole="ProfilePhotos" />
+          <NavigationProperty Name="ProfilePhotos" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" FromRole="AspNetUsers" ToRole="ProfilePhotos" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="AspNetUsers" ToRole="Reports" />
           <NavigationProperty Name="Units" Relationship="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="AspNetUsers" ToRole="Units" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Units1" Relationship="Self.Units2Clients" FromRole="AspNetUsers" ToRole="Units" />
         </EntityType>
-        <EntityType Name="Category">
+        <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Unit_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Categories" ToRole="Units" />
+          <NavigationProperty Name="Units" Relationship="Self.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Categories" ToRole="Units" />
           <NavigationProperty Name="Images" Relationship="Self.FK_dbo_Images_dbo_Categories_Category_Id" FromRole="Categories" ToRole="Images" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Categories_CategoryId" FromRole="Categories" ToRole="Reports" />
         </EntityType>
-        <EntityType Name="Image">
+        <EntityType Name="Images">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -584,10 +602,10 @@
           <Property Name="Base64" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Report_Id" Type="Int32" />
           <Property Name="Category_Id" Type="Int32" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Images_dbo_Categories_Category_Id" FromRole="Images" ToRole="Categories" />
-          <NavigationProperty Name="Report" Relationship="Self.FK_dbo_Images_dbo_Reports_Report_Id" FromRole="Images" ToRole="Reports" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_dbo_Images_dbo_Categories_Category_Id" FromRole="Images" ToRole="Categories" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Images_dbo_Reports_Report_Id" FromRole="Images" ToRole="Reports" />
         </EntityType>
-        <EntityType Name="Location">
+        <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -598,7 +616,7 @@
           <Property Name="Type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Locations" ToRole="Reports" />
         </EntityType>
-        <EntityType Name="ProfilePhoto">
+        <EntityType Name="ProfilePhotos">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -607,7 +625,7 @@
           <Property Name="Base64" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" FromRole="ProfilePhotos" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="ReportDetail">
+        <EntityType Name="ReportDetails">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -615,7 +633,7 @@
           <NavigationProperty Name="AdditionalProperties" Relationship="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" FromRole="ReportDetails" ToRole="AdditionalProperties" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="ReportDetails" ToRole="Reports" />
         </EntityType>
-        <EntityType Name="Report">
+        <EntityType Name="Reports">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -629,13 +647,15 @@
           <Property Name="DateHappened" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Unit_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="Reports" ToRole="AspNetUsers" />
+          <Property Name="CategoryId" Type="Int32" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="Reports" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_dbo_Reports_dbo_Categories_CategoryId" FromRole="Reports" ToRole="Categories" />
           <NavigationProperty Name="Images" Relationship="Self.FK_dbo_Images_dbo_Reports_Report_Id" FromRole="Reports" ToRole="Images" />
-          <NavigationProperty Name="Location" Relationship="Self.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Reports" ToRole="Locations" />
-          <NavigationProperty Name="ReportDetail" Relationship="Self.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="Reports" ToRole="ReportDetails" />
-          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Reports" ToRole="Units" />
+          <NavigationProperty Name="Locations" Relationship="Self.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Reports" ToRole="Locations" />
+          <NavigationProperty Name="ReportDetails" Relationship="Self.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="Reports" ToRole="ReportDetails" />
+          <NavigationProperty Name="Units" Relationship="Self.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Reports" ToRole="Units" />
         </EntityType>
-        <EntityType Name="Unit">
+        <EntityType Name="Units">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -644,16 +664,16 @@
           <Property Name="AdministratorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AdditionalProperties" Relationship="Self.FK_dbo_AdditionalProperties_dbo_Units_Unit_Id" FromRole="Units" ToRole="AdditionalProperties" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="Units" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="Units" ToRole="AspNetUsers" />
           <NavigationProperty Name="Categories" Relationship="Self.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Units" ToRole="Categories" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Units" ToRole="Reports" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.Units2Clients" FromRole="Units" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers1" Relationship="Self.Units2Clients" FromRole="Units" ToRole="AspNetUsers" />
         </EntityType>
         <Association Name="FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id">
-          <End Role="ReportDetails" Type="Self.ReportDetail" Multiplicity="0..1">
+          <End Role="ReportDetails" Type="Self.ReportDetails" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AdditionalProperties" Type="Self.AdditionalProperty" Multiplicity="*" />
+          <End Role="AdditionalProperties" Type="Self.AdditionalProperties" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReportDetails">
               <PropertyRef Name="Id" />
@@ -664,10 +684,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AdditionalProperties_dbo_Units_Unit_Id">
-          <End Role="Units" Type="Self.Unit" Multiplicity="0..1">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AdditionalProperties" Type="Self.AdditionalProperty" Multiplicity="*" />
+          <End Role="AdditionalProperties" Type="Self.AdditionalProperties" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Units">
               <PropertyRef Name="Id" />
@@ -678,10 +698,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -692,10 +712,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -706,10 +726,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId">
-          <End Role="ProfilePhotos" Type="Self.ProfilePhoto" Multiplicity="1">
+          <End Role="ProfilePhotos" Type="Self.ProfilePhotos" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProfilePhotos">
               <PropertyRef Name="Id" />
@@ -720,8 +740,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="Reports" Type="Self.Report" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -732,8 +752,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Units_dbo_AspNetUsers_AdministratorId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="Units" Type="Self.Unit" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Units" Type="Self.Units" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -744,10 +764,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Categories_dbo_Units_Unit_Id">
-          <End Role="Units" Type="Self.Unit" Multiplicity="1">
+          <End Role="Units" Type="Self.Units" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Categories" Type="Self.Category" Multiplicity="*" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Units">
               <PropertyRef Name="Id" />
@@ -758,10 +778,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Images_dbo_Categories_Category_Id">
-          <End Role="Categories" Type="Self.Category" Multiplicity="0..1">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="Id" />
@@ -771,11 +791,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Reports_dbo_Categories_CategoryId">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reports">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Images_dbo_Reports_Report_Id">
-          <End Role="Reports" Type="Self.Report" Multiplicity="0..1">
+          <End Role="Reports" Type="Self.Reports" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Reports">
               <PropertyRef Name="Id" />
@@ -786,10 +818,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Reports_dbo_Locations_LocationId">
-          <End Role="Locations" Type="Self.Location" Multiplicity="1">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Reports" Type="Self.Report" Multiplicity="*" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Locations">
               <PropertyRef Name="Id" />
@@ -800,10 +832,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Reports_dbo_ReportDetails_DetailsId">
-          <End Role="ReportDetails" Type="Self.ReportDetail" Multiplicity="1">
+          <End Role="ReportDetails" Type="Self.ReportDetails" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Reports" Type="Self.Report" Multiplicity="*" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ReportDetails">
               <PropertyRef Name="Id" />
@@ -814,8 +846,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_Reports_dbo_Units_Unit_Id">
-          <End Role="Units" Type="Self.Unit" Multiplicity="1" />
-          <End Role="Reports" Type="Self.Report" Multiplicity="*" />
+          <End Role="Units" Type="Self.Units" Multiplicity="1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Units">
               <PropertyRef Name="Id" />
@@ -826,27 +858,27 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
         <Association Name="Units2Clients">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
-          <End Role="Units" Type="Self.Unit" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <End Role="Units" Type="Self.Units" Multiplicity="*" />
         </Association>
         <EntityContainer Name="DefaultConnection" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
-          <EntitySet Name="AdditionalProperties" EntityType="Self.AdditionalProperty" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Images" EntityType="Self.Image" />
-          <EntitySet Name="Locations" EntityType="Self.Location" />
-          <EntitySet Name="ProfilePhotos" EntityType="Self.ProfilePhoto" />
-          <EntitySet Name="ReportDetails" EntityType="Self.ReportDetail" />
-          <EntitySet Name="Reports" EntityType="Self.Report" />
-          <EntitySet Name="Units" EntityType="Self.Unit" />
+          <EntitySet Name="AdditionalProperties" EntityType="Self.AdditionalProperties" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="Images" EntityType="Self.Images" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" />
+          <EntitySet Name="ProfilePhotos" EntityType="Self.ProfilePhotos" />
+          <EntitySet Name="ReportDetails" EntityType="Self.ReportDetails" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" />
+          <EntitySet Name="Units" EntityType="Self.Units" />
           <AssociationSet Name="FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" Association="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id">
             <End Role="ReportDetails" EntitySet="ReportDetails" />
             <End Role="AdditionalProperties" EntitySet="AdditionalProperties" />
@@ -883,6 +915,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_Categories_CategoryId" Association="Self.FK_dbo_Reports_dbo_Categories_CategoryId">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Reports" EntitySet="Reports" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Images_dbo_Reports_Report_Id" Association="Self.FK_dbo_Images_dbo_Reports_Report_Id">
             <End Role="Reports" EntitySet="Reports" />
             <End Role="Images" EntitySet="Images" />
@@ -913,9 +949,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DefaultConnection">
+        <EntityContainerMapping StorageEntityContainer="EmergyDbModelStoreContainer" CdmEntityContainer="DefaultConnection">
           <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="Model.C__MigrationHistory">
+            <EntityTypeMapping TypeName="EmergyDbModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
                 <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
                 <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
@@ -925,7 +961,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AdditionalProperties">
-            <EntityTypeMapping TypeName="Model.AdditionalProperty">
+            <EntityTypeMapping TypeName="EmergyDbModel.AdditionalProperties">
               <MappingFragment StoreEntitySet="AdditionalProperties">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -938,7 +974,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="Model.AspNetRole">
+            <EntityTypeMapping TypeName="EmergyDbModel.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -946,7 +982,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="Model.AspNetUserClaim">
+            <EntityTypeMapping TypeName="EmergyDbModel.AspNetUserClaims">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -956,7 +992,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="Model.AspNetUserLogin">
+            <EntityTypeMapping TypeName="EmergyDbModel.AspNetUserLogins">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
@@ -965,7 +1001,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="Model.AspNetUser">
+            <EntityTypeMapping TypeName="EmergyDbModel.AspNetUsers">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -990,7 +1026,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="Model.Category">
+            <EntityTypeMapping TypeName="EmergyDbModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -999,7 +1035,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Images">
-            <EntityTypeMapping TypeName="Model.Image">
+            <EntityTypeMapping TypeName="EmergyDbModel.Images">
               <MappingFragment StoreEntitySet="Images">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
@@ -1010,7 +1046,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="Model.Location">
+            <EntityTypeMapping TypeName="EmergyDbModel.Locations">
               <MappingFragment StoreEntitySet="Locations">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
@@ -1021,7 +1057,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProfilePhotos">
-            <EntityTypeMapping TypeName="Model.ProfilePhoto">
+            <EntityTypeMapping TypeName="EmergyDbModel.ProfilePhotos">
               <MappingFragment StoreEntitySet="ProfilePhotos">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
@@ -1030,14 +1066,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportDetails">
-            <EntityTypeMapping TypeName="Model.ReportDetail">
+            <EntityTypeMapping TypeName="EmergyDbModel.ReportDetails">
               <MappingFragment StoreEntitySet="ReportDetails">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reports">
-            <EntityTypeMapping TypeName="Model.Report">
+            <EntityTypeMapping TypeName="EmergyDbModel.Reports">
               <MappingFragment StoreEntitySet="Reports">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -1049,11 +1085,12 @@
                 <ScalarProperty Name="DateHappened" ColumnName="DateHappened" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Units">
-            <EntityTypeMapping TypeName="Model.Unit">
+            <EntityTypeMapping TypeName="EmergyDbModel.Units">
               <MappingFragment StoreEntitySet="Units">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1062,7 +1099,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="EmergyDbModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
@@ -1070,7 +1107,7 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Units2Clients" TypeName="Model.Units2Clients" StoreEntitySet="Units2Clients">
+          <AssociationSetMapping Name="Units2Clients" TypeName="EmergyDbModel.Units2Clients" StoreEntitySet="Units2Clients">
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="ClientId" />
             </EndProperty>
@@ -1092,7 +1129,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

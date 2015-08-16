@@ -32,6 +32,11 @@ namespace Emergy.Data.Models
         public Location Location { get; set; }
         public int LocationId { get; set; }
 
+        
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public int? CategoryId { get; set; }
+
         [ForeignKey("DetailsId")]
         public ReportDetails Details { get; set; }
         public int DetailsId { get; set; }

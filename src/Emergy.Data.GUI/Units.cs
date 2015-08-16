@@ -12,15 +12,15 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class Unit
+    public partial class Units
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Unit()
+        public Units()
         {
-            this.AdditionalProperties = new HashSet<AdditionalProperty>();
-            this.Categories = new HashSet<Category>();
-            this.Reports = new HashSet<Report>();
-            this.AspNetUsers = new HashSet<AspNetUser>();
+            this.AdditionalProperties = new HashSet<AdditionalProperties>();
+            this.Categories = new HashSet<Categories>();
+            this.Reports = new HashSet<Reports>();
+            this.AspNetUsers1 = new HashSet<AspNetUsers>();
         }
     
         public int Id { get; set; }
@@ -29,13 +29,13 @@ namespace Emergy.Data.GUI
         public System.DateTime DateCreated { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdditionalProperty> AdditionalProperties { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<AdditionalProperties> AdditionalProperties { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Categories> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Reports> Reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers1 { get; set; }
     }
 }

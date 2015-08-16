@@ -12,12 +12,12 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class Report
+    public partial class Reports
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Report()
+        public Reports()
         {
-            this.Images = new HashSet<Image>();
+            this.Images = new HashSet<Images>();
         }
     
         public int Id { get; set; }
@@ -30,12 +30,14 @@ namespace Emergy.Data.GUI
         public System.DateTime DateHappened { get; set; }
         public int Status { get; set; }
         public int Unit_Id { get; set; }
+        public Nullable<int> CategoryId { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Categories Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual ReportDetail ReportDetail { get; set; }
-        public virtual Unit Unit { get; set; }
+        public virtual ICollection<Images> Images { get; set; }
+        public virtual Locations Locations { get; set; }
+        public virtual ReportDetails ReportDetails { get; set; }
+        public virtual Units Units { get; set; }
     }
 }

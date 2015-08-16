@@ -12,12 +12,12 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class Location
+    public partial class Locations
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Location()
+        public Locations()
         {
-            this.Reports = new HashSet<Report>();
+            this.Reports = new HashSet<Reports>();
         }
     
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace Emergy.Data.GUI
         public int Type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Reports> Reports { get; set; }
     }
 }

@@ -12,19 +12,20 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class ProfilePhoto
+    public partial class ReportDetails
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProfilePhoto()
+        public ReportDetails()
         {
-            this.AspNetUsers = new HashSet<AspNetUser>();
+            this.AdditionalProperties = new HashSet<AdditionalProperties>();
+            this.Reports = new HashSet<Reports>();
         }
     
         public int Id { get; set; }
-        public string Url { get; set; }
-        public byte[] Base64 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual ICollection<AdditionalProperties> AdditionalProperties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reports> Reports { get; set; }
     }
 }

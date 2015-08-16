@@ -12,7 +12,7 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class AdditionalProperty
+    public partial class AdditionalProperties
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Emergy.Data.GUI
         public Nullable<int> Unit_Id { get; set; }
         public Nullable<int> ReportDetails_Id { get; set; }
     
-        public virtual ReportDetail ReportDetail { get; set; }
-        public virtual Unit Unit { get; set; }
+        public virtual ReportDetails ReportDetails { get; set; }
+        public virtual Units Units { get; set; }
     }
 }
