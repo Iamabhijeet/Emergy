@@ -81,6 +81,9 @@
     <Compile Include="AspNetUserLogin.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Category.cs">
+      <DependentUpon>EmergyDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
@@ -115,40 +118,16 @@
     <Compile Include="ReportDetail.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="ReportType.cs">
-      <DependentUpon>EmergyDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Unit.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EmergyDb-development.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="EmergyDb-development_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>EmergyDb-development.mdf</DependentUpon>
-    </Content>
-    <Content Include="EmergyDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmergyDb.edmx</DependentUpon>
-      <LastGenOutput>EmergyDb.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EmergyDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmergyDb.edmx</DependentUpon>
-      <LastGenOutput>EmergyDb.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="EmergyDb.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EmergyDb.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="EmergyDb.edmx.diagram">
       <DependentUpon>EmergyDb.edmx</DependentUpon>
     </None>
@@ -168,6 +147,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmergyDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmergyDb.edmx</DependentUpon>
+      <LastGenOutput>EmergyDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EmergyDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmergyDb.edmx</DependentUpon>
+      <LastGenOutput>EmergyDb.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

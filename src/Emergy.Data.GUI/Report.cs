@@ -23,20 +23,19 @@ namespace Emergy.Data.GUI
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int UnitId { get; set; }
         public string CreatorId { get; set; }
         public int LocationId { get; set; }
-        public System.DateTime DateCreated { get; set; }
         public int DetailsId { get; set; }
+        public System.DateTime DateCreated { get; set; }
         public System.DateTime DateHappened { get; set; }
         public int Status { get; set; }
+        public int Unit_Id { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Image> Images { get; set; }
         public virtual Location Location { get; set; }
         public virtual ReportDetail ReportDetail { get; set; }
-        public virtual ReportType ReportType { get; set; }
         public virtual Unit Unit { get; set; }
     }
 }

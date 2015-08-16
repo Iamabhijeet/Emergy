@@ -18,6 +18,7 @@ namespace Emergy.Data.GUI
         public Unit()
         {
             this.AdditionalProperties = new HashSet<AdditionalProperty>();
+            this.Categories = new HashSet<Category>();
             this.Reports = new HashSet<Report>();
             this.AspNetUsers = new HashSet<AspNetUser>();
         }
@@ -30,6 +31,8 @@ namespace Emergy.Data.GUI
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalProperty> AdditionalProperties { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Report> Reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

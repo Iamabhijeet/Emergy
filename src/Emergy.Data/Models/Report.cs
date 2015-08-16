@@ -19,15 +19,10 @@ namespace Emergy.Data.Models
         public string Title { get; set; }
 
         [Required]
-        public ReportType ReportType { get; set; }
-
-        [Required]
         [StringLength(200, MinimumLength = 5)]
         public string Description { get; set; }
 
-        [ForeignKey("UnitId")]
         public Unit Unit { get; set; }
-        public int UnitId { get; set; }
 
         [ForeignKey("CreatorId")]
         public ApplicationUser Creator { get; set; }

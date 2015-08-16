@@ -3,10 +3,10 @@ using Emergy.Data.Models.Base;
 
 namespace Emergy.Data.Models
 {
-    public class ReportType : ModelBase
+    public class Category : ModelBase
     {
         public string Name { get; set; }
         public Image Image { get; set; }
-        public Report Report { get; set; }
+        public Unit Unit { get; set; }
     }
 }

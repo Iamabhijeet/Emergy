@@ -28,8 +28,6 @@ namespace Emergy.Api.Models.Account
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
-        public string Country { get; set; }
-        [Required]
         public DateTime BirthDate { get; set; }
         public DateTime DateRegistered { get; set; } = DateTime.Now;
         [Required]

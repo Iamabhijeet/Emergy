@@ -34,9 +34,6 @@ namespace Emergy.Data.Models
         public ProfilePhoto ProfilePhoto { get; set; }
         public int ProfilePhotoId { get; set; } = 1;
 
-        [Required]
-        public string Country { get; set; }
-     
         public AccountType AccountType { get; set; }
    
         public ICollection<Report> Reports { get; set; }

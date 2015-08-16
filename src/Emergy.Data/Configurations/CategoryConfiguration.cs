@@ -3,17 +3,15 @@ using Emergy.Data.Models;
 
 namespace Emergy.Data.Configurations
 {
-    public class ReportTypeConfiguration : EntityTypeConfiguration<ReportType>
+    public class CategoryConfiguration : EntityTypeConfiguration<Category>
     {
-        public ReportTypeConfiguration()
+        public CategoryConfiguration()
         {
-            ToTable("ReportTypes");
+            ToTable("Categories");
 
             HasOptional(x => x.Image)
                 .WithOptionalPrincipal()
                 .WillCascadeOnDelete();
-
-
         }
     }
 }

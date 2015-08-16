@@ -13,6 +13,14 @@ namespace Emergy.Data.Configurations
              .WithOptional()
              .WillCascadeOnDelete(true);
 
+            HasMany(x => x.Categories)
+              .WithRequired(x => x.Unit)
+              .WillCascadeOnDelete(true);
+
+            HasMany(x => x.Reports)
+              .WithRequired(x => x.Unit)
+              .WillCascadeOnDelete(false);
+
             HasMany(x => x.Clients)
               .WithMany(x => x.Units)
               .Map(mapping =>

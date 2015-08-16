@@ -1,19 +1,38 @@
-﻿CREATE TABLE [dbo].[Images] (
+﻿CREATE TABLE [dbo].[AdditionalProperties] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Name] [nvarchar](max),
+    [TextValue] [nvarchar](max),
+    [BoolValue] [nvarchar](max),
+    [Type] [int] NOT NULL,
+    [Unit_Id] [int],
+    [ReportDetails_Id] [int],
+    CONSTRAINT [PK_dbo.AdditionalProperties] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[Categories] (
+    [Id] [int] NOT NULL IDENTITY,
+    [Name] [nvarchar](max),
+    [Unit_Id] [int] NOT NULL,
+    CONSTRAINT [PK_dbo.Categories] PRIMARY KEY ([Id])
+)
+CREATE TABLE [dbo].[Images] (
     [Id] [int] NOT NULL IDENTITY,
     [Url] [nvarchar](max),
     [Base64] [varbinary](max),
     [Report_Id] [int],
+    [Category_Id] [int],
     CONSTRAINT [PK_dbo.Images] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[Reports] (
     [Id] [int] NOT NULL IDENTITY,
     [Title] [nvarchar](50) NOT NULL,
-    [ReportType] [int] NOT NULL,
     [Description] [nvarchar](200) NOT NULL,
-    [UnitId] [int] NOT NULL,
     [CreatorId] [nvarchar](128),
     [LocationId] [int] NOT NULL,
+    [DetailsId] [int] NOT NULL,
     [DateCreated] [datetime] NOT NULL,
+    [DateHappened] [datetime] NOT NULL,
+    [Status] [int] NOT NULL,
+    [Unit_Id] [int] NOT NULL,
     CONSTRAINT [PK_dbo.Reports] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[AspNetUsers] (
@@ -22,7 +41,7 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [Surname] [nvarchar](max) NOT NULL,
     [BirthDate] [datetime] NOT NULL,
     [Gender] [int] NOT NULL,
-    [Country] [nvarchar](max) NOT NULL,
+    [ProfilePhotoId] [int] NOT NULL,
     [AccountType] [int] NOT NULL,
     [DateRegistered] [datetime] NOT NULL,
     [Email] [nvarchar](256),
@@ -36,7 +55,6 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [LockoutEnabled] [bit] NOT NULL,
     [AccessFailedCount] [int] NOT NULL,
     [UserName] [nvarchar](256) NOT NULL,
-    [ProfilePhoto_Id] [int] NOT NULL,
     CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[AspNetUserClaims] (
@@ -70,12 +88,16 @@ CREATE TABLE [dbo].[Units] (
     [DateCreated] [datetime] NOT NULL,
     CONSTRAINT [PK_dbo.Units] PRIMARY KEY ([Id])
 )
+CREATE TABLE [dbo].[ReportDetails] (
+    [Id] [int] NOT NULL IDENTITY,
+    CONSTRAINT [PK_dbo.ReportDetails] PRIMARY KEY ([Id])
+)
 CREATE TABLE [dbo].[Locations] (
     [Id] [int] NOT NULL IDENTITY,
     [Latitude] [float] NOT NULL,
     [Longitude] [float] NOT NULL,
     [Name] [nvarchar](max),
-    [DateCaptured] [datetime] NOT NULL,
+    [Type] [int] NOT NULL,
     CONSTRAINT [PK_dbo.Locations] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[AspNetRoles] (
@@ -88,12 +110,17 @@ CREATE TABLE [dbo].[Units2Clients] (
     [ClientId] [nvarchar](128) NOT NULL,
     CONSTRAINT [PK_dbo.Units2Clients] PRIMARY KEY ([UnitId], [ClientId])
 )
+CREATE INDEX [IX_Unit_Id] ON [dbo].[AdditionalProperties]([Unit_Id])
+CREATE INDEX [IX_ReportDetails_Id] ON [dbo].[AdditionalProperties]([ReportDetails_Id])
+CREATE INDEX [IX_Unit_Id] ON [dbo].[Categories]([Unit_Id])
 CREATE INDEX [IX_Report_Id] ON [dbo].[Images]([Report_Id])
-CREATE INDEX [IX_UnitId] ON [dbo].[Reports]([UnitId])
+CREATE INDEX [IX_Category_Id] ON [dbo].[Images]([Category_Id])
 CREATE INDEX [IX_CreatorId] ON [dbo].[Reports]([CreatorId])
 CREATE INDEX [IX_LocationId] ON [dbo].[Reports]([LocationId])
+CREATE INDEX [IX_DetailsId] ON [dbo].[Reports]([DetailsId])
+CREATE INDEX [IX_Unit_Id] ON [dbo].[Reports]([Unit_Id])
+CREATE INDEX [IX_ProfilePhotoId] ON [dbo].[AspNetUsers]([ProfilePhotoId])
 CREATE UNIQUE INDEX [UserNameIndex] ON [dbo].[AspNetUsers]([UserName])
-CREATE INDEX [IX_ProfilePhoto_Id] ON [dbo].[AspNetUsers]([ProfilePhoto_Id])
 CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserClaims]([UserId])
 CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserLogins]([UserId])
 CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserRoles]([UserId])
@@ -102,18 +129,23 @@ CREATE INDEX [IX_AdministratorId] ON [dbo].[Units]([AdministratorId])
 CREATE UNIQUE INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]([Name])
 CREATE INDEX [IX_UnitId] ON [dbo].[Units2Clients]([UnitId])
 CREATE INDEX [IX_ClientId] ON [dbo].[Units2Clients]([ClientId])
+ALTER TABLE [dbo].[AdditionalProperties] ADD CONSTRAINT [FK_dbo.AdditionalProperties_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AdditionalProperties] ADD CONSTRAINT [FK_dbo.AdditionalProperties_dbo.ReportDetails_ReportDetails_Id] FOREIGN KEY ([ReportDetails_Id]) REFERENCES [dbo].[ReportDetails] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Categories] ADD CONSTRAINT [FK_dbo.Categories_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[Images] ADD CONSTRAINT [FK_dbo.Images_dbo.Reports_Report_Id] FOREIGN KEY ([Report_Id]) REFERENCES [dbo].[Reports] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Images] ADD CONSTRAINT [FK_dbo.Images_dbo.Categories_Category_Id] FOREIGN KEY ([Category_Id]) REFERENCES [dbo].[Categories] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.AspNetUsers_CreatorId] FOREIGN KEY ([CreatorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id])
+ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.ReportDetails_DetailsId] FOREIGN KEY ([DetailsId]) REFERENCES [dbo].[ReportDetails] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Locations_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Locations] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [FK_dbo.AspNetUsers_dbo.ProfilePhotos_ProfilePhoto_Id] FOREIGN KEY ([ProfilePhoto_Id]) REFERENCES [dbo].[ProfilePhotos] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [FK_dbo.AspNetUsers_dbo.ProfilePhotos_ProfilePhotoId] FOREIGN KEY ([ProfilePhotoId]) REFERENCES [dbo].[ProfilePhotos] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE
 ALTER TABLE [dbo].[Units] ADD CONSTRAINT [FK_dbo.Units_dbo.AspNetUsers_AdministratorId] FOREIGN KEY ([AdministratorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
-ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id])
-ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.AspNetUsers_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [dbo].[AspNetUsers] ([Id])
+ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
+ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.AspNetUsers_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
 CREATE TABLE [dbo].[__MigrationHistory] (
     [MigrationId] [nvarchar](150) NOT NULL,
     [ContextKey] [nvarchar](300) NOT NULL,

@@ -70,7 +70,7 @@
           <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
           <Property Name="BirthDate" Type="datetime" Nullable="false" />
           <Property Name="Gender" Type="int" Nullable="false" />
-          <Property Name="Country" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProfilePhotoId" Type="int" Nullable="false" />
           <Property Name="AccountType" Type="int" Nullable="false" />
           <Property Name="DateRegistered" Type="datetime" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
@@ -84,7 +84,14 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="ProfilePhotoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Unit_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
@@ -94,7 +101,7 @@
           <Property Name="Url" Type="nvarchar(max)" />
           <Property Name="Base64" Type="varbinary(max)" />
           <Property Name="Report_Id" Type="int" />
-          <Property Name="ReportType_Id" Type="int" />
+          <Property Name="Category_Id" Type="int" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -104,7 +111,6 @@
           <Property Name="Latitude" Type="float" Nullable="false" />
           <Property Name="Longitude" Type="float" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="DateCaptured" Type="datetime" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ProfilePhotos">
@@ -128,20 +134,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="UnitId" Type="int" Nullable="false" />
           <Property Name="CreatorId" Type="nvarchar" MaxLength="128" />
           <Property Name="LocationId" Type="int" Nullable="false" />
-          <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DetailsId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="DateHappened" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ReportTypes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Unit_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Units">
           <Key>
@@ -244,7 +243,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id">
+        <Association Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId">
           <End Role="ProfilePhotos" Type="Self.ProfilePhotos" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -255,6 +254,34 @@
             </Principal>
             <Dependent Role="AspNetUsers">
               <PropertyRef Name="ProfilePhotoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Categories_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Images_dbo_Categories_Category_Id">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="Category_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -269,20 +296,6 @@
             </Principal>
             <Dependent Role="Images">
               <PropertyRef Name="Report_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Images_dbo_ReportTypes_ReportType_Id">
-          <End Role="ReportTypes" Type="Self.ReportTypes" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Images" Type="Self.Images" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReportTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Images">
-              <PropertyRef Name="ReportType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -326,29 +339,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Reports_dbo_ReportTypes_Id">
-          <End Role="ReportTypes" Type="Self.ReportTypes" Multiplicity="1" />
-          <End Role="Reports" Type="Self.Reports" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ReportTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Reports">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Reports_dbo_Units_UnitId">
-          <End Role="Units" Type="Self.Units" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_dbo_Reports_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="1" />
           <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Reports">
-              <PropertyRef Name="UnitId" />
+              <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -400,12 +399,12 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProfilePhotos" EntityType="Self.ProfilePhotos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportDetails" EntityType="Self.ReportDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ReportTypes" EntityType="Self.ReportTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units2Clients" EntityType="Self.Units2Clients" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" Association="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id">
@@ -432,16 +431,20 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id" Association="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id">
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" Association="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId">
             <End Role="ProfilePhotos" EntitySet="ProfilePhotos" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Images_dbo_Reports_Report_Id" Association="Self.FK_dbo_Images_dbo_Reports_Report_Id">
-            <End Role="Reports" EntitySet="Reports" />
+          <AssociationSet Name="FK_dbo_Categories_dbo_Units_Unit_Id" Association="Self.FK_dbo_Categories_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Images_dbo_Categories_Category_Id" Association="Self.FK_dbo_Images_dbo_Categories_Category_Id">
+            <End Role="Categories" EntitySet="Categories" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Images_dbo_ReportTypes_ReportType_Id" Association="Self.FK_dbo_Images_dbo_ReportTypes_ReportType_Id">
-            <End Role="ReportTypes" EntitySet="ReportTypes" />
+          <AssociationSet Name="FK_dbo_Images_dbo_Reports_Report_Id" Association="Self.FK_dbo_Images_dbo_Reports_Report_Id">
+            <End Role="Reports" EntitySet="Reports" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId" Association="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
@@ -456,11 +459,7 @@
             <End Role="ReportDetails" EntitySet="ReportDetails" />
             <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Reports_dbo_ReportTypes_Id" Association="Self.FK_dbo_Reports_dbo_ReportTypes_Id">
-            <End Role="ReportTypes" EntitySet="ReportTypes" />
-            <End Role="Reports" EntitySet="Reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Reports_dbo_Units_UnitId" Association="Self.FK_dbo_Reports_dbo_Units_UnitId">
+          <AssociationSet Name="FK_dbo_Reports_dbo_Units_Unit_Id" Association="Self.FK_dbo_Reports_dbo_Units_Unit_Id">
             <End Role="Units" EntitySet="Units" />
             <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
@@ -544,7 +543,7 @@
           <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Gender" Type="Int32" Nullable="false" />
-          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProfilePhotoId" Type="Int32" Nullable="false" />
           <Property Name="AccountType" Type="Int32" Nullable="false" />
           <Property Name="DateRegistered" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -558,14 +557,23 @@
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProfilePhotoId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="ProfilePhoto" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id" FromRole="AspNetUsers" ToRole="ProfilePhotos" />
+          <NavigationProperty Name="ProfilePhoto" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" FromRole="AspNetUsers" ToRole="ProfilePhotos" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="AspNetUsers" ToRole="Reports" />
           <NavigationProperty Name="Units" Relationship="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="AspNetUsers" ToRole="Units" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Units1" Relationship="Self.Units2Clients" FromRole="AspNetUsers" ToRole="Units" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Unit_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Categories" ToRole="Units" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_dbo_Images_dbo_Categories_Category_Id" FromRole="Categories" ToRole="Images" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -575,9 +583,9 @@
           <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Base64" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Report_Id" Type="Int32" />
-          <Property Name="ReportType_Id" Type="Int32" />
+          <Property Name="Category_Id" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_dbo_Images_dbo_Categories_Category_Id" FromRole="Images" ToRole="Categories" />
           <NavigationProperty Name="Report" Relationship="Self.FK_dbo_Images_dbo_Reports_Report_Id" FromRole="Images" ToRole="Reports" />
-          <NavigationProperty Name="ReportType" Relationship="Self.FK_dbo_Images_dbo_ReportTypes_ReportType_Id" FromRole="Images" ToRole="ReportTypes" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -587,7 +595,6 @@
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateCaptured" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Locations" ToRole="Reports" />
         </EntityType>
@@ -598,7 +605,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Base64" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id" FromRole="ProfilePhotos" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" FromRole="ProfilePhotos" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="ReportDetail">
           <Key>
@@ -615,28 +622,18 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UnitId" Type="Int32" Nullable="false" />
           <Property Name="CreatorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DetailsId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateHappened" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Unit_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="Reports" ToRole="AspNetUsers" />
           <NavigationProperty Name="Images" Relationship="Self.FK_dbo_Images_dbo_Reports_Report_Id" FromRole="Reports" ToRole="Images" />
           <NavigationProperty Name="Location" Relationship="Self.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Reports" ToRole="Locations" />
           <NavigationProperty Name="ReportDetail" Relationship="Self.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="Reports" ToRole="ReportDetails" />
-          <NavigationProperty Name="ReportType" Relationship="Self.FK_dbo_Reports_dbo_ReportTypes_Id" FromRole="Reports" ToRole="ReportTypes" />
-          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_Reports_dbo_Units_UnitId" FromRole="Reports" ToRole="Units" />
-        </EntityType>
-        <EntityType Name="ReportType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Images" Relationship="Self.FK_dbo_Images_dbo_ReportTypes_ReportType_Id" FromRole="ReportTypes" ToRole="Images" />
-          <NavigationProperty Name="Report" Relationship="Self.FK_dbo_Reports_dbo_ReportTypes_Id" FromRole="ReportTypes" ToRole="Reports" />
+          <NavigationProperty Name="Unit" Relationship="Self.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Reports" ToRole="Units" />
         </EntityType>
         <EntityType Name="Unit">
           <Key>
@@ -648,7 +645,8 @@
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AdditionalProperties" Relationship="Self.FK_dbo_AdditionalProperties_dbo_Units_Unit_Id" FromRole="Units" ToRole="AdditionalProperties" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="Units" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Units_UnitId" FromRole="Units" ToRole="Reports" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Units" ToRole="Categories" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Units" ToRole="Reports" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.Units2Clients" FromRole="Units" ToRole="AspNetUsers" />
         </EntityType>
         <Association Name="FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id">
@@ -707,7 +705,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id">
+        <Association Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId">
           <End Role="ProfilePhotos" Type="Self.ProfilePhoto" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -745,6 +743,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_Categories_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Unit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Categories" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Categories">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Images_dbo_Categories_Category_Id">
+          <End Role="Categories" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Images" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Images_dbo_Reports_Report_Id">
           <End Role="Reports" Type="Self.Report" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -756,20 +782,6 @@
             </Principal>
             <Dependent Role="Images">
               <PropertyRef Name="Report_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Images_dbo_ReportTypes_ReportType_Id">
-          <End Role="ReportTypes" Type="Self.ReportType" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Images" Type="Self.Image" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReportTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Images">
-              <PropertyRef Name="ReportType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -801,29 +813,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Reports_dbo_ReportTypes_Id">
-          <End Role="ReportTypes" Type="Self.ReportType" Multiplicity="1" />
-          <End Role="Reports" Type="Self.Report" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ReportTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Reports">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Reports_dbo_Units_UnitId">
-          <End Role="Units" Type="Self.Unit" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_dbo_Reports_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Unit" Multiplicity="1" />
           <End Role="Reports" Type="Self.Report" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Reports">
-              <PropertyRef Name="UnitId" />
+              <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -835,19 +833,19 @@
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
           <End Role="Units" Type="Self.Unit" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DefaultConnection" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="AdditionalProperties" EntityType="Self.AdditionalProperty" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Images" EntityType="Self.Image" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
           <EntitySet Name="ProfilePhotos" EntityType="Self.ProfilePhoto" />
           <EntitySet Name="ReportDetails" EntityType="Self.ReportDetail" />
           <EntitySet Name="Reports" EntityType="Self.Report" />
-          <EntitySet Name="ReportTypes" EntityType="Self.ReportType" />
           <EntitySet Name="Units" EntityType="Self.Unit" />
           <AssociationSet Name="FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" Association="Self.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id">
             <End Role="ReportDetails" EntitySet="ReportDetails" />
@@ -865,7 +863,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id" Association="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhoto_Id">
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId" Association="Self.FK_dbo_AspNetUsers_dbo_ProfilePhotos_ProfilePhotoId">
             <End Role="ProfilePhotos" EntitySet="ProfilePhotos" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
@@ -877,12 +875,16 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Units" EntitySet="Units" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Images_dbo_Reports_Report_Id" Association="Self.FK_dbo_Images_dbo_Reports_Report_Id">
-            <End Role="Reports" EntitySet="Reports" />
+          <AssociationSet Name="FK_dbo_Categories_dbo_Units_Unit_Id" Association="Self.FK_dbo_Categories_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Categories" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Images_dbo_Categories_Category_Id" Association="Self.FK_dbo_Images_dbo_Categories_Category_Id">
+            <End Role="Categories" EntitySet="Categories" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Images_dbo_ReportTypes_ReportType_Id" Association="Self.FK_dbo_Images_dbo_ReportTypes_ReportType_Id">
-            <End Role="ReportTypes" EntitySet="ReportTypes" />
+          <AssociationSet Name="FK_dbo_Images_dbo_Reports_Report_Id" Association="Self.FK_dbo_Images_dbo_Reports_Report_Id">
+            <End Role="Reports" EntitySet="Reports" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_Reports_dbo_Locations_LocationId" Association="Self.FK_dbo_Reports_dbo_Locations_LocationId">
@@ -893,11 +895,7 @@
             <End Role="ReportDetails" EntitySet="ReportDetails" />
             <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Reports_dbo_ReportTypes_Id" Association="Self.FK_dbo_Reports_dbo_ReportTypes_Id">
-            <End Role="ReportTypes" EntitySet="ReportTypes" />
-            <End Role="Reports" EntitySet="Reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_Reports_dbo_Units_UnitId" Association="Self.FK_dbo_Reports_dbo_Units_UnitId">
+          <AssociationSet Name="FK_dbo_Reports_dbo_Units_Unit_Id" Association="Self.FK_dbo_Reports_dbo_Units_Unit_Id">
             <End Role="Units" EntitySet="Units" />
             <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
@@ -915,7 +913,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DefaultConnection">
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="Model.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -974,7 +972,7 @@
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ProfilePhotoId" ColumnName="ProfilePhotoId" />
                 <ScalarProperty Name="AccountType" ColumnName="AccountType" />
                 <ScalarProperty Name="DateRegistered" ColumnName="DateRegistered" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -988,7 +986,15 @@
                 <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="ProfilePhotoId" ColumnName="ProfilePhotoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Model.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -999,7 +1005,7 @@
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="Base64" ColumnName="Base64" />
                 <ScalarProperty Name="Report_Id" ColumnName="Report_Id" />
-                <ScalarProperty Name="ReportType_Id" ColumnName="ReportType_Id" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1010,7 +1016,6 @@
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DateCaptured" ColumnName="DateCaptured" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1037,21 +1042,13 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UnitId" ColumnName="UnitId" />
                 <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DetailsId" ColumnName="DetailsId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DateHappened" ColumnName="DateHappened" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReportTypes">
-            <EntityTypeMapping TypeName="Model.ReportType">
-              <MappingFragment StoreEntitySet="ReportTypes">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -10,8 +10,10 @@ namespace Emergy.Data.Models
     {
         public Unit()
         {
+            Reports = new HashSet<Report>();
             Clients = new HashSet<ApplicationUser>();
             AdditionalProperties = new HashSet<AdditionalProperty>();
+            Categories = new HashSet<Category>();
         }
 
         [Required]
@@ -23,7 +25,9 @@ namespace Emergy.Data.Models
         public string AdministratorId { get; set; }
 
         public ICollection<ApplicationUser> Clients { get; set; }
+        public ICollection<Report> Reports { get; set; }
         public ICollection<AdditionalProperty> AdditionalProperties { get; set; }
+        public ICollection<Category> Categories { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }

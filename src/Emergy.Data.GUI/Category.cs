@@ -12,19 +12,20 @@ namespace Emergy.Data.GUI
     using System;
     using System.Collections.Generic;
     
-    public partial class ReportType
+    public partial class Category
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ReportType()
+        public Category()
         {
             this.Images = new HashSet<Image>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Unit_Id { get; set; }
     
+        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Image> Images { get; set; }
-        public virtual Report Report { get; set; }
     }
 }

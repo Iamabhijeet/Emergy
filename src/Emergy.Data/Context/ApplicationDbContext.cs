@@ -28,13 +28,13 @@ namespace Emergy.Data.Context
 
             builder.Configurations.Add(new ReportConfiguration());
             builder.Configurations.Add(new ReportDetailsConfiguration());
-            builder.Configurations.Add(new ReportTypeConfiguration());
+            builder.Configurations.Add(new CategoryConfiguration());
             builder.Configurations.Add(new UnitConfiguration());
         }
 
         public DbSet<Unit> Units { get; set; }
         public DbSet<Report> Reports { get; set; }
-        public DbSet<ReportType> ReportTypes { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
         public DbSet<AdditionalProperty> AdditionalProperties { get; set; }

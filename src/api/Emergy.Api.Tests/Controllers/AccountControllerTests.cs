@@ -33,7 +33,6 @@ namespace Emergy.Api.Tests.Controllers
                 Gender = Gender.Male,
                 Password = "damngoood123",
                 ConfirmPassword = "damngoood123",
-                Country = "Croatia",
                 BirthDate = DateTime.Now
 
             };
@@ -64,7 +63,6 @@ namespace Emergy.Api.Tests.Controllers
                 Gender = Gender.Male,
                 Password = "damngoood123",
                 ConfirmPassword = "damngoood123",
-                Country = "Croatia",
                 BirthDate = DateTime.Now
 
             };

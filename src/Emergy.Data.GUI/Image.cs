@@ -18,9 +18,9 @@ namespace Emergy.Data.GUI
         public string Url { get; set; }
         public byte[] Base64 { get; set; }
         public Nullable<int> Report_Id { get; set; }
-        public Nullable<int> ReportType_Id { get; set; }
+        public Nullable<int> Category_Id { get; set; }
     
+        public virtual Category Category { get; set; }
         public virtual Report Report { get; set; }
-        public virtual ReportType ReportType { get; set; }
     }
 }

@@ -13,10 +13,10 @@ namespace Emergy.Data.GUI
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Entities : DbContext
+    public partial class DefaultConnection : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public DefaultConnection()
+            : base("name=DefaultConnection")
         {
         }
     
@@ -31,12 +31,12 @@ namespace Emergy.Data.GUI
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<ProfilePhoto> ProfilePhotos { get; set; }
         public virtual DbSet<ReportDetail> ReportDetails { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
-        public virtual DbSet<ReportType> ReportTypes { get; set; }
         public virtual DbSet<Unit> Units { get; set; }
     }
 }
