@@ -9,8 +9,8 @@ namespace Emergy.Data.Configurations
         {
             ToTable("ReportDetails");
 
-            HasMany(x => x.Properties)
-                .WithOptional()
+            HasMany(x => x.CustomPropertyValues)
+                .WithRequired( x => x.ReportDetails)
                 .WillCascadeOnDelete(true);
         }
     }

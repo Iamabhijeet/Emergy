@@ -9,13 +9,13 @@ namespace Emergy.Data.Configurations
         {
             ToTable("Units");
 
-            HasMany(x => x.AdditionalProperties)
-             .WithOptional()
-             .WillCascadeOnDelete(true);
-
             HasMany(x => x.Categories)
               .WithRequired(x => x.Unit)
               .WillCascadeOnDelete(true);
+
+            HasMany(x => x.Locations)
+             .WithOptional()
+             .WillCascadeOnDelete(true);
 
             HasMany(x => x.Reports)
               .WithRequired(x => x.Unit)

@@ -32,6 +32,7 @@ namespace Emergy.Data.Models
 
         [ForeignKey("ProfilePhotoId")]
         public ProfilePhoto ProfilePhoto { get; set; }
+
         public int ProfilePhotoId { get; set; } = 1;
 
         public AccountType AccountType { get; set; }
@@ -40,7 +41,7 @@ namespace Emergy.Data.Models
         public ICollection<Unit> Units { get; set; }
 
         [Required]
-        public DateTime DateRegistered { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 
 

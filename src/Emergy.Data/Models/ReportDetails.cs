@@ -6,9 +6,9 @@ namespace Emergy.Data.Models
     {
         public ReportDetails()
         {
-            Properties = new HashSet<AdditionalProperty>();
+            CustomPropertyValues = new HashSet<CustomPropertyValue>();
         }
-        public ICollection<AdditionalProperty> Properties { get; set; }
+        public ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
     
     }
 }

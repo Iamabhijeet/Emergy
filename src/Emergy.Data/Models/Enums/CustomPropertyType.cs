@@ -1,6 +1,6 @@
 ﻿namespace Emergy.Data.Models.Enums
 {
-    public enum AdditionalPropertyType
+    public enum CustomPropertyType
     {
         Field,
         CheckBox

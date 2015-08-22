@@ -19,7 +19,7 @@ namespace Emergy.Api.Controllers
     {
         public AccountApiController()
         {
-
+            // mora bit vamo
         }
         public AccountApiController(ApplicationUserManager userManager)
         {

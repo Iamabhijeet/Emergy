@@ -8,6 +8,8 @@ namespace Emergy.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
+            SetHistoryContextFactory("MySql.Data.MySqlClient", (conn, schema) => new MySqlHistoryContext(conn, schema));
         }
 
         protected override void Seed(ApplicationDbContext context)
@@ -24,7 +26,17 @@ namespace Emergy.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-       
+            AddDefaultProfilePhoto(context);
+
+
+        }
+
+        private void AddDefaultProfilePhoto(ApplicationDbContext context)
+        {
+            context.ProfilePhotos.AddOrUpdate(new Models.ProfilePhoto
+            {
+                Url="/images/account/user.png"
+            });
         }
     }
 }

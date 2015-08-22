@@ -1,158 +1,56 @@
-﻿CREATE TABLE [dbo].[AdditionalProperties] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Name] [nvarchar](max),
-    [TextValue] [nvarchar](max),
-    [BoolValue] [nvarchar](max),
-    [Type] [int] NOT NULL,
-    [Unit_Id] [int],
-    [ReportDetails_Id] [int],
-    CONSTRAINT [PK_dbo.AdditionalProperties] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[Categories] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Name] [nvarchar](max),
-    [Unit_Id] [int] NOT NULL,
-    CONSTRAINT [PK_dbo.Categories] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[Images] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Url] [nvarchar](max),
-    [Base64] [varbinary](max),
-    [Report_Id] [int],
-    [Category_Id] [int],
-    CONSTRAINT [PK_dbo.Images] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[Reports] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Title] [nvarchar](50) NOT NULL,
-    [Description] [nvarchar](200) NOT NULL,
-    [CreatorId] [nvarchar](128),
-    [LocationId] [int] NOT NULL,
-    [DetailsId] [int] NOT NULL,
-    [DateCreated] [datetime] NOT NULL,
-    [DateHappened] [datetime] NOT NULL,
-    [Status] [int] NOT NULL,
-    [Unit_Id] [int] NOT NULL,
-    CONSTRAINT [PK_dbo.Reports] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[AspNetUsers] (
-    [Id] [nvarchar](128) NOT NULL,
-    [Name] [nvarchar](max) NOT NULL,
-    [Surname] [nvarchar](max) NOT NULL,
-    [BirthDate] [datetime] NOT NULL,
-    [Gender] [int] NOT NULL,
-    [ProfilePhotoId] [int] NOT NULL,
-    [AccountType] [int] NOT NULL,
-    [DateRegistered] [datetime] NOT NULL,
-    [Email] [nvarchar](256),
-    [EmailConfirmed] [bit] NOT NULL,
-    [PasswordHash] [nvarchar](max),
-    [SecurityStamp] [nvarchar](max),
-    [PhoneNumber] [nvarchar](max),
-    [PhoneNumberConfirmed] [bit] NOT NULL,
-    [TwoFactorEnabled] [bit] NOT NULL,
-    [LockoutEndDateUtc] [datetime],
-    [LockoutEnabled] [bit] NOT NULL,
-    [AccessFailedCount] [int] NOT NULL,
-    [UserName] [nvarchar](256) NOT NULL,
-    CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[AspNetUserClaims] (
-    [Id] [int] NOT NULL IDENTITY,
-    [UserId] [nvarchar](128) NOT NULL,
-    [ClaimType] [nvarchar](max),
-    [ClaimValue] [nvarchar](max),
-    CONSTRAINT [PK_dbo.AspNetUserClaims] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[AspNetUserLogins] (
-    [LoginProvider] [nvarchar](128) NOT NULL,
-    [ProviderKey] [nvarchar](128) NOT NULL,
-    [UserId] [nvarchar](128) NOT NULL,
-    CONSTRAINT [PK_dbo.AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey], [UserId])
-)
-CREATE TABLE [dbo].[ProfilePhotos] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Url] [nvarchar](max),
-    [Base64] [varbinary](max),
-    CONSTRAINT [PK_dbo.ProfilePhotos] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[AspNetUserRoles] (
-    [UserId] [nvarchar](128) NOT NULL,
-    [RoleId] [nvarchar](128) NOT NULL,
-    CONSTRAINT [PK_dbo.AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId])
-)
-CREATE TABLE [dbo].[Units] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Name] [nvarchar](50) NOT NULL,
-    [AdministratorId] [nvarchar](128),
-    [DateCreated] [datetime] NOT NULL,
-    CONSTRAINT [PK_dbo.Units] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[ReportDetails] (
-    [Id] [int] NOT NULL IDENTITY,
-    CONSTRAINT [PK_dbo.ReportDetails] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[Locations] (
-    [Id] [int] NOT NULL IDENTITY,
-    [Latitude] [float] NOT NULL,
-    [Longitude] [float] NOT NULL,
-    [Name] [nvarchar](max),
-    [Type] [int] NOT NULL,
-    CONSTRAINT [PK_dbo.Locations] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[AspNetRoles] (
-    [Id] [nvarchar](128) NOT NULL,
-    [Name] [nvarchar](256) NOT NULL,
-    CONSTRAINT [PK_dbo.AspNetRoles] PRIMARY KEY ([Id])
-)
-CREATE TABLE [dbo].[Units2Clients] (
-    [UnitId] [int] NOT NULL,
-    [ClientId] [nvarchar](128) NOT NULL,
-    CONSTRAINT [PK_dbo.Units2Clients] PRIMARY KEY ([UnitId], [ClientId])
-)
-CREATE INDEX [IX_Unit_Id] ON [dbo].[AdditionalProperties]([Unit_Id])
-CREATE INDEX [IX_ReportDetails_Id] ON [dbo].[AdditionalProperties]([ReportDetails_Id])
-CREATE INDEX [IX_Unit_Id] ON [dbo].[Categories]([Unit_Id])
-CREATE INDEX [IX_Report_Id] ON [dbo].[Images]([Report_Id])
-CREATE INDEX [IX_Category_Id] ON [dbo].[Images]([Category_Id])
-CREATE INDEX [IX_CreatorId] ON [dbo].[Reports]([CreatorId])
-CREATE INDEX [IX_LocationId] ON [dbo].[Reports]([LocationId])
-CREATE INDEX [IX_DetailsId] ON [dbo].[Reports]([DetailsId])
-CREATE INDEX [IX_Unit_Id] ON [dbo].[Reports]([Unit_Id])
-CREATE INDEX [IX_ProfilePhotoId] ON [dbo].[AspNetUsers]([ProfilePhotoId])
-CREATE UNIQUE INDEX [UserNameIndex] ON [dbo].[AspNetUsers]([UserName])
-CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserClaims]([UserId])
-CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserLogins]([UserId])
-CREATE INDEX [IX_UserId] ON [dbo].[AspNetUserRoles]([UserId])
-CREATE INDEX [IX_RoleId] ON [dbo].[AspNetUserRoles]([RoleId])
-CREATE INDEX [IX_AdministratorId] ON [dbo].[Units]([AdministratorId])
-CREATE UNIQUE INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]([Name])
-CREATE INDEX [IX_UnitId] ON [dbo].[Units2Clients]([UnitId])
-CREATE INDEX [IX_ClientId] ON [dbo].[Units2Clients]([ClientId])
-ALTER TABLE [dbo].[AdditionalProperties] ADD CONSTRAINT [FK_dbo.AdditionalProperties_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AdditionalProperties] ADD CONSTRAINT [FK_dbo.AdditionalProperties_dbo.ReportDetails_ReportDetails_Id] FOREIGN KEY ([ReportDetails_Id]) REFERENCES [dbo].[ReportDetails] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Categories] ADD CONSTRAINT [FK_dbo.Categories_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Images] ADD CONSTRAINT [FK_dbo.Images_dbo.Reports_Report_Id] FOREIGN KEY ([Report_Id]) REFERENCES [dbo].[Reports] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Images] ADD CONSTRAINT [FK_dbo.Images_dbo.Categories_Category_Id] FOREIGN KEY ([Category_Id]) REFERENCES [dbo].[Categories] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.AspNetUsers_CreatorId] FOREIGN KEY ([CreatorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Units_Unit_Id] FOREIGN KEY ([Unit_Id]) REFERENCES [dbo].[Units] ([Id])
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.ReportDetails_DetailsId] FOREIGN KEY ([DetailsId]) REFERENCES [dbo].[ReportDetails] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Locations_LocationId] FOREIGN KEY ([LocationId]) REFERENCES [dbo].[Locations] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [FK_dbo.AspNetUsers_dbo.ProfilePhotos_ProfilePhotoId] FOREIGN KEY ([ProfilePhotoId]) REFERENCES [dbo].[ProfilePhotos] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [FK_dbo.AspNetUserClaims_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [FK_dbo.AspNetUserLogins_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Units] ADD CONSTRAINT [FK_dbo.Units_dbo.AspNetUsers_AdministratorId] FOREIGN KEY ([AdministratorId]) REFERENCES [dbo].[AspNetUsers] ([Id])
-ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.Units_UnitId] FOREIGN KEY ([UnitId]) REFERENCES [dbo].[Units] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Units2Clients] ADD CONSTRAINT [FK_dbo.Units2Clients_dbo.AspNetUsers_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE
-ALTER TABLE [dbo].[Reports] ADD [CategoryId] [int]
-CREATE INDEX [IX_CategoryId] ON [dbo].[Reports]([CategoryId])
-ALTER TABLE [dbo].[Reports] ADD CONSTRAINT [FK_dbo.Reports_dbo.Categories_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[Categories] ([Id])
-CREATE TABLE [dbo].[__MigrationHistory] (
-    [MigrationId] [nvarchar](150) NOT NULL,
-    [ContextKey] [nvarchar](300) NOT NULL,
-    [Model] [varbinary](max) NOT NULL,
-    [ProductVersion] [nvarchar](32) NOT NULL,
-    CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY ([MigrationId], [ContextKey])
-)
+﻿create table `Categories` (`Id` int not null  auto_increment ,`Name` longtext,`Unit_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Units` (`Id` int not null  auto_increment ,`Name` nvarchar(50)  not null ,`AdministratorId` nvarchar(128) ,`DateCreated` datetime not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `AspNetUsers` (`Id` nvarchar(128)  not null ,`Name` longtext not null ,`Surname` longtext not null ,`BirthDate` datetime not null ,`Gender` int not null ,`ProfilePhotoId` int not null ,`AccountType` int not null ,`Timestamp` datetime not null ,`Email` nvarchar(256) ,`EmailConfirmed` bool not null ,`PasswordHash` longtext,`SecurityStamp` longtext,`PhoneNumber` longtext,`PhoneNumberConfirmed` bool not null ,`TwoFactorEnabled` bool not null ,`LockoutEndDateUtc` datetime,`LockoutEnabled` bool not null ,`AccessFailedCount` int not null ,`UserName` nvarchar(128)  not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `AspNetUserClaims` (`Id` int not null  auto_increment ,`UserId` nvarchar(128)  not null ,`ClaimType` longtext,`ClaimValue` longtext,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `AspNetUserLogins` (`LoginProvider` nvarchar(128)  not null ,`ProviderKey` nvarchar(128)  not null ,`UserId` nvarchar(128)  not null ,primary key ( `LoginProvider`,`ProviderKey`,`UserId`) ) engine=InnoDb auto_increment=0
+create table `ProfilePhotos` (`Id` int not null  auto_increment ,`Url` longtext,`Base64` longblob,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Reports` (`Id` int not null  auto_increment ,`Description` nvarchar(200)  not null ,`CreatorId` nvarchar(128) ,`LocationId` int,`CategoryId` int,`DetailsId` int not null ,`Timestamp` datetime not null ,`DateHappened` datetime not null ,`Status` int not null ,`Unit_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `ReportDetails` (`Id` int not null  auto_increment ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `CustomPropertyValues` (`Id` int not null  auto_increment ,`SerializedValue` longtext,`CustomProperty_Id` int,`ReportDetails_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `CustomProperties` (`Id` int not null  auto_increment ,`Name` longtext not null ,`CustomPropertyType` int not null ,`Unit_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Locations` (`Id` int not null  auto_increment ,`Latitude` double not null ,`Longitude` double not null ,`Name` longtext,`Type` int not null ,`Unit_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Images` (`Id` int not null  auto_increment ,`Url` longtext,`Base64` longblob,`Report_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `AspNetUserRoles` (`UserId` nvarchar(128)  not null ,`RoleId` nvarchar(128)  not null ,primary key ( `UserId`,`RoleId`) ) engine=InnoDb auto_increment=0
+create table `AspNetRoles` (`Id` nvarchar(128)  not null ,`Name` nvarchar(128)  not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Units2Clients` (`UnitId` int not null ,`ClientId` nvarchar(128)  not null ,primary key ( `UnitId`,`ClientId`) ) engine=InnoDb auto_increment=0
+CREATE index  `IX_Unit_Id` on `Categories` (`Unit_Id` DESC) using HASH
+CREATE index  `IX_AdministratorId` on `Units` (`AdministratorId` DESC) using HASH
+CREATE index  `IX_ProfilePhotoId` on `AspNetUsers` (`ProfilePhotoId` DESC) using HASH
+CREATE UNIQUE index  `UserNameIndex` on `AspNetUsers` (`UserName` DESC) using HASH
+CREATE index  `IX_UserId` on `AspNetUserClaims` (`UserId` DESC) using HASH
+CREATE index  `IX_UserId` on `AspNetUserLogins` (`UserId` DESC) using HASH
+CREATE index  `IX_CreatorId` on `Reports` (`CreatorId` DESC) using HASH
+CREATE index  `IX_LocationId` on `Reports` (`LocationId` DESC) using HASH
+CREATE index  `IX_CategoryId` on `Reports` (`CategoryId` DESC) using HASH
+CREATE index  `IX_DetailsId` on `Reports` (`DetailsId` DESC) using HASH
+CREATE index  `IX_Unit_Id` on `Reports` (`Unit_Id` DESC) using HASH
+CREATE index  `IX_CustomProperty_Id` on `CustomPropertyValues` (`CustomProperty_Id` DESC) using HASH
+CREATE index  `IX_ReportDetails_Id` on `CustomPropertyValues` (`ReportDetails_Id` DESC) using HASH
+CREATE index  `IX_Unit_Id` on `CustomProperties` (`Unit_Id` DESC) using HASH
+CREATE index  `IX_Unit_Id` on `Locations` (`Unit_Id` DESC) using HASH
+CREATE index  `IX_Report_Id` on `Images` (`Report_Id` DESC) using HASH
+CREATE index  `IX_UserId` on `AspNetUserRoles` (`UserId` DESC) using HASH
+CREATE index  `IX_RoleId` on `AspNetUserRoles` (`RoleId` DESC) using HASH
+CREATE UNIQUE index  `RoleNameIndex` on `AspNetRoles` (`Name` DESC) using HASH
+CREATE index  `IX_UnitId` on `Units2Clients` (`UnitId` DESC) using HASH
+CREATE index  `IX_ClientId` on `Units2Clients` (`ClientId` DESC) using HASH
+alter table `Categories` add constraint `FK_Categories_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
+alter table `Units` add constraint `FK_Units_AspNetUsers_AdministratorId`  foreign key (`AdministratorId`) references `AspNetUsers` ( `Id`) 
+alter table `AspNetUsers` add constraint `FK_AspNetUsers_ProfilePhotos_ProfilePhotoId`  foreign key (`ProfilePhotoId`) references `ProfilePhotos` ( `Id`)  on update cascade on delete cascade 
+alter table `AspNetUserClaims` add constraint `FK_AspNetUserClaims_AspNetUsers_UserId`  foreign key (`UserId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
+alter table `AspNetUserLogins` add constraint `FK_AspNetUserLogins_AspNetUsers_UserId`  foreign key (`UserId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
+alter table `Reports` add constraint `FK_Reports_Categories_CategoryId`  foreign key (`CategoryId`) references `Categories` ( `Id`) 
+alter table `Reports` add constraint `FK_Reports_AspNetUsers_CreatorId`  foreign key (`CreatorId`) references `AspNetUsers` ( `Id`) 
+alter table `Reports` add constraint `FK_Reports_ReportDetails_DetailsId`  foreign key (`DetailsId`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
+alter table `Reports` add constraint `FK_Reports_Locations_LocationId`  foreign key (`LocationId`) references `Locations` ( `Id`) 
+alter table `Reports` add constraint `FK_Reports_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`) 
+alter table `CustomPropertyValues` add constraint `FK_41248ebe63054e249715698df6b3bb7f`  foreign key (`CustomProperty_Id`) references `CustomProperties` ( `Id`)  on update cascade on delete cascade 
+alter table `CustomPropertyValues` add constraint `FK_CustomPropertyValues_ReportDetails_ReportDetails_Id`  foreign key (`ReportDetails_Id`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
+alter table `CustomProperties` add constraint `FK_CustomProperties_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
+alter table `Locations` add constraint `FK_Locations_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
+alter table `Images` add constraint `FK_Images_Reports_Report_Id`  foreign key (`Report_Id`) references `Reports` ( `Id`)  on update cascade on delete cascade 
+alter table `AspNetUserRoles` add constraint `FK_AspNetUserRoles_AspNetUsers_UserId`  foreign key (`UserId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
+alter table `AspNetUserRoles` add constraint `FK_AspNetUserRoles_AspNetRoles_RoleId`  foreign key (`RoleId`) references `AspNetRoles` ( `Id`)  on update cascade on delete cascade 
+alter table `Units2Clients` add constraint `FK_Units2Clients_Units_UnitId`  foreign key (`UnitId`) references `Units` ( `Id`)  on update cascade on delete cascade 
+alter table `Units2Clients` add constraint `FK_Units2Clients_AspNetUsers_ClientId`  foreign key (`ClientId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
+create table `__MigrationHistory` (`MigrationId` nvarchar(100)  not null ,`ContextKey` nvarchar(200)  not null ,`Model` longblob not null ,`ProductVersion` nvarchar(32)  not null ,primary key ( `MigrationId`,`ContextKey`) ) engine=InnoDb auto_increment=0

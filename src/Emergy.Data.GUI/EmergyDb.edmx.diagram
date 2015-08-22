@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9a0e7d8a7ccf449db1b43f0e9b3d55df" Name="Diagram1">
+      <Diagram DiagramId="9a0e7d8a7ccf449db1b43f0e9b3d55df" Name="Diagram1" ZoomLevel="126">
         <EntityTypeShape EntityType="EmergyDbModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.AdditionalProperties" Width="1.5" PointX="7.5" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.AspNetUsers" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.Categories" Width="1.5" PointX="7.5" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.Images" Width="1.5" PointX="12" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.Locations" Width="1.5" PointX="7.5" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.ProfilePhotos" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.ReportDetails" Width="1.5" PointX="7.5" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.Reports" Width="1.5" PointX="9.75" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbModel.Units" Width="1.5" PointX="5.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.AdditionalProperties" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="EmergyDbModel.AspNetUserClaims" Width="1.5" PointX="5.125" PointY="4" IsExpanded="false" />
+        <EntityTypeShape EntityType="EmergyDbModel.AspNetUserLogins" Width="1.5" PointX="5.125" PointY="4.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="EmergyDbModel.AspNetUsers" Width="1.5" PointX="2.875" PointY="3.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="EmergyDbModel.Categories" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.Images" Width="1.5" PointX="5.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.Locations" Width="1.5" PointX="7.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.ProfilePhotos" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="EmergyDbModel.ReportDetails" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.Reports" Width="1.5" PointX="9.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbModel.Units" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
         <AssociationConnector Association="EmergyDbModel.FK_dbo_AdditionalProperties_dbo_ReportDetails_ReportDetails_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbModel.FK_dbo_AdditionalProperties_dbo_Units_Unit_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -33,7 +33,13 @@
         <AssociationConnector Association="EmergyDbModel.FK_dbo_Reports_dbo_ReportDetails_DetailsId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbModel.FK_dbo_Reports_dbo_Units_Unit_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbModel.AspNetUserRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="EmergyDbModel.Units2Clients" ManuallyRouted="false" />
+        <AssociationConnector Association="EmergyDbModel.Units2Clients" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.921875" PointY="3.9" />
+          <ConnectorPoint PointX="2.921875" PointY="5.1614699850585932" />
+          <ConnectorPoint PointX="3.03298608877251" PointY="5.1614699850585932" />
+          <ConnectorPoint PointX="3.03298608877251" PointY="7.7226363183593767" />
+          <ConnectorPoint PointX="5.25" PointY="7.7226363183593767" />
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

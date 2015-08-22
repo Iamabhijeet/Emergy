@@ -8,10 +8,6 @@ namespace Emergy.Data.Configurations
         public CategoryConfiguration()
         {
             ToTable("Categories");
-
-            HasOptional(x => x.Image)
-                .WithOptionalPrincipal()
-                .WillCascadeOnDelete();
         }
     }
 }

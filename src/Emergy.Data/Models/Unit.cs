@@ -12,8 +12,9 @@ namespace Emergy.Data.Models
         {
             Reports = new HashSet<Report>();
             Clients = new HashSet<ApplicationUser>();
-            AdditionalProperties = new HashSet<AdditionalProperty>();
+            CustomProperties = new HashSet<CustomProperty>();
             Categories = new HashSet<Category>();
+            Locations = new HashSet<Location>();
         }
 
         [Required]
@@ -26,8 +27,10 @@ namespace Emergy.Data.Models
 
         public ICollection<ApplicationUser> Clients { get; set; }
         public ICollection<Report> Reports { get; set; }
-        public ICollection<AdditionalProperty> AdditionalProperties { get; set; }
+        public ICollection<CustomProperty> CustomProperties { get; set; }
         public ICollection<Category> Categories { get; set; }
+
+        public ICollection<Location> Locations { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }
