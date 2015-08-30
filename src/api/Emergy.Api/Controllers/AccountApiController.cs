@@ -34,7 +34,7 @@ namespace Emergy.Api.Controllers
         [Route("Profile")]
         public async Task<IHttpActionResult> Profile()
         {
-            var user = await AccountService.GetUserAsync(User.Identity.GetUserId());
+            var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 return Ok(Mapper.Map<model.UserProfile>(user));

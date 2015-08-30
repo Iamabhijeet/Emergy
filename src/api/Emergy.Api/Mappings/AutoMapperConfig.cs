@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Emergy.Core.Models.Account;
+using Emergy.Core.Models.Unit;
 using Emergy.Data.Models;
 
 namespace Emergy.Api.Mappings
@@ -23,6 +24,7 @@ namespace Emergy.Api.Mappings
         {
             Mapper.CreateMap<RegisterUserBindingModel, ApplicationUser>().IgnoreUnmappedProperties();
             Mapper.CreateMap<LoginUserBindingModel, ApplicationUser>().IgnoreUnmappedProperties();
+            Mapper.CreateMap<CreateUnitViewModel, Unit>().IgnoreUnmappedProperties();
         }
     }
 }

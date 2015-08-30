@@ -1,4 +1,5 @@
 ﻿using Emergy.Api;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
 
@@ -9,6 +10,10 @@ namespace Emergy.Api
     {
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR(new HubConfiguration()
+            {
+                EnableDetailedErrors = true
+            });
             ConfigureAuth(app);
         }
     }

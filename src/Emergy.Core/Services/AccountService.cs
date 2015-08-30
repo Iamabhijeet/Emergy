@@ -23,9 +23,13 @@ namespace Emergy.Core.Services
             _userManager = userManager;
         }
 
-        public async Task<ApplicationUser> GetUserAsync(string userId)
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+        public async Task<ApplicationUser> GetUserByNameAsync(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
