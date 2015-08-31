@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="emergyWeb">
 <head>
+    <base href="/" />
     <title></title>
     <meta charset="utf-8"/>
 
     <!-- CSS -->
-    <link href="libs/css/normalize.css" rel="stylesheet" />
-    <link href="libs/css/materialize/css/materialize.css" rel="stylesheet" />
+    <link href="libs/css/normalize.css" rel="stylesheet"/>
+    <link href="libs/css/materialize/css/materialize.css" rel="stylesheet"/>
 
     <!-- Vendor JS -->
     <script src="libs/js/jquery/jquery-2.1.4.js"></script>
@@ -14,13 +15,26 @@
     <script src="libs/js/angular/angular-route.js"></script>
     <script src="libs/js/angular/angular-sanitize.js"></script>
     <script src="libs/js/angular/angular-animate.js"></script>
+    <script src="libs/js/local-storage/angular-local-storage.js"></script>
     <script src="libs/js/materialize/materialize.js"></script>
 
-    <!-- App JS-->
+    <!-- App JS -->
     <script src="app/app.module.js"></script>
     <script src="app/app.route.js"></script>
+
+    <script src="app/components/controllers/index/indexController.js"></script>
+
+    <script src="app/components/services/services.module.js"></script>
+    <script src="app/components/services/auth/authService.js"></script>
+    <script src="app/components/services/auth/authInterceptorService.js"></script>
+
+    <script src="app/components/directives/directives.module.js"></script>
+    <script src="app/components/directives/account-directives.js"></script>
+
+
 </head>
 <body>
-    
+    <div></div>
+    <div ng-view></div>
 </body>
 </html>
