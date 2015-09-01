@@ -50,6 +50,7 @@
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\services.module.js" />
     <Content Include="app\views\index\landing.html" />
+    <Content Include="libs\css\custom.css" />
     <Content Include="libs\css\normalize.css" />
     <Content Include="libs\css\materialize\css\materialize.css" />
     <Content Include="libs\css\materialize\css\materialize.min.css" />
@@ -135,7 +136,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
- 
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
