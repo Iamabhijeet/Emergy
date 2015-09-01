@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using System.Web;
-using Emergy.Core.Repositories;
-using Emergy.Core.Repositories.Generic.Soundy.Core.Repositories;
+using Emergy.Core.Models.Hub;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity.Owin;
@@ -13,42 +13,50 @@ namespace Emergy.Api.Hubs
     [Authorize]
     public class EmergyHub : Hub
     {
-        public EmergyHub(IUnitsRepository unitsRepository, IRepository<Report> reportsRepository)
+        public EmergyHub(IEmergyHubService hubService)
         {
-            _unitsRepository = unitsRepository;
-            _reportsRepository = reportsRepository;
+            _hubService = hubService;
+            _userConnections = new ConcurrentDictionary<string, ApplicationUser>();
+        }
+
+        public async Task Load()
+        {
+            ApplicationUser user;
+            _userConnections.TryGetValue(Context.ConnectionId, out user);
+
+            HubData data = await _hubService.Load(user);
+            await Clients.Client(Context.ConnectionId).loadApp(_hubService.Stringify(data));
         }
 
         public async override Task OnConnected()
         {
             await base.OnConnected();
             var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
-            currentUser.Units.ForEach(unit =>
+            _userConnections.TryAdd(Context.ConnectionId, currentUser);
+            currentUser.Units.ForEach(async (unit) =>
             {
-                Groups.Add(Context.ConnectionId, unit.Name);
+                await Groups.Add(Context.ConnectionId, unit.Name);
             });
         }
         public async override Task OnReconnected()
         {
-            await base.OnReconnected();
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
-            currentUser.Units.ForEach(unit =>
+            await base.OnReconnected().ContinueWith(async (task) =>
             {
-                Groups.Add(Context.ConnectionId, unit.Name);
+                await OnConnected();
             });
         }
         public async override Task OnDisconnected(bool stopCalled)
         {
             await base.OnDisconnected(stopCalled);
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
-            currentUser.Units.ForEach(unit =>
+            ApplicationUser currentUser;
+            _userConnections.TryRemove(Context.ConnectionId, out currentUser);
+            currentUser.Units.ForEach(async (unit) =>
             {
-                Groups.Remove(Context.ConnectionId, unit.Name);
+                await Groups.Remove(Context.ConnectionId, unit.Name);
             });
         }
 
-        
-
+        private readonly ConcurrentDictionary<string, ApplicationUser> _userConnections;
 
         protected IAccountService AccountService
         {
@@ -62,7 +70,6 @@ namespace Emergy.Api.Hubs
             }
         }
         private IAccountService _accountService;
-        private IUnitsRepository _unitsRepository;
-        private IRepository<Report> _reportsRepository;
+        private readonly IEmergyHubService _hubService;
     }
 }

@@ -77,9 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ConstRelations.cs" />
     <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
-    <Compile Include="Models\CustomProperty\CustomPropertyViewModels.cs" />
+    <Compile Include="Models\Hub\HubViewModels.cs" />
     <Compile Include="Models\Unit\UnitViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Generic\IRepository.cs" />
@@ -87,7 +88,9 @@
     <Compile Include="Repositories\IUnitsRepository.cs" />
     <Compile Include="Repositories\UnitsRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\EmergyHubService.cs" />
     <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\IEmergyHubService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Emergy.Data\Emergy.Data.csproj">

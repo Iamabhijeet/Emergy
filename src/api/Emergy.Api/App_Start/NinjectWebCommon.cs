@@ -64,6 +64,9 @@ namespace Emergy.Api
             kernel.Bind<IRepository<Image>>().To <IRepository<Image>>();
             kernel.Bind<IRepository<Report>>().To<IRepository<Report>>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
+            kernel.Bind<IEmergyHubService>().To<EmergyHubService>()
+                .WithConstructorArgument("unitsRepository", kernel.Get<IUnitsRepository>())
+                .WithConstructorArgument("reportsRepository", kernel.Get<IRepository<Report>>());
 
             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
         }        
