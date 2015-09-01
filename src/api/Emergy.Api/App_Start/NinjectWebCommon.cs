@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Http;
 using Emergy.Api;
 using Emergy.Core.Repositories;
-using Emergy.Core.Repositories.Generic.Soundy.Core.Repositories;
+using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
@@ -62,7 +62,7 @@ namespace Emergy.Api
         {
             kernel.Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
             kernel.Bind<IRepository<Image>>().To <IRepository<Image>>();
-            kernel.Bind<IRepository<Report>>().To<IRepository<Report>>();
+            kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
             kernel.Bind<IEmergyHubService>().To<EmergyHubService>()
                 .WithConstructorArgument("unitsRepository", kernel.Get<IUnitsRepository>())

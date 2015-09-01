@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Emergy.Core.Repositories.Generic
 {
-    namespace Soundy.Core.Repositories
-    {
-        public interface IRepository<T> where T : class
+  
+     public interface IRepository<T> where T : class
         {
             IEnumerable<T> Get(
                 Expression<Func<T, bool>> filter = null,
@@ -35,5 +34,5 @@ namespace Emergy.Core.Repositories.Generic
             int Save();
             Task SaveAsync();
         }
-    }
+    
 }

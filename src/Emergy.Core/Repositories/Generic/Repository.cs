@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Emergy.Core.Repositories.Generic.Soundy.Core.Repositories;
 using Emergy.Data.Context;
 
 namespace Emergy.Core.Repositories.Generic

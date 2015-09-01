@@ -85,7 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Generic\IRepository.cs" />
     <Compile Include="Repositories\Generic\Repository.cs" />
+    <Compile Include="Repositories\IReportsRepository.cs" />
     <Compile Include="Repositories\IUnitsRepository.cs" />
+    <Compile Include="Repositories\ReportsRepository.cs" />
     <Compile Include="Repositories\UnitsRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\EmergyHubService.cs" />

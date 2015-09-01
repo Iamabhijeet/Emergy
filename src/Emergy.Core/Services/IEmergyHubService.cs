@@ -6,7 +6,6 @@ namespace Emergy.Core.Services
 {
     public interface IEmergyHubService
     {
-        Task<HubData> Load(ApplicationUser user);
-        string Stringify(HubData data);
+       
     }
 }

@@ -5,8 +5,8 @@ using Emergy.Data.Models;
 
 namespace Emergy.Core.Repositories
 {
-    public interface IUnitsRepository : IRepository<Unit>
+    public interface IReportsRepository : IRepository<Report>
     {
-        Task<IEnumerable<Unit>> GetUnitsForAdmin(ApplicationUser admin);
+        Task<IEnumerable<Report>> GetReportsForUser(ApplicationUser user);
     }
 }

@@ -1,8 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Linq;
 using AutoMapper;
+using Emergy.Core.Common;
 using Emergy.Core.Repositories;
+using Emergy.Core.Services;
 using Emergy.Data.Models;
+using Microsoft.AspNet.Identity.Owin;
 using model = Emergy.Core.Models.Unit;
 namespace Emergy.Api.Controllers
 {
@@ -10,11 +16,25 @@ namespace Emergy.Api.Controllers
     [Authorize(Roles = "Administrators")]
     public class UnitsApiController : ApiController
     {
-        public UnitsApiController(IUnitsRepository unitsRepository)
+        public UnitsApiController(IAccountService accountService, IUnitsRepository unitsRepository)
         {
+            AccountService = accountService;
             _unitsRepository = unitsRepository;
         }
 
+        [HttpGet]
+        [Route("get")]
+        public async Task<IEnumerable<Unit>> GetUnits()
+        {
+            return await _unitsRepository.GetUnitsForAdmin(await AccountService.GetUserByNameAsync(User.Identity.Name));
+        }
+
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<Unit> GetUnit(int id)
+        {
+            return await _unitsRepository.GetAsync(id);
+        }
 
         [HttpPost]
         [Route("create")]
@@ -46,6 +66,18 @@ namespace Emergy.Api.Controllers
         {
             return BadRequest(ModelState);
         }
+        private IAccountService AccountService
+        {
+            get
+            {
+                return _accountService ?? HttpContext.Current.GetOwinContext().Get<IAccountService>();
+            }
+            set
+            {
+                _accountService = value;
+            }
+        }
+        private IAccountService _accountService;
         private readonly IUnitsRepository _unitsRepository;
     }
 }

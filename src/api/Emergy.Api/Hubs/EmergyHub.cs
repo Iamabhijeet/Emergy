@@ -19,14 +19,6 @@ namespace Emergy.Api.Hubs
             _userConnections = new ConcurrentDictionary<string, ApplicationUser>();
         }
 
-        public async Task Load()
-        {
-            ApplicationUser user;
-            _userConnections.TryGetValue(Context.ConnectionId, out user);
-
-            HubData data = await _hubService.Load(user);
-            await Clients.Client(Context.ConnectionId).loadApp(_hubService.Stringify(data));
-        }
 
         public async override Task OnConnected()
         {
