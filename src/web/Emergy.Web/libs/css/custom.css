@@ -1,0 +1,116 @@
+﻿/*------------------------------------------------------------*/
+/*---------------EMERGY CUSTOM CSS---------------*/
+/*------------------------------------------------------------*/
+
+
+/*-----------GENERAL STYLING-----------*/
+
+body {
+    background-image: url('../../assets/img/login-background.jpg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*-----------LOGIN AND REGISTRATION PAGE-----------*/
+
+.login-register-container .col.s12 {
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    max-width: 460px;
+    min-width: 320px; 
+}
+
+.login-register-container .col.s12:first-child {
+    margin-top: 100px;
+}
+.login-register-container .card.medium {
+    height: 470px;
+}
+.login-register-container .card.small {
+    height: 105px;
+}
+
+.login-register-container .login-icon {
+    display: block; 
+    width: 135px;
+    float: none;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px; 
+}
+
+.login-register-container .col.s10 {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-register-container form .col.s10 {
+    margin-top: 35px;
+    margin-bottom: 0;
+}
+
+.login-register-container p {
+    margin-top: 5px;
+}
+.login-register-container button {
+    margin-top: 23px;
+    background-color: #00a2b7;
+    font-weight: 300;
+    float: right;
+}
+.login-register-container button:hover {
+    background-color: #08c2da;
+}
+.login-register-container form .col.s6 {
+    margin-top: 30px;
+}
+.login-register-container .filled-in:checked+label:after {
+    background-color: #00a2b7;
+    border-color: #e0e0e0;
+}
+.login-register-container .filled-in:not(:checked) + label:after {
+    border-color: #e0e0e0;
+}
+
+.register-question-heading {
+    margin-top: 25px;
+    font-size: 1.45rem;
+    font-weight: 300;
+    color: #00a2b7;
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 418px) {
+    .login-register-container form .col.s6 {
+        width: 83.333%;
+        text-align: center;
+        margin-top: 10px;
+        float: none;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+    
+    .login-register-container form .col.s6 input, label {
+        display: block; 
+        float: left; 
+    }
+
+    .login-register-container button {
+        float: none;
+        margin-top: 25px;
+        margin-left: auto;
+        margin-right: auto;   
+    }
+
+    .login-register-container .col.s4 {
+        width: 50%;
+        margin-left: 25%;
+
+    }
+    .login-register-container .card.medium {
+        height: 500px;
+    }
+}
