@@ -7,6 +7,6 @@ namespace Emergy.Core.Repositories
 {
     public interface IReportsRepository : IRepository<Report>
     {
-        Task<IEnumerable<Report>> GetReportsForUser(ApplicationUser user);
+        Task<IEnumerable<Report>> GetAsync(ApplicationUser user);
     }
 }

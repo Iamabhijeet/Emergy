@@ -25,10 +25,9 @@ namespace Emergy.Api.Controllers
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
         {
-            return await _reportsRepository.GetReportsForUser(await AccountService.GetUserByNameAsync(User.Identity.Name));
+            return await _reportsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name));
         }
 
-      
         [HttpDelete]
         [Route("delete")]
         public async Task<IHttpActionResult> DeleteUnit([FromUri] int id)

@@ -80,6 +80,7 @@
     <Compile Include="Common\ConstRelations.cs" />
     <Compile Include="Common\IEnumerableExtensions.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\CustomProperty\CustomPropertyViewModels.cs" />
     <Compile Include="Models\Hub\HubViewModels.cs" />
     <Compile Include="Models\Unit\UnitViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

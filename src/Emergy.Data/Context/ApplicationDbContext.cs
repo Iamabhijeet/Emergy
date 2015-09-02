@@ -55,12 +55,11 @@ namespace Emergy.Data.Context
 
         public DbSet<Location> Locations { get; set; }
 
-        public static ApplicationDbContext GetInstance()
+        public static ApplicationDbContext Create()
         {
             Database.SetInitializer(new MySqlInitializer());
-            return InstanceHolder.Value;
+            return new ApplicationDbContext();
         }
-        private static readonly Lazy<ApplicationDbContext> InstanceHolder = new Lazy<ApplicationDbContext>(() => new ApplicationDbContext());
 
         protected override void Dispose(bool disposing)
         {

@@ -2,14 +2,15 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Linq;
 using AutoMapper;
-using Emergy.Core.Common;
+using Emergy.Core.Models.CustomProperty;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 using model = Emergy.Core.Models.Unit;
+
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
@@ -26,7 +27,7 @@ namespace Emergy.Api.Controllers
         [Route("get")]
         public async Task<IEnumerable<Unit>> GetUnits()
         {
-            return await _unitsRepository.GetUnitsForAdmin(await AccountService.GetUserByNameAsync(User.Identity.Name));
+            return await _unitsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name));
         }
 
         [HttpGet]
@@ -49,6 +50,23 @@ namespace Emergy.Api.Controllers
             return Ok(model);
         }
 
+        [HttpPut]
+        [Route("edit")]
+        public async Task<IHttpActionResult> EditUnit([FromBody] model::EditUnitViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(model.Id, User.Identity.GetUserId()))
+            {
+                _unitsRepository.Update(Mapper.Map<Unit>(model));
+                await _unitsRepository.SaveAsync();
+                return Ok();
+            }
+            return Unauthorized();
+        }
+
         [HttpDelete]
         [Route("delete")]
         public async Task<IHttpActionResult> DeleteUnit([FromUri] int id)
@@ -57,9 +75,44 @@ namespace Emergy.Api.Controllers
             {
                 return Error();
             }
-            _unitsRepository.Delete(id);
-            await _unitsRepository.SaveAsync();
-            return Ok();
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                _unitsRepository.Delete(id);
+                await _unitsRepository.SaveAsync();
+                return Ok();
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        [Route("custom-property/add/{id}")]
+        public async Task<IHttpActionResult> AddCustomProperty([FromUri]int id, [FromBody] CreateCustomPropertyViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.AddCustomProperty(id, Mapper.Map<CustomProperty>(model));
+                return Ok();
+            }
+            return Unauthorized();
+        }
+        [HttpPost]
+        [Route("custom-property/remove/{id}")]
+        public async Task<IHttpActionResult> RemoveCustomProperty([FromUri]int id, [FromBody] int propertyId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.RemoveCustomProperty(id, propertyId);
+                return Ok();
+            }
+            return Unauthorized();
         }
 
         private IHttpActionResult Error()

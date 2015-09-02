@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Emergy.Data.Context;
 
@@ -43,7 +44,7 @@ namespace Emergy.Core.Repositories.Generic
          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
          string includeProperties = "")
         {
-            return Task.Run(() => Get(filter, orderBy, includeProperties));
+            return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.HideScheduler);
         }
 
 
@@ -51,9 +52,9 @@ namespace Emergy.Core.Repositories.Generic
         {
             return DbSet.Find(id);
         }
-        public virtual Task<T> GetAsync(object id)
+        public async virtual Task<T> GetAsync(object id)
         {
-            return DbSet.FindAsync(id);
+            return await DbSet.FindAsync(id).ConfigureAwait(false);
         }
 
 
@@ -94,9 +95,9 @@ namespace Emergy.Core.Repositories.Generic
         {
             return Context.SaveChanges();
         }
-        public Task SaveAsync()
+        public async Task SaveAsync()
         {
-            return Context.SaveChangesAsync();
+            await Context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public virtual void Dispose()

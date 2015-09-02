@@ -7,6 +7,9 @@ namespace Emergy.Core.Repositories
 {
     public interface IUnitsRepository : IRepository<Unit>
     {
-        Task<IEnumerable<Unit>> GetUnitsForAdmin(ApplicationUser admin);
+        Task<IEnumerable<Unit>> GetAsync(ApplicationUser user);
+        Task AddCustomProperty(int unitId, CustomProperty property);
+        Task RemoveCustomProperty(int unitId, int propertyId);
+        Task<bool> IsAdministrator(int unitId, string adminId);
     }
 }
