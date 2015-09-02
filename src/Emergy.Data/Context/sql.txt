@@ -44,7 +44,7 @@ alter table `Reports` add constraint `FK_Reports_AspNetUsers_CreatorId`  foreign
 alter table `Reports` add constraint `FK_Reports_ReportDetails_DetailsId`  foreign key (`DetailsId`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
 alter table `Reports` add constraint `FK_Reports_Locations_LocationId`  foreign key (`LocationId`) references `Locations` ( `Id`) 
 alter table `Reports` add constraint `FK_Reports_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`) 
-alter table `CustomPropertyValues` add constraint `FK_41248ebe63054e249715698df6b3bb7f`  foreign key (`CustomProperty_Id`) references `CustomProperties` ( `Id`)  on update cascade on delete cascade 
+alter table `CustomPropertyValues` add constraint `FK_c947f93a6c194c67b866f38a9cfc978e`  foreign key (`CustomProperty_Id`) references `CustomProperties` ( `Id`)  on update cascade on delete cascade 
 alter table `CustomPropertyValues` add constraint `FK_CustomPropertyValues_ReportDetails_ReportDetails_Id`  foreign key (`ReportDetails_Id`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
 alter table `CustomProperties` add constraint `FK_CustomProperties_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
 alter table `Locations` add constraint `FK_Locations_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 

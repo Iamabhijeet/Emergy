@@ -44,7 +44,7 @@ namespace Emergy.Api.Controllers
             }
             ApplicationUser user = Mapper.Map<ApplicationUser>(model);
             IdentityResult result = await AccountService.CreateAccountAsync(user, model.Password);
-            return !result.Succeeded ? Error(result) : Ok(user.AccountType);
+            return !result.Succeeded ? Error(result) : Ok();
         }
 
         [AllowAnonymous]
@@ -81,7 +81,6 @@ namespace Emergy.Api.Controllers
         [AllowAnonymous]
         [Route("UsernameExists/{username}")]
         [HttpGet]
-        [HttpPost]
         public async Task<IHttpActionResult> UsernameExists([FromUri] string username)
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
