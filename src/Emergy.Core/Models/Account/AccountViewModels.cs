@@ -32,6 +32,8 @@ namespace Emergy.Core.Models.Account
         public DateTime BirthDate { get; set; }
         public DateTime DateRegistered { get; set; } = DateTime.Now;
         [Required]
+        public AccountType AccountType { get; set; }
+        [Required]
         public Gender Gender { get; set; }
     }
 

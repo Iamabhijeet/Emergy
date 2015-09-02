@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -9,20 +10,24 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Emergy.Core.Models.Account;
+using Microsoft.AspNet.Identity.EntityFramework;
+using MySql.Data.MySqlClient;
+
 namespace Emergy.Core.Services
 {
     public class AccountService : IAccountService
     {
         public AccountService()
         {
-            
-        }
-   
-        public void SetUserManager(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
+
         }
 
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
+     
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
@@ -81,10 +86,11 @@ namespace Emergy.Core.Services
             return (user != null);
         }
 
+        private RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
         public void Dispose()
         {
-           //
+            //
         }
     }
 }

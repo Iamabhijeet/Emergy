@@ -16,18 +16,8 @@ namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
     [Authorize(Roles = "Administrators")]
-    public class UnitsApiController : ApiController
+    public class UnitsApiController : ApiControllerBase
     {
-        public UnitsApiController()
-        {
-            AccountService.SetUserManager(UserManager);
-        }
-        public UnitsApiController(ApplicationUserManager userManager, IAccountService accountService)
-        {
-            UserManager = userManager;
-            AccountService = accountService;
-            AccountService.SetUserManager(userManager);
-        }
         public UnitsApiController(IUnitsRepository unitsRepository)
         {
             _unitsRepository = unitsRepository;
@@ -35,9 +25,10 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<IEnumerable<Unit>> GetUnits()
+        public async Task<IHttpActionResult> GetUnits()
         {
-            return await _unitsRepository.GetAsync(await UserManager.FindByIdAsync(User.Identity.GetUserId()));
+            var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
+            return Ok(units);
         }
 
         [HttpGet]
@@ -125,34 +116,6 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
-        private IHttpActionResult Error()
-        {
-            return BadRequest(ModelState);
-        }
-        private IAccountService AccountService
-        {
-            get
-            {
-                return _accountService ?? HttpContext.Current.GetOwinContext().Get<IAccountService>();
-            }
-            set
-            {
-                _accountService = value;
-            }
-        }
-        private IAccountService _accountService;
-        private ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            set
-            {
-                _userManager = value;
-            }
-        }
-        private ApplicationUserManager _userManager;
         private readonly IUnitsRepository _unitsRepository;
     }
 }

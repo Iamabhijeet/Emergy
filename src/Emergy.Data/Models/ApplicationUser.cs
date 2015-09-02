@@ -36,7 +36,7 @@ namespace Emergy.Data.Models
         public int ProfilePhotoId { get; set; } = 1;
 
         public AccountType AccountType { get; set; }
-   
+
         public ICollection<Report> Reports { get; set; }
         public ICollection<Unit> Units { get; set; }
 

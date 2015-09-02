@@ -11,14 +11,12 @@ using Microsoft.AspNet.Identity.Owin;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Reports")]
-    //[Authorize(Roles = "Administrators,Clients")]
-    [Authorize]
-    public class ReportsApiController : ApiController
+    [Authorize(Roles = "Administrators,Clients")]
+    public class ReportsApiController : ApiControllerBase
     {
         public ReportsApiController(IReportsRepository reportsRepository)
         {
             _reportsRepository = reportsRepository;
-            _accountService.SetUserManager(UserManager);
         }
 
         [Authorize(Roles = "Clients")]
@@ -42,34 +40,7 @@ namespace Emergy.Api.Controllers
             return Ok();
         }
 
-        private IHttpActionResult Error()
-        {
-            return BadRequest(ModelState);
-        }
-        private IAccountService AccountService
-        {
-            get
-            {
-                return _accountService ?? HttpContext.Current.GetOwinContext().Get<IAccountService>();
-            }
-            set
-            {
-                _accountService = value;
-            }
-        }
-        private IAccountService _accountService;
-        private ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            set
-            {
-                _userManager = value;
-            }
-        }
-        private ApplicationUserManager _userManager;
+     
         private readonly IReportsRepository _reportsRepository;
     }
 }

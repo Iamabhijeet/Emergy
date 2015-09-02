@@ -1,8 +1,12 @@
-﻿namespace Emergy.Data.Models.Enums
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Emergy.Data.Models.Enums
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum AccountType
     {
-        Client = 0,
-        Administrator = 1
+        Client,
+        Administrator
     }
 }

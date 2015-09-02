@@ -10,7 +10,6 @@ namespace Emergy.Core.Services
 {
     public interface IAccountService : IDisposable
     {
-        void SetUserManager(UserManager<ApplicationUser> userManager);
         Task<ApplicationUser> GetUserByIdAsync(string userId);
         Task<ApplicationUser> GetUserByNameAsync(string userName);
         Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password);
