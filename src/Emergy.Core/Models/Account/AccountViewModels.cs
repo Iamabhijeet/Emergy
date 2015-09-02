@@ -6,6 +6,7 @@ namespace Emergy.Core.Models.Account
 {
     public class UserProfile
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string UserName { get; set; }
@@ -30,6 +31,8 @@ namespace Emergy.Core.Models.Account
         [Required]
         public DateTime BirthDate { get; set; }
         public DateTime DateRegistered { get; set; } = DateTime.Now;
+        [Required]
+        public AccountType AccountType { get; set; }
         [Required]
         public Gender Gender { get; set; }
     }

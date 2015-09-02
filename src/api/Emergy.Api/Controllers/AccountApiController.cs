@@ -1,40 +1,31 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Api.Models.Account;
 using Emergy.Core.Common;
-using Emergy.Core.Services;
 using Emergy.Data.Models;
+using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 
 using model = Emergy.Core.Models.Account;
 
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Account")]
-    public class AccountApiController : ApiController
+    public class AccountApiController : ApiControllerBase
     {
         public AccountApiController()
         {
-            AccountService.SetUserManager(UserManager);
-        }
-        public AccountApiController(ApplicationUserManager userManager, IAccountService accountService)
-        {
-            UserManager = userManager;
-            AccountService = accountService;
-            AccountService.SetUserManager(userManager);
+            
         }
 
         [HttpGet]
         [Route("Profile")]
         public async Task<IHttpActionResult> Profile()
         {
-            var user = await AccountService.GetUserAsync(User.Identity.GetUserId());
+            var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 return Ok(Mapper.Map<model.UserProfile>(user));
@@ -53,7 +44,7 @@ namespace Emergy.Api.Controllers
             }
             ApplicationUser user = Mapper.Map<ApplicationUser>(model);
             IdentityResult result = await AccountService.CreateAccountAsync(user, model.Password);
-            return !result.Succeeded ? Error(result) : Ok();
+            return !result.Succeeded ? Error(result) : Ok(user.AccountType);
         }
 
         [AllowAnonymous]
@@ -96,51 +87,6 @@ namespace Emergy.Api.Controllers
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
 
-
-        private ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            set
-            {
-                _userManager = value;
-            }
-        }
-        private ApplicationUserManager _userManager;
-        private IAccountService AccountService
-        {
-            get
-            {
-                return _accountService ?? HttpContext.Current.GetOwinContext().Get<IAccountService>();
-            }
-            set
-            {
-                _accountService = value;
-            }
-        }
-        private IAccountService _accountService;
-
-
-        private IHttpActionResult Error()
-        {
-            return BadRequest(ModelState);
-        }
-        private IHttpActionResult Error(IdentityResult result)
-        {
-            if (!result.Succeeded && result.Errors != null)
-            {
-                result.Errors.ForEach(err => ModelState.AddModelError("", err));
-                return BadRequest(ModelState);
-            }
-            return InternalServerError();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            AccountService.Dispose();
-        }
+       
     }
 }

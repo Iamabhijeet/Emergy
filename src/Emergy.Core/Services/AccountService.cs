@@ -1,31 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Emergy.Core.Common;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Emergy.Core.Models.Account;
+using Microsoft.AspNet.Identity.EntityFramework;
+using MySql.Data.MySqlClient;
+
 namespace Emergy.Core.Services
 {
     public class AccountService : IAccountService
     {
         public AccountService()
         {
-            
-        }
-   
-        public void SetUserManager(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
+
         }
 
-        public async Task<ApplicationUser> GetUserAsync(string userId)
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+        public async Task<ApplicationUser> GetUserByNameAsync(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
@@ -59,6 +69,7 @@ namespace Emergy.Core.Services
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
                 identity.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToShortDateString()));
+                (await _userManager.GetRolesAsync(user.Id)).ForEach(role => identity.AddClaim(new Claim(ClaimTypes.Role, role)));
                 AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
                 DateTime currentUtc = DateTime.UtcNow;
                 ticket.Properties.IssuedUtc = currentUtc;
@@ -77,10 +88,11 @@ namespace Emergy.Core.Services
             return (user != null);
         }
 
+        private RoleManager<IdentityRole> _roleManager;
         private UserManager<ApplicationUser> _userManager;
         public void Dispose()
         {
-           //
+            //
         }
     }
 }

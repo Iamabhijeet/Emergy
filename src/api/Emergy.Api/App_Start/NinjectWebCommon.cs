@@ -3,14 +3,14 @@ using System.Web;
 using System.Web.Http;
 using Emergy.Api;
 using Emergy.Core.Repositories;
-using Emergy.Core.Repositories.Generic.Soundy.Core.Repositories;
+using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-using Ninject.WebApi.DependencyResolver;
+using Ninject.Web.WebApi;
 using WebActivator;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
@@ -61,11 +61,14 @@ namespace Emergy.Api
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
-            kernel.Bind<IRepository<Image>>().To <IRepository<Image>>();
-            kernel.Bind<IRepository<Report>>().To<IRepository<Report>>();
+            kernel.Bind<IRepository<Image>>().To<Repository<Image>>();
+            kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
+            kernel.Bind<IEmergyHubService>().To<EmergyHubService>()
+                .WithConstructorArgument("unitsRepository", kernel.Get<IUnitsRepository>())
+                .WithConstructorArgument("reportsRepository", kernel.Get<IReportsRepository>());
 
-            GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
         }        
     }
 }
