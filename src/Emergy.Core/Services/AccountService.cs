@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Emergy.Core.Common;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -27,7 +28,7 @@ namespace Emergy.Core.Services
             _userManager = userManager;
             _roleManager = roleManager;
         }
-     
+
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
@@ -68,6 +69,7 @@ namespace Emergy.Core.Services
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
                 identity.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.BirthDate.ToShortDateString()));
+                (await _userManager.GetRolesAsync(user.Id)).ForEach(role => identity.AddClaim(new Claim(ClaimTypes.Role, role)));
                 AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
                 DateTime currentUtc = DateTime.UtcNow;
                 ticket.Properties.IssuedUtc = currentUtc;
