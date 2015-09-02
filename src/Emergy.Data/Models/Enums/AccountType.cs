@@ -2,7 +2,7 @@
 {
     public enum AccountType
     {
-        Client,
-        Administrator
+        Client = 0,
+        Administrator = 1
     }
 }

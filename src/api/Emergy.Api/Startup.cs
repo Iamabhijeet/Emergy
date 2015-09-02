@@ -14,6 +14,7 @@ namespace Emergy.Api
             {
                 EnableDetailedErrors = true
             });
+            
             ConfigureAuth(app);
         }
     }

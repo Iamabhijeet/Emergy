@@ -7,8 +7,9 @@ using Emergy.Core.Models.CustomProperty;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+
 using model = Emergy.Core.Models.Unit;
 
 namespace Emergy.Api.Controllers
@@ -17,9 +18,18 @@ namespace Emergy.Api.Controllers
     [Authorize(Roles = "Administrators")]
     public class UnitsApiController : ApiController
     {
-        public UnitsApiController(IAccountService accountService, IUnitsRepository unitsRepository)
+        public UnitsApiController()
         {
+            AccountService.SetUserManager(UserManager);
+        }
+        public UnitsApiController(ApplicationUserManager userManager, IAccountService accountService)
+        {
+            UserManager = userManager;
             AccountService = accountService;
+            AccountService.SetUserManager(userManager);
+        }
+        public UnitsApiController(IUnitsRepository unitsRepository)
+        {
             _unitsRepository = unitsRepository;
         }
 
@@ -27,7 +37,7 @@ namespace Emergy.Api.Controllers
         [Route("get")]
         public async Task<IEnumerable<Unit>> GetUnits()
         {
-            return await _unitsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name));
+            return await _unitsRepository.GetAsync(await UserManager.FindByIdAsync(User.Identity.GetUserId()));
         }
 
         [HttpGet]
@@ -131,6 +141,18 @@ namespace Emergy.Api.Controllers
             }
         }
         private IAccountService _accountService;
+        private ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            set
+            {
+                _userManager = value;
+            }
+        }
+        private ApplicationUserManager _userManager;
         private readonly IUnitsRepository _unitsRepository;
     }
 }
