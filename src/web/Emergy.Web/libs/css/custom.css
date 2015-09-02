@@ -27,7 +27,7 @@ body {
     margin-top: 100px;
 }
 .login-register-container .card.medium {
-    height: 470px;
+    height: 490px;
 }
 .login-register-container .card.small {
     height: 105px;
@@ -35,7 +35,7 @@ body {
 
 .login-register-container .login-icon {
     display: block; 
-    width: 135px;
+    width: 160px;
     float: none;
     margin-right: auto;
     margin-left: auto;
