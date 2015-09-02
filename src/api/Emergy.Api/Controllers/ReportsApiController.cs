@@ -19,7 +19,6 @@ namespace Emergy.Api.Controllers
             _reportsRepository = reportsRepository;
         }
 
-        [Authorize(Roles = "Clients")]
         [HttpGet]
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
@@ -29,7 +28,7 @@ namespace Emergy.Api.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public async Task<IHttpActionResult> DeleteUnit([FromUri] int id)
+        public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
         {
             if (!ModelState.IsValid)
             {
