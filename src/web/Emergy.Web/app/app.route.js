@@ -5,7 +5,10 @@
         controller: "indexController",
         templateUrl: "/app/views/index/landing.html"
     });
+    $routeProvider.when("/register", {
+        controller: "indexController",
+        templateUrl: "/app/views/index/register.html"
+    }); 
 
-    $routeProvider.otherwise({ redirectTo: "/index" });
-  
+    $routeProvider.otherwise({ redirectTo: "/index" });  
 });

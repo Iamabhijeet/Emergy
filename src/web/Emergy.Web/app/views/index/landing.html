@@ -1,21 +1,21 @@
 ﻿<div class="container login-register-container">
     <div class="row">
         <div class="col s12">
-            <div class="card medium">
+            <div class="card medium login-card">
                 <img src="/assets/img/login-account-icon.png" class="login-icon"/>
                 <form class="col s12">
                     <div class="input-field col s10 email">
-                        <input class="validate" id="email" placeholder="Your e-mail" type="email">
+                        <input class="validate" id="email" placeholder="Your e-mail" type="email"/>
                     </div>
                     <div class="input-field col s10 password">
-                        <input class="validate" id="password" placeholder="Your password" type="password">
+                        <input class="validate" id="password" placeholder="Your password" type="password"/>
                     </div>
                     <div class="col s6 offset-s1">
-                        <input class="filled-in" id="filled-in-box" type="checkbox"> 
+                        <input class="filled-in" id="filled-in-box" type="checkbox"/>
                         <label for="filled-in-box">Remember me</label>
                     </div>
                     <div class="col s4">
-                        <button class="btn waves-effect waves-light" name="action" type="submit">Sign in</button>
+                        <button class="btn waves-effect waves-light login-button" name="action" type="submit">Sign in</button>
                     </div>
                 </form>
             </div>
@@ -23,7 +23,7 @@
         <div class="col s12">
             <div class="card small">
                 <h5 class="left-align col s10 register-question-heading">Don't have an account?</h5>
-                <p class="col s10">Click <a href="#">here</a> to sign up</p>
+                <p class="col s10">Click <a ng-href="/register">here</a> to sign up</p>
             </div>
         </div>
     </div>

@@ -26,9 +26,14 @@ body {
 .login-register-container .col.s12:first-child {
     margin-top: 100px;
 }
-.login-register-container .card.medium {
+.login-register-container .login-card {
     height: 470px;
 }
+
+.login-register-container .register-card {
+    height: 560px; 
+}
+
 .login-register-container .card.small {
     height: 105px;
 }
@@ -59,11 +64,23 @@ body {
     margin-top: 23px;
     background-color: #00a2b7;
     font-weight: 300;
-    float: right;
 }
 .login-register-container button:hover {
     background-color: #08c2da;
 }
+
+.login-register-container .login-button {
+    float: _right; 
+}
+
+.login-register-container .register-button {
+    float: none;
+    display: block; 
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 35px;  
+}
+
 .login-register-container form .col.s6 {
     margin-top: 30px;
 }
@@ -75,11 +92,27 @@ body {
     border-color: #e0e0e0;
 }
 
-.login-register-container .card.medium form .password {
+.login-register-container .card.medium form .password, 
+.login-register-container .card.medium form .confirm-password, 
+.login-register-container .card.medium form .username, 
+.login-register-container .register-card form .account-type {
     margin-top: 15px; 
 }
 
-.register-question-heading {
+.login-register-container form .account-type select {
+    padding: 0; 
+}
+
+.login-register-container .register-heading {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    color: #00a2b7;
+    font-weight: 300;
+}
+
+
+
+.login-register-container .register-question-heading {
     margin-top: 25px;
     font-size: 1.45rem;
     font-weight: 300;
@@ -118,7 +151,7 @@ body {
         margin-left: 25%;
 
     }
-    .login-register-container .card.medium {
+    .login-register-container .login-card {
         height: 500px;
     }    
 }
