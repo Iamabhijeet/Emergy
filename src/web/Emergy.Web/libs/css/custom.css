@@ -20,14 +20,14 @@ body {
     margin-right: auto;
     float: none;
     max-width: 460px;
-    min-width: 320px; 
+    min-width: 290px; 
 }
 
 .login-register-container .col.s12:first-child {
     margin-top: 100px;
 }
 .login-register-container .card.medium {
-    height: 490px;
+    height: 470px;
 }
 .login-register-container .card.small {
     height: 105px;
@@ -75,6 +75,10 @@ body {
     border-color: #e0e0e0;
 }
 
+.login-register-container .card.medium form .password {
+    margin-top: 15px; 
+}
+
 .register-question-heading {
     margin-top: 25px;
     font-size: 1.45rem;
@@ -84,6 +88,10 @@ body {
 }
 
 @media only screen and (max-width: 418px) {
+    .login-register-container {
+        padding: 5px;
+        width: 100%; 
+    }
     .login-register-container form .col.s6 {
         width: 83.333%;
         text-align: center;
@@ -112,5 +120,5 @@ body {
     }
     .login-register-container .card.medium {
         height: 500px;
-    }
+    }    
 }
