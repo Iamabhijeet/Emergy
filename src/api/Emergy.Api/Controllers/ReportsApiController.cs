@@ -38,8 +38,12 @@ namespace Emergy.Api.Controllers
             await _reportsRepository.SaveAsync();
             return Ok();
         }
-
      
         private readonly IReportsRepository _reportsRepository;
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _reportsRepository.Dispose();
+        }
     }
 }

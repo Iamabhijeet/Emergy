@@ -79,9 +79,6 @@ namespace Emergy.Core.Repositories.Generic
             }
             DbSet.Remove(entityToDelete);
         }
-
-
-
         public virtual bool Exists(int id)
         {
             return DbSet.Find(id) != null;
@@ -99,12 +96,10 @@ namespace Emergy.Core.Repositories.Generic
         {
             await Context.SaveChangesAsync().ConfigureAwait(false);
         }
-
         public virtual void Dispose()
         {
             Context.Dispose();
         }
-
         ~Repository()
         {
             Dispose();

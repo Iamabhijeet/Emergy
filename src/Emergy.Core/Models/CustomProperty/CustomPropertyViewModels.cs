@@ -10,4 +10,13 @@ namespace Emergy.Core.Models.CustomProperty
         [Required]
         public CustomPropertyType CustomPropertyType { get; set; }
     }
+    public class EditCustomPropertyViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public CustomPropertyType CustomPropertyType { get; set; }
+    }
 }

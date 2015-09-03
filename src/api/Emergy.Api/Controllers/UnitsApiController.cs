@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Core.Models.CustomProperty;
+using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
@@ -87,7 +88,7 @@ namespace Emergy.Api.Controllers
 
         [HttpPost]
         [Route("custom-property/add/{id}")]
-        public async Task<IHttpActionResult> AddCustomProperty([FromUri]int id, [FromBody] CreateCustomPropertyViewModel model)
+        public async Task<IHttpActionResult> AddCustomProperty([FromUri]int id, [FromBody] int propertyId)
         {
             if (!ModelState.IsValid)
             {
@@ -95,12 +96,12 @@ namespace Emergy.Api.Controllers
             }
             if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
             {
-                await _unitsRepository.AddCustomProperty(id, Mapper.Map<CustomProperty>(model));
+                await _unitsRepository.AddCustomProperty(id, propertyId);
                 return Ok();
             }
             return Unauthorized();
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("custom-property/remove/{id}")]
         public async Task<IHttpActionResult> RemoveCustomProperty([FromUri]int id, [FromBody] int propertyId)
         {
@@ -116,6 +117,77 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [Route("locations/add/{id}")]
+        public async Task<IHttpActionResult> AddLocation([FromUri]int id, [FromBody] int locationId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.AddLocation(id, locationId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
+   
+        [HttpDelete]
+        [Route("locations/remove/{id}")]
+        public async Task<IHttpActionResult> RemoveLocation([FromUri]int id, [FromBody] int locationId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.RemoveLocation(id, locationId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        [Route("clients/add/{id}")]
+        public async Task<IHttpActionResult> AddClient([FromUri]int id, [FromBody] string clientId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.AddClient(id, clientId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        [Route("clients/remove/{id}")]
+        public async Task<IHttpActionResult> RemoveClient([FromUri]int id, [FromBody] string clientId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.RemoveClient(id, clientId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
+
+
+
         private readonly IUnitsRepository _unitsRepository;
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _unitsRepository.Dispose();
+        }
     }
 }

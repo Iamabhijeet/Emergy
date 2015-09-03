@@ -88,11 +88,12 @@ namespace Emergy.Core.Services
             return (user != null);
         }
 
-        private RoleManager<IdentityRole> _roleManager;
-        private UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         public void Dispose()
         {
-            //
+            _roleManager.Dispose();
+            _userManager.Dispose();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Emergy.Core.Repositories.Generic
 {
   
-     public interface IRepository<T> where T : class
+     public interface IRepository<T> : IDisposable where T : class
         {
             IEnumerable<T> Get(
                 Expression<Func<T, bool>> filter = null,
