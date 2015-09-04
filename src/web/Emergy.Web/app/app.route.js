@@ -1,14 +1,18 @@
-﻿app.config(function ($locationProvider,$routeProvider) {
-    $locationProvider.html5Mode(true);
+﻿app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-    $routeProvider.when("/index", {
+    $locationProvider.html5Mode(true); 
+
+    $stateProvider.state("Landing", {
+        url: "/landing",
         controller: "indexController",
-        templateUrl: "/app/views/index/landing.html"
+        templateUrl: "/views/index/landing.html"
     });
-    $routeProvider.when("/register", {
+    $stateProvider.state("Register", {
+        url: "/register",
         controller: "indexController",
-        templateUrl: "/app/views/index/register.html"
-    }); 
+        templateUrl: "/views/index/register.html"
+    });
 
-    $routeProvider.otherwise({ redirectTo: "/index" });  
-});
+    $urlRouterProvider.otherwise("/landing");
+
+}); 
