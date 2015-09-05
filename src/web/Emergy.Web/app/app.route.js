@@ -1,16 +1,21 @@
 ﻿app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise("/landing");
+    $urlRouterProvider.otherwise("/login");
 
-    $stateProvider.state("Landing", {
-        url: "/landing",
-        controller: "indexController",
-        templateUrl: "app/views/index/landing.html"
+    $stateProvider.state("Login", {
+        url: "/login",
+        controller: "loginController",
+        templateUrl: "app/views/login/login.html"
     })
-    .state("Register", {
+    $stateProvider.state("Register", {
         url: "/register",
-        controller: "indexController",
-        templateUrl: "app/views/index/register.html"
+        controller: "registerController",
+        templateUrl: "app/views/register/register.html"
+    });
+    $stateProvider.state("Home", {
+        url: "/home", 
+        controller: "shellController", 
+        templateUrl: "app/views/shell/shell.html"
     });
 }); 
