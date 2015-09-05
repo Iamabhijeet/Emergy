@@ -5,7 +5,11 @@
 
 /*-----------GENERAL STYLING-----------*/
 
-body {
+.background-white {
+    background-color: #ffffff; 
+}
+
+.background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
     background-attachment: fixed;
@@ -154,4 +158,49 @@ body {
     .login-register-container .login-card {
         height: 500px;
     }    
+}
+
+/*-----------SHELL PAGE-----------*/
+
+.shell-navigation {
+    background-color: #37474f; 
+}
+
+.shell-navigation li {
+    background-color: #546e7a;
+    margin-bottom: 5px;
+    padding: 0; 
+}
+
+.shell-navigation li.item:hover {
+    background-color: #00a1b6; 
+}
+
+.shell-navigation li.logo {
+    margin-top: 0;
+    margin-bottom: 25px;
+    height: 166px; 
+}
+
+.shell-navigation li.logo img {
+    width: 240px;
+}
+
+.shell-navigation .spacer {
+    height: 40%;
+}
+
+.shell-navigation.side-nav li a {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500; 
+    color: #ffffff;
+    padding-left: 20px; 
+}
+
+.shell-navigation.side-nav li.item img {
+    width: 20px; 
+    position: relative;
+    top: 4px;
+    margin-right: 8px; 
 }

@@ -6,7 +6,8 @@ app.controller(controllerId,
     ['$scope', '$rootScope', 'authService', 'authData', loginCtrl]);
 
 function loginCtrl($scope, $rootScope, authService, authData) {
-    $rootScope.title = 'Emergy | Login';
+    $rootScope.title = 'Login | Emergy';
+    $rootScope.background = 'background-image';
 
 
 }

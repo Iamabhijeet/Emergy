@@ -6,6 +6,6 @@ app.controller(controllerId,
     ['$scope', '$rootScope', 'authService', 'authData', shellCtrl]);
 
 function shellCtrl($scope, $rootScope, authService, authData) {
-
+    $rootScope.background = 'background-white';
 
 }

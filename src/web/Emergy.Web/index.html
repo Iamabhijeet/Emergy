@@ -2,7 +2,7 @@
 <html ng-app="emergyWeb">
 <head>
     <base href="/" />
-    <title></title>
+    <title>{{ title }}</title>
     <meta charset="utf-8"/>
 
     <!-- CSS -->
@@ -35,7 +35,7 @@
     <script src="app/components/controllers/register/registerController.js"></script>
 
 </head>
-<body>
+<body class="{{ background }}">
     <div ui-view></div>
 </body>
 </html>

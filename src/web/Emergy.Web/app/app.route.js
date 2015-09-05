@@ -1,7 +1,7 @@
 ﻿app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/home");
 
     $stateProvider.state("Login", {
         url: "/login",
