@@ -7,7 +7,8 @@
         url: "/login",
         controller: "loginController",
         templateUrl: "app/views/login/login.html"
-    })
+    });
+
     $stateProvider.state("Register", {
         url: "/register",
         controller: "registerController",
