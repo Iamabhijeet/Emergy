@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using static Emergy.Core.Common.IEnumerableExtensions;
-
+using static Emergy.Core.Common.TaskExtensions;
 namespace Emergy.Api.Hubs
 {
     [Authorize]
@@ -58,7 +58,7 @@ namespace Emergy.Api.Hubs
         [Authorize(Roles = "Clients")]
         public async Task PushReport(int unitId, int reportId)
         {
-            Unit unit = await _unitsRepository.GetAsync(unitId).ConfigureAwait(false);
+            Unit unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
             if (unit != null)
             {
                 await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
@@ -76,10 +76,10 @@ namespace Emergy.Api.Hubs
                 CancellationToken = CancellationToken.None
             }, async () =>
             {
-                unit = await _unitsRepository.GetAsync(unitId).ConfigureAwait(false);
+                unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
             }, async () =>
             {
-                report = await _reportsRepository.GetAsync(reportId).ConfigureAwait(false);
+                report = await _reportsRepository.GetAsync(reportId).WithoutSync();
             });
 
             if (unit != null && report != null)

@@ -16,6 +16,7 @@ namespace Emergy.Data.Models
         {
             Reports = new HashSet<Report>();
             Units = new HashSet<Unit>();
+            Locations = new HashSet<Location>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType = null)
@@ -37,6 +38,7 @@ namespace Emergy.Data.Models
 
         public AccountType AccountType { get; set; }
 
+        public ICollection<Location> Locations { get; set; }
         public ICollection<Report> Reports { get; set; }
         public ICollection<Unit> Units { get; set; }
 

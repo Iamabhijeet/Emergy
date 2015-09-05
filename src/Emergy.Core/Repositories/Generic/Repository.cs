@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Emergy.Core.Common;
 using Emergy.Data.Context;
 
 namespace Emergy.Core.Repositories.Generic
@@ -54,7 +55,7 @@ namespace Emergy.Core.Repositories.Generic
         }
         public async virtual Task<T> GetAsync(object id)
         {
-            return await DbSet.FindAsync(id).ConfigureAwait(false);
+            return await DbSet.FindAsync(id).WithoutSync();
         }
 
 
@@ -94,7 +95,7 @@ namespace Emergy.Core.Repositories.Generic
         }
         public async Task SaveAsync()
         {
-            await Context.SaveChangesAsync().ConfigureAwait(false);
+            await Context.SaveChangesAsync().WithoutSync();
         }
         public virtual void Dispose()
         {

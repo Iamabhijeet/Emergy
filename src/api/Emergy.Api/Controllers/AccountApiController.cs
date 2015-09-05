@@ -3,11 +3,8 @@ using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Api.Models.Account;
-using Emergy.Core.Common;
 using Emergy.Data.Models;
-using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 using model = Emergy.Core.Models.Account;
 
@@ -18,7 +15,7 @@ namespace Emergy.Api.Controllers
     {
         public AccountApiController()
         {
-            
+            // mora bit empty radi owina
         }
 
         [HttpGet]
@@ -85,7 +82,6 @@ namespace Emergy.Api.Controllers
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
-
        
     }
 }

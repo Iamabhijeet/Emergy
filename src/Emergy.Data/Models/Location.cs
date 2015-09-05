@@ -10,5 +10,6 @@ namespace Emergy.Data.Models
         public double Longitude { get; set; }
         public string Name { get; set; }
         public LocationType Type { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }
