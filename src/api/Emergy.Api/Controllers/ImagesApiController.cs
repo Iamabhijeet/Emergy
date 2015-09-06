@@ -13,9 +13,9 @@ namespace Emergy.Api.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Images")]
-    public class ImagesController : ApiControllerBase
+    public class ImagesApiController : MasterApiController
     {
-        public ImagesController(IRepository<Image> imagesRepository)
+        public ImagesApiController(IRepository<Image> imagesRepository)
         {
             _imagesRepository = imagesRepository;
         }

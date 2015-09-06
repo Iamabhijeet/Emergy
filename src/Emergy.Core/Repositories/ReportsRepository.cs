@@ -5,6 +5,7 @@ using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
+using Emergy.Data.Models.Enums;
 
 namespace Emergy.Core.Repositories
 {
@@ -19,6 +20,13 @@ namespace Emergy.Core.Repositories
         {
             return await this.GetAsync(report => report.CreatorId == user.Id,
                 query => query.OrderBy(r => r.DateHappened), ConstRelations.LoadAllReportRelations).WithoutSync();
+        }
+
+        public override void Insert(Report entity)
+        {
+            entity.Details = new ReportDetails();
+            entity.Status = ReportStatus.Created;
+            base.Insert(entity);
         }
     }
 }

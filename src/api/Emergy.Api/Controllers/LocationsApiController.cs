@@ -12,7 +12,7 @@ namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Locations")]
     [Authorize(Roles = "Administrators,Clients")]
-    public class LocationsApiController : ApiControllerBase
+    public class LocationsApiController : MasterApiController
     {
         public LocationsApiController(IRepository<Location> locationsRepository,
             IUnitsRepository unitsRepository, IReportsRepository reportsRepository)

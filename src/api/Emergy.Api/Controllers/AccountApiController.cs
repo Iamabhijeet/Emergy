@@ -11,7 +11,7 @@ using model = Emergy.Core.Models.Account;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Account")]
-    public class AccountApiController : ApiControllerBase
+    public class AccountApiController : MasterApiController
     {
         public AccountApiController()
         {

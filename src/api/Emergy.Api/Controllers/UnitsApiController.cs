@@ -17,7 +17,7 @@ namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
     [Authorize(Roles = "Administrators")]
-    public class UnitsApiController : ApiControllerBase
+    public class UnitsApiController : MasterApiController
     {
         public UnitsApiController(IUnitsRepository unitsRepository)
         {

@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Emergy.Api.Controllers
 {
-    public abstract class ApiControllerBase : ApiController
+    public abstract class MasterApiController : ApiController
     {
         protected ApplicationUserManager UserManager
         {
@@ -58,7 +58,6 @@ namespace Emergy.Api.Controllers
             }
             return InternalServerError();
         }
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
