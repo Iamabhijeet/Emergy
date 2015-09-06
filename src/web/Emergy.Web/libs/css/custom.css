@@ -119,6 +119,12 @@
     color: #C9C9C9; 
 }
 
+.login-register-container .input-field i {
+    font-size: 25px; 
+    top: 12px; 
+    color: #ABABAB; 
+}
+
 .login-register-container .register-heading {
     margin-top: 40px;
     margin-bottom: 30px;
