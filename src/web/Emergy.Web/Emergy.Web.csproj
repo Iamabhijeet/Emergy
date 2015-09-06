@@ -71,6 +71,7 @@
     <Content Include="libs\css\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.svg" />
     <Content Include="index.html" />
+    <Content Include="libs\js\angular\angular-materialize.js" />
     <Content Include="libs\js\angular\angular-ui-router.js" />
     <Content Include="libs\js\angular\angular-ui-router.min.js" />
     <Content Include="libs\js\local-storage\angular-local-storage.js" />

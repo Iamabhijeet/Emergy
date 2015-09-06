@@ -1,4 +1,4 @@
-﻿var app = angular.module('emergyWeb', ['ui.router', 'ngSanitize', 'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives']);
+﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngSanitize', 'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives']);
 
 app.config(function ($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

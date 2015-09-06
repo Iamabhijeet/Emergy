@@ -178,8 +178,8 @@
 
 .shell-navigation li.logo {
     margin-top: 0;
-    margin-bottom: 25px;
-    height: 166px; 
+    margin-bottom: 15px;
+    height: 107px; 
 }
 
 .shell-navigation li.logo img {
@@ -187,7 +187,7 @@
 }
 
 .shell-navigation .spacer {
-    height: 40%;
+    height: calc(100% - 430px); 
 }
 
 .shell-navigation.side-nav li a {
@@ -203,4 +203,10 @@
     position: relative;
     top: 4px;
     margin-right: 8px; 
+}
+
+.shell-wrapper .button-collapse i{
+    font-size: 35px;
+    margin-left: 20px;
+    margin-top: 20px; 
 }
