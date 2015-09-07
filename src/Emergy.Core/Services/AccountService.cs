@@ -39,21 +39,20 @@ namespace Emergy.Core.Services
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
-            var result = await _userManager.CreateAsync(newUser, password).WithoutSync();
+            var result = await _userManager.CreateAsync(newUser, password);
 
             if (result.Succeeded)
             {
-                var createdUser = await _userManager.FindByNameAsync(newUser.Name).WithoutSync();
                 switch (newUser.AccountType)
                 {
                     case Data.Models.Enums.AccountType.Client:
                         {
-                            await _userManager.AddToRoleAsync(createdUser.Id, "Clients").WithoutSync();
+                            await _userManager.AddToRoleAsync(newUser.Id, "Clients");
                             break;
                         }
                     case Data.Models.Enums.AccountType.Administrator:
                         {
-                            await _userManager.AddToRoleAsync(createdUser.Id, "Administrators").WithoutSync();
+                            await _userManager.AddToRoleAsync(newUser.Id, "Administrators");
                             break;
                         }
                 }
