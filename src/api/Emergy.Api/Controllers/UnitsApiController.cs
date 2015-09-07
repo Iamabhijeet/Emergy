@@ -34,9 +34,18 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<Unit> GetUnit(int id)
+        public async Task<IHttpActionResult> GetUnit(int id)
         {
-            return await _unitsRepository.GetAsync(id);
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
+                {
+                    return Ok(unit);
+                }
+                return Unauthorized();
+            }
+            return NotFound();
         }
 
         [HttpPost]
@@ -132,7 +141,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-   
+
         [HttpDelete]
         [Route("locations/remove/{id}")]
         public async Task<IHttpActionResult> RemoveLocation([FromUri]int id, [FromBody] int locationId)

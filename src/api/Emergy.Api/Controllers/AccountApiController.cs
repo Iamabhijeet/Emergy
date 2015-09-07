@@ -78,7 +78,7 @@ namespace Emergy.Api.Controllers
         [AllowAnonymous]
         [Route("UsernameExists/{username}")]
         [HttpGet]
-        public async Task<IHttpActionResult> UsernameExists([FromUri] string username)
+        public async Task<IHttpActionResult> UsernameExists(string username)
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
