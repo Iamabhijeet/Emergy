@@ -10,7 +10,7 @@ namespace Emergy.Data.Configurations
             ToTable("Units");
 
             HasMany(x => x.Categories)
-              .WithRequired(x => x.Unit)
+              .WithOptional(x => x.Unit)
               .WillCascadeOnDelete(true);
 
             HasMany(x => x.Locations)
