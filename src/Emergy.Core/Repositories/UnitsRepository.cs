@@ -124,6 +124,16 @@ namespace Emergy.Core.Repositories
                 }
             }
         }
+        public async Task AddCategory(int unitId, int categoryId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                unit.Categories.Add(await Context.Categories.FindAsync(categoryId));
+                this.Update(unit);
+                await this.SaveAsync();
+            }
+        }
         public async Task<bool> IsAdministrator(int unitId, string adminId)
         {
             var unit = await GetAsync(unitId);

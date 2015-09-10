@@ -225,7 +225,6 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
         [HttpPost]
         [Route("clients/remove/{id}")]
         public async Task<IHttpActionResult> RemoveClient([FromUri]int id, [FromBody] string clientId)
@@ -242,6 +241,21 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [Route("categories/add/{id}")]
+        public async Task<IHttpActionResult> AddCategory([FromUri]int id, [FromBody] int categoryId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.AddCategory(id, categoryId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
 
 
         private readonly IUnitsRepository _unitsRepository;

@@ -65,6 +65,7 @@ namespace Emergy.Api
             kernel.Bind<IRepository<Location>>().To<Repository<Location>>();
             kernel.Bind<IRepository<CustomProperty>>().To<Repository<CustomProperty>>();
             kernel.Bind<IRepository<CustomPropertyValue>>().To<Repository<CustomPropertyValue>>();
+            kernel.Bind<IRepository<Category>>().To<Repository<Category>>();
             kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
 
