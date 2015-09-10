@@ -18,8 +18,9 @@ namespace Emergy.Api.Controllers
         {
             _categoriesRepository = categoriesRepository;
         }
+        [HttpGet]
         [Route("get/{unitId}")]
-        public async Task<IHttpActionResult> Get(int unitId)
+        public async Task<IHttpActionResult> Get([FromUri]int unitId)
         {
             if (!ModelState.IsValid)
             {
@@ -28,11 +29,11 @@ namespace Emergy.Api.Controllers
             return Ok((await _categoriesRepository.GetAsync())
                 .OrderByDescending(c => c.Name));
         }
-
-        [Route("create")]
-        public async Task<IHttpActionResult> Create(string name)
+        [HttpPost]
+        [Route("create/{name}")]
+        public async Task<IHttpActionResult> Create([FromUri]string name)
         {
-            if (!string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 return BadRequest("Name is required!");
             }
@@ -41,7 +42,18 @@ namespace Emergy.Api.Controllers
             await _categoriesRepository.SaveAsync();
             return Ok();
         }
-
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> Delete([FromUri]int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            _categoriesRepository.Delete(id);
+            await _categoriesRepository.SaveAsync();
+            return Ok();
+        }
         protected override void Dispose(bool disposing)
         {
             _categoriesRepository.Dispose();

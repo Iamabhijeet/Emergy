@@ -257,6 +257,21 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpPost]
+        [Route("categories/remove/{id}")]
+        public async Task<IHttpActionResult> RemoveCategory([FromUri]int id, [FromBody] int categoryId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            {
+                await _unitsRepository.RemoveCategory(id, categoryId);
+                return Ok();
+            }
+            return Unauthorized();
+        }
 
         private readonly IUnitsRepository _unitsRepository;
         protected override void Dispose(bool disposing)
