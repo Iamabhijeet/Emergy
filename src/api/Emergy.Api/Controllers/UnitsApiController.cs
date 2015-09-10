@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
+using Emergy.Core.Common;
 using Emergy.Core.Models.CustomProperty;
 using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
@@ -71,9 +72,15 @@ namespace Emergy.Api.Controllers
             }
             if (await _unitsRepository.IsAdministrator(model.Id, User.Identity.GetUserId()))
             {
-                _unitsRepository.Update(Mapper.Map<Unit>(model));
-                await _unitsRepository.SaveAsync();
-                return Ok();
+                var unit = await _unitsRepository.GetAsync(model.Id).WithoutSync();
+                if (unit != null)
+                {
+                    unit.Name = model.Name;
+                    _unitsRepository.Update(unit);
+                    await _unitsRepository.SaveAsync();
+                    return Ok();
+                }
+                return NotFound();
             }
             return Unauthorized();
         }
@@ -95,6 +102,21 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpGet]
+        [Route("custom-property/get/{id}")]
+        public async Task<IHttpActionResult> GetCustomProperties(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
+                {
+                    return Ok(unit.CustomProperties);
+                }
+                return Unauthorized();
+            }
+            return NotFound();
+        }
         [HttpPost]
         [Route("custom-property/add/{id}")]
         public async Task<IHttpActionResult> AddCustomProperty([FromUri]int id, [FromBody] int propertyId)
@@ -126,6 +148,21 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpGet]
+        [Route("locations/get/{id}")]
+        public async Task<IHttpActionResult> GetLocations(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
+                {
+                    return Ok(unit.Locations);
+                }
+                return Unauthorized();
+            }
+            return NotFound();
+        }
         [HttpPost]
         [Route("locations/add/{id}")]
         public async Task<IHttpActionResult> AddLocation([FromUri]int id, [FromBody] int locationId)
@@ -158,6 +195,21 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
+        [HttpGet]
+        [Route("clients/get/{id}")]
+        public async Task<IHttpActionResult> GetClients(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
+                {
+                    return Ok(unit.Clients);
+                }
+                return Unauthorized();
+            }
+            return NotFound();
+        }
         [HttpPost]
         [Route("clients/add/{id}")]
         public async Task<IHttpActionResult> AddClient([FromUri]int id, [FromBody] string clientId)

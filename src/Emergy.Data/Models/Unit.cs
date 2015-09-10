@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Emergy.Data.Models.Base;
+using Newtonsoft.Json;
 
 namespace Emergy.Data.Models
 {
@@ -22,14 +23,19 @@ namespace Emergy.Data.Models
         public string Name { get; set; }
 
         [ForeignKey("AdministratorId")]
+        [JsonIgnore]
         public ApplicationUser Administrator { get; set; }
         public string AdministratorId { get; set; }
 
+        [JsonIgnore]
         public ICollection<ApplicationUser> Clients { get; set; }
+        [JsonIgnore]
         public ICollection<Report> Reports { get; set; }
+        [JsonIgnore]
         public ICollection<CustomProperty> CustomProperties { get; set; }
+        [JsonIgnore]
         public ICollection<Category> Categories { get; set; }
-
+        [JsonIgnore]
         public ICollection<Location> Locations { get; set; }
 
         [Required]

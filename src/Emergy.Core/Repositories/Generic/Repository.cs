@@ -20,7 +20,6 @@ namespace Emergy.Core.Repositories.Generic
             Context = context;
             DbSet = context.Set<T>();
         }
-
         public virtual IEnumerable<T> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -37,9 +36,6 @@ namespace Emergy.Core.Repositories.Generic
 
             return orderBy?.Invoke(query).ToList() ?? query.ToList();
         }
-
-
-
         public virtual Task<IEnumerable<T>> GetAsync(
          Expression<Func<T, bool>> filter = null,
          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -47,8 +43,6 @@ namespace Emergy.Core.Repositories.Generic
         {
             return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.HideScheduler);
         }
-
-
         public virtual T Get(object id)
         {
             return DbSet.Find(id);
@@ -57,8 +51,6 @@ namespace Emergy.Core.Repositories.Generic
         {
             return await DbSet.FindAsync(id).WithoutSync();
         }
-
-
         public virtual void Insert(T entity)
         {
             DbSet.Add(entity);
