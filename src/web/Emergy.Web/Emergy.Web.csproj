@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Emergy.Web</RootNamespace>
     <AssemblyName>Emergy.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -24,6 +22,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,49 +42,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
+    <Content Include="app\components\controllers\index\indexController.js" />
+    <Content Include="app\components\controllers\login\loginController.js" />
+    <Content Include="app\components\controllers\register\registerController.js" />
+    <Content Include="app\components\controllers\shell\shellController.js" />
+    <Content Include="app\components\directives\account-directives.js" />
+    <Content Include="app\components\directives\directives.module.js" />
+    <Content Include="app\components\services\auth\authInterceptorService.js" />
+    <Content Include="app\components\services\auth\authService.js" />
+    <Content Include="app\components\services\services.module.js" />
+    <Content Include="app\views\login\login.html" />
+    <Content Include="app\views\register\register.html" />
+    <Content Include="app\views\shell\shell.html" />
+    <Content Include="assets\img\account-icon.png" />
+    <Content Include="assets\img\settings-icon.png" />
+    <Content Include="assets\img\menu-heading.png" />
+    <Content Include="assets\img\reports-icon.png" />
+    <Content Include="assets\img\statistics-icon.png" />
+    <Content Include="assets\img\units-icon.png" />
+    <Content Include="assets\img\login-account-icon.png" />
+    <Content Include="assets\img\login-background.jpg" />
+    <Content Include="libs\app.js" />
+    <Content Include="libs\css\custom.css" />
     <Content Include="libs\css\normalize.css" />
     <Content Include="libs\css\materialize\css\materialize.css" />
     <Content Include="libs\css\materialize\css\materialize.min.css" />
     <Content Include="libs\css\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.svg" />
     <Content Include="index.html" />
-    <Content Include="packages.config" />
+    <Content Include="libs\js\angular\angular-materialize.js" />
+    <Content Include="libs\js\angular\angular-ui-router.js" />
+    <Content Include="libs\js\angular\angular-ui-router.min.js" />
+    <Content Include="libs\js\local-storage\angular-local-storage.js" />
     <Content Include="libs\js\angular\angular-animate.js" />
     <Content Include="libs\js\angular\angular-animate.min.js" />
     <Content Include="libs\js\angular\angular-mocks.js" />
-    <Content Include="libs\js\angular\angular-route.js" />
-    <Content Include="libs\js\angular\angular-route.min.js" />
     <Content Include="libs\js\angular\angular-sanitize.js" />
     <Content Include="libs\js\angular\angular-sanitize.min.js" />
     <Content Include="libs\js\angular\angular.js" />
     <Content Include="libs\js\angular\angular.min.js" />
     <Content Include="libs\js\jquery\angular.min.js.map" />
-    <Content Include="libs\js\angular\angular-route.min.js.map" />
     <Content Include="libs\js\angular\angular-animate.min.js.map" />
     <Content Include="libs\js\angular\angular-sanitize.min.js.map" />
     <Content Include="libs\js\materialize\materialize.js" />
@@ -121,17 +119,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="app\components\controllers\" />
-    <Folder Include="app\components\services\" />
     <Folder Include="app\shared\" />
-    <Folder Include="app\views\" />
-    <Folder Include="assets\img\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="libs\js\jquery\jquery-2.1.4.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -158,13 +158,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

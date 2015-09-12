@@ -1,0 +1,228 @@
+﻿/*------------------------------------------------------------*/
+/*---------------EMERGY CUSTOM CSS---------------*/
+/*------------------------------------------------------------*/
+
+
+/*-----------GENERAL STYLING-----------*/
+
+.background-white {
+    background-color: #ffffff; 
+}
+
+.background-image {
+    background-image: url('../../assets/img/login-background.jpg');
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*-----------LOGIN AND REGISTRATION PAGE-----------*/
+
+.login-register-container .col.s12 {
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    max-width: 460px;
+    min-width: 290px; 
+}
+
+.login-register-container .col.s12:first-child {
+    margin-top: 50px;
+}
+.login-register-container .login-card {
+    height: 470px;
+}
+
+.login-register-container .register-card {
+    height: 560px; 
+}
+
+.login-register-container .card.small {
+    height: 105px;
+}
+
+.login-register-container .login-icon {
+    display: block; 
+    width: 160px;
+    float: none;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40px; 
+}
+
+.login-register-container .col.s10 {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.login-register-container form .col.s10 {
+    margin-top: 35px;
+    margin-bottom: 0;
+}
+
+.login-register-container p {
+    margin-top: 5px;
+}
+.login-register-container button {
+    margin-top: 23px;
+    background-color: #00a2b7;
+    font-weight: 300;
+}
+.login-register-container button:hover {
+    background-color: #08c2da;
+}
+
+.login-register-container .login-button {
+    float: _right; 
+}
+
+.login-register-container .register-button {
+    float: none;
+    display: block; 
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 35px;  
+}
+
+.login-register-container form .col.s6 {
+    margin-top: 30px;
+}
+.login-register-container .filled-in:checked+label:after {
+    background-color: #00a2b7;
+    border-color: #e0e0e0;
+}
+.login-register-container .filled-in:not(:checked) + label:after {
+    border-color: #e0e0e0;
+}
+
+.login-register-container .card.medium form .password, 
+.login-register-container .card.medium form .confirm-password, 
+.login-register-container .card.medium form .username, 
+.login-register-container .register-card form .account-type {
+    margin-top: 15px; 
+}
+
+.login-register-container form .account-type .dropdown-content {
+    font-size: 14px; 
+    z-index: 1000000; 
+}
+
+.login-register-container form .account-type .dropdown-content span {
+    font-size: 1rem;
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    color: #00a2b7; 
+}
+
+.login-register-container form .account-type .select-dropdown {
+    color: #C9C9C9; 
+}
+
+.login-register-container .input-field i {
+    font-size: 25px; 
+    top: 12px; 
+    color: #ABABAB; 
+}
+
+.login-register-container .register-heading {
+    margin-top: 40px;
+    margin-bottom: 30px;
+    color: #00a2b7;
+    font-weight: 300;
+}
+
+.login-register-container .register-question-heading {
+    margin-top: 25px;
+    font-size: 1.45rem;
+    font-weight: 300;
+    color: #00a2b7;
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 418px) {
+    .login-register-container {
+        padding: 5px;
+        width: 100%; 
+    }
+    .login-register-container form .col.s6 {
+        width: 83.333%;
+        text-align: center;
+        margin-top: 10px;
+        float: none;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+    
+    .login-register-container form .col.s6 input, label {
+        display: block; 
+        float: left; 
+    }
+
+    .login-register-container button {
+        float: none;
+        margin-top: 25px;
+        margin-left: auto;
+        margin-right: auto;   
+    }
+
+    .login-register-container .col.s4 {
+        width: 50%;
+        margin-left: 25%;
+
+    }
+    .login-register-container .login-card {
+        height: 500px;
+    }    
+}
+
+/*-----------SHELL PAGE-----------*/
+
+.shell-navigation {
+    background-color: #37474f; 
+}
+
+.shell-navigation li {
+    background-color: #546e7a;
+    margin-bottom: 5px;
+    padding: 0; 
+}
+
+.shell-navigation li.item:hover {
+    background-color: #00a1b6; 
+}
+
+.shell-navigation li.logo {
+    margin-top: 0;
+    margin-bottom: 15px;
+    height: 107px; 
+}
+
+.shell-navigation li.logo img {
+    width: 240px;
+}
+
+.shell-navigation .spacer {
+    height: calc(100% - 430px); 
+}
+
+.shell-navigation.side-nav li a {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500; 
+    color: #ffffff;
+    padding-left: 20px; 
+}
+
+.shell-navigation.side-nav li.item img {
+    width: 20px; 
+    position: relative;
+    top: 4px;
+    margin-right: 8px; 
+}
+
+.shell-wrapper .button-collapse i{
+    font-size: 35px;
+    margin-left: 20px;
+    margin-top: 20px; 
+}
