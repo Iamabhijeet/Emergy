@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EmergyDbVisualModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EmergyDbVisualModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__migrationhistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -79,7 +79,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="longtext" />
-          <Property Name="Unit_Id" Type="int" Nullable="false" />
+          <Property Name="Unit_Id" Type="int" />
         </EntityType>
         <EntityType Name="customproperties">
           <Key>
@@ -96,7 +96,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SerializedValue" Type="longtext" />
-          <Property Name="CustomProperty_Id" Type="int" />
+          <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
           <Property Name="ReportDetails_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="images">
@@ -105,7 +105,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Url" Type="longtext" />
-          <Property Name="Base64" Type="longblob" />
+          <Property Name="Base64" Type="longtext" />
           <Property Name="Report_Id" Type="int" />
         </EntityType>
         <EntityType Name="locations">
@@ -117,6 +117,8 @@
           <Property Name="Longitude" Type="double" Nullable="false" />
           <Property Name="Name" Type="longtext" />
           <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="varchar" MaxLength="128" />
           <Property Name="Unit_Id" Type="int" />
         </EntityType>
         <EntityType Name="profilephotos">
@@ -165,8 +167,8 @@
           <Property Name="UnitId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_41248ebe63054e249715698df6b3bb7f">
-          <End Role="customproperties" Type="Self.customproperties" Multiplicity="0..1">
+        <Association Name="FK_24a78b0cb31a4e07b900519e319b5f69">
+          <End Role="customproperties" Type="Self.customproperties" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="custompropertyvalues" Type="Self.custompropertyvalues" Multiplicity="*" />
@@ -250,7 +252,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Categories_Units_Unit_Id">
-          <End Role="units" Type="Self.units" Multiplicity="1">
+          <End Role="units" Type="Self.units" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="categories" Type="Self.categories" Multiplicity="*" />
@@ -302,6 +304,20 @@
             </Principal>
             <Dependent Role="images">
               <PropertyRef Name="Report_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="locations" Type="Self.locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="locations">
+              <PropertyRef Name="ApplicationUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -438,7 +454,7 @@
           <EntitySet Name="reports" EntityType="Self.reports" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units" EntityType="Self.units" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units2clients" EntityType="Self.units2clients" Schema="emergydb" store:Type="Tables" />
-          <AssociationSet Name="FK_41248ebe63054e249715698df6b3bb7f" Association="Self.FK_41248ebe63054e249715698df6b3bb7f">
+          <AssociationSet Name="FK_24a78b0cb31a4e07b900519e319b5f69" Association="Self.FK_24a78b0cb31a4e07b900519e319b5f69">
             <End Role="customproperties" EntitySet="customproperties" />
             <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
           </AssociationSet>
@@ -478,6 +494,10 @@
             <End Role="reports" EntitySet="reports" />
             <End Role="images" EntitySet="images" />
           </AssociationSet>
+          <AssociationSet Name="FK_Locations_AspNetUsers_ApplicationUser_Id" Association="Self.FK_Locations_AspNetUsers_ApplicationUser_Id">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="locations" EntitySet="locations" />
+          </AssociationSet>
           <AssociationSet Name="FK_Locations_Units_Unit_Id" Association="Self.FK_Locations_Units_Unit_Id">
             <End Role="units" EntitySet="units" />
             <End Role="locations" EntitySet="locations" />
@@ -515,8 +535,7 @@
             <End Role="units2clients" EntitySet="units2clients" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EmergyDbVisualModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -589,6 +608,7 @@
           <NavigationProperty Name="units" Relationship="Self.FK_Units_AspNetUsers_AdministratorId" FromRole="aspnetusers" ToRole="units" />
           <NavigationProperty Name="aspnetroles" Relationship="Self.aspnetuserroles" FromRole="aspnetusers" ToRole="aspnetroles" />
           <NavigationProperty Name="units1" Relationship="Self.units2clients" FromRole="aspnetusers" ToRole="units" />
+          <NavigationProperty Name="locations" Relationship="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" FromRole="aspnetuser" ToRole="location" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -644,6 +664,9 @@
           <Property Name="Unit_Id" Type="Int32" />
           <NavigationProperty Name="unit" Relationship="Self.FK_Locations_Units_Unit_Id" FromRole="locations" ToRole="units" />
           <NavigationProperty Name="reports" Relationship="Self.FK_Reports_Locations_LocationId" FromRole="locations" ToRole="reports" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" FromRole="location" ToRole="aspnetuser" />
         </EntityType>
         <EntityType Name="profilephoto">
           <Key>
@@ -989,7 +1012,25 @@
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="units" EntitySet="units" />
           </AssociationSet>
+          <AssociationSet Name="FK_Locations_AspNetUsers_ApplicationUser_Id" Association="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="location" EntitySet="locations" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.location" Role="location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="location">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1100,6 +1141,8 @@
           <EntitySetMapping Name="locations">
             <EntityTypeMapping TypeName="EmergyDbVisualModel.location">
               <MappingFragment StoreEntitySet="locations">
+                <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />

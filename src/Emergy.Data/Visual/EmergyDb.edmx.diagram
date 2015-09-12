@@ -36,6 +36,7 @@
         <AssociationConnector Association="EmergyDbVisualModel.FK_Reports_Units_Unit_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.aspnetuserroles" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.units2clients" ManuallyRouted="false" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

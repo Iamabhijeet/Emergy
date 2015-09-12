@@ -47,7 +47,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-properties")]
+        [Route("get-properties/{id}")]
         public async Task<IHttpActionResult> GetCustomProperties([FromUri] int id)
         {
             Report report = await _reportsRepository.GetAsync(id);

@@ -103,10 +103,10 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("custom-property/get/{id}")]
-        public async Task<IHttpActionResult> GetCustomProperties(int id)
+        [Route("custom-properties/get/{unitId}")]
+        public async Task<IHttpActionResult> GetCustomProperties(int unitId)
         {
-            var unit = await _unitsRepository.GetAsync(id);
+            var unit = await _unitsRepository.GetAsync(unitId);
             if (unit != null)
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
