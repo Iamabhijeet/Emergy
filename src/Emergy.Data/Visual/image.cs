@@ -16,7 +16,7 @@ namespace Emergy.Data.Visual
     {
         public int Id { get; set; }
         public string Url { get; set; }
-        public byte[] Base64 { get; set; }
+        public string Base64 { get; set; }
         public Nullable<int> Report_Id { get; set; }
     
         public virtual report report { get; set; }

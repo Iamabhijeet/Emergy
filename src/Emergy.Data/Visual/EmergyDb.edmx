@@ -648,7 +648,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Url" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Base64" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Base64" Type="String" />
           <Property Name="Report_Id" Type="Int32" />
           <NavigationProperty Name="report" Relationship="Self.FK_Images_Reports_Report_Id" FromRole="images" ToRole="reports" />
         </EntityType>

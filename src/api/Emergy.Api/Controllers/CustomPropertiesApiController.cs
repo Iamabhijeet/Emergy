@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -25,6 +26,7 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("create")]
+        [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> CreateProperty(model::CreateCustomPropertyViewModel model)
         {
             if (!ModelState.IsValid)
@@ -38,6 +40,7 @@ namespace Emergy.Api.Controllers
         }
         [HttpGet]
         [Route("add-value")]
+        [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> AddValue(model::CreateCustomPropertyValueViewModel model)
         {
             if (!ModelState.IsValid)

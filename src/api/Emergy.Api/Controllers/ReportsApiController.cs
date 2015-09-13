@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Core.Models.Report;
 using Emergy.Core.Repositories;
@@ -34,6 +35,7 @@ namespace Emergy.Api.Controllers
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "Clients")]
+        [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> CreateReport([FromBody] CreateReportViewModel model)
         {
             if (!ModelState.IsValid)

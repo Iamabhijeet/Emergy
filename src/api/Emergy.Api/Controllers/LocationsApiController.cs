@@ -5,6 +5,9 @@ using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
 using System.Linq;
 using System.Threading;
+using System.Web.Http.Description;
+using AutoMapper;
+using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
 using Microsoft.AspNet.Identity;
 
@@ -80,6 +83,43 @@ namespace Emergy.Api.Controllers
             if (user != null && location != null)
             {
                 await AccountService.UpdateLocation(user, location);
+                return Ok();
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("create")]
+        [ResponseType(typeof(int))]
+        public async Task<IHttpActionResult> CreateLocation(CreateLocationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            var location = Mapper.Map<Location>(model);
+            _locationsRepository.Insert(location);
+            await _locationsRepository.SaveAsync();
+            return Ok(location.Id);
+        }
+
+        [HttpPut]
+        [Route("edit/{id}")]
+        public async Task<IHttpActionResult> CreateLocation([FromUri] int id, [FromBody]EditLocationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            var location = await _locationsRepository.GetAsync(id).WithoutSync();
+            if (location != null)
+            {
+                location.Latitude = model.Latitude;
+                location.Longitude = model.Longitude;
+                location.Name = model.Name;
+                location.Type = model.Type;
+                _locationsRepository.Update(location);
+                await _locationsRepository.SaveAsync().Sync();
                 return Ok();
             }
             return NotFound();

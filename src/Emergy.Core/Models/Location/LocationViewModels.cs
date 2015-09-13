@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Emergy.Data.Models.Enums;
 
 namespace Emergy.Core.Models.Location
@@ -13,11 +14,10 @@ namespace Emergy.Core.Models.Location
         public string Name { get; set; }
         [Required]
         public LocationType Type { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
     }
     public class EditLocationViewModel
     {
-        [Required]
-        public int Id { get; set; }
         [Required]
         public double Latitude { get; set; }
         [Required]
