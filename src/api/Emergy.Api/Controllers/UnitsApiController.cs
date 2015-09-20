@@ -20,6 +20,10 @@ namespace Emergy.Api.Controllers
     [Authorize(Roles = "Administrators")]
     public class UnitsApiController : MasterApiController
     {
+        public UnitsApiController()
+        {
+            
+        }
         public UnitsApiController(IUnitsRepository unitsRepository)
         {
             _unitsRepository = unitsRepository;

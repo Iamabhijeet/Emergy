@@ -149,5 +149,9 @@ namespace Emergy.Core.Repositories
             var unit = await GetAsync(unitId);
             return unit.AdministratorId == adminId;
         }
+        public async Task<bool> IsInUnit(int unitId, string userId)
+        {
+            return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
+        }
     }
 }

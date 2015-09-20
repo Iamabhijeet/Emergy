@@ -45,7 +45,7 @@ namespace Emergy.Api.Hubs
         }
         public async override Task OnDisconnected(bool stopCalled)
         {
-            await base.OnConnected();
+            await base.OnDisconnected(stopCalled);
             var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
             string connection;
             _userConnections.TryRemove(currentUser.Id, out connection);

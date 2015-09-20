@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -21,11 +23,17 @@ namespace Emergy.Core.Repositories
             return await this.GetAsync(report => report.CreatorId == user.Id,
                 query => query.OrderBy(r => r.DateHappened), ConstRelations.LoadAllReportRelations).WithoutSync();
         }
+        public async Task<bool> PermissionsGranted(int reportId, string userId)
+        {
+            Report report = await this.GetAsync(reportId).WithoutSync();
+            return (report.CreatorId == userId || report.Unit.AdministratorId == userId);
+        }
 
-        public override void Insert(Report entity)
+        public void Insert(Report entity, string userId)
         {
             entity.Details = new ReportDetails();
             entity.Status = ReportStatus.Created;
+            entity.CreatorId = userId;
             base.Insert(entity);
         }
     }

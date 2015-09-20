@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
+using Emergy.Core.Common;
 using Emergy.Core.Models.Report;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
+using Microsoft.AspNet.Identity;
 using static Emergy.Core.Common.IEnumerableExtensions;
 
 namespace Emergy.Api.Controllers
@@ -16,13 +19,19 @@ namespace Emergy.Api.Controllers
     [Authorize(Roles = "Administrators,Clients")]
     public class ReportsApiController : MasterApiController
     {
+        public ReportsApiController()
+        {
+
+        }
         public ReportsApiController(IReportsRepository reportsRepository,
+            IUnitsRepository unitsRepository,
             IRepository<CustomPropertyValue> valuesRepository,
             IRepository<Image> imagesRepository)
         {
             _reportsRepository = reportsRepository;
             _valuesRepository = valuesRepository;
             _imagesRepository = imagesRepository;
+            _unitsRepository = unitsRepository;
         }
 
         [HttpGet]
@@ -43,9 +52,13 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             Report report = Mapper.Map<Report>(model);
-            _reportsRepository.Insert(report);
-            await _reportsRepository.SaveAsync();
-            return Ok(report.Id);
+            if (await _unitsRepository.IsInUnit(model.UnitId, User.Identity.GetUserId()))
+            {
+                _reportsRepository.Insert(report, User.Identity.GetUserId());
+                await _reportsRepository.SaveAsync();
+                return Ok(report.Id);
+            }
+            return Unauthorized();
         }
 
         [HttpGet]
@@ -127,17 +140,23 @@ namespace Emergy.Api.Controllers
             {
                 return Error();
             }
-            _reportsRepository.Delete(id);
-            await _reportsRepository.SaveAsync();
-            return Ok();
+            if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+            {
+                _reportsRepository.Delete(id);
+                await _reportsRepository.SaveAsync().Sync();
+                return Ok();
+            }
+            return Unauthorized();
         }
 
         private readonly IReportsRepository _reportsRepository;
+        private readonly IUnitsRepository _unitsRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;
         private readonly IRepository<Image> _imagesRepository;
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+            _unitsRepository.Dispose();
             _reportsRepository.Dispose();
             _valuesRepository.Dispose();
             _imagesRepository.Dispose();

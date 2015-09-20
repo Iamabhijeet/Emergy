@@ -25,5 +25,6 @@ namespace Emergy.Core.Repositories
         Task AddCategory(int unitId, int categoryId);
         Task RemoveCategory(int unitId, int categoryId);
         Task<bool> IsAdministrator(int unitId, string adminId);
+        Task<bool> IsInUnit(int unitId, string userId);
     }
 }

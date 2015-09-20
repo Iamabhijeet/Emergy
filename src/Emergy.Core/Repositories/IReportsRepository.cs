@@ -8,5 +8,7 @@ namespace Emergy.Core.Repositories
     public interface IReportsRepository : IRepository<Report>
     {
         Task<IEnumerable<Report>> GetAsync(ApplicationUser user);
+        Task<bool> PermissionsGranted(int reportId, string userId);
+        void Insert(Report entity, string userId);
     }
 }
