@@ -24,7 +24,7 @@ namespace Emergy.Api.Controllers
             _valuesRepository = valuesRepo;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("create")]
         [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> CreateProperty(model::CreateCustomPropertyViewModel model)
@@ -38,7 +38,7 @@ namespace Emergy.Api.Controllers
             await _propertiesRepository.SaveAsync();
             return Ok(property.Id);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("add-value")]
         [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> AddValue(model::CreateCustomPropertyValueViewModel model)

@@ -29,11 +29,12 @@ namespace Emergy.Core.Repositories
             return (report.CreatorId == userId || report.Unit.AdministratorId == userId);
         }
 
-        public void Insert(Report entity, string userId)
+        public void Insert(Report entity, string userId, Unit unit)
         {
             entity.Details = new ReportDetails();
             entity.Status = ReportStatus.Created;
             entity.CreatorId = userId;
+            entity.Unit = unit;
             base.Insert(entity);
         }
     }

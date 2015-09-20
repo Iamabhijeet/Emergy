@@ -9,6 +9,6 @@ namespace Emergy.Core.Repositories
     {
         Task<IEnumerable<Report>> GetAsync(ApplicationUser user);
         Task<bool> PermissionsGranted(int reportId, string userId);
-        void Insert(Report entity, string userId);
+        void Insert(Report entity, string userId, Unit unit);
     }
 }

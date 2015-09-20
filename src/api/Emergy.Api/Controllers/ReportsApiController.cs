@@ -54,9 +54,14 @@ namespace Emergy.Api.Controllers
             Report report = Mapper.Map<Report>(model);
             if (await _unitsRepository.IsInUnit(model.UnitId, User.Identity.GetUserId()))
             {
-                _reportsRepository.Insert(report, User.Identity.GetUserId());
-                await _reportsRepository.SaveAsync();
-                return Ok(report.Id);
+                Unit unit = await _unitsRepository.GetAsync(model.UnitId).WithoutSync();
+                if (unit != null)
+                {
+                    _reportsRepository.Insert(report, User.Identity.GetUserId(), unit);
+                    await _reportsRepository.SaveAsync().Sync();
+                    return Ok(report.Id);
+                }
+                return NotFound();
             }
             return Unauthorized();
         }
