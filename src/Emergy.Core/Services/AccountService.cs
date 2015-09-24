@@ -31,11 +31,11 @@ namespace Emergy.Core.Services
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
-            return await _userManager.FindByIdAsync(userId);
+            return await _userManager.FindByIdAsync(userId).WithoutSync();
         }
         public async Task<ApplicationUser> GetUserByNameAsync(string userName)
         {
-            return await _userManager.FindByNameAsync(userName);
+            return await _userManager.FindByNameAsync(userName).WithoutSync();
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
@@ -43,17 +43,16 @@ namespace Emergy.Core.Services
 
             if (result.Succeeded)
             {
-                var createdUser = await _userManager.FindByNameAsync(newUser.Name);
                 switch (newUser.AccountType)
                 {
                     case Data.Models.Enums.AccountType.Client:
                         {
-                            await _userManager.AddToRoleAsync(createdUser.Id, "Clients");
+                            await _userManager.AddToRoleAsync(newUser.Id, "Clients");
                             break;
                         }
                     case Data.Models.Enums.AccountType.Administrator:
                         {
-                            await _userManager.AddToRoleAsync(createdUser.Id, "Administrators");
+                            await _userManager.AddToRoleAsync(newUser.Id, "Administrators");
                             break;
                         }
                 }
@@ -62,7 +61,7 @@ namespace Emergy.Core.Services
         }
         public async Task<AuthenticationTicket> LoginAsync(LoginUserBindingModel model, OAuthAuthorizationServerOptions authOptions)
         {
-            ApplicationUser user = await _userManager.FindAsync(model.UserName, model.Password);
+            ApplicationUser user = await _userManager.FindAsync(model.UserName, model.Password).WithoutSync();
             if (user != null)
             {
                 ClaimsIdentity identity = new ClaimsIdentity(authOptions.AuthenticationType);
@@ -80,19 +79,26 @@ namespace Emergy.Core.Services
         }
         public async Task<IdentityResult> ChangePasswordAsync(string userId, ChangePasswordBindingModel model)
         {
-            return await _userManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword);
+            return await _userManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword).WithoutSync();
         }
         public async Task<bool> UserNameTaken(string username)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(username);
+            ApplicationUser user = await _userManager.FindByNameAsync(username).WithoutSync();
             return (user != null);
         }
 
-        private RoleManager<IdentityRole> _roleManager;
-        private UserManager<ApplicationUser> _userManager;
+        public async Task UpdateLocation(ApplicationUser user, Location location)
+        {
+            user.Locations.Add(location);
+            await _userManager.UpdateAsync(user).WithoutSync();
+        }
+
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         public void Dispose()
         {
-            //
+            _roleManager.Dispose();
+            _userManager.Dispose();
         }
     }
 }

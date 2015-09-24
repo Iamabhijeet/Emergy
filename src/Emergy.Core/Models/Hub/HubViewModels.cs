@@ -9,9 +9,9 @@ namespace Emergy.Core.Models.Hub
         public HubData()
         {
             Units = new List<Data.Models.Unit>();
-            Reports = new List<Report>();
+            Reports = new List<Data.Models.Report>();
         }
         public IEnumerable<Data.Models.Unit> Units { get; set; }
-        public IEnumerable<Report> Reports { get; set; }
+        public IEnumerable<Data.Models.Report> Reports { get; set; }
     }
 }

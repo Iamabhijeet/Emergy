@@ -35,6 +35,10 @@ namespace Emergy.Data.Context
                .Property(c => c.UserName)
                .HasMaxLength(128)
                .IsRequired();
+            builder.Entity<ApplicationUser>()
+                .HasMany(u => u.Locations)
+                .WithOptional()
+                .WillCascadeOnDelete();
 
 
             builder.Configurations.Add(new ReportConfiguration());
@@ -63,7 +67,7 @@ namespace Emergy.Data.Context
 
         protected override void Dispose(bool disposing)
         {
-           // prevent identitydbcontext from being disposed
+            // prevent identitydbcontext from being disposed
         }
     }
 }

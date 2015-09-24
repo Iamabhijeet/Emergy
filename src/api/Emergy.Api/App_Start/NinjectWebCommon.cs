@@ -60,15 +60,16 @@ namespace Emergy.Api
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ApplicationDbContext>().ToSelf().InSingletonScope();
+            kernel.Bind<ApplicationDbContext>().ToSelf().InRequestScope();
             kernel.Bind<IRepository<Image>>().To<Repository<Image>>();
+            kernel.Bind<IRepository<Location>>().To<Repository<Location>>();
+            kernel.Bind<IRepository<CustomProperty>>().To<Repository<CustomProperty>>();
+            kernel.Bind<IRepository<CustomPropertyValue>>().To<Repository<CustomPropertyValue>>();
+            kernel.Bind<IRepository<Category>>().To<Repository<Category>>();
             kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
-            kernel.Bind<IEmergyHubService>().To<EmergyHubService>()
-                .WithConstructorArgument("unitsRepository", kernel.Get<IUnitsRepository>())
-                .WithConstructorArgument("reportsRepository", kernel.Get<IReportsRepository>());
 
-             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
         }        
     }
 }

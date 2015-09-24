@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Emergy.Core.Common;
 using Emergy.Data.Context;
 
 namespace Emergy.Core.Repositories.Generic
@@ -19,7 +20,6 @@ namespace Emergy.Core.Repositories.Generic
             Context = context;
             DbSet = context.Set<T>();
         }
-
         public virtual IEnumerable<T> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -36,28 +36,21 @@ namespace Emergy.Core.Repositories.Generic
 
             return orderBy?.Invoke(query).ToList() ?? query.ToList();
         }
-
-
-
         public virtual Task<IEnumerable<T>> GetAsync(
          Expression<Func<T, bool>> filter = null,
          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
          string includeProperties = "")
         {
-            return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.HideScheduler);
+            return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.None);
         }
-
-
         public virtual T Get(object id)
         {
             return DbSet.Find(id);
         }
         public async virtual Task<T> GetAsync(object id)
         {
-            return await DbSet.FindAsync(id).ConfigureAwait(false);
+            return await DbSet.FindAsync(id).WithoutSync();
         }
-
-
         public virtual void Insert(T entity)
         {
             DbSet.Add(entity);
@@ -79,9 +72,6 @@ namespace Emergy.Core.Repositories.Generic
             }
             DbSet.Remove(entityToDelete);
         }
-
-
-
         public virtual bool Exists(int id)
         {
             return DbSet.Find(id) != null;
@@ -97,14 +87,12 @@ namespace Emergy.Core.Repositories.Generic
         }
         public async Task SaveAsync()
         {
-            await Context.SaveChangesAsync().ConfigureAwait(false);
+            await Context.SaveChangesAsync().WithoutSync();
         }
-
         public virtual void Dispose()
         {
             Context.Dispose();
         }
-
         ~Repository()
         {
             Dispose();

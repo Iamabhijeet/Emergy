@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -16,12 +14,10 @@ namespace Emergy.Core.Repositories
         public UnitsRepository(ApplicationDbContext context) : base(context)
         {
         }
-
-
         public override async Task<Unit> GetAsync(object id)
         {
             return (await this.GetAsync(unit => unit.Id == (int)id, null, ConstRelations.LoadAllUnitRelations)
-                .ConfigureAwait(false)).SingleOrDefault();
+                .WithoutSync()).SingleOrDefault();
         }
         public async Task<IEnumerable<Unit>> GetAsync(ApplicationUser user)
         {
@@ -30,23 +26,38 @@ namespace Emergy.Core.Repositories
                 case AccountType.Administrator:
                     {
                         return await this.GetAsync(unit => unit.AdministratorId == user.Id,
-                                     query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).ConfigureAwait(false);
+                                     query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                     }
                 case AccountType.Client:
                     {
-                        var units = await this.GetAsync(null, query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).ConfigureAwait(false);
+                        var units = await this.GetAsync(null, query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                         return units.Where(unit => unit.Clients.Contains(user));
                     }
             }
             return null;
         }
-
-        public async Task AddCustomProperty(int unitId, CustomProperty property)
+        public async Task<IEnumerable<ApplicationUser>> GetUsers(int unitId)
+        {
+            return (await GetAsync(unitId)).Clients;
+        }
+        public async Task<IEnumerable<Location>> GetLocations(int unitId)
+        {
+            return (await GetAsync(unitId)).Locations;
+        }
+        public async Task<IEnumerable<Report>> GetReports(int unitId)
+        {
+            return (await GetAsync(unitId)).Reports;
+        }
+        public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
+        {
+            return (await GetAsync(unitId)).CustomProperties;
+        }
+        public async Task AddCustomProperty(int unitId, int propertyId)
         {
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                unit.CustomProperties.Add(property);
+                unit.CustomProperties.Add(await Context.CustomProperties.FindAsync(propertyId));
                 this.Update(unit);
                 await this.SaveAsync();
             }
@@ -65,11 +76,82 @@ namespace Emergy.Core.Repositories
                 }
             }
         }
-
+        public async Task AddClient(int unitId, string userId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                unit.Clients.Add(Context.Users.Find(userId));
+                this.Update(unit);
+                await this.SaveAsync();
+            }
+        }
+        public async Task RemoveClient(int unitId, string userId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                ApplicationUser user = unit.Clients.SingleOrDefault(u => u.Id == userId);
+                if (unit.Clients.Contains(user))
+                {
+                    unit.Clients.Remove(user);
+                    this.Update(unit);
+                    await this.SaveAsync();
+                }
+            }
+        }
+        public async Task AddLocation(int unitId, int locationId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                unit.Locations.Add(await Context.Locations.FindAsync(locationId));
+                this.Update(unit);
+                await this.SaveAsync();
+            }
+        }
+        public async Task RemoveLocation(int unitId, int locationId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                Location location = unit.Locations.SingleOrDefault(l => l.Id == locationId);
+                if (unit.Locations.Contains(location))
+                {
+                    unit.Locations.Remove(location);
+                    this.Update(unit);
+                    await this.SaveAsync();
+                }
+            }
+        }
+        public async Task AddCategory(int unitId, int categoryId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                unit.Categories.Add(await Context.Categories.FindAsync(categoryId));
+                this.Update(unit);
+                await this.SaveAsync();
+            }
+        }
+        public async Task RemoveCategory(int unitId, int categoryId)
+        {
+            var unit = await this.GetAsync(unitId);
+            if (unit != null)
+            {
+                unit.Categories.Remove(await Context.Categories.FindAsync(categoryId));
+                this.Update(unit);
+                await this.SaveAsync();
+            }
+        }
         public async Task<bool> IsAdministrator(int unitId, string adminId)
         {
             var unit = await GetAsync(unitId);
             return unit.AdministratorId == adminId;
+        }
+        public async Task<bool> IsInUnit(int unitId, string userId)
+        {
+            return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
         }
     }
 }

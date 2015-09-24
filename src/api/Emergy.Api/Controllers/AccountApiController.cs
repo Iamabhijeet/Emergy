@@ -3,22 +3,19 @@ using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Api.Models.Account;
-using Emergy.Core.Common;
 using Emergy.Data.Models;
-using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 using model = Emergy.Core.Models.Account;
 
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Account")]
-    public class AccountApiController : ApiControllerBase
+    public class AccountApiController : MasterApiController
     {
         public AccountApiController()
         {
-            
+            // mora bit empty radi owina
         }
 
         [HttpGet]
@@ -81,11 +78,10 @@ namespace Emergy.Api.Controllers
         [AllowAnonymous]
         [Route("UsernameExists/{username}")]
         [HttpGet]
-        public async Task<IHttpActionResult> UsernameExists([FromUri] string username)
+        public async Task<IHttpActionResult> UsernameExists(string username)
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
-
        
     }
 }

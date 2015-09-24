@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Emergy.Data.Models.Base;
 using Emergy.Data.Models.Enums;
+using Newtonsoft.Json;
 
 namespace Emergy.Data.Models
 {
@@ -18,13 +19,16 @@ namespace Emergy.Data.Models
         [StringLength(200, MinimumLength = 5)]
         public string Description { get; set; }
 
+        [JsonIgnore]
         public Unit Unit { get; set; }
 
         [ForeignKey("CreatorId")]
+        [JsonIgnore]
         public ApplicationUser Creator { get; set; }
         public string CreatorId { get; set; }
 
         [ForeignKey("LocationId")]
+        [JsonIgnore]
         public Location Location { get; set; }
         public int? LocationId { get; set; }
 

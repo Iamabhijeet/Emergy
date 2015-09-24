@@ -26,9 +26,12 @@ namespace Emergy.Data.Visual
         public string Name { get; set; }
         public int Type { get; set; }
         public Nullable<int> Unit_Id { get; set; }
+        public System.DateTime Timestamp { get; set; }
+        public string ApplicationUser_Id { get; set; }
     
         public virtual unit unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<report> reports { get; set; }
+        public virtual aspnetuser aspnetuser { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Emergy.Api.Controllers
 {
-    public abstract class ApiControllerBase : ApiController
+    public abstract class MasterApiController : ApiController
     {
         protected ApplicationUserManager UserManager
         {
@@ -21,7 +21,6 @@ namespace Emergy.Api.Controllers
             }
         }
         private ApplicationUserManager _userManager;
-
         protected ApplicationRoleManager RoleManager
         {
             get
@@ -46,8 +45,6 @@ namespace Emergy.Api.Controllers
             }
         }
         private IAccountService _accountService;
-
-
         protected IHttpActionResult Error()
         {
             return BadRequest(ModelState);
@@ -60,6 +57,13 @@ namespace Emergy.Api.Controllers
                 return BadRequest(ModelState);
             }
             return InternalServerError();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            UserManager.Dispose();
+            RoleManager.Dispose();
+            AccountService.Dispose();
         }
     }
 }

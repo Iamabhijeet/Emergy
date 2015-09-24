@@ -23,6 +23,7 @@ namespace Emergy.Data.Visual
             this.units = new HashSet<unit>();
             this.aspnetroles = new HashSet<aspnetrole>();
             this.units1 = new HashSet<unit>();
+            this.locations = new HashSet<location>();
         }
     
         public string Id { get; set; }
@@ -58,5 +59,7 @@ namespace Emergy.Data.Visual
         public virtual ICollection<aspnetrole> aspnetroles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<unit> units1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<location> locations { get; set; }
     }
 }
