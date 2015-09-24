@@ -41,7 +41,7 @@ namespace Emergy.Core.Repositories.Generic
          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
          string includeProperties = "")
         {
-            return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.HideScheduler);
+            return Task.Factory.StartNew(() => Get(filter, orderBy, includeProperties), TaskCreationOptions.None);
         }
         public virtual T Get(object id)
         {
