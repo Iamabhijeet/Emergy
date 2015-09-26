@@ -6,7 +6,9 @@ var serviceId = 'authService';
 services.factory(serviceId, ['$http', '$location', '$rootScope', '$q', 'serviceBase', 'localStorageService', 'authData', authService]);
 
 function authService($http, $location, $rootScope, $q, serviceBase, localStorageService, authData) {
-    function createRegisterData(name, surname, username, password, confirmPassword, email, profilePhoto) {
+    function createRegisterData(name, surname, username, password,
+        confirmPassword, email, profilePhoto,
+        birthDate, gender, accountType) {
         var data = {
             Name: name,
             Surname: surname,
@@ -14,6 +16,9 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             Username: username,
             Password: password,
             ConfirmPassword: confirmPassword,
+            BirthDate: birthDate,
+            Gender: gender,
+            AccountType: accountType,
             ProfilePhoto: profilePhoto
         };
         return data;
@@ -88,8 +93,8 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
                 deffered.resolve(response);
                 logout();
             }).error(function (reason) {
-            deffered.reject(reason);
-        });
+                deffered.reject(reason);
+            });
 
         return deffered.promise;
     }

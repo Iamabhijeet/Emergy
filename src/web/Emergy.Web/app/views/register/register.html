@@ -3,36 +3,39 @@
         <div class="col s12">
             <div class="card medium register-card">
                 <h5 class="center-align register-heading">Sign up here</h5>
-                <form class="col s12">
+                <form role="form" name="userForm" class="col s12">
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">email</i>
-                        <input class="validate" id="email" placeholder="Your e-mail" type="email"/>
+                        <input class="validate" id="email" placeholder="Your e-mail" ng-model="newUser.Email" ng-required type="email" />
                     </div>
                     <div class="input-field col s10 username">
                         <i class="material-icons prefix">account_circle</i>
-                        <input class="validate" id="username" placeholder="Pick a username" type="text"/>
+                        <input class="validate" id="username" placeholder="Pick a username" ng-model="newUser.Username" ng-required type="text" />
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input class="validate" id="password" placeholder="Your password" type="password"/>
+                        <input class="validate" id="password" placeholder="Your password" ng-model="newUser.Password" ng-required ng-minlength="6" type="password" />
                     </div>
                     <div class="input-field col s10 confirm-password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input class="validate" id="confirmPassword" placeholder="Confirm your password" type="password"/>
+                        <input class="validate" id="confirmPassword" placeholder="Confirm your password" ng-model="newUser.ConfirmPassword" ng-required ng-minlength="6" password-verify="newUser.password" type="password" />
                     </div>
                     <div class="input-field col s10 account-type">
-                        <select class="" material-select watch>
+                        <select class="" material-select watch ng-model="newUser.AccountType">
                             <option value="" disabled selected style="font-size: 10px;">Your account type</option>
-                            <option value="administrator">Administrator</option>
-                            <option value="client">Regular user</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Client">Regular user</option>
                         </select>
                     </div>
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light register-button" name="action" type="submit">Sign up</button>
+                        <button class="btn waves-effect waves-light register-button" ng-disabled="userForm.$invalid || userForm.$pristine || isBusy"
+                                name="action" type="submit" ng-click="register(newUser)">
+                            Sign up
+                        </button>
                     </div>
                 </form>
             </div>
-        </div>     
+        </div>
     </div>
 
 </div>

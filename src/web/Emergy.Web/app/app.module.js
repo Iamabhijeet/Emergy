@@ -9,10 +9,14 @@ app.run(['$rootScope', 'authService', '$location', function ($rootScope, authSer
     $rootScope.authData = authService.getAuthData();
 
     $rootScope.$on('$locationChangeStart', function (next, current) {
-        if (next.templateUrl === "/app/views/manage-user.html" && !$rootScope.authData.loggedIn) {
+        if (next.templateUrl === "/app/views/manage/manage.html" && !$rootScope.authData.loggedIn) {
+            $location.path('/account/login');
+        }
+        if (next.templateUrl === "/app/views/landing.html" && !$rootScope.authData.loggedIn) {
             $location.path('/account/login');
         }
     });
+
 
     $rootScope.logOut = function () {
         authService.logout();

@@ -11,7 +11,7 @@ services.factory('authInterceptorService', ['$q', '$location', 'localStorageServ
 
     var responseError = function (rejection) {
         if (rejection.status === 401) {
-            $location.path('/login');
+            $location.path('/account/login');
         }
         return $q.reject(rejection);
     }
