@@ -35,7 +35,7 @@
 }
 
 .login-register-container .register-card {
-    height: 560px; 
+    height: 700px; 
 }
 
 .login-register-container .card.small {
@@ -74,7 +74,7 @@
 }
 
 .login-register-container .login-button {
-    float: _right; 
+    float: right; 
 }
 
 .login-register-container .register-button {

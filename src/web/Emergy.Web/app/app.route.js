@@ -1,7 +1,7 @@
 ﻿app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise("/register");
+    $urlRouterProvider.otherwise("/landing");
 
     $stateProvider.state("Landing", {
         url: "/landing",

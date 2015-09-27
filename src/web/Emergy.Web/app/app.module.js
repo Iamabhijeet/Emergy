@@ -7,7 +7,6 @@ app.config(function ($httpProvider) {
 app.run(['$rootScope', 'authService', '$location', function ($rootScope, authService, $location) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
-
     $rootScope.$on('$locationChangeStart', function (next, current) {
         if (next.templateUrl === "/app/views/manage/manage.html" && !$rootScope.authData.loggedIn) {
             $location.path('/account/login');
@@ -16,8 +15,6 @@ app.run(['$rootScope', 'authService', '$location', function ($rootScope, authSer
             $location.path('/account/login');
         }
     });
-
-
     $rootScope.logOut = function () {
         authService.logout();
     };

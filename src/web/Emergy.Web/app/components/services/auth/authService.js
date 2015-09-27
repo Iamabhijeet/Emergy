@@ -26,7 +26,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
 
     function register(user) {
         var deffered = $q.defer();
-        var data = createRegisterData(user.name, user.surname, user.userName, user.password, user.confirmPassword, user.email, user.profilePhoto);
+        var data = user;
         $http.post(serviceBase + 'api/account/register', data).success(function (response) {
             deffered.resolve(response);
         }).error(function (response) {
