@@ -11,7 +11,7 @@ namespace Emergy.Api
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            config.EnableCors(new EnableCorsAttribute("*", "Content-Type", "GET, POST, PUT, DELETE, OPTIONS"));
+            config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, PUT, DELETE, OPTIONS"));
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
         }
     }
