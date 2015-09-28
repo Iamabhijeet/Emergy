@@ -3,50 +3,32 @@
         <div class="col s12">
             <div class="card medium register-card">
                 <h5 class="center-align register-heading">Sign up here</h5>
-                <form role="form" name="userForm" class="col s12">
-                    <div>
-                        <p ng-show="userForm.name.$required" class="help-block">
-                            <i class="fa fa-warning"></i>
-                            Name is required.
-                        </p>
-                        <p ng-show="userForm.name.$error.minlength" class="help-block">
-                            <i class="fa fa-warning"></i>
-                            Name is too short.
-                        </p>
-                    </div>
+                <form role="form" name="registerForm" class="col s12" novalidate>
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">email</i>
-                        <input name="email" class="validate" id="email" placeholder="Your e-mail" ng-model="newUser.Email" ng-required type="email" />
+                        <input name="email" id="email" placeholder="Your e-mail" ng-model="newUser.Email" ng-minlength=6 ng-maxlength=32 required type="email"/>
                     </div>
                     <div class="input-field col s10 username">
                         <i class="material-icons prefix">account_circle</i>
-                        <input name="userName" class="validate" id="username" placeholder="Pick a username" ng-model="newUser.Username" ng-required type="text" />
-                    </div>
-                    <div class="input-field col s10 username">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input name="name" class="validate" id="name" placeholder="Your name" ng-model="newUser.Name" ng-required type="text" />
-                    </div>
-                    <div class="input-field col s10 username">
-                        <i class="material-icons prefix">account_circle</i>
-                        <input name="surname" class="validate" id="surname" placeholder="Your surname" ng-model="newUser.Surname" ng-required type="text" />
+                        <input name="userName" id="username" placeholder="Pick a username" ng-model="newUser.Username" ng-minlength=3 ng-maxlength=16 required type="text"/>
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input name="password" class="validate" id="password" placeholder="Your password" ng-model="newUser.Password" ng-required ng-minlength="6" type="password" />
+                        <input name="password" id="password" placeholder="Your password" ng-model="newUser.Password" ng-minlength=8 ng-maxlength=64 required type="password"/>
                     </div>
                     <div class="input-field col s10 confirm-password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input name="confirmPassword" class="validate" id="confirmPassword" placeholder="Confirm your password" ng-model="newUser.ConfirmPassword" ng-required ng-minlength="6" password-verify="newUser.Password" type="password" />
+                        <input name="confirmPassword" id="confirmPassword" placeholder="Confirm your password" ng-model="newUser.ConfirmPassword" ng-minlength=8 ng-maxlength=64 required password-verify="newUser.Password" type="password"/>
                     </div>
                     <div class="input-field col s10 account-type">
-                        <select name="accountType" class="" material-select watch ng-model="newUser.AccountType">
+                        <select name="accountType" class="" material-select watch ng-model="newUser.AccountType" required>
                             <option value="" disabled selected style="font-size: 10px;">Your account type</option>
                             <option value="Administrator">Administrator</option>
                             <option value="Client">Regular user</option>
                         </select>
                     </div>
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light register-button" ng-disabled="userForm.$invalid || userForm.$pristine || isBusy"
+                        <button class="btn waves-effect waves-light register-button" ng-disabled="registerForm.$invalid || registerForm.$pristine"
                                 name="action" type="submit" ng-click="submitForm(newUser)">
                             Sign up
                         </button>
@@ -55,5 +37,4 @@
             </div>
         </div>
     </div>
-
 </div>

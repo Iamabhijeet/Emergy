@@ -9,16 +9,10 @@ function registerCtrl($scope, $rootScope, $location, authService, notificationSe
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.newUser = {
-        Name: '',
-        Surname: '',
         Email: '',
         Username: '',
         Password: '',
-        ConfirmPassword: '',
-        BirthDate: '',
-        Gender: '',
-        AccountType: '',
-        ProfilePhoto: ''
+        ConfirmPassword: ''
     };
     $scope.formErrors =
     {
