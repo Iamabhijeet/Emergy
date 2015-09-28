@@ -31,15 +31,26 @@
     margin-top: 50px;
 }
 .login-register-container .login-card {
-    height: 470px;
+    background-color: #ffffff; 
 }
 
 .login-register-container .register-card {
-    height: 560px; 
+    background-color: #ffffff;
+    padding-bottom: 40px;
+    padding-top: 1px; 
 }
 
-.login-register-container .card.small {
-    height: 105px;
+.login-register-container .register-card form input {
+    margin-bottom: 0px; 
+}
+
+.login-register-container .register-card form .validation {
+    margin-left: 45px;
+    color: #F44336; 
+}
+
+.login-register-container .register-card form .invalid {
+    border-bottom: 1px solid #F44336; 
 }
 
 .login-register-container .login-icon {
@@ -74,7 +85,11 @@
 }
 
 .login-register-container .login-button {
-    float: right; 
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 35px;  
 }
 
 .login-register-container .register-button {
@@ -96,9 +111,9 @@
     border-color: #e0e0e0;
 }
 
-.login-register-container .card.medium form .password, 
-.login-register-container .card.medium form .confirm-password, 
-.login-register-container .card.medium form .username, 
+.login-register-container .register-card form .password, 
+.login-register-container .register-card form .confirm-password, 
+.login-register-container .register-card form .username, 
 .login-register-container .register-card form .account-type {
     margin-top: 15px; 
 }
@@ -140,6 +155,10 @@
     margin-bottom: 0;
 }
 
+.login-register-container .card.small {
+    height: 110px; 
+}
+
 @media only screen and (max-width: 418px) {
     .login-register-container {
         padding: 5px;
@@ -171,9 +190,6 @@
         margin-left: 25%;
 
     }
-    .login-register-container .login-card {
-        height: 500px;
-    }    
 }
 
 /*-----------SHELL PAGE-----------*/
