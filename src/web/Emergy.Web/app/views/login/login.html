@@ -6,12 +6,12 @@
                 <form role="form" name="loginForm" class="col s12" novalidate>
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">email</i>
-                        <input name="email" id="email" placeholder="Your e-mail" required type="email" ng-model="user.Email" />
+                        <input ng-class="{ 'valid' : loginForm.email.$touched && loginForm.email.$valid, 'invalid' : loginForm.email.$touched && loginForm.email.$invalid }" name="email" id="email" placeholder="Your e-mail" required type="email" ng-model="user.Email" />
                         <small class="validation" ng-show="loginForm.email.$touched && loginForm.email.$error.required">Email is required.</small>
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input id="password" name="password" placeholder="Your password" required type="password" ng-model="user.Password" />
+                        <input ng-class="{ 'valid' : loginForm.password.$touched && loginForm.password.$valid, 'invalid' : loginForm.password.$touched && loginForm.password.$invalid }" id="password" name="password" placeholder="Your password" required type="password" ng-model="user.Password" />
                         <small class="validation" ng-show="loginForm.password.$touched && loginForm.password.$error.required">Password is required.</small>
                     </div>
                     <div class="col s12">
