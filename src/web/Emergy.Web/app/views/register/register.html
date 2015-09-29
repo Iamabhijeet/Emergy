@@ -31,6 +31,7 @@
                         <input name="confirmPassword" id="confirmPassword" placeholder="Confirm your password" ng-model="newUser.ConfirmPassword" ng-minlength=8 ng-maxlength=64 required password-verify="newUser.Password" type="password"/>
                         <small class="validation" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$error.required">Password confirmation is required.</small>
                         <small class="validation" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.password-verify">Passwords don't match.</small>
+                        <small class="validation" ng-show="registerForm.confirmPassword.$error.passwordVerify">Password and Confirm Password have to be same.</small>
                     </div>
                     <div class="input-field col s10 account-type">
                         <select name="accountType" class="" material-select watch ng-model="newUser.AccountType" required>
@@ -40,7 +41,7 @@
                         </select>
                     </div>
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light register-button" ng-disabled="registerForm.$invalid || registerForm.$pristine"
+                        <button class="btn waves-effect waves-light register-button" ng-disabled="registerForm.$invalid || registerForm.$pristine || isBusy"
                                 name="action" type="submit" ng-click="submitForm(newUser)">
                             Sign up
                         </button>

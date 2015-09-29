@@ -237,6 +237,13 @@
     margin-right: 8px; 
 }
 
+.shell-navigation.side-nav li.a i {
+    width: 20px; 
+    position: relative;
+    top: 4px;
+    margin-right: 8px; 
+}
+
 .shell-wrapper .button-collapse i{
     font-size: 35px;
     margin-left: 20px;

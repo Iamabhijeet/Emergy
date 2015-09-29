@@ -1,4 +1,5 @@
-﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngSanitize', 'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives']);
+﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngSanitize',
+    'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives', 'angular-loading-bar']);
 
 app.config(function ($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -7,17 +8,18 @@ app.config(function ($httpProvider) {
 app.run(['$rootScope', 'authService', '$location', function ($rootScope, authService, $location) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
-    $rootScope.$on('$locationChangeStart', function (next, current) {
-        if (next.templateUrl === "/app/views/manage/manage.html" && !$rootScope.authData.loggedIn) {
-            $location.path('/account/login');
-        }
-        if (next.templateUrl === "/app/views/landing.html" && !$rootScope.authData.loggedIn) {
-            $location.path('/account/login');
+    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        if ($rootScope.authData.isLoggedIn === false) {
+            // no logged user, we should be going to #login
+            if (next.templateUrl === "views/login/login.html") {
+                // already going to #login, no redirect needed
+            } else {
+                $location.path("/account/login");
+            }
         }
     });
     $rootScope.logOut = function () {
         authService.logout();
     };
 }]);
-
 

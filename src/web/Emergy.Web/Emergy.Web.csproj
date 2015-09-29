@@ -69,6 +69,7 @@
     <Content Include="assets\img\login-background.jpg" />
     <Content Include="libs\app.js" />
     <Content Include="libs\css\custom.css" />
+    <Content Include="libs\css\loading-bar.css" />
     <Content Include="libs\css\normalize.css" />
     <Content Include="libs\css\materialize\css\materialize.css" />
     <Content Include="libs\css\materialize\css\materialize.min.css" />
@@ -78,6 +79,7 @@
     <Content Include="libs\js\angular\angular-materialize.js" />
     <Content Include="libs\js\angular\angular-ui-router.js" />
     <Content Include="libs\js\angular\angular-ui-router.min.js" />
+    <Content Include="libs\js\angular\loading-bar.js" />
     <Content Include="libs\js\local-storage\angular-local-storage.js" />
     <Content Include="libs\js\angular\angular-animate.js" />
     <Content Include="libs\js\angular\angular-animate.min.js" />

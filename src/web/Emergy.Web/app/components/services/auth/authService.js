@@ -64,7 +64,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             deffered.resolve(data);
             setAuthData(user.userName, user.password, data.Token);
             $rootScope.authData = authData;
-            $location.path('/index');
+            $location.path('/home');
 
         }).error(function (data) {
             deffered.reject(data);
@@ -82,7 +82,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         localStorageService.remove('loggedIn');
         localStorageService.set('loggedIn', false);
         authData.loggedIn = false;
-        $location.path('/index');
+        $location.path('/landing');
     }
 
     function changePassword(newPassword, confirmPassword) {

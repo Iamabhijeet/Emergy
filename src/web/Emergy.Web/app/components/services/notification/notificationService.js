@@ -1,22 +1,24 @@
 ﻿var serviceId = 'notificationService';
 services.factory(serviceId, notificationService);
 function notificationService() {
-    var service = {
-        pushError: pushError,
-        pushSuccess: pushSuccess,
-        notify: notify
-    };
     function pushError(error) {
-        var $toastContent = $('' + error);
-        Materialize.toast($toastContent, 5000);
+        var errorString = 'Unknown error! :(';
+        if (error.Message !== null) {
+            errorString = error.Message;
+        }
+        Materialize.toast(errorString, 5000);
     }
     function pushSuccess(message) {
-        var $toastContent = $('' + message);
-        Materialize.toast($toastContent, 5000);
+        Materialize.toast(message, 5000);
     }
     function notify(message) {
         // will be implemented
     }
 
+    var service = {
+        pushError: pushError,
+        pushSuccess: pushSuccess,
+        notify: notify
+    };
     return service;
 }

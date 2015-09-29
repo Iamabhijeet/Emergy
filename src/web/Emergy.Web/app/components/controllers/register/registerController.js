@@ -8,23 +8,26 @@ app.controller(controllerId,
 function registerCtrl($scope, $rootScope, $location, authService, notificationService) {
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
+    $scope.isBusy = false;
     $scope.newUser = {
         Email: '',
         Username: '',
         Password: '',
-        ConfirmPassword: ''
-    };
-    $scope.formErrors =
-    {
-        Email : "Email is invalid."
+        ConfirmPassword: '',
+        BirthDate: '1/1/0001 12:00:00 AM'
     };
     $scope.submitForm = function (newUser) {
+        $scope.isBusy = true;
         var promise = authService.register(newUser);
         promise.then(function () {
-            var loginPromise = authService.login(newUser.Username, newUser.Password);
-            loginPromise.then(function () { }, function () { });
+            var loginPromise = authService.login(newUser);
+            loginPromise.then(function () { }, function () { }).finally(function () {
+                $scope.isBusy = false;
+            });
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError(error);
+        }).finally(function () {
+            $scope.isBusy = false;
         });
     };
 }
