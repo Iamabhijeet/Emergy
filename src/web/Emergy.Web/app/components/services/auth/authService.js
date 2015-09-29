@@ -6,7 +6,9 @@ var serviceId = 'authService';
 services.factory(serviceId, ['$http', '$location', '$rootScope', '$q', 'serviceBase', 'localStorageService', 'authData', authService]);
 
 function authService($http, $location, $rootScope, $q, serviceBase, localStorageService, authData) {
-    function createRegisterData(name, surname, username, password, confirmPassword, email, profilePhoto) {
+    function createRegisterData(name, surname, username, password,
+        confirmPassword, email, profilePhoto,
+        birthDate, gender, accountType) {
         var data = {
             Name: name,
             Surname: surname,
@@ -14,6 +16,9 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             Username: username,
             Password: password,
             ConfirmPassword: confirmPassword,
+            BirthDate: birthDate,
+            Gender: gender,
+            AccountType: accountType,
             ProfilePhoto: profilePhoto
         };
         return data;
@@ -21,7 +26,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
 
     function register(user) {
         var deffered = $q.defer();
-        var data = createRegisterData(user.name, user.surname, user.userName, user.password, user.confirmPassword, user.email, user.profilePhoto);
+        var data = user;
         $http.post(serviceBase + 'api/account/register', data).success(function (response) {
             deffered.resolve(response);
         }).error(function (response) {
@@ -59,7 +64,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             deffered.resolve(data);
             setAuthData(user.userName, user.password, data.Token);
             $rootScope.authData = authData;
-            $location.path('/index');
+            $location.path('/home');
 
         }).error(function (data) {
             deffered.reject(data);
@@ -77,7 +82,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         localStorageService.remove('loggedIn');
         localStorageService.set('loggedIn', false);
         authData.loggedIn = false;
-        $location.path('/index');
+        $location.path('/landing');
     }
 
     function changePassword(newPassword, confirmPassword) {
@@ -88,8 +93,8 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
                 deffered.resolve(response);
                 logout();
             }).error(function (reason) {
-            deffered.reject(reason);
-        });
+                deffered.reject(reason);
+            });
 
         return deffered.promise;
     }

@@ -5,4 +5,4 @@ services.value('authData', {
     token: '',
     loggedIn: false
 });
-services.constant('serviceBase', '');
+services.constant('serviceBase', 'http://emergy-api.azurewebsites.net/');

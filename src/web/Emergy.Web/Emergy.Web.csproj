@@ -45,6 +45,7 @@
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
     <Content Include="app\components\controllers\index\indexController.js" />
+    <Content Include="app\components\controllers\landing\landingController.js" />
     <Content Include="app\components\controllers\login\loginController.js" />
     <Content Include="app\components\controllers\register\registerController.js" />
     <Content Include="app\components\controllers\shell\shellController.js" />
@@ -52,7 +53,9 @@
     <Content Include="app\components\directives\directives.module.js" />
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
+    <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\services.module.js" />
+    <Content Include="app\views\landing.html" />
     <Content Include="app\views\login\login.html" />
     <Content Include="app\views\register\register.html" />
     <Content Include="app\views\shell\shell.html" />
@@ -66,6 +69,7 @@
     <Content Include="assets\img\login-background.jpg" />
     <Content Include="libs\app.js" />
     <Content Include="libs\css\custom.css" />
+    <Content Include="libs\css\loading-bar.css" />
     <Content Include="libs\css\normalize.css" />
     <Content Include="libs\css\materialize\css\materialize.css" />
     <Content Include="libs\css\materialize\css\materialize.min.css" />
@@ -75,6 +79,7 @@
     <Content Include="libs\js\angular\angular-materialize.js" />
     <Content Include="libs\js\angular\angular-ui-router.js" />
     <Content Include="libs\js\angular\angular-ui-router.min.js" />
+    <Content Include="libs\js\angular\loading-bar.js" />
     <Content Include="libs\js\local-storage\angular-local-storage.js" />
     <Content Include="libs\js\angular\angular-animate.js" />
     <Content Include="libs\js\angular\angular-animate.min.js" />

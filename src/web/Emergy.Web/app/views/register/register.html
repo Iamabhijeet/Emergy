@@ -1,38 +1,53 @@
 ﻿<div class="container login-register-container">
     <div class="row">
         <div class="col s12">
-            <div class="card medium register-card">
+            <div class="register-card">
                 <h5 class="center-align register-heading">Sign up here</h5>
-                <form class="col s12">
+                <form role="form" name="registerForm" class="col s12" novalidate>
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">email</i>
-                        <input class="validate" id="email" placeholder="Your e-mail" type="email"/>
+                        <input ng-class="{ 'valid' : registerFrom.email.$touched && registerForm.email.$valid, 'invalid' : registerForm.email.$touched && registerForm.email.$invalid }" name="email" id="email" placeholder="Your e-mail" ng-model="newUser.Email" ng-minlength=6 ng-maxlength=32 required type="email"/>
+                        <small class="validation" ng-show="registerForm.email.$touched && registerForm.email.$error.required">Email is required.</small>
+                        <small class="validation" ng-show="registerForm.email.$touched && registerForm.email.$error.minlength">Email has to contain atleast 6 characters.</small>
+                        <small class="validation" ng-show="registerForm.email.$touched && registerForm.email.$error.maxlength">Email cannot be more than 32 characters long.</small>
+                        <small class="validation" ng-show="registerForm.email.$touched && registerForm.email.$error.email">Please enter a valid email.</small>
                     </div>
                     <div class="input-field col s10 username">
                         <i class="material-icons prefix">account_circle</i>
-                        <input class="validate" id="username" placeholder="Pick a username" type="text"/>
+                        <input ng-class="{ 'valid' : registerFrom.userName.$touched && registerForm.userName.$valid, 'invalid' : registerForm.userName.$touched && registerForm.userName.$invalid }" name="userName" id="username" placeholder="Pick a username" ng-model="newUser.Username" ng-minlength=3 ng-maxlength=16 required type="text"/>
+                        <small class="validation" ng-show="registerForm.userName.$touched && registerForm.userName.$error.required">Username is required.</small>
+                        <small class="validation" ng-show="registerForm.userName.$touched && registerForm.userName.$error.minlength">Username has to contain atleast 3 characters.</small>
+                        <small class="validation" ng-show="registerForm.userName.$touched && registerForm.userName.$error.maxlength">Username cannot be more than 16 characters long.</small>
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input class="validate" id="password" placeholder="Your password" type="password"/>
+                        <input ng-class="{ 'valid' : registerFrom.password.$touched && registerForm.password.$valid, 'invalid' : registerForm.password.$touched && registerForm.password.$invalid }" name="password" id="password" placeholder="Your password" ng-model="newUser.Password" ng-minlength=8 ng-maxlength=64 required type="password"/>
+                        <small class="validation" ng-show="registerForm.password.$touched && registerForm.password.$error.required">Password is required.</small>
+                        <small class="validation" ng-show="registerForm.password.$touched && registerForm.password.$error.minlength">Password has to contain atleast 8 characters.</small>
+                        <small class="validation" ng-show="registerForm.password.$touched && registerForm.password.$error.maxlength">Password cannot be more than 64 characters long.</small>
                     </div>
                     <div class="input-field col s10 confirm-password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input class="validate" id="confirmPassword" placeholder="Confirm your password" type="password"/>
+                        <input name="confirmPassword" id="confirmPassword" placeholder="Confirm your password" ng-model="newUser.ConfirmPassword" ng-minlength=8 ng-maxlength=64 required password-verify="newUser.Password" type="password"/>
+                        <small class="validation" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$error.required">Password confirmation is required.</small>
+                        <small class="validation" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.password-verify">Passwords don't match.</small>
+                        <small class="validation" ng-show="registerForm.confirmPassword.$error.passwordVerify">Password and Confirm Password have to be same.</small>
                     </div>
                     <div class="input-field col s10 account-type">
-                        <select class="" material-select watch>
+                        <select name="accountType" class="" material-select watch ng-model="newUser.AccountType" required>
                             <option value="" disabled selected style="font-size: 10px;">Your account type</option>
-                            <option value="administrator">Administrator</option>
-                            <option value="client">Regular user</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Client">Regular user</option>
                         </select>
                     </div>
                     <div class="col s12">
-                        <button class="btn waves-effect waves-light register-button" name="action" type="submit">Sign up</button>
+                        <button class="btn waves-effect waves-light register-button" ng-disabled="registerForm.$invalid || registerForm.$pristine || isBusy"
+                                name="action" type="submit" ng-click="submitForm(newUser)">
+                            Sign up
+                        </button>
                     </div>
                 </form>
             </div>
-        </div>     
+        </div>
     </div>
-
 </div>
