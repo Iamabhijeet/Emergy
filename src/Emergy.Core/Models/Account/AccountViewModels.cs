@@ -15,9 +15,7 @@ namespace Emergy.Core.Models.Account
 
     public class RegisterUserBindingModel
     {
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Surname { get; set; }
         [Required]
         public string UserName { get; set; }
@@ -28,12 +26,10 @@ namespace Emergy.Core.Models.Account
         [Required]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Required]
         public DateTime BirthDate { get; set; }
         public DateTime DateRegistered { get; set; } = DateTime.Now;
         [Required]
         public AccountType AccountType { get; set; }
-        [Required]
         public Gender Gender { get; set; }
     }
 
