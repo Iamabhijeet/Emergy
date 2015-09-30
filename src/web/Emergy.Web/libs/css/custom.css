@@ -9,6 +9,10 @@
     background-color: #ffffff; 
 }
 
+.background-cyan {
+    background-color: #1d7985; 
+}
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -248,4 +252,12 @@
     font-size: 35px;
     margin-left: 20px;
     margin-top: 20px; 
+}
+
+/*-----------LANDING PAGE-----------*/
+
+.landing-container .landing-title {
+    color: #ffffff;
+    font-weight: 100;
+    margin-top: 150px; 
 }
