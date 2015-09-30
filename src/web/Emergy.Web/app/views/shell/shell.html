@@ -9,12 +9,8 @@
         <li class="item"><a class="waves-effect"><img src="/assets/img/reports-icon.png" />Reports</a></li>
         <li class="item"><a class="waves-effect"><img src="/assets/img/statistics-icon.png" />Statistics</a></li>
         <div class="spacer"></div>
-        <li class="item"><a ng-href="/account/manage/{{authData.userName}}" class="waves-effect waves-teal"><img src="/assets/img/account-icon.png" />{{authData.userName}}</a></li>
-        <li class="item">
-            <a class="waves-effect waves-teal" ng-click="logout()">
-                <i class="material-icons prefix">chevron_left</i> Log out
-            </a>
-        </li>
-        <li class="item"><a ng-href="/settings" class="waves-effect waves-teal"><img src="/assets/img/settings-icon.png" />Settings</a></li>
+        <li class="item"><a ng-href="/account/manage/{{ authData.userName }}" class="waves-effect waves-teal"><img src="/assets/img/account-icon.png" />{{authData.userName}}</a></li>
+        <li class="item"><a ng-href="/settings" class="waves-effect waves-teal"><img src="/assets/img/settings-icon.png"/>Settings</a></li>
+        <li class="item"><a ng-click="logout()" class="waves-effect"><img src="/assets/img/logout-icon.png" />Log out</a></li>
     </ul>
 </div>

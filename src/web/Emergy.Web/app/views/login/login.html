@@ -7,7 +7,7 @@
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">account_circle</i>
                         <input ng-class="{ 'valid' : loginForm.userName.$touched && loginForm.userName.$valid, 'invalid' : loginForm.userName.$touched && loginForm.userName.$invalid }" name="userName" id="userName" placeholder="Your username" required type="text" ng-model="user.userName" />
-                        <small class="validation" ng-show="loginForm.userName.$touched && loginForm.userName.$error.required">User Name is required.</small>
+                        <small class="validation" ng-show="loginForm.userName.$touched && loginForm.userName.$error.required">Username is required.</small>
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
