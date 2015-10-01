@@ -214,6 +214,10 @@
         padding: 0;
     }
 
+        .side-nav li:hover, .side-nav li.active {
+            background-color: #00a1b6;
+        }
+
         .shell-navigation li.item:hover {
             background-color: #00a1b6;
         }
@@ -230,8 +234,12 @@
 
     .shell-navigation .spacer {
         height: calc(100% - 490px);
+        background-color: inherit;
     }
-
+     .shell-navigation .spacer:hover, .space:active {
+        height: calc(100% - 490px);
+        background-color: inherit;
+    }
     .shell-navigation.side-nav li a {
         height: 50px;
         line-height: 50px;
@@ -263,6 +271,7 @@
 .shell-wrapper a i {
     color: #00a1b6;
 }
+
 
 /*-----------LANDING PAGE-----------*/
 
