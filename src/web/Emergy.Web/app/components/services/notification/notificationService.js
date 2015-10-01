@@ -3,8 +3,8 @@ services.factory(serviceId, notificationService);
 function notificationService() {
     function pushError(error) {
         var errorString = 'Unknown error! :(';
-        if (error.Message !== null) {
-            errorString = error.Message;
+        if (error !== null) {
+            errorString = error;
         }
         Materialize.toast(errorString, 5000);
     }

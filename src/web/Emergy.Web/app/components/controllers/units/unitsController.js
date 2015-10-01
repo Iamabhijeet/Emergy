@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var controllerId = 'indexController';
+var controllerId = 'unitsController';
 
 app.controller(controllerId,
     ['$scope', '$rootScope', 'authService', 'authData', indexCtrl]);

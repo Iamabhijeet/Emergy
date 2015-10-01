@@ -6,11 +6,11 @@
 /*-----------GENERAL STYLING-----------*/
 
 .background-white {
-    background-color: #ffffff; 
+    background-color: #ffffff;
 }
 
 .background-cyan {
-    background-color: #1d7985; 
+    background-color: #1d7985;
 }
 
 .background-image {
@@ -28,42 +28,43 @@
     margin-right: auto;
     float: none;
     max-width: 460px;
-    min-width: 290px; 
+    min-width: 290px;
 }
 
-.login-register-container .col.s12:first-child {
-    margin-top: 50px;
-}
+    .login-register-container .col.s12:first-child {
+        margin-top: 50px;
+    }
+
 .login-register-container .login-card {
-    background-color: #ffffff; 
+    background-color: #ffffff;
 }
 
 .login-register-container .register-card {
     background-color: #ffffff;
     padding-bottom: 40px;
-    padding-top: 1px; 
+    padding-top: 1px;
 }
 
-.login-register-container .register-card form input {
-    margin-bottom: 0px; 
-}
+    .login-register-container .register-card form input {
+        margin-bottom: 0px;
+    }
 
-.login-register-container .register-card form .validation {
-    margin-left: 45px;
-    color: #F44336; 
-}
+    .login-register-container .register-card form .validation {
+        margin-left: 45px;
+        color: #F44336;
+    }
 
-.login-register-container .register-card form .invalid {
-    border-bottom: 1px solid #F44336; 
-}
+    .login-register-container .register-card form .invalid {
+        border-bottom: 1px solid #F44336;
+    }
 
 .login-register-container .login-icon {
-    display: block; 
+    display: block;
     width: 160px;
     float: none;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 40px; 
+    margin-top: 40px;
 }
 
 .login-register-container .col.s10 {
@@ -71,6 +72,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .login-register-container form .col.s10 {
     margin-top: 35px;
     margin-bottom: 0;
@@ -79,69 +81,73 @@
 .login-register-container p {
     margin-top: 5px;
 }
+
 .login-register-container button {
     margin-top: 23px;
     background-color: #00a2b7;
     font-weight: 300;
 }
-.login-register-container button:hover {
-    background-color: #08c2da;
-}
+
+    .login-register-container button:hover {
+        background-color: #08c2da;
+    }
 
 .login-register-container .login-button {
     float: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 35px;  
+    margin-top: 35px;
 }
 
 .login-register-container .register-button {
     float: none;
-    display: block; 
+    display: block;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 35px;  
+    margin-top: 35px;
 }
 
 .login-register-container form .col.s6 {
     margin-top: 30px;
 }
-.login-register-container .filled-in:checked+label:after {
+
+.login-register-container .filled-in:checked + label:after {
     background-color: #00a2b7;
     border-color: #e0e0e0;
 }
+
 .login-register-container .filled-in:not(:checked) + label:after {
     border-color: #e0e0e0;
 }
 
-.login-register-container .register-card form .password, 
-.login-register-container .register-card form .confirm-password, 
-.login-register-container .register-card form .username, 
+.login-register-container .register-card form .password,
+.login-register-container .register-card form .confirm-password,
+.login-register-container .register-card form .username,
 .login-register-container .register-card form .account-type {
-    margin-top: 15px; 
+    margin-top: 15px;
 }
 
 .login-register-container form .account-type .dropdown-content {
-    font-size: 14px; 
-    z-index: 1000000; 
+    font-size: 14px;
+    z-index: 1000000;
 }
 
-.login-register-container form .account-type .dropdown-content span {
-    font-size: 1rem;
-    padding-top: 10px; 
-    padding-bottom: 10px; 
-    color: #00a2b7; 
-}
+    .login-register-container form .account-type .dropdown-content span {
+        font-size: 1rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: #00a2b7;
+    }
 
 .login-register-container form .account-type .select-dropdown {
-    color: #C9C9C9; 
+    color: #C9C9C9;
 }
 
 .login-register-container .input-field i {
-    font-size: 25px; 
-    top: 12px; 
-    color: #ABABAB; 
+    font-size: 25px;
+    top: 12px;
+    color: #ABABAB;
 }
 
 .login-register-container .register-heading {
@@ -160,98 +166,102 @@
 }
 
 .login-register-container .card.small {
-    height: 110px; 
+    height: 110px;
 }
 
 @media only screen and (max-width: 418px) {
     .login-register-container {
         padding: 5px;
-        width: 100%; 
-    }
-    .login-register-container form .col.s6 {
-        width: 83.333%;
-        text-align: center;
-        margin-top: 10px;
-        float: none;
-        margin-left: auto;
-        margin-right: auto; 
-    }
-    
-    .login-register-container form .col.s6 input, label {
-        display: block; 
-        float: left; 
+        width: 100%;
     }
 
-    .login-register-container button {
-        float: none;
-        margin-top: 25px;
-        margin-left: auto;
-        margin-right: auto;   
-    }
+        .login-register-container form .col.s6 {
+            width: 83.333%;
+            text-align: center;
+            margin-top: 10px;
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .login-register-container .col.s4 {
-        width: 50%;
-        margin-left: 25%;
+            .login-register-container form .col.s6 input, label {
+                display: block;
+                float: left;
+            }
 
-    }
+        .login-register-container button {
+            float: none;
+            margin-top: 25px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-register-container .col.s4 {
+            width: 50%;
+            margin-left: 25%;
+        }
 }
 
 /*-----------SHELL PAGE-----------*/
 
 .shell-navigation {
-    background-color: #37474f; 
+    background-color: #37474f;
 }
 
-.shell-navigation li {
-    background-color: #546e7a;
-    margin-bottom: 5px;
-    padding: 0; 
-}
+    .shell-navigation li {
+        background-color: #546e7a;
+        margin-bottom: 5px;
+        padding: 0;
+    }
 
-.shell-navigation li.item:hover {
-    background-color: #00a1b6; 
-}
+        .shell-navigation li.item:hover {
+            background-color: #00a1b6;
+        }
 
-.shell-navigation li.logo {
-    margin-top: 0;
-    margin-bottom: 15px;
-    height: 107px; 
-}
+        .shell-navigation li.logo {
+            margin-top: 0;
+            margin-bottom: 15px;
+            height: 107px;
+        }
 
-.shell-navigation li.logo img {
-    width: 240px;
-}
+            .shell-navigation li.logo img {
+                width: 240px;
+            }
 
-.shell-navigation .spacer {
-    height: calc(100% - 490px); 
-}
+    .shell-navigation .spacer {
+        height: calc(100% - 490px);
+    }
 
-.shell-navigation.side-nav li a {
-    height: 50px;
-    line-height: 50px;
-    font-weight: 500; 
-    color: #ffffff;
-    padding-left: 20px; 
-}
+    .shell-navigation.side-nav li a {
+        height: 50px;
+        line-height: 50px;
+        font-weight: 500;
+        color: #ffffff;
+        padding-left: 20px;
+    }
 
-.shell-navigation.side-nav li.item img {
-    width: 20px; 
-    position: relative;
-    top: 4px;
-    margin-right: 8px; 
-}
+    .shell-navigation.side-nav li.item img {
+        width: 20px;
+        position: relative;
+        top: 4px;
+        margin-right: 8px;
+    }
 
-.shell-navigation.side-nav li.a i {
-    width: 20px; 
-    position: relative;
-    top: 4px;
-    margin-right: 8px; 
-}
+    .shell-navigation.side-nav li.a i {
+        width: 20px;
+        position: relative;
+        top: 4px;
+        margin-right: 8px;
+    }
 
-.shell-wrapper .button-collapse i{
+.shell-wrapper .button-collapse i {
     font-size: 35px;
     margin-left: 20px;
-    margin-top: 20px; 
+    margin-top: 20px;
+}
+
+.shell-wrapper a i {
+    color: #00a1b6;
 }
 
 /*-----------LANDING PAGE-----------*/
@@ -259,5 +269,5 @@
 .landing-container .landing-title {
     color: #ffffff;
     font-weight: 100;
-    margin-top: 150px; 
+    margin-top: 150px;
 }

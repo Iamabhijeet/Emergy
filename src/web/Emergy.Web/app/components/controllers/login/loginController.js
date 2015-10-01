@@ -17,8 +17,8 @@ function loginCtrl($scope, $rootScope, authService, notificationService, authDat
     $scope.submitForm = function (user) {
         $scope.isBusy = true;
         var promise = authService.login(user);
-        promise.then(function () { }, function (error) {
-            notificationService.pushError(error);
+        promise.then(function () { }, function (response) {
+            notificationService.pushError(response.Message);
         }).finally(function () {
             $scope.isBusy = false;
         });

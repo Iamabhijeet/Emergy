@@ -64,7 +64,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             deffered.resolve(data);
             setAuthData(user.userName, user.password, data.Token);
             $rootScope.authData = authData;
-            $location.path('/home');
+            $location.path('/dashboard/units');
 
         }).error(function (data) {
             deffered.reject(data);
