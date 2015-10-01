@@ -24,8 +24,8 @@ function registerCtrl($scope, $rootScope, $location, authService, notificationSe
             loginPromise.then(function () { }, function () { }).finally(function () {
                 $scope.isBusy = false;
             });
-        }, function (error) {
-            notificationService.pushError(error);
+        }, function (response) {
+            notificationService.pushError(response.Message);
         }).finally(function () {
             $scope.isBusy = false;
         });

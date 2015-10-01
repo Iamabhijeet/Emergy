@@ -44,7 +44,7 @@
   <ItemGroup>
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
-    <Content Include="app\components\controllers\index\indexController.js" />
+    <Content Include="app\components\controllers\units\unitsController.js" />
     <Content Include="app\components\controllers\landing\landingController.js" />
     <Content Include="app\components\controllers\login\loginController.js" />
     <Content Include="app\components\controllers\register\registerController.js" />
@@ -55,6 +55,7 @@
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\services.module.js" />
+    <Content Include="app\views\units\units.html" />
     <Content Include="app\views\landing.html" />
     <Content Include="app\views\login\login.html" />
     <Content Include="app\views\register\register.html" />

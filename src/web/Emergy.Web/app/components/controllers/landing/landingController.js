@@ -10,6 +10,6 @@ function landingController($scope, $timeout, $rootScope, $state, authService, au
     $rootScope.background = 'background-cyan';
 
     $timeout(function () {
-        $state.go('Home');
+        $state.go('Units');
     }, 5000);
 }
