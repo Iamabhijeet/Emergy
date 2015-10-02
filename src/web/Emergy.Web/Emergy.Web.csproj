@@ -55,6 +55,7 @@
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\services.module.js" />
+    <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\units\units.html" />
     <Content Include="app\views\landing.html" />
     <Content Include="app\views\login\login.html" />
@@ -93,6 +94,7 @@
     <Content Include="libs\js\jquery\angular.min.js.map" />
     <Content Include="libs\js\angular\angular-animate.min.js.map" />
     <Content Include="libs\js\angular\angular-sanitize.min.js.map" />
+    <Content Include="libs\js\lodash\lodash.js" />
     <Content Include="libs\js\materialize\materialize.js" />
     <Content Include="libs\js\materialize\materialize.min.js" />
     <Content Include="libs\css\materialize\font\roboto\Roboto-Thin.woff2" />
@@ -155,7 +157,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50447</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50447/</IISUrl>
+          <IISUrl>http://localhost:50448/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:50448/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

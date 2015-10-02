@@ -10,7 +10,7 @@
 }
 
 .background-cyan {
-    background-color: #1d7985;
+    background-color: #00a2b7;
 }
 
 .background-image {
@@ -214,62 +214,64 @@
         padding: 0;
     }
 
-        .side-nav li:hover, .side-nav li.active {
-            background-color: #00a1b6;
-        }
+.side-nav li:hover, .side-nav li.active {
+    background-color: #00a1b6;
+}
 
-        .shell-navigation li.item:hover {
-            background-color: #00a1b6;
-        }
+.shell-navigation li.item:hover {
+    background-color: #00a1b6;
+}
 
-        .shell-navigation li.logo {
-            margin-top: 0;
-            margin-bottom: 15px;
-            height: 107px;
-        }
+.shell-navigation li.logo {
+    margin-top: 0;
+    margin-bottom: 15px;
+    height: 107px;
+}
 
-            .shell-navigation li.logo img {
-                width: 240px;
-            }
+    .shell-navigation li.logo img {
+        width: 240px;
+    }
 
-    .shell-navigation .spacer {
+.shell-navigation .spacer {
+    height: calc(100% - 490px);
+    background-color: inherit;
+}
+
+    .shell-navigation .spacer:hover, .space:active {
         height: calc(100% - 490px);
         background-color: inherit;
     }
-     .shell-navigation .spacer:hover, .space:active {
-        height: calc(100% - 490px);
-        background-color: inherit;
-    }
-    .shell-navigation.side-nav li a {
-        height: 50px;
-        line-height: 50px;
-        font-weight: 500;
-        color: #ffffff;
-        padding-left: 20px;
-    }
 
-    .shell-navigation.side-nav li.item img {
-        width: 20px;
-        position: relative;
-        top: 4px;
-        margin-right: 8px;
-    }
+.shell-navigation.side-nav li a {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #ffffff;
+    padding-left: 20px;
+}
 
-    .shell-navigation.side-nav li.a i {
-        width: 20px;
-        position: relative;
-        top: 4px;
-        margin-right: 8px;
-    }
+.shell-navigation.side-nav li.item img {
+    width: 20px;
+    position: relative;
+    top: 4px;
+    margin-right: 8px;
+}
+
+.shell-navigation.side-nav li.a i {
+    width: 20px;
+    position: relative;
+    top: 4px;
+    margin-right: 8px;
+}
 
 .shell-wrapper .button-collapse i {
     font-size: 35px;
     position: absolute;
     top: 25px;
-    left: 15px; 
+    left: 15px;
     color: #757575;
 }
-    
+
 
 
 /*-----------LANDING PAGE-----------*/
@@ -283,140 +285,170 @@
 
 /*-----------UNITS PAGE-----------*/
 .units-container {
-    margin-left: 280px;  
+    margin-left: 280px;
 }
 
-.units-container h2 {
-    color: #18C0D6;
-    font-weight: 300;
-    margin-top: 15px;
-    font-size: 45px;
-    margin-left: 15px; 
-}
-.units-container .unit-search {
-    margin-top: 20px; 
-}
-.units-container .row .col a i.notification-icon {
-    margin-top: 27px;
-    font-size: 40px;
-    color: #757575; 
-}
-.units-container .row { 
-    border-bottom: 1px solid #C4C4C4; 
-}
+    .units-container h2 {
+        color: #18C0D6;
+        font-weight: 300;
+        margin-top: 15px;
+        font-size: 45px;
+    }
 
-.units-container .collection {
-    border: none;
-    margin-top: 35px; 
-}
-.units-container .collection .collection-item {
-    border-bottom: 1px solid #cccccc;
-    height: 100px; 
-}
-.units-container .collection .collection-item .unit-icon {
-    width: 45px;
-    position: absolute;
-    left: 15px;
-    top: 25px; 
-}
+    .units-container .unit-search {
+        margin-top: 20px;
+    }
 
-.units-container .collection .collection-item .unit-name {
-    font-size: 24px;
-    display: inline-block;
-    margin-top: 15px;
-    color: #4A4A4A;
-    width: 210px; 
-}
+    .units-container .btn {
+        margin-top: 20px;
+        background-color : #18C0D6;
+    }
 
-.units-container .collection .collection-item .secondary-content {
-    top: 30px; 
-}
+    .units-container .row .col a i.notification-icon {
+        margin-top: 27px;
+        font-size: 40px;
+        color: #757575;
+    }
 
-.units-container .collection .collection-item .secondary-content a.white {
-    margin-right: 15px; 
-}
+    .units-container .row {
+        border-bottom: 1px solid #C4C4C4;
+    }
 
-.units-container .add-unit-button {
-    background-color: #18C0D6;
-    width: 70px;
-    height: 70px;
-    text-align: center;
-    display: block;
-    margin: 0 auto;
-    margin-top: -50px; 
-}
+    .units-container .collection {
+        border: none;
+        margin-top: 35px;
+    }
 
-.units-container .add-unit-button i {
-    font-size: 45px;
-    line-height: 70px; 
-}
+    .units-container .loading-active {
+        border: none;
+        margin-bottom: 128px;
+    }
+
+    .units-container .loading-inactive {
+        visibility: collapse;
+    }
+
+    .units-container .collection .collection-item {
+        border-bottom: 1px solid #cccccc;
+        height: 100px;
+    }
+
+        .units-container .collection .collection-item .unit-icon {
+            width: 45px;
+            position: absolute;
+            left: 15px;
+            top: 25px;
+        }
+
+        .units-container .collection .collection-item .unit-name {
+            font-size: 24px;
+            display: inline-block;
+            margin-top: 15px;
+            color: #4A4A4A;
+            width: 210px;
+        }
+
+        .units-container .collection .collection-item .secondary-content {
+            top: 30px;
+        }
+
+            .units-container .collection .collection-item .secondary-content a.white {
+                margin-right: 15px;
+            }
+
+    .units-container .add-unit-button {
+        background-color: #18C0D6;
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        margin-top: -25px;
+    }
+
+    .units-container .btn, .btn-large {
+        background-color: #18C0D6;
+    }
+
+    .units-container .add-unit-button i {
+        font-size: 45px;
+        line-height: 70px;
+    }
 
 @media only screen and (max-width: 601px) {
     .units-container h2 {
         text-align: center;
-        margin-bottom: 0; 
+        margin-bottom: 0;
     }
+
     .units-container .row {
         padding-bottom: 15px;
         border: none;
         margin-bottom: 0;
-        padding-bottom: 0; 
+        padding-bottom: 0;
     }
+
     .units-container .collection .collection-item .unit-name {
-        font-size: 20px; 
+        font-size: 20px;
     }
+
     .units-container .collection .collection-item .secondary-content a.white {
-        margin-right: 2px; 
+        margin-right: 2px;
     }
+
     .units-container .collection {
-        margin-top: 0; 
+        margin-top: 0;
     }
 }
 
 @media only screen and (max-width: 470px) {
     .units-container .collection .collection-item p.unit-name {
         width: 100px;
-        margin-top: 15px; 
-    }
-    .units-container .collection .collection-item .secondary-content {
-        right: 0; 
+        margin-top: 15px;
     }
 
-    .units-container .collection .collection-item .secondary-content a {
-        width: 65px;
-        font-size: 10px;
-        padding: 2px;
-        line-height: 33px; 
+    .units-container .collection .collection-item .secondary-content {
+        right: 0;
     }
+
+        .units-container .collection .collection-item .secondary-content a {
+            width: 65px;
+            font-size: 10px;
+            padding: 2px;
+            line-height: 33px;
+        }
 }
 
 @media only screen and (max-width: 880px) {
     .units-container .collection .collection-item .unit-name {
         margin-top: 25px;
     }
+
     .units-container .collection .collection-item .unit-icon {
-        display: none; 
+        display: none;
     }
+
     .units-container .collection .collection-item {
-        padding-left: 0; 
+        padding-left: 0;
     }
+
     .units-container .collection-item .secondary-content a {
         width: 80px;
         font-size: 12px;
         padding: 2px;
-        line-height: 33px; 
+        line-height: 33px;
     }
 
     .units-container .add-unit-button {
         width: 50px;
         height: 50px;
-        margin-top: -40px; 
+        margin-top: -40px;
     }
 
-    .units-container .add-unit-button i {
-        font-size: 35px;
-        line-height: 50px; 
-    }
+        .units-container .add-unit-button i {
+            font-size: 35px;
+            line-height: 50px;
+        }
 }
 
 @media only screen and (max-width: 993px) {
@@ -425,7 +457,3 @@
         margin-right: auto;
     }
 }
-
-
-
-

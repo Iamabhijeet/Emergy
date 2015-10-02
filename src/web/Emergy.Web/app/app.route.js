@@ -19,10 +19,10 @@
     });
     $stateProvider.state("Units", {
         url: "/dashboard/units",
-        controller: "unitsController",
         views: {
             '': {
-                templateUrl: 'app/views/units/units.html'
+                templateUrl: 'app/views/units/units.html',
+                controller: "unitsController"
             },
             'shell@Units': {
                 templateUrl: 'app/views/shell/shell.html',
