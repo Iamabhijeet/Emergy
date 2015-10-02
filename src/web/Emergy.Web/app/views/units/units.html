@@ -1,10 +1,26 @@
 ﻿<div ui-view="shell"></div>
-<main>
-    <div class="container">
-        <div class="col s12">
-            <h1 class="light">
-                Units
-            </h1>
+
+<div class="container units-container">
+    <div class="row">
+        <div class="col l3 m4 s12">
+            <h2>Units</h2>
+        </div>
+        <div class="col l5 m5 s10">
+            <input class="unit-search" id="search" type="search" placeholder="Type here to search" required>
+        </div>
+        <div class="col l1 m1 s1 offset-l3 offset-m1">
+            <a ng-href="#"><i class="material-icons notification-icon">notifications</i></a>
         </div>
     </div>
-</main>
+    <ul class="collection">
+        <li class="collection-item avatar">
+            <img class="unit-icon" src="/assets/img/unit-icon.png" cla>
+            <p class="unit-name">Stonex Field Operations</p>
+            <div class="secondary-content">
+                <a class="waves-effect waves-light white black-text btn">Details</a>
+                <a class="waves-effect waves-light btn">Reports</a>
+            </div>
+        </li> 
+    </ul>
+    <a class="btn-floating btn-large waves-effect waves-light add-unit-button"><i class="material-icons">add</i></a>
+</div>
