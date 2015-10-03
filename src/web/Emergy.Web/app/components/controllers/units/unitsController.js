@@ -24,21 +24,5 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 $scope.isBusy = false;
             });
     };
-    $scope.search = function (searchTerm) {
-        if (searchTerm !== undefined) {
-            $scope.isBusy = true;
-            var results = [];
-            _.forEach($scope.units, function (unit) {
-                if (unit.Name.toLowerCase().indexOf(searchTerm) >= 0) {
-                    results.push(unit);
-                }
-            });
-            angular.copy(results, $scope.units);
-            $scope.isBusy = false;
-        }
-    }
-    $scope.refresh = function () {
-        onLoaded();
-    }
     onLoaded();
 }
