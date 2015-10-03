@@ -3,27 +3,20 @@
 <div class="container units-container">
     <div class="row">
         <div class="col l3 m4 s12">
-            <div class="col s8">
-                <h2 class="center center-align">Units</h2>
-            </div>
-            <div class="col s4">
-                <a class="waves-effect center" ng-click="refresh()">
-                    <i class="material-icons notification-icon">refresh</i>
-                </a>
-            </div>
+            <h2 class="">Units</h2>
         </div>
         <div class="col l5 m5 s10">
-            <input class="unit-search" ng-model="searchTerm" ng-change="search(searchTerm)"
+            <input class="unit-search" ng-model="searchTerm"
                    id="search" type="search" placeholder="Type here to search" required>
         </div>
         <div class="col l1 m1 s1 offset-l3 offset-m1">
-            <a ng-href="#" class="waves-effect center">
+            <a ng-href="#" class="center">
                 <i class="material-icons notification-icon">notifications</i>
             </a>
         </div>
     </div>
     <ul class="collection">
-        <li ng-repeat="unit in units" class="collection-item avatar">
+        <li class="collection-item avatar" ng-repeat="unit in units | filter:searchTerm">
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{unit.Name}}</p>
             <div class="secondary-content">
