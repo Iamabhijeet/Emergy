@@ -3,7 +3,7 @@
 <div class="container units-container">
     <div class="row">
         <div class="col l3 m4 s12">
-            <h2 class="">Units</h2> 
+            <h2 class="">Units</h2>
         </div>
         <div class="col l5 m5 s10">
             <input class="unit-search" ng-model="searchTerm"
@@ -16,16 +16,14 @@
         </div>
     </div>
     <ul class="collection">
-        <div ng-repeat="unit in units | filter:searchTerm">
-            <li class="collection-item avatar">
-                <img class="unit-icon" src="/assets/img/unit-icon.png">
-                <p class="unit-name">{{unit.Name}}</p>
-                <div class="secondary-content">
-                    <a class="waves-effect waves-light white black-text btn">Details</a>
-                    <a class="waves-effect waves-light btn">Reports</a>
-                </div>
-            </li>
-        </div>
+        <li class="collection-item avatar" ng-repeat="unit in units | filter:searchTerm">
+            <img class="unit-icon" src="/assets/img/unit-icon.png">
+            <p class="unit-name">{{unit.Name}}</p>
+            <div class="secondary-content">
+                <a class="waves-effect waves-light white black-text btn">Details</a>
+                <a class="waves-effect waves-light btn">Reports</a>
+            </div>
+        </li>
     </ul>
     <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
         <img src="/assets/img/loading.svg" width="55" />
