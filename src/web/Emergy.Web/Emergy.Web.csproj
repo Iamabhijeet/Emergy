@@ -63,10 +63,12 @@
     <Content Include="app\views\shell\shell.html" />
     <Content Include="assets\img\account-icon.png" />
     <Content Include="assets\img\loading.svg" />
+    <Content Include="assets\img\logout-icon.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />
     <Content Include="assets\img\statistics-icon.png" />
+    <Content Include="assets\img\unit-icon.png" />
     <Content Include="assets\img\units-icon.png" />
     <Content Include="assets\img\login-account-icon.png" />
     <Content Include="assets\img\login-background.jpg" />
@@ -120,6 +122,7 @@
     <Content Include="libs\js\jquery\jquery-2.1.4.js" />
     <Content Include="libs\js\jquery\jquery-2.1.4.min.js" />
     <Content Include="web.config" />
+    <None Include="Properties\PublishProfiles\emergy.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -129,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\shared\" />
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="libs\js\jquery\jquery-2.1.4.min.map" />
