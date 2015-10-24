@@ -1,9 +1,9 @@
 ﻿<div ui-view="shell"></div>
 
 <div class="container units-container">
-    <div class="row">
+    <div class="row header-row">
         <div class="col l3 m4 s12">
-            <h2 class="">Units</h2>
+            <h2>Units</h2>
         </div>
         <div class="col l5 m5 s10">
             <input class="unit-search" ng-model="searchTerm"
@@ -20,7 +20,7 @@
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{unit.Name}}</p>
             <div class="secondary-content">
-                <a class="waves-effect waves-light white black-text btn">Details</a>
+                <a ng-href="/dashboard/unit/{{ unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
                 <a class="waves-effect waves-light btn">Reports</a>
             </div>
         </li>

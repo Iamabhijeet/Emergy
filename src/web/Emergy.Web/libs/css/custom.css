@@ -295,6 +295,11 @@
         font-size: 45px;
     }
 
+    .units-container .header-row {
+        border-bottom: 1px solid #C4C4C4;
+
+    }
+
     .units-container .unit-search {
         margin-top: 20px;
     }
@@ -308,10 +313,6 @@
         margin-top: 27px;
         font-size: 40px;
         color: #757575;
-    }
-
-    .units-container .row {
-        border-bottom: 1px solid #C4C4C4;
     }
 
     .units-container .collection {
@@ -372,6 +373,12 @@
     .units-container .add-unit-button i {
         font-size: 45px;
         line-height: 70px;
+    }
+    .units-container .row .tabs li a {
+        color: #1599AB;
+    }
+    .units-container .row .tabs .indicator {
+        background-color: #18C0D6;  
     }
 
 @media only screen and (max-width: 601px) {

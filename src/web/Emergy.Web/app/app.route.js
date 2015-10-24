@@ -41,8 +41,32 @@
                 return deferred.promise;
             }]
         }
-
     });
+    $stateProvider.state("UnitDetails", {
+        url: "/dashboard/unit/:unitId/details",
+        views: {
+            '': {
+                templateUrl: 'app/views/unitDetails/unitDetails.html',
+                controller: "unitDetailsController"
+            },
+            'shell@UnitDetails': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    }); 
 }]);
 app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
     authService.fillAuthData();
