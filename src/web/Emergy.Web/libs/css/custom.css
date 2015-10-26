@@ -365,6 +365,19 @@
         margin: 0 auto;
         margin-top: -25px;
     }
+    .units-container .add-user-button {
+        background-color: #18C0D6;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .units-container .add-user-button i {
+        font-size: 30px;
+        line-height: 50px;
+    }
 
     .units-container .btn, .btn-large {
         background-color: #18C0D6;
@@ -391,6 +404,13 @@
     .units-container .row #general .delete-unit-button {
         margin-top: 5px;
         background-color: #BF454D;
+    }
+    .units-container .add-user-modal {
+        width: 320px;
+    }
+    .units-container .add-user-modal h4{
+        color: #1599AB;
+        font-size: 28px; 
     }
 
 @media only screen and (max-width: 601px) {
@@ -449,7 +469,9 @@
     .units-container .collection .collection-item {
         padding-left: 0;
     }
-
+    .units-container .collection .collection-item img.circle {
+        display: none; 
+    }
     .units-container .collection-item .secondary-content a {
         width: 80px;
         font-size: 12px;

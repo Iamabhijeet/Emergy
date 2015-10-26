@@ -34,15 +34,39 @@
                     <p class="setting-title">Delete unit</p>
                 </div>
                 <div class="input-field col l3 m5 s6">
-                    <a class="waves-effect waves-light btn delete-unit-button">Delete</a>
+                    <a class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
                 </div>
+
             </div>
         </div>
         <div id="users" class="col s12">
-            
+            <ul class="collection">
+                <li class="collection-item avatar">
+                    <img src="/assets/img/unit-icon.png" class="circle">
+                    <span class="title">BentParadox</span>
+                    <p>Boris Borovic</p>
+                    <div class="secondary-content">
+                        <a ng-href="/dashboard/unit/{{ unit.Id }}/details" class="waves-effect waves-light red white-text btn">Remove</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="#addUser" class="btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+            <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
+                <img src="/assets/img/loading.svg" width="55" />
+            </div>
         </div>
         <div id="properties" class="col s12">
-            
+
+        </div>
+
+        <div id="addUser" class="modal add-user-modal">
+            <div class="modal-content">
+                <h4>Add user</h4>
+                <input id="userName" placeholder="Type username here" type="text" ng-model="userName"/>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="addUser(userName)" ng-hide="isBusy">Add</a>
+            </div>
         </div>
     </div>
 </div>
