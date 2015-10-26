@@ -7,6 +7,8 @@ app.controller(controllerId,
         'authService', 'notificationService', 'authData', unitDetailsController]);
 
 function unitDetailsController($scope, $rootScope, $stateParams, unitsService, authService, notificationService, authData) {
+    $rootScope.title = "Unit | Details";
+
     var onLoaded = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnit($stateParams.unitId);
@@ -20,5 +22,4 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     };
     onLoaded();
-
 }

@@ -380,6 +380,18 @@
     .units-container .row .tabs .indicator {
         background-color: #18C0D6;  
     }
+    .units-container .row .setting-title {
+        color: #18C0D6;
+        font-size: 17px;
+        margin-top: 25px;
+    }
+    .units-container #general, #users, #properties {
+        margin-top: 30px;
+    }
+    .units-container .row #general .delete-unit-button {
+        margin-top: 5px;
+        background-color: #BF454D;
+    }
 
 @media only screen and (max-width: 601px) {
     .units-container h2 {
