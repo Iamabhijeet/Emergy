@@ -412,6 +412,12 @@
         color: #1599AB;
         font-size: 28px; 
     }
+    .units-container .change-name-icon {
+        margin-top: 25px; 
+    }
+    .units-container .collection .collection-item.avatar span.title {
+        font-size: 20px;
+    }
 
 @media only screen and (max-width: 601px) {
     .units-container h2 {

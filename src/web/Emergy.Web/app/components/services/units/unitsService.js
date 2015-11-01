@@ -27,9 +27,35 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var getClients = function(id) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/units/clients/get/' + id)
+        .success(function (clients) {
+            deffered.resolve(clients);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
+    var removeClient = function(unitId, clientId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/clients/remove/' + unitId, clientId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var service = {
         getUnits: getUnits,
-        getUnit: getUnit
+        getUnit: getUnit,
+        getClients: getClients,
+        removeClient: removeClient
     };
     return service;
 

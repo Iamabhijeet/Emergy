@@ -28,6 +28,9 @@
                 <div class="input-field col l3 m5 s6">
                     <input id="unitName" type="text" ng-model="unit.Name"/>
                 </div>
+                <a ng-href="#" class="center">
+                    <i class="material-icons change-name-icon">done</i>
+                </a>     
             </div>
             <div class="row">
                 <div class="col l2 m5 s6">
@@ -41,23 +44,44 @@
         </div>
         <div id="users" class="col s12">
             <ul class="collection">
-                <li class="collection-item avatar">
-                    <img src="/assets/img/unit-icon.png" class="circle">
-                    <span class="title">BentParadox</span>
-                    <p>Boris Borovic</p>
-                    <div class="secondary-content">
-                        <a ng-href="/dashboard/unit/{{ unit.Id }}/details" class="waves-effect waves-light red white-text btn">Remove</a>
-                    </div>
-                </li>
+                <div ng-repeat="client in clients">
+                    <li class="collection-item avatar">
+                        <img src="/assets/img/unit-icon.png" class="circle">
+                        <span class="title">{{ client.UserName }}</span>
+                        <p>{{ client.Name }} {{ client.Surname }}</p>
+                        <div class="secondary-content">
+                            <a ng-click="removeClient(client.Id)" class="waves-effect waves-light red white-text btn">Remove</a>
+                        </div>
+                    </li>
+                </div>
             </ul>
             <a href="#addUser" class="btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
             <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
-                <img src="/assets/img/loading.svg" width="55" />
+                <img src="/assets/img/loading.svg" width="55"/>
             </div>
         </div>
-        <div id="properties" class="col s12">
 
+        <div id="properties" class="col s12">
+            <div class="col s12">
+                <ul class="tabs" tabs>
+                    <li class="tab col s3"><a class="active" href="#locations">Locations</a></li>
+                    <li class="tab col s3"><a href="#categories">Categories</a></li>
+                    <li class="tab col s3"><a href="#custom">Custom</a></li>
+                </ul>
+            </div>
+
+            <div id="locations" class="col s12">
+                Locations
+            </div>
+            <div id="categories" class="col s12">
+                Categories
+            </div>
+            <div id="custom" class="col s12">
+                Custom
+            </div>
         </div>
+
+        
 
         <div id="addUser" class="modal add-user-modal">
             <div class="modal-content">

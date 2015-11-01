@@ -9,7 +9,7 @@ app.controller(controllerId,
 function unitDetailsController($scope, $rootScope, $stateParams, unitsService, authService, notificationService, authData) {
     $rootScope.title = "Unit | Details";
 
-    var onLoaded = function () {
+    var loadUnit = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnit($stateParams.unitId);
         promise.then(function (unit) {
@@ -21,5 +21,36 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
             $scope.isBusy = false;
         });
     };
-    onLoaded();
+
+    var loadClients = function () {
+        $scope.isBusy = true;
+        var promise = unitsService.getClients($stateParams.unitId);
+        promise.then(function (clients) {
+            $scope.clients = clients;
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    };
+
+    $scope.removeClient = function(id) {
+        $scope.isBusy = true;
+        var promise = unitsService.removeClient($scope.unit.Id, id);
+        promise.then(function (response) {
+                loadClients();
+            }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+
+    }
+
+    loadUnit();
+    loadClients(); 
+
+
 }
