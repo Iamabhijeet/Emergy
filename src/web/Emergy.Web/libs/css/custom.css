@@ -329,9 +329,11 @@
         visibility: collapse;
     }
 
+    .units-container .collection .collection-item.units {
+        height: 100px;
+    }
     .units-container .collection .collection-item {
         border-bottom: 1px solid #cccccc;
-        height: 100px;
     }
 
         .units-container .collection .collection-item .unit-icon {
