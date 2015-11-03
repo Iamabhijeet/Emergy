@@ -11,6 +11,7 @@ namespace Emergy.Core.Services
     public interface IAccountService : IDisposable
     {
         Task<ApplicationUser> GetUserByIdAsync(string userId);
+        Task<ApplicationUser> GetUserByKeyAsync(string userId);
         Task<ApplicationUser> GetUserByNameAsync(string userName);
         Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password);
         Task<AuthenticationTicket> LoginAsync(LoginUserBindingModel model, OAuthAuthorizationServerOptions authOptions);

@@ -104,6 +104,8 @@
     <Compile Include="Repositories\UnitsRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\IUserKeyService.cs" />
+    <Compile Include="Services\UserKeyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Emergy.Data\Emergy.Data.csproj">

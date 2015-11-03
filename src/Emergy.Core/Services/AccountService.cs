@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -27,11 +28,16 @@ namespace Emergy.Core.Services
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _userKeyService = new UserKeyService();
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId).WithoutSync();
+        }
+        public async Task<ApplicationUser> GetUserByKeyAsync(string userKey)
+        {
+            return await _userManager.Users.SingleOrDefaultAsync(user => _userKeyService.VerifyKeys(userKey, user.UserKeyHash)).WithoutSync();
         }
         public async Task<ApplicationUser> GetUserByNameAsync(string userName)
         {
@@ -39,8 +45,8 @@ namespace Emergy.Core.Services
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
+            SetUserKey(ref newUser);
             var result = await _userManager.CreateAsync(newUser, password);
-
             if (result.Succeeded)
             {
                 switch (newUser.AccountType)
@@ -93,8 +99,14 @@ namespace Emergy.Core.Services
             await _userManager.UpdateAsync(user).WithoutSync();
         }
 
+        private void SetUserKey(ref ApplicationUser user)
+        {
+            user.UserKeyHash = _userKeyService.HashKey(Convert.ToString(_userKeyService.GenerateRandomKey()));
+        }
+
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserKeyService _userKeyService;
         public void Dispose()
         {
             _roleManager.Dispose();

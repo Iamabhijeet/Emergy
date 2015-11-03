@@ -25,6 +25,8 @@ namespace Emergy.Data.Models
             return await manager.CreateIdentityAsync(this, authenticationType);
         }
 
+        [Required]
+        public string UserKeyHash { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }

@@ -30,6 +30,19 @@ namespace Emergy.Api.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        [Route("With-Key/{key}")]
+        public async Task<IHttpActionResult> WithKey(string key)
+        {
+            var user = await AccountService.GetUserByKeyAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                return Ok(Mapper.Map<model.UserProfile>(user));
+            }
+            return NotFound();
+        }
+
         [AllowAnonymous]
         [Route("Register")]
         [HttpPost]
