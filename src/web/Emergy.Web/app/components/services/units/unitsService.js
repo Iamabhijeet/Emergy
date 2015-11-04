@@ -51,11 +51,24 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var getLocations = function (id) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/units/locations/get/' + id)
+        .success(function (locations) {
+            deffered.resolve(locations);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var service = {
         getUnits: getUnits,
         getUnit: getUnit,
         getClients: getClients,
-        removeClient: removeClient
+        removeClient: removeClient,
+        getLocations: getLocations
     };
     return service;
 

@@ -329,7 +329,7 @@
         visibility: collapse;
     }
 
-    .units-container .collection .collection-item.units {
+    .units-container .collection.units .collection-item {
         height: 100px;
     }
     .units-container .collection .collection-item {
@@ -505,3 +505,21 @@
         margin-right: auto;
     }
 }
+
+/*-----------UNIT DETAILS PAGE-----------*/
+
+.units-container .collection.user-collection {
+    margin-top: 0;
+}
+
+.units-container .collection.user-collection .collection-item .user-details {
+    margin-top: 12px;
+}
+
+.units-container .collection.user-collection .collection-item .secondary-content a{
+    margin-top: 12px;
+}
+
+ .units-container .collection.properties {
+     margin-top: 0;
+ }

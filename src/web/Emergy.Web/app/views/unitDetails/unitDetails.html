@@ -25,10 +25,10 @@
                 <div class="col l2 m5 s6">
                     <p class="setting-title">Unit name</p>
                 </div>
-                <div class="input-field col l3 m5 s6">
+                <div class="input-field col l3 m5 s5">
                     <input id="unitName" type="text" ng-model="unit.Name"/>
                 </div>
-                <a ng-href="#" class="center">
+                <a ng-click="editUnit(unit.Id)" class="center">
                     <i class="material-icons change-name-icon">done</i>
                 </a>     
             </div>
@@ -43,19 +43,21 @@
             </div>
         </div>
         <div id="users" class="col s12">
-            <ul class="collection">
+            <ul class="collection user-collection">
                 <div ng-repeat="client in clients">
                     <li class="collection-item avatar">
-                        <img src="/assets/img/unit-icon.png" class="circle">
-                        <span class="title">{{ client.UserName }}</span>
-                        <p>{{ client.Name }} {{ client.Surname }}</p>
+                        <div class="user-details">
+                            <img src="/assets/img/unit-icon.png" class="circle">
+                            <span class="title">{{ client.UserName }}</span>
+                            <p>{{ client.Name }} {{ client.Surname }}</p>
+                        </div>
                         <div class="secondary-content">
                             <a ng-click="removeClient(client.Id)" class="waves-effect waves-light red white-text btn">Remove</a>
                         </div>
                     </li>
                 </div>
             </ul>
-            <a href="#addUser" class="btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+            <a href="#addUser" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
             <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
                 <img src="/assets/img/loading.svg" width="55"/>
             </div>
@@ -66,21 +68,46 @@
                 <li>
                     <div class="collapsible-header">Categories</div>
                     <div class="collapsible-body">
-                        <ul class="collection">
-                            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-                            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-                            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-                            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                        <ul class="collection properties">
+                            <li class="collection-item" ng-repeat="category in categories">
+                                <div>
+                                    {{ category.Name }}
+                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                </div>
+                            </li>
+                            <a href="#addCategory" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
                         </ul>
                     </div>
                 </li>
+
                 <li>
                     <div class="collapsible-header">Locations</div>
-                    <div class="collapsible-body">Test></div>
+                    <div class="collapsible-body">
+                        <ul class="collection properties">
+                            <li class="collection-item" ng-repeat="location in locations">
+                                <div>
+                                    {{ location.Name }}
+                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                </div>
+                            </li>
+                            <a href="#addLocation" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+                        </ul>
+                    </div>
                 </li>
+
                 <li>
                     <div class="collapsible-header">Additional properties</div>
-                    <div class="collapsible-body">Test></div>
+                    <div class="collapsible-body">
+                        <ul class="collection properties">
+                            <li class="collection-item" ng-repeat="additionalProperty in additionalProperties">
+                                <div>
+                                    {{ additionalProperty.Name }}
+                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                </div>
+                            </li>
+                            <a href="#addAdditionalProperty" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>

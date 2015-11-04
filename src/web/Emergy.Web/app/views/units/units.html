@@ -15,8 +15,8 @@
             </a>
         </div>
     </div>
-    <ul class="collection">
-        <li class="collection-item units avatar" ng-repeat="unit in units | filter:searchTerm">
+    <ul class="collection units">
+        <li class="collection-item avatar" ng-repeat="unit in units | filter:searchTerm">
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{unit.Name}}</p>
             <div class="secondary-content">
@@ -29,5 +29,5 @@
         <img src="/assets/img/loading.svg" width="55" />
     </div>
 
-    <a class="btn-floating btn-large waves-effect waves-light add-unit-button" ng-hide="isBusy"><i class="material-icons">add</i></a>
+    <a class="btn btn-floating btn-large waves-effect waves-light add-unit-button" ng-hide="isBusy"><i class="material-icons">add</i></a>
 </div>

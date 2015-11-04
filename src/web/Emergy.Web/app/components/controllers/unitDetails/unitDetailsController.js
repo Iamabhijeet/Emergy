@@ -35,9 +35,22 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     };
 
+    var loadLocations = function () {
+        $scope.isBusy = true;
+        var promise = unitsService.getLocations($stateParams.unitId);
+        promise.then(function (locations) {
+            $scope.locations = locations;
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    };
+
     $scope.removeClient = function(id) {
         $scope.isBusy = true;
-        var promise = unitsService.removeClient($scope.unit.Id, id);
+        var promise = unitsService.removeClient($scope.unit.Id, JSON.stringify(id));
         promise.then(function (response) {
                 loadClients();
             }, function (error) {
@@ -46,11 +59,9 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         .finally(function () {
             $scope.isBusy = false;
         });
-
     }
 
     loadUnit();
-    loadClients(); 
-
-
+    loadClients();
+    loadLocations();
 }
