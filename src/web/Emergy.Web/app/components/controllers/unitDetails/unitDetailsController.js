@@ -48,10 +48,37 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     };
 
-    $scope.removeClient = function(id) {
+    var loadCategories = function () {
         $scope.isBusy = true;
-        var promise = unitsService.removeClient($scope.unit.Id, JSON.stringify(id));
+        var promise = unitsService.getCategories($stateParams.unitId);
+        promise.then(function (categories) {
+            $scope.categories = categories;
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    };
+
+    var loadCustomProperties = function () {
+        $scope.isBusy = true;
+        var promise = unitsService.getCustomProperties($stateParams.unitId);
+        promise.then(function (customProperties) {
+            $scope.customProperties = customProperties;
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    };
+
+    $scope.removeClient = function(clientId) {
+        $scope.isBusy = true;
+        var promise = unitsService.removeClient($scope.unit.Id, JSON.stringify(clientId));
         promise.then(function (response) {
+                notificationService.pushSuccess("Successfully removed client!"); 
                 loadClients();
             }, function (error) {
             notificationService.pushError(error.Message);
@@ -61,7 +88,87 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     }
 
+    $scope.editUnit = function(unitId) {
+        $scope.isBusy = true;
+
+        var unitEdit = {
+            Id: unitId, 
+            Name: $scope.unit.Name
+        }
+
+        var promise = unitsService.editUnit(unitEdit);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Successfully changed name!");
+            loadUnit();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.deleteUnit = function(unitId) {
+        $scope.isBusy = true;
+
+        var promise = unitsService.deleteUnit(unitId);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Unit has been deleted!");
+            $location.path("/dashboard/units")
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.removeCategory = function (categoryId) {
+        $scope.isBusy = true;
+        var promise = unitsService.removeCategory($scope.unit.Id, categoryId);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Successfully removed category!");
+            loadCategories();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.removeLocation = function (locationId) {
+        $scope.isBusy = true;
+        var promise = unitsService.removeLocation($scope.unit.Id, locationId);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Successfully removed location!");
+            loadLocations();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.removeCustomProperty = function (customPropertyId) {
+        $scope.isBusy = true;
+        var promise = unitsService.removeCustomProperty($scope.unit.Id, customPropertyId);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Successfully removed custom property!");
+            loadCustomProperties();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+
     loadUnit();
     loadClients();
     loadLocations();
+    loadCategories();
+    loadCustomProperties();
 }

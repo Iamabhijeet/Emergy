@@ -28,7 +28,7 @@
                 <div class="input-field col l3 m5 s5">
                     <input id="unitName" type="text" ng-model="unit.Name"/>
                 </div>
-                <a ng-click="editUnit(unit.Id)" class="center">
+                <a href="#" ng-click="editUnit(unit.Id)" class="center">
                     <i class="material-icons change-name-icon">done</i>
                 </a>     
             </div>
@@ -37,7 +37,7 @@
                     <p class="setting-title">Delete unit</p>
                 </div>
                 <div class="input-field col l3 m5 s6">
-                    <a class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
+                    <a href="#" ng-click="deleteUnit(unit.Id)" class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
                 </div>
 
             </div>
@@ -71,12 +71,13 @@
                         <ul class="collection properties">
                             <li class="collection-item" ng-repeat="category in categories">
                                 <div>
-                                    {{ category.Name }}
-                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                    <span class="property-title">{{ category.Name }}</span>
+                                    <a href="#!" ng-click="removeCategory(category.Id)" class="secondary-content"><i class="material-icons">delete</i></a>
                                 </div>
                             </li>
-                            <a href="#addCategory" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+
                         </ul>
+                        <a href="#addCategory" class="btn btn-floating btn-large waves-effect waves-light add-user-button add-property-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
                     </div>
                 </li>
 
@@ -86,27 +87,28 @@
                         <ul class="collection properties">
                             <li class="collection-item" ng-repeat="location in locations">
                                 <div>
-                                    {{ location.Name }}
-                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                    <span class="property-title">{{ location.Name }}</span>
+                                    <a href="#!" ng-click="removeLocation(location.Id)" class="secondary-content"><i class="material-icons">delete</i></a>
                                 </div>
                             </li>
-                            <a href="#addLocation" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+
                         </ul>
+                        <a href="#addLocation" class="btn btn-floating btn-large waves-effect waves-light add-user-button add-property-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
                     </div>
                 </li>
 
                 <li>
-                    <div class="collapsible-header">Additional properties</div>
+                    <div class="collapsible-header">Custom properties</div>
                     <div class="collapsible-body">
                         <ul class="collection properties">
-                            <li class="collection-item" ng-repeat="additionalProperty in additionalProperties">
+                            <li class="collection-item" ng-repeat="customProperty in customProperties">
                                 <div>
-                                    {{ additionalProperty.Name }}
-                                    <a href="#!" class="secondary-content"><i class="material-icons">delete</i></a>
+                                    <span class="property-title">{{ customProperty.Name }}</span>
+                                    <a href="#!" ng-click="removeCustomProperty(customProperty.Id)" class="secondary-content"><i class="material-icons">delete</i></a>
                                 </div>
                             </li>
-                            <a href="#addAdditionalProperty" class="btn btn-floating btn-large waves-effect waves-light add-user-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
                         </ul>
+                        <a href="#addCustomProperty" class="btn btn-floating btn-large waves-effect waves-light add-user-button add-property-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
                     </div>
                 </li>
             </ul>
@@ -115,7 +117,7 @@
         <div id="addUser" class="modal add-user-modal">
             <div class="modal-content">
                 <h4>Add user</h4>
-                <input id="userName" placeholder="Type username here" type="text" ng-model="userName"/>
+                <input id="userName" placeholder="Type user code here" type="text" ng-model="userCode"/>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="addUser(userName)" ng-hide="isBusy">Add</a>

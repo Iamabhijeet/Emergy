@@ -520,6 +520,20 @@
     margin-top: 12px;
 }
 
+.units-container .collection.properties .collection-item {
+    padding-left: 20px;
+}
+
+.units-container .collection.properties .collection-item span.property-title {
+    color: #1599AB;
+    text-transform: uppercase;
+}
+
  .units-container .collection.properties {
-     margin-top: 0;
+     margin-top: 10px;
+ }
+
+ .units-container #properties .add-property-button {
+     margin-top: 15px;
+     margin-bottom: 15px;
  }
