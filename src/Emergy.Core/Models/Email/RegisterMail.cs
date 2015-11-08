@@ -16,11 +16,11 @@ namespace Emergy.Core.Models.Email
         {
             public static RegisterMail CreateMail(string username, string userkey, string userEmail)
             {
-                var from = new MailAddress("no-reply@emergy.com", "Emergy");
+                var from = new MailAddress("emergy.email@gmail.com", "Emergy");
                 var to = new MailAddress(userEmail, username);
                 return new RegisterMail(from, to)
                 {
-                    Body = $"Key = {userkey} \n, UserName = {username}"
+                    Body = $"Key = {userkey} \n, UserName = {username}" // temporary just for testing
                 };
             }
         }
