@@ -18,7 +18,8 @@ namespace Emergy.Api
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-            app.CreatePerOwinContext<IAccountService>((factory, context) => new AccountService(context.Get<ApplicationUserManager>(), context.Get<ApplicationRoleManager>()));
+            app.CreatePerOwinContext<IAccountService>((factory, context) => new AccountService(context.Get<ApplicationUserManager>(),
+                context.Get<ApplicationRoleManager>(), new Core.Services.EmailService()));
 
 
             // Enable the application to use a cookie to store information for the signed in user

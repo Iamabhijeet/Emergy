@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -58,7 +59,6 @@ namespace Emergy.Core.Repositories.Generic
         public virtual void Update(T entityToUpdate)
         {
             Context.Entry(entityToUpdate).State = EntityState.Modified;
-            DbSet.Attach(entityToUpdate);
         }
         public virtual void Delete(object id)
         {
@@ -66,10 +66,6 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Delete(T entityToDelete)
         {
-            if (Context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                DbSet.Attach(entityToDelete);
-            }
             DbSet.Remove(entityToDelete);
         }
         public virtual bool Exists(int id)

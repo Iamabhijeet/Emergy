@@ -24,11 +24,13 @@ namespace Emergy.Core.Services
 
         }
 
-        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _userKeyService = new UserKeyService();
+            _emailService = emailService;
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
@@ -62,6 +64,7 @@ namespace Emergy.Core.Services
                             break;
                         }
                 }
+                await _emailService.SendRegisterMailAsync(newUser.UserName, newUser.UserKeyHash, newUser.Email).WithoutSync();
             }
             return result;
         }
@@ -107,6 +110,7 @@ namespace Emergy.Core.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserKeyService _userKeyService;
+        private readonly IEmailService _emailService;
         public void Dispose()
         {
             _roleManager.Dispose();
