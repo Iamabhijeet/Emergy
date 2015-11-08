@@ -47,7 +47,8 @@ namespace Emergy.Core.Services
         }
         public async Task<IdentityResult> CreateAccountAsync(ApplicationUser newUser, string password)
         {
-            SetUserKey(ref newUser);
+            string userKey;
+            SetUserKey(ref newUser, out userKey);
             var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
             {
@@ -64,7 +65,7 @@ namespace Emergy.Core.Services
                             break;
                         }
                 }
-                await _emailService.SendRegisterMailAsync(newUser.UserName, newUser.UserKeyHash, newUser.Email).WithoutSync();
+                await _emailService.SendRegisterMailAsync(newUser.UserName, userKey, newUser.Email).WithoutSync();
             }
             return result;
         }
@@ -102,9 +103,11 @@ namespace Emergy.Core.Services
             await _userManager.UpdateAsync(user).WithoutSync();
         }
 
-        private void SetUserKey(ref ApplicationUser user)
+        private void SetUserKey(ref ApplicationUser user, out string userKey)
         {
-            user.UserKeyHash = _userKeyService.HashKey(Convert.ToString(_userKeyService.GenerateRandomKey()));
+            string randomKey = Convert.ToString(_userKeyService.GenerateRandomKey());
+            userKey = randomKey;
+            user.UserKeyHash = _userKeyService.HashKey(randomKey);
         }
 
         private readonly RoleManager<IdentityRole> _roleManager;
