@@ -90,7 +90,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("delete")]
+        [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteUnit([FromUri] int id)
         {
             if (!ModelState.IsValid)
@@ -243,6 +243,22 @@ namespace Emergy.Api.Controllers
                 return Ok();
             }
             return Unauthorized();
+        }
+
+        [HttpGet]
+        [Route("categories/get/{id}")]
+        public async Task<IHttpActionResult> GetCategories(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
+                {
+                    return Ok(unit.Locations);
+                }
+                return Unauthorized();
+            }
+            return NotFound();
         }
 
         [HttpPost]

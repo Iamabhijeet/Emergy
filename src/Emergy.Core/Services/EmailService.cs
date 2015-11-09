@@ -26,7 +26,11 @@ namespace Emergy.Core.Services
             await _smtpClient.SendMailAsync(emailToSend).WithoutSync();
         }
 
-
+        public async Task SendLogMailAsync(Exception exception)
+        {
+            var emailToSend = LogMail.LogMailFactory.CreateMail(exception);
+            await _smtpClient.SendMailAsync(emailToSend).WithoutSync();
+        }
 
         private readonly SmtpClient _smtpClient;
 

@@ -4,6 +4,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Emergy.Api.Mappings;
+using Emergy.Core.Common;
+using Emergy.Core.Services;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 
 namespace Emergy.Api
@@ -20,6 +23,12 @@ namespace Emergy.Api
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ValueProviderFactories.Factories.Add(new JsonValueProviderFactory());
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            Error += async (sender, args) =>
+            {
+                var loggingService = new LoggingService(new Core.Services.EmailService());
+                await loggingService.SendLogMail(Server.GetLastError()).WithoutSync();
+            };
         }
+
     }
 }
