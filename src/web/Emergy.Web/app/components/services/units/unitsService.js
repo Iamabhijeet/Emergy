@@ -51,6 +51,30 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var getClientByKey = function (clientKey) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/Account/With-Key/' + clientKey)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
+    var addClient = function (unitId, clientId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/clients/add/' + unitId, clientId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var getLocations = function (unitId) {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/units/locations/get/' + unitId)
@@ -153,6 +177,8 @@ function unitsService($http, $q, serviceBase, authData) {
         getUnit: getUnit,
         getClients: getClients,
         removeClient: removeClient,
+        getClientByKey: getClientByKey,
+        addClient: addClient, 
         getLocations: getLocations,
         getCategories: getCategories,
         getCustomProperties: getCustomProperties,

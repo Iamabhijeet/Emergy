@@ -114,7 +114,7 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         var promise = unitsService.deleteUnit(unitId);
         promise.then(function (response) {
             notificationService.pushSuccess("Unit has been deleted!");
-            $location.path("/dashboard/units")
+            $location.path("/dashboard/units");
         }, function (error) {
             notificationService.pushError(error.Message);
         })
@@ -165,6 +165,24 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     }
 
+    $scope.addClient = function (clientKey) {
+        $scope.isBusy = true;
+        var promise = unitsService.getClientByKey(clientKey);
+        promise.then(function (client) {
+            promise = unitsService.addClient(client.Id);
+            promise.then(function(response) {
+                notificationService.pushSuccess("Client has been successfully added!");
+                loadClients();
+            }), function(error) {
+                notificationService.pushError(error.Message);
+            }
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
 
     loadUnit();
     loadClients();
