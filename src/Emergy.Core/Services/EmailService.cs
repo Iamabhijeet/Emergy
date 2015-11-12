@@ -4,35 +4,38 @@ using System.Threading.Tasks;
 using System.Net.Mail;
 using Emergy.Core.Common;
 using Emergy.Core.Models.Email;
+using Emergy.Core.Models.Log;
 
 namespace Emergy.Core.Services
 {
 
     public class EmailService : IEmailService
     {
-        public EmailService()
+        public async Task SendRegisterMailAsync(string username, string userKey, string userEmail)
+        {
+            _InitializeSmtpClient();
+            var emailToSend = RegisterMail.RegisterMailFactory.CreateMail(username, userKey, userEmail);
+            await _smtpClient.SendMailAsync(emailToSend)
+                .ContinueWith((task) => { _smtpClient.Dispose(); }).WithoutSync();
+        }
+
+        public async Task SendLogMailAsync(ExceptionLog log)
+        {
+            _InitializeSmtpClient();
+            var emailToSend = LogMail.LogMailFactory.CreateMail(log);
+            await _smtpClient.SendMailAsync(emailToSend)
+               .ContinueWith((task) => { _smtpClient.Dispose(); }).WithoutSync();
+        }
+
+        private void _InitializeSmtpClient()
         {
             _smtpClient = new SmtpClient(SmtpServer, Port)
             {
                 Credentials = new NetworkCredential(ApiKey, SecretKey),
                 EnableSsl = true
             };
-
         }
-
-        public async Task SendRegisterMailAsync(string username, string userKey, string userEmail)
-        {
-            var emailToSend = RegisterMail.RegisterMailFactory.CreateMail(username, userKey, userEmail);
-            await _smtpClient.SendMailAsync(emailToSend).WithoutSync();
-        }
-
-        public async Task SendLogMailAsync(Exception exception)
-        {
-            var emailToSend = LogMail.LogMailFactory.CreateMail(exception);
-            await _smtpClient.SendMailAsync(emailToSend).WithoutSync();
-        }
-
-        private readonly SmtpClient _smtpClient;
+        private SmtpClient _smtpClient;
 
         private const string SmtpServer = "in-v3.mailjet.com";
         private const int Port = 587;

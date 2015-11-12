@@ -19,7 +19,7 @@ namespace Emergy.Data.Configurations
 
             HasMany(x => x.Reports)
               .WithRequired(x => x.Unit)
-              .WillCascadeOnDelete(false);
+              .WillCascadeOnDelete(true);
 
             HasMany(x => x.Clients)
               .WithMany(x => x.Units)

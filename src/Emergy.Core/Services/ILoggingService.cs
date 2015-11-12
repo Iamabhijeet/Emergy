@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Emergy.Core.Models.Log;
 
 namespace Emergy.Core.Services
 {
     public interface ILoggingService
     {
-        Task LogException(Exception exception);
-        Task SendLogMail(Exception exception);
+        void LogException(ExceptionLog log);
+        Task SendLogMail(ExceptionLog log);
     }
 }
