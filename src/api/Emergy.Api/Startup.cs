@@ -1,4 +1,6 @@
 ﻿using Emergy.Api;
+using Emergy.Core.Common;
+using Emergy.Core.Services;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
@@ -14,7 +16,6 @@ namespace Emergy.Api
             {
                 EnableDetailedErrors = true
             });
-            
             ConfigureAuth(app);
         }
     }

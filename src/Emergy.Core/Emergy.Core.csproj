@@ -91,9 +91,11 @@
     <Compile Include="Common\TaskExtensions.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
     <Compile Include="Models\CustomProperty\CustomPropertyViewModels.cs" />
+    <Compile Include="Models\Email\LogMail.cs" />
     <Compile Include="Models\Email\RegisterMail.cs" />
     <Compile Include="Models\Hub\HubViewModels.cs" />
     <Compile Include="Models\Location\LocationViewModels.cs" />
+    <Compile Include="Models\Log\ExceptionLog.cs" />
     <Compile Include="Models\Report\ReportViewModels.cs" />
     <Compile Include="Models\Unit\UnitViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,7 +109,10 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IAccountService.cs" />
     <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\ILoggingService.cs" />
     <Compile Include="Services\IUserKeyService.cs" />
+    <Compile Include="Services\JsonService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\UserKeyService.cs" />
   </ItemGroup>
   <ItemGroup>

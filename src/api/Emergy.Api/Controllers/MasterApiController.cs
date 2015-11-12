@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Http;
+using Emergy.Api.Filters;
 using Emergy.Core.Common;
 using Emergy.Core.Services;
 using Microsoft.AspNet.Identity;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace Emergy.Api.Controllers
 {
+    [LogExceptions]
     public abstract class MasterApiController : ApiController
     {
         protected ApplicationUserManager UserManager

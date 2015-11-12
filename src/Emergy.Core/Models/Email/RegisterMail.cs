@@ -6,11 +6,7 @@ namespace Emergy.Core.Models.Email
     {
         public RegisterMail(MailAddress from, MailAddress to) : base(from, to)
         {
-
         }
-        public string UserName { get; set; }
-        public string UserKey { get; set; }
-        public string UserEmail { get; set; }
 
         public static class RegisterMailFactory
         {
@@ -20,6 +16,7 @@ namespace Emergy.Core.Models.Email
                 var to = new MailAddress(userEmail, username);
                 return new RegisterMail(from, to)
                 {
+                    Subject = "Emergy - Registration successfull!",
                     Body = $"Key = {userkey} \n, UserName = {username}" // temporary just for testing
                 };
             }
