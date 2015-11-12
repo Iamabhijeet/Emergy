@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using Microsoft.AspNet.Identity;
 
 namespace Emergy.Core.Services
@@ -9,21 +13,19 @@ namespace Emergy.Core.Services
         {
             _random = new Random();
         }
-        public int GenerateRandomKey()
+        public string GenerateRandomKey()
         {
-            return _random.Next(100000, 999999);
+            return _random.Next(111111, 999999).ToString();
         }
-
         public string HashKey(string key)
         {
-            return HashPassword(key);
+            return base.HashPassword(key);
         }
-
-        public bool VerifyKeys(string key, string userKey)
+        public bool VerifyKeys(string hashedKey, string providedKey)
         {
-            return VerifyHashedPassword(userKey, key) == PasswordVerificationResult.Success;
+            return base.VerifyHashedPassword(hashedKey, providedKey) == PasswordVerificationResult.Success
+                || base.VerifyHashedPassword(hashedKey, providedKey) == PasswordVerificationResult.SuccessRehashNeeded;
         }
-
         private readonly Random _random;
     }
 }
