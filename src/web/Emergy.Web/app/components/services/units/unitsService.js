@@ -15,6 +15,7 @@ function unitsService($http, $q, serviceBase, authData) {
             });
         return deffered.promise;
     };
+
     var getUnit = function (unitId) {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/units/get/' + unitId)
@@ -53,7 +54,7 @@ function unitsService($http, $q, serviceBase, authData) {
 
     var getClientByKey = function (clientKey) {
         var deffered = $q.defer();
-        $http.get(serviceBase + 'api/Account/With-Key/' + clientKey)
+        $http.get(serviceBase + 'api/account/with-key/' + clientKey)
         .success(function (response) {
             deffered.resolve(response);
         })
@@ -147,15 +148,39 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
-    var removeCategory = function (unitId, categoryId) {
+    var removeCategory = function (categoryId) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/units/categories/remove/' + unitId, categoryId)
+        $http.post(serviceBase + 'api/categories/delete/' + categoryId)
         .success(function (response) {
             deffered.resolve(response);
         })
             .error(function (response) {
                 deffered.reject(response);
             });
+        return deffered.promise;
+    };
+
+    var createCategory = function (categoryName) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/categories/create/' + categoryName)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
+
+    var addCategoryToUnit = function (unitId, categoryId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/categories/add/' + unitId, categoryId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
         return deffered.promise;
     };
 
@@ -170,7 +195,30 @@ function unitsService($http, $q, serviceBase, authData) {
             });
         return deffered.promise;
     };
-    
+
+    var createLocation = function (location) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/locations/create/', location)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
+
+    var addLocationToUnit = function (unitId, locationId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/locations/add/' + unitId, locationId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
 
     var service = {
         getUnits: getUnits,
@@ -186,7 +234,11 @@ function unitsService($http, $q, serviceBase, authData) {
         deleteUnit: deleteUnit,
         removeLocation: removeLocation,
         removeCategory: removeCategory,
-        removeCustomProperty: removeCustomProperty
+        removeCustomProperty: removeCustomProperty,
+        createCategory: createCategory,
+        addCategoryToUnit: addCategoryToUnit,
+        createLocation: createLocation,
+        addLocationToUnit: addLocationToUnit
     };
     return service;
 

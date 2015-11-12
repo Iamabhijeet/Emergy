@@ -3,10 +3,10 @@
 var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', '$stateParams', 'unitsService',
+    ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
         'authService', 'notificationService', 'authData', unitDetailsController]);
 
-function unitDetailsController($scope, $rootScope, $stateParams, unitsService, authService, notificationService, authData) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData) {
     $rootScope.title = "Unit | Details";
 
     var loadUnit = function () {
@@ -114,7 +114,26 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         var promise = unitsService.deleteUnit(unitId);
         promise.then(function (response) {
             notificationService.pushSuccess("Unit has been deleted!");
-            $location.path("/dashboard/units");
+            $state.go("Units");
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.addCategory = function (unitId, categoryName) {
+        $scope.isBusy = true;
+        var promise = unitsService.createCategory(categoryName);
+        promise.then(function (categoryId) {
+            promise = unitsService.addCategoryToUnit(unitId, categoryId);
+            promise.then(function (response) {
+                notificationService.pushSuccess("Category has been successfully added!");
+                loadCategories();
+            }), function (error) {
+                notificationService.pushError(error.Message);
+            }
         }, function (error) {
             notificationService.pushError(error.Message);
         })
@@ -125,10 +144,35 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
 
     $scope.removeCategory = function (categoryId) {
         $scope.isBusy = true;
-        var promise = unitsService.removeCategory($scope.unit.Id, categoryId);
+        var promise = unitsService.removeCategory(categoryId);
         promise.then(function (response) {
             notificationService.pushSuccess("Successfully removed category!");
             loadCategories();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    $scope.addLocation = function (unitId, locationName, latitude, longitude) {
+        $scope.isBusy = true;
+        var location = {
+            Latitude: latitude,
+            Longitude: longitude,
+            Name: locationName,
+            Type: "Fixed"
+        }
+        var promise = unitsService.createLocation(location);
+        promise.then(function (locationId) {
+            promise = unitsService.addLocationToUnit(unitId, locationId);
+            promise.then(function (response) {
+                notificationService.pushSuccess("Location has been successfully added!");
+                loadLocations();
+            }), function (error) {
+                notificationService.pushError(error.Message);
+            }
         }, function (error) {
             notificationService.pushError(error.Message);
         })
@@ -165,11 +209,11 @@ function unitDetailsController($scope, $rootScope, $stateParams, unitsService, a
         });
     }
 
-    $scope.addClient = function (clientKey) {
+    $scope.addClient = function (unitId, clientKey) {
         $scope.isBusy = true;
         var promise = unitsService.getClientByKey(clientKey);
         promise.then(function (client) {
-            promise = unitsService.addClient(client.Id);
+            promise = unitsService.addClient(unitId, client.Id);
             promise.then(function(response) {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();

@@ -114,13 +114,44 @@
             </ul>
         </div>
 
-        <div id="addUser" class="modal add-user-modal">
+        <div id="addUser" class="modal add-detail-modal">
             <div class="modal-content">
                 <h4>Add user</h4>
                 <input id="userName" placeholder="Type user code here" type="text" ng-model="clientKey"/>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="addClient(clientKey)" ng-hide="isBusy">Add</a>
+                <a href="#" ng-click="addClient(unit.Id, clientKey)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
+            </div>
+        </div>
+
+        <div id="addCategory" class="modal add-detail-modal">
+            <div class="modal-content">
+                <h4>Add category</h4>
+                <input id="categoryName" placeholder="Type category title here" type="text" ng-model="categoryName"/>
+            </div>
+            <div class="modal-footer">
+                <a href="#" ng-click="addCategory(unit.Id, categoryName)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
+            </div>
+        </div>
+
+        <div id="addLocation" class="modal add-detail-modal">
+            <div class="modal-content">
+                <h4>Add location</h4>
+                <input id="locationName" placeholder="Type location name here" type="text" ng-model="locationName"/>
+                <input id="latitude" placeholder="Type latitude here" type="text" ng-model="latitude"/>
+                <input id="longitude" placeholder="Type longitude here" type="text" ng-model="longitude" />
+            </div>
+            <div class="modal-footer">
+                <a href="#" ng-click="addLocation(unit.Id, locationName, latitude, longitude)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
+            </div>
+        </div>
+        <div id="addCustomProperty" class="modal add-detail-modal">
+            <div class="modal-content">
+                <h4>Add user</h4>
+                <input id="userName" placeholder="Type custom property title" type="text" ng-model="customPropertyName" />
+            </div>
+            <div class="modal-footer">
+                <a href="#" ng-click="addCustomProperty(unit.Id, customPropertyName)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
             </div>
         </div>
     </div>

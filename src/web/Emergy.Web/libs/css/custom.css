@@ -407,13 +407,7 @@
         margin-top: 5px;
         background-color: #BF454D;
     }
-    .units-container .add-user-modal {
-        width: 320px;
-    }
-    .units-container .add-user-modal h4{
-        color: #1599AB;
-        font-size: 28px; 
-    }
+    
     .units-container .change-name-icon {
         margin-top: 25px; 
     }
@@ -537,3 +531,12 @@
      margin-top: 15px;
      margin-bottom: 15px;
  }
+
+ .units-container .add-detail-modal {
+     width: 320px;
+ }
+
+.units-container .add-detail-modal h4{
+     color: #1599AB;
+     font-size: 28px; 
+}
