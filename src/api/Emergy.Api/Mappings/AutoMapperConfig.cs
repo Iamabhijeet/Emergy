@@ -27,6 +27,7 @@ namespace Emergy.Api.Mappings
         {
             Mapper.CreateMap<RegisterUserBindingModel, ApplicationUser>().IgnoreUnmappedProperties();
             Mapper.CreateMap<LoginUserBindingModel, ApplicationUser>().IgnoreUnmappedProperties();
+            Mapper.CreateMap<ApplicationUser, UserProfile>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateUnitViewModel, Unit>().IgnoreUnmappedProperties();
             Mapper.CreateMap<EditUnitViewModel, Unit>().IgnoreUnmappedProperties();

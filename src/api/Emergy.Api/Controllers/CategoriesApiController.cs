@@ -40,7 +40,7 @@ namespace Emergy.Api.Controllers
             var category = new Category { Name = name };
             _categoriesRepository.Insert(category);
             await _categoriesRepository.SaveAsync();
-            return Ok();
+            return Ok(category.Id);
         }
         [HttpDelete]
         [Route("delete/{id}")]

@@ -2,8 +2,8 @@
 {
     interface IUserKeyService
     {
-        int GenerateRandomKey();
+        string GenerateRandomKey();
         string HashKey(string key);
-        bool VerifyKeys(string key, string userKey);
+        bool VerifyKeys(string hashedKey, string providedKey);
     }
 }
