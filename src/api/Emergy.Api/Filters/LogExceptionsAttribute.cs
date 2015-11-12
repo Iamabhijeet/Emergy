@@ -23,7 +23,7 @@ namespace Emergy.Api.Filters
                 Exception = actionExecutedContext.Exception,
                 ExceptionDate = DateTime.Now
             };
-            _service.LogException(log);
+            //_service.LogException(log);
             _service.SendLogMail(log).RunSynchronously();
         }
         public async override Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ namespace Emergy.Api.Filters
                 Exception = actionExecutedContext.Exception,
                 ExceptionDate = DateTime.Now
             };
-            _service.LogException(log);
+            //_service.LogException(log);
             await SendMail(log).WithoutSync();
         }
         private async Task SendMail(ExceptionLog log)

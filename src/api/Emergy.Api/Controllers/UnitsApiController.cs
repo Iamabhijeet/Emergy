@@ -254,7 +254,7 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Locations);
+                    return Ok(unit.Categories);
                 }
                 return Unauthorized();
             }
