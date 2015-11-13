@@ -150,7 +150,7 @@ function unitsService($http, $q, serviceBase, authData) {
 
     var removeCategory = function (categoryId) {
         var deffered = $q.defer();
-        $http.post(serviceBase + 'api/categories/delete/' + categoryId)
+        $http.delete(serviceBase + 'api/units/categories/remove/' + categoryId)
         .success(function (response) {
             deffered.resolve(response);
         })
@@ -196,6 +196,30 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var createCustomProperty = function (customProperty) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/custom-props/create/', customProperty)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
+
+    var addCustomPropertyToUnit = function (unitId, customPropertyId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/custom-property/add/' + unitId, customPropertyId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
+
     var createLocation = function (location) {
         var deffered = $q.defer();
         $http.post(serviceBase + 'api/locations/create/', location)
@@ -238,7 +262,9 @@ function unitsService($http, $q, serviceBase, authData) {
         createCategory: createCategory,
         addCategoryToUnit: addCategoryToUnit,
         createLocation: createLocation,
-        addLocationToUnit: addLocationToUnit
+        addLocationToUnit: addLocationToUnit,
+        createCustomProperty: createCustomProperty,
+        addCustomPropertyToUnit: addCustomPropertyToUnit
     };
     return service;
 

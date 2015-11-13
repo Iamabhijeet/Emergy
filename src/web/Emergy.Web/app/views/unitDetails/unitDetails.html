@@ -21,25 +21,37 @@
             </ul>
         </div>
         <div id="general" class="col s12">
-            <div class="row">
-                <div class="col l2 m5 s6">
-                    <p class="setting-title">Unit name</p>
+            
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light" style="max-height: 300px;">
+                    <img class="activator" src="/assets/img/login-background.jpg">
                 </div>
-                <div class="input-field col l3 m5 s5">
-                    <input id="unitName" type="text" ng-model="unit.Name"/>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-1">{{ unit.Name }}<i class="material-icons right">settings</i></span>
+                    <p><a href="#">View statistics</a></p>
                 </div>
-                <a href="#" ng-click="editUnit(unit.Id)" class="center">
-                    <i class="material-icons change-name-icon">done</i>
-                </a>     
-            </div>
-            <div class="row">
-                <div class="col l2 m5 s6">
-                    <p class="setting-title">Delete unit</p>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{ unit.Name }}<i class="material-icons right">close</i></span>
+                    <div class="row">
+                        <div class="col l2 m5 s6">
+                            <p class="setting-title">Unit name</p>
+                        </div>
+                        <div class="input-field col l3 m5 s5">
+                            <input id="unitName" type="text" ng-model="unit.Name" />
+                        </div>
+                        <a href="#" ng-click="editUnit(unit.Id)" class="center">
+                            <i class="material-icons change-name-icon">done</i>
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="col l2 m5 s6">
+                            <p class="setting-title">Delete unit</p>
+                        </div>
+                        <div class="input-field col l3 m5 s6">
+                            <a href="#" ng-click="deleteUnit(unit.Id)" class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-field col l3 m5 s6">
-                    <a href="#" ng-click="deleteUnit(unit.Id)" class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
-                </div>
-
             </div>
         </div>
         <div id="users" class="col s12">
@@ -127,7 +139,7 @@
         <div id="addCategory" class="modal add-detail-modal">
             <div class="modal-content">
                 <h4>Add category</h4>
-                <input id="categoryName" placeholder="Type category title here" type="text" ng-model="categoryName"/>
+                <input id="categoryName" placeholder="Category title" type="text" ng-model="categoryName"/>
             </div>
             <div class="modal-footer">
                 <a href="#" ng-click="addCategory(unit.Id, categoryName)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
@@ -137,9 +149,9 @@
         <div id="addLocation" class="modal add-detail-modal">
             <div class="modal-content">
                 <h4>Add location</h4>
-                <input id="locationName" placeholder="Type location name here" type="text" ng-model="locationName"/>
-                <input id="latitude" placeholder="Type latitude here" type="text" ng-model="latitude"/>
-                <input id="longitude" placeholder="Type longitude here" type="text" ng-model="longitude" />
+                <input id="locationName" placeholder="Location name" type="text" ng-model="locationName"/>
+                <input id="latitude" placeholder="Latitude" type="text" ng-model="latitude"/>
+                <input id="longitude" placeholder="Longitude" type="text" ng-model="longitude" />
             </div>
             <div class="modal-footer">
                 <a href="#" ng-click="addLocation(unit.Id, locationName, latitude, longitude)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
@@ -147,11 +159,19 @@
         </div>
         <div id="addCustomProperty" class="modal add-detail-modal">
             <div class="modal-content">
-                <h4>Add user</h4>
-                <input id="userName" placeholder="Type custom property title" type="text" ng-model="customPropertyName" />
+                <h4>Add custom property</h4>
+                <input id="customPropertyName" placeholder="Custom property title" type="text" ng-model="customPropertyName"/>
+
+                <div class="input-field custom-property-type">
+                    <select name="customPropertyType" class="" material-select watch ng-model="customPropertyType">
+                        <option value="" disabled selected style="font-size: 10px;">Property Type</option>
+                        <option value="Field">Field</option>
+                        <option value="CheckBox">Checkbox</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
-                <a href="#" ng-click="addCustomProperty(unit.Id, customPropertyName)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
+                <a href="#" ng-click="addCustomProperty(unit.Id, customPropertyName, customPropertyType)" class=" modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
             </div>
         </div>
     </div>

@@ -532,6 +532,19 @@
      margin-bottom: 15px;
  }
 
+ .units-container #addCustomProperty .custom-property-type {
+     font-size: 14px;
+     z-index: 1000000;
+     margin-top: 0; 
+ }
+
+ .units-container #addCustomProperty .custom-property-type span {
+     font-size: 1rem;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     color: #00a2b7;
+ }
+
  .units-container .add-detail-modal {
      width: 320px;
  }

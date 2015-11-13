@@ -195,6 +195,29 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
+    $scope.addCustomProperty = function (unitId, customPropertyName, customPropertyType) {
+        $scope.isBusy = true;
+        var customProperty = {
+            Name: customPropertyName,
+            CustomPropertyType: customPropertyType
+        }
+        var promise = unitsService.createCustomProperty(customProperty);
+        promise.then(function (customPropertyId) {
+            promise = unitsService.addCustomPropertyToUnit(unitId, customPropertyId);
+            promise.then(function (response) {
+                notificationService.pushSuccess("Custom property has been successfully added!");
+                loadCustomProperties();
+            }), function (error) {
+                notificationService.pushError(error.Message);
+            }
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
     $scope.removeCustomProperty = function (customPropertyId) {
         $scope.isBusy = true;
         var promise = unitsService.removeCustomProperty($scope.unit.Id, customPropertyId);
