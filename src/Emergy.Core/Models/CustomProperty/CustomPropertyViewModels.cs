@@ -9,6 +9,7 @@ namespace Emergy.Core.Models.CustomProperty
         public string Name { get; set; }
         [Required]
         public CustomPropertyType CustomPropertyType { get; set; }
+        public int UnitId { get; set; }
     }
     public class CreateCustomPropertyValueViewModel
     {

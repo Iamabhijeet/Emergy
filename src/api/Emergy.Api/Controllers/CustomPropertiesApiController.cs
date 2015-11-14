@@ -8,8 +8,10 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Core.Common;
+using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
+using Microsoft.AspNet.Identity;
 using model = Emergy.Core.Models.CustomProperty;
 namespace Emergy.Api.Controllers
 {
@@ -18,10 +20,11 @@ namespace Emergy.Api.Controllers
     public class CustomPropertiesApiController : MasterApiController
     {
         public CustomPropertiesApiController(IRepository<CustomProperty> propsRepo,
-            IRepository<CustomPropertyValue> valuesRepo)
+            IRepository<CustomPropertyValue> valuesRepo, IUnitsRepository unitsRepo)
         {
             _propertiesRepository = propsRepo;
             _valuesRepository = valuesRepo;
+            _unitsRepository = unitsRepo;
         }
 
         [HttpPost]
@@ -34,9 +37,14 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             var property = Mapper.Map<CustomProperty>(model);
-            _propertiesRepository.Insert(property);
-            await _propertiesRepository.SaveAsync();
-            return Ok(property.Id);
+            var unit = await _unitsRepository.GetAsync(model.UnitId);
+            if (unit != null && unit.AdministratorId == User.Identity.GetUserId())
+            {
+                _propertiesRepository.Insert(property);
+                await _propertiesRepository.SaveAsync();
+                return Ok(property.Id);
+            }
+            return BadRequest();
         }
         [HttpPost]
         [Route("add-value")]
@@ -61,6 +69,7 @@ namespace Emergy.Api.Controllers
 
         private readonly IRepository<CustomProperty> _propertiesRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;
+        private readonly IUnitsRepository _unitsRepository;
         protected override void Dispose(bool disposing)
         {
             _propertiesRepository.Dispose();
