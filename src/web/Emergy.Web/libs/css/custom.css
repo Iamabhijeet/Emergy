@@ -295,6 +295,11 @@
         font-size: 45px;
     }
 
+    .units-container .header-row {
+        border-bottom: 1px solid #C4C4C4;
+
+    }
+
     .units-container .unit-search {
         margin-top: 20px;
     }
@@ -308,10 +313,6 @@
         margin-top: 27px;
         font-size: 40px;
         color: #757575;
-    }
-
-    .units-container .row {
-        border-bottom: 1px solid #C4C4C4;
     }
 
     .units-container .collection {
@@ -328,9 +329,11 @@
         visibility: collapse;
     }
 
+    .units-container .collection.units .collection-item {
+        height: 100px;
+    }
     .units-container .collection .collection-item {
         border-bottom: 1px solid #cccccc;
-        height: 100px;
     }
 
         .units-container .collection .collection-item .unit-icon {
@@ -364,6 +367,19 @@
         margin: 0 auto;
         margin-top: -25px;
     }
+    .units-container .add-user-button {
+        background-color: #18C0D6;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .units-container .add-user-button i {
+        font-size: 30px;
+        line-height: 50px;
+    }
 
     .units-container .btn, .btn-large {
         background-color: #18C0D6;
@@ -372,6 +388,31 @@
     .units-container .add-unit-button i {
         font-size: 45px;
         line-height: 70px;
+    }
+    .units-container .row .tabs li a {
+        color: #1599AB;
+    }
+    .units-container .row .tabs .indicator {
+        background-color: #18C0D6;  
+    }
+    .units-container .row .setting-title {
+        color: #18C0D6;
+        font-size: 17px;
+        margin-top: 25px;
+    }
+    .units-container #general, #users, #properties {
+        margin-top: 30px;
+    }
+    .units-container .row #general .delete-unit-button {
+        margin-top: 5px;
+        background-color: #BF454D;
+    }
+    
+    .units-container .change-name-icon {
+        margin-top: 25px; 
+    }
+    .units-container .collection .collection-item.avatar span.title {
+        font-size: 20px;
     }
 
 @media only screen and (max-width: 601px) {
@@ -430,7 +471,9 @@
     .units-container .collection .collection-item {
         padding-left: 0;
     }
-
+    .units-container .collection .collection-item img.circle {
+        display: none; 
+    }
     .units-container .collection-item .secondary-content a {
         width: 80px;
         font-size: 12px;
@@ -455,4 +498,58 @@
         margin-left: auto;
         margin-right: auto;
     }
+}
+
+/*-----------UNIT DETAILS PAGE-----------*/
+
+.units-container .collection.user-collection {
+    margin-top: 0;
+}
+
+.units-container .collection.user-collection .collection-item .user-details {
+    margin-top: 12px;
+}
+
+.units-container .collection.user-collection .collection-item .secondary-content a{
+    margin-top: 12px;
+}
+
+.units-container .collection.properties .collection-item {
+    padding-left: 20px;
+}
+
+.units-container .collection.properties .collection-item span.property-title {
+    color: #1599AB;
+    text-transform: uppercase;
+}
+
+ .units-container .collection.properties {
+     margin-top: 10px;
+ }
+
+ .units-container #properties .add-property-button {
+     margin-top: 15px;
+     margin-bottom: 15px;
+ }
+
+ .units-container #addCustomProperty .custom-property-type {
+     font-size: 14px;
+     z-index: 1000000;
+     margin-top: 0; 
+ }
+
+ .units-container #addCustomProperty .custom-property-type span {
+     font-size: 1rem;
+     padding-top: 10px;
+     padding-bottom: 10px;
+     color: #00a2b7;
+ }
+
+ .units-container .add-detail-modal {
+     width: 320px;
+ }
+
+.units-container .add-detail-modal h4{
+     color: #1599AB;
+     font-size: 28px; 
 }
