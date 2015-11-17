@@ -7,7 +7,7 @@ app.controller(controllerId,
         'authService', 'notificationService', 'authData', unitsController]);
 
 function unitsController($scope, $rootScope, unitsService, authService, notificationService, authData) {
-    $rootScope.title = 'Units';
+    $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
     $scope.isBusy = true;

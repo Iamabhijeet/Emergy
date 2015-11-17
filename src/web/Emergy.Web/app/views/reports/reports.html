@@ -1,0 +1,24 @@
+﻿<div ui-view="shell"></div>
+
+<div class="container main-container reports">
+    <div class="row header-row">
+        <div class="col l3 m4 s12">
+            <h2>Reports</h2>
+        </div>
+        <div class="col l4 m3 s7">
+            <input class="search" ng-model="searchTerm" id="search" type="search" placeholder="Type here to search reports">
+
+        </div>
+        <div class="col l3 m4 s3">
+            <a class="btn btn-large filter-button"><i class="material-icons left">filter_list</i><span class="hide-on-small-only">Filter</span></a>
+        </div>
+        <div class="col l1 m1 s1 offset-l1 offset-m0 offset-s0">
+            <a ng-href="#" class="center">
+                <i class="material-icons notification-icon">notifications</i>
+            </a>
+        </div>
+    </div>
+    <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
+        <img src="/assets/img/loading.svg" width="55" />
+    </div>
+</div>

@@ -17,6 +17,31 @@
         controller: "registerController",
         templateUrl: "app/views/register/register.html"
     });
+    $stateProvider.state("Reports", {
+        url: "/dashboard/reports",
+        views: {
+            '': {
+                templateUrl: 'app/views/reports/reports.html',
+                controller: "reportsController"
+            },
+            'shell@Reports': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     $stateProvider.state("Units", {
         url: "/dashboard/units",
         views: {
