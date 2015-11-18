@@ -8,5 +8,6 @@ app.controller(controllerId,
 
 function reportsController($scope, $rootScope, unitsService, authService, notificationService, authData) {
     $rootScope.title = 'Reports | Emergy';
+    $scope.isBusy = false; 
 
 }

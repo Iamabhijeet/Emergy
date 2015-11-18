@@ -21,6 +21,10 @@
     background-size: cover;
 }
 
+#sidenav-overlay {
+    display: none;
+}
+
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
 
 .login-register-container .col.s12 {
@@ -568,8 +572,58 @@
     font-weight: 900; 
 }
 
+.main-container.reports .report-grid-row .report-card .card-content {
+    background-color: #00bcd4;
+    height: 225px; 
+}
+
+.main-container.reports .report-grid-row .report-card .card-action {
+    background-color: #ffffff;
+    padding: 10px 20px 10px 20px;
+    font-weight: 900;
+}
+
+.main-container.reports .report-grid-row .report-card .card-content .report-status {
+    position: absolute;
+    padding-top: 5px;
+    margin-left: -20px;
+    height: 30px;
+    bottom: 42px;
+    font-weight: 500;
+    background-color: #00CEE8;
+    width: 100%;
+    text-align: center;
+    
+}
+
+.main-container.reports .report-grid-row .report-card .card-action .change-status-button {
+    color: #18C0D6;
+}
+.main-container.reports .report-grid-row .report-card .card-action .delete-report-button {
+    position: absolute;
+    right: 0; 
+    color: #616161;
+}
+
 @media only screen and (max-width: 601px) {
     .main-container.reports .header-row .btn.filter-button i {
         margin-right: 0; 
+    }
+}
+
+@media only screen and (max-width: 1691px) {
+    .main-container.reports .report-grid-row .col {
+        width: 33.33%; 
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .main-container.reports .report-grid-row .col {
+        width: 50%;
+    }
+}
+@media only screen and (max-width: 601px) {
+    .main-container.reports .report-grid-row .col {
+        width: 100%;
     }
 }
