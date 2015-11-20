@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "Home";
 }
+<canvas id="bulletRainCanvas" style="position: absolute; top: 0; left: 0; z-index: 1000;"></canvas>
+<script src="~/Content/kisaMetaka-0.3.1.min.js"></script>
+<script type="text/javascript">
+    $('#bulletRainCanvas').kisaMetaka({
+        dropImage: '/Content/bullet2.png',
+        numberOfDrops: 200,
+        sound: '/Content/Konan',
+        keys: [75, 77]
+    });
+</script>
 
 <div style="height: 50px"></div>
 <div class="row" style="margin:4em;">
