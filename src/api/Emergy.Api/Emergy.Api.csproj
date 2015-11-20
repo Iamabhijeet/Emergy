@@ -277,10 +277,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bullet.png" />
     <Content Include="Content\api-icon.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bullet2.png" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\kisaMetaka-0.3.1.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -338,6 +341,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Logs\logs.json" />
+    <Content Include="Content\Konan.ogg" />
     <None Include="Properties\PublishProfiles\emergy-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\emergy-api - Web Deploy.pubxml" />
   </ItemGroup>
