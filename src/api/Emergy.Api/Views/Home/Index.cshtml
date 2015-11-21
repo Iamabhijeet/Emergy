@@ -2,10 +2,10 @@
 @{
     ViewBag.Title = "Home";
 }
-<canvas id="bulletRainCanvas" style="position: absolute; top: 0; left: 0; z-index: 1000;"></canvas>
+<canvas id="tvrdiCanvas" style="position: absolute; top: 0; left: 0; z-index: 1000;"></canvas>
 <script src="~/Content/kisaMetaka-0.3.1.min.js"></script>
 <script type="text/javascript">
-    $('#bulletRainCanvas').kisaMetaka({
+    $('#tvrdiCanvas').kisaMetaka({
         dropImage: '/Content/bullet2.png',
         numberOfDrops: 200,
         sound: '/Content/Konan',
@@ -16,7 +16,7 @@
 <div style="height: 50px"></div>
 <div class="row" style="margin:4em;">
     <div class="col-lg-12">
-        <img class="img-responsive center-block" src="~/Content/api-icon.png"/>
+        <img class="img-responsive center-block" style="margin:0px auto;" src="~/Content/api-icon.png" />
     </div>
 </div>
 
@@ -25,7 +25,9 @@
         <div class="card center-block center" style="margin:0px auto;">
             <div class="content">
                 <span class="title">CPU</span>
-                <p>@Model.CpuUsage</p>
+                <p>
+                    <b>@Model.CpuUsage</b>
+                </p>
             </div>
         </div>
     </div>
@@ -33,7 +35,9 @@
         <div class="card center-block center" style="margin:0px auto;">
             <div class="content">
                 <span class="title">RAM</span>
-                <p>@Model.RamUsage</p>
+                <p>
+                    <b>@Model.RamUsage</b>
+                </p>
             </div>
         </div>
     </div>
