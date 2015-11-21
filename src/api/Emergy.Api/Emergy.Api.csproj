@@ -260,7 +260,7 @@
     <Compile Include="Controllers\MasterApiController.cs" />
     <Compile Include="Controllers\CustomPropertiesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImagesApiController.cs" />
+    <Compile Include="Controllers\ResourcesApiController.cs" />
     <Compile Include="Controllers\LocationsApiController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
     <Compile Include="Controllers\UnitsApiController.cs" />

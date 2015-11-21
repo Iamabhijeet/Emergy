@@ -115,12 +115,11 @@
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\LocationType.cs" />
     <Compile Include="Models\Enums\ReportStatus.cs" />
-    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\ProfilePhoto.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Resource.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visual\aspnetrole.cs">

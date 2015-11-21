@@ -12,12 +12,12 @@ using static Emergy.Core.Common.IEnumerableExtensions;
 namespace Emergy.Api.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/Images")]
-    public class ImagesApiController : MasterApiController
+    [RoutePrefix("api/Resorces")]
+    public class ResourcesApiController : MasterApiController
     {
-        public ImagesApiController(IRepository<Image> imagesRepository)
+        public ResourcesApiController(IRepository<Resource> resourcesRepository)
         {
-            _imagesRepository = imagesRepository;
+            _resourcesRepository = resourcesRepository;
         }
         [Route("upload")]
         public async Task<IHttpActionResult> Upload(HttpPostedFileBase file)
@@ -44,25 +44,25 @@ namespace Emergy.Api.Controllers
 
         private async Task<int> SaveImageAsBase64(HttpPostedFileBase file)
         {
-            int imageId;
+            int resourceId;
             using (var binaryReader = new BinaryReader(file.InputStream))
             {
                 byte[] fileData = binaryReader.ReadBytes(file.ContentLength);
-                Image image = new Image
+                Resource resource = new Resource
                 {
                     Base64 = Convert.ToBase64String(fileData)
                 };
-                _imagesRepository.Insert(image);
-                await _imagesRepository.SaveAsync();
-                imageId = image.Id;
+                _resourcesRepository.Insert(resource);
+                await _resourcesRepository.SaveAsync();
+                resourceId = resource.Id;
             }
-            return imageId;
+            return resourceId;
         }
 
-        private readonly IRepository<Image> _imagesRepository;
+        private readonly IRepository<Resource> _resourcesRepository;
         protected override void Dispose(bool disposing)
         {
-            _imagesRepository.Dispose();
+            _resourcesRepository.Dispose();
             base.Dispose(disposing);
         }
     }

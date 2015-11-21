@@ -33,7 +33,7 @@ namespace Emergy.Data.Models
         public Gender Gender { get; set; }
 
         [ForeignKey("ProfilePhotoId")]
-        public ProfilePhoto ProfilePhoto { get; set; }
+        public Resource ProfilePhoto { get; set; }
 
         public int ProfilePhotoId { get; set; } = 1;
 

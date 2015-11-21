@@ -78,7 +78,7 @@ namespace Emergy.Data.Migrations
         }
         private void AddDefaultProfilePhoto(ApplicationDbContext context)
         {
-            context.ProfilePhotos.AddOrUpdate(new Models.ProfilePhoto
+            context.Resources.AddOrUpdate(new Models.Resource()
             {
                 Url = "/images/account/user.png"
             });

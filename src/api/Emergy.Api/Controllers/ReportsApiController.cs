@@ -26,11 +26,11 @@ namespace Emergy.Api.Controllers
         public ReportsApiController(IReportsRepository reportsRepository,
             IUnitsRepository unitsRepository,
             IRepository<CustomPropertyValue> valuesRepository,
-            IRepository<Image> imagesRepository)
+            IRepository<Resource> resourcesRepository)
         {
             _reportsRepository = reportsRepository;
             _valuesRepository = valuesRepository;
-            _imagesRepository = imagesRepository;
+            _resourcesRepository = resourcesRepository;
             _unitsRepository = unitsRepository;
         }
 
@@ -109,10 +109,10 @@ namespace Emergy.Api.Controllers
             {
                 model.ForEach(async (imageId) =>
                 {
-                    var image = await _imagesRepository.GetAsync(imageId);
+                    var image = await _resourcesRepository.GetAsync(imageId);
                     if (image != null)
                     {
-                        report.Photos.Add(image);
+                        report.Resources.Add(image);
                     }
                 });
                 _reportsRepository.Update(report);
@@ -157,14 +157,14 @@ namespace Emergy.Api.Controllers
         private readonly IReportsRepository _reportsRepository;
         private readonly IUnitsRepository _unitsRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;
-        private readonly IRepository<Image> _imagesRepository;
+        private readonly IRepository<Resource> _resourcesRepository;
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             _unitsRepository.Dispose();
             _reportsRepository.Dispose();
             _valuesRepository.Dispose();
-            _imagesRepository.Dispose();
+            _resourcesRepository.Dispose();
         }
     }
 }
