@@ -12,7 +12,7 @@ namespace Emergy.Data.Models
     {
         public Report()
         {
-            Photos = new HashSet<Image>();
+            Resources = new HashSet<Resource>();
         }
 
         [Required]
@@ -46,6 +46,6 @@ namespace Emergy.Data.Models
         public DateTime DateHappened { get; set; }
 
         public ReportStatus Status { get; set; }
-        public ICollection<Image> Photos { get; set; }
+        public ICollection<Resource> Resources { get; set; }
     }
 }

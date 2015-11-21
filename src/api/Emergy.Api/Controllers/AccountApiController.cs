@@ -31,11 +31,11 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrators")]
+      //  [Authorize(Roles = "Administrators")]
         [Route("With-Key/{key}")]
         public async Task<IHttpActionResult> WithKey(string key)
         {
-            var user = await AccountService.GetUserByKeyAsync(User.Identity.GetUserId());
+            var user = await AccountService.GetUserByKeyAsync(key);
             if (user != null)
             {
                 return Ok(Mapper.Map<model.UserProfile>(user));
