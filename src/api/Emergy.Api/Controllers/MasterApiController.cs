@@ -11,6 +11,21 @@ namespace Emergy.Api.Controllers
     [LogExceptions]
     public abstract class MasterApiController : ApiController
     {
+        protected string ApplicationUrl
+        {
+            get
+            {
+                var appPath = string.Empty;
+                var context = HttpContext.Current;
+                if (context != null)
+                {
+                    appPath = $"{context.Request.Url.Scheme}://{context.Request.Url.Host}{(context.Request.Url.Port == 80 ? string.Empty : ":" + context.Request.Url.Port)}{context.Request.ApplicationPath}";
+                }
+                if (!appPath.EndsWith("/"))
+                    appPath += "/";
+                return appPath;
+            }
+        }
         protected ApplicationUserManager UserManager
         {
             get

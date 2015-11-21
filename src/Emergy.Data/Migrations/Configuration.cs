@@ -44,6 +44,7 @@ namespace Emergy.Data.Migrations
                 Surname = "Boduljak",
                 Email = "gboduljak@outlook.com",
                 PasswordHash = new PasswordHasher().HashPassword("damngoood"),
+                UserKeyHash = new PasswordHasher().HashPassword("123123"),
                 Gender = Gender.Male,
                 BirthDate = Convert.ToDateTime("1999-04-23"),
                 ProfilePhotoId = 1
@@ -55,6 +56,7 @@ namespace Emergy.Data.Migrations
                 Surname = "Borovic",
                 Email = "bborovic@outlook.com",
                 PasswordHash = new PasswordHasher().HashPassword("damngoood"),
+                UserKeyHash = new PasswordHasher().HashPassword("123124"),
                 Gender = Gender.Male,
                 BirthDate = DateTime.Now,
                 ProfilePhotoId = 1
@@ -82,6 +84,7 @@ namespace Emergy.Data.Migrations
             {
                 Url = "/images/account/user.png"
             });
+            context.SaveChanges();
         }
     }
 }

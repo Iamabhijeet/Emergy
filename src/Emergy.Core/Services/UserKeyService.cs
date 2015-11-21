@@ -11,7 +11,7 @@ namespace Emergy.Core.Services
     {
         public UserKeyService()
         {
-            _random = new Random();
+            _random = new Random((int)DateTime.Now.Ticks & (0x0000FFFF + 69));
         }
         public string GenerateRandomKey()
         {

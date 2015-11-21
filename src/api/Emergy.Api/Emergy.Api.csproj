@@ -281,7 +281,7 @@
     <Content Include="Content\api-icon.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bullet2.png" />
+    <Content Include="Content\bullet-flat.png" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\kisaMetaka-0.3.1.min.js" />
     <Content Include="favicon.ico" />
@@ -338,7 +338,9 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Resources\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Logs\logs.json" />
     <Content Include="Content\Konan.ogg" />
@@ -359,7 +361,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52513</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
