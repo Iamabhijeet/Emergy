@@ -229,7 +229,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("clients/remove/{id}")]
         public async Task<IHttpActionResult> RemoveClient([FromUri]int id, [FromBody] string clientId)
         {
@@ -277,9 +277,9 @@ namespace Emergy.Api.Controllers
             return Unauthorized();
         }
 
-        [HttpPost]
-        [Route("categories/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveCategory([FromUri]int id, [FromBody] int categoryId)
+        [HttpDelete]
+        [Route("categories/remove")]
+        public async Task<IHttpActionResult> RemoveCategory([FromUri]int id, [FromUri] int categoryId)
         {
             if (!ModelState.IsValid)
             {

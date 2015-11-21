@@ -48,7 +48,6 @@
 }
 
 .card {
-    display: inline-block;
     vertical-align: top;
     width: 350px;
     position: relative;
@@ -114,3 +113,9 @@
             padding: 20px;
             color: #FFF;
         }
+@media only screen and (max-width: 400px) {
+    .card {
+        width: 200px;
+    }
+}
+

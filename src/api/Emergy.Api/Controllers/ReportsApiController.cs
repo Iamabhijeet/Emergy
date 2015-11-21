@@ -138,7 +138,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("delete")]
+        [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
         {
             if (!ModelState.IsValid)

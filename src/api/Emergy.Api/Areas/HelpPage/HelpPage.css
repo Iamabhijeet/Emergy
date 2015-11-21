@@ -8,7 +8,7 @@
 .help-page-table th,
 .help-page-table pre,
 .help-page-table p {
-    font-family: "Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Roboto","Segoe UI Light", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 .help-page pre.wrapped {
@@ -65,7 +65,7 @@
 
 .help-page .sample-header {
     border: 2px solid #D4D4D4;
-    background: #00497E;
+    background: #00BCD4;
     color: #FFFFFF;
     padding: 8px 15px;
     border-bottom: none;
@@ -129,6 +129,6 @@
 }
 
 .help-page a {
-    color: #0000EE;
+    color: #00BCD4;
     text-decoration: none;
 }
