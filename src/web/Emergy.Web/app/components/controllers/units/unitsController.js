@@ -12,7 +12,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $scope.searchTerm = '';
     $scope.isBusy = true;
 
-    var onLoaded = function () {
+    var loadUnits = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnits();
         promise.then(function (units) {
@@ -24,5 +24,21 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 $scope.isBusy = false;
             });
     };
-    onLoaded();
+
+    $scope.createUnit = function (unitName) {
+        $scope.isBusy = true;
+
+        var promise = unitsService.createUnit(unit);
+        promise.then(function (response) {
+            loadUnits();
+        },
+        function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
+    loadUnits();
 }

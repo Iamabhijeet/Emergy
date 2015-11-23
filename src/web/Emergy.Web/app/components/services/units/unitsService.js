@@ -4,6 +4,18 @@ services.factory('unitsService', unitsService);
 unitsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 
 function unitsService($http, $q, serviceBase, authData) {
+    var createUnit = function (unitName) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/create', unitName)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var getUnits = function () {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/units/get')
@@ -245,6 +257,7 @@ function unitsService($http, $q, serviceBase, authData) {
     };
 
     var service = {
+        createUnit: createUnit,
         getUnits: getUnits,
         getUnit: getUnit,
         getClients: getClients,
