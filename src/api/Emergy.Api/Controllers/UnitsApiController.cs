@@ -37,9 +37,9 @@ namespace Emergy.Api.Controllers
             var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
             if (lastTakenId > 0)
             {
-                return Ok(units.Where(unit => unit.Id > lastTakenId && unit.Id < lastTakenId + 10).ToList());
+                return Ok(units.Where(unit => unit.Id > lastTakenId && unit.Id < lastTakenId + 10).ToArray());
             }
-            return Ok(units.Take(10));
+            return Ok(units.Take(10).ToArray());
         }
 
         [HttpGet]
@@ -68,6 +68,7 @@ namespace Emergy.Api.Controllers
             }
             var unit = Mapper.Map<Unit>(model);
             unit.AdministratorId = User.Identity.GetUserId();
+            _unitsRepository.Insert(unit);
             await _unitsRepository.SaveAsync();
             return Ok(unit.Id);
         }
