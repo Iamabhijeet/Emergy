@@ -56,6 +56,7 @@
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
+    <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\services.module.js" />
     <Content Include="app\components\services\notification\unitsService.js" />
     <Content Include="app\components\services\units\unitsService.js" />

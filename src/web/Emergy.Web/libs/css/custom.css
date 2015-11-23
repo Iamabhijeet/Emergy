@@ -50,7 +50,7 @@
 }
 
     .login-register-container .register-card form input {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 
     .login-register-container .register-card form .validation {
@@ -620,6 +620,15 @@
     width: 90%;
     opacity: 0.9;
 }
+
+.main-container.reports .report-grid-row .report-card .card-reveal .status-collection {
+    margin-top: 10px;
+}
+
+.main-container.reports .report-grid-row .report-card .card-reveal .status-collection a {
+    color: #00bcd4;
+}
+
 
 @media only screen and (max-width: 601px) {
     .main-container.reports .header-row .btn.filter-button i {
