@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -22,7 +23,7 @@ namespace Emergy.Api.Controllers
     {
         public UnitsApiController()
         {
-            
+
         }
         public UnitsApiController(IUnitsRepository unitsRepository)
         {
@@ -30,11 +31,15 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
-        public async Task<IHttpActionResult> GetUnits()
+        [Route("get/{lastTakenId}")]
+        public async Task<IHttpActionResult> GetUnits(int lastTakenId = 0)
         {
             var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
-            return Ok(units);
+            if (lastTakenId > 0)
+            {
+                return Ok(units.Where(unit => unit.Id > lastTakenId && unit.Id < lastTakenId + 10).ToList());
+            }
+            return Ok(units.Take(10));
         }
 
         [HttpGet]
@@ -61,9 +66,10 @@ namespace Emergy.Api.Controllers
             {
                 return Error();
             }
-            _unitsRepository.Insert(Mapper.Map<Unit>(model));
+            var unit = Mapper.Map<Unit>(model);
+            unit.AdministratorId = User.Identity.GetUserId();
             await _unitsRepository.SaveAsync();
-            return Ok(model);
+            return Ok(unit.Id);
         }
 
         [HttpPut]
