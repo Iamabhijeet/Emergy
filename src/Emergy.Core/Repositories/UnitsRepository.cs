@@ -26,11 +26,11 @@ namespace Emergy.Core.Repositories
                 case AccountType.Administrator:
                     {
                         return await this.GetAsync(unit => unit.AdministratorId == user.Id,
-                                     query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
+                                     query => query.OrderByDescending(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                     }
                 case AccountType.Client:
                     {
-                        var units = await this.GetAsync(null, query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
+                        var units = await this.GetAsync(null, query => query.OrderByDescending(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                         return units.Where(unit => unit.Clients.Contains(user));
                     }
             }

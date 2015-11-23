@@ -31,15 +31,11 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get/{lastTakenId}")]
-        public async Task<IHttpActionResult> GetUnits(int lastTakenId = 0)
+        [Route("get")]
+        public async Task<IHttpActionResult> GetUnits()
         {
-            var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
-            if (lastTakenId > 0)
-            {
-                return Ok(units.Where(unit => unit.Id > lastTakenId && unit.Id < lastTakenId + 10).ToArray());
-            }
-            return Ok(units.Take(10).ToArray());
+            var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).WithoutSync();
+            return Ok(units.OrderByDescending(unit => unit.DateCreated));
         }
 
         [HttpGet]
@@ -168,7 +164,7 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Locations);
+                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp));
                 }
                 return Unauthorized();
             }
@@ -261,7 +257,7 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Categories);
+                    return Ok(unit.Categories.OrderByDescending(category => category.Id));
                 }
                 return Unauthorized();
             }

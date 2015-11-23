@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -34,11 +35,39 @@ namespace Emergy.Api.Controllers
             _unitsRepository = unitsRepository;
         }
 
+        [Authorize(Roles = "Clients")]
         [HttpGet]
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
         {
             return await _reportsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name));
+        }
+
+        [Authorize(Roles = "Administrators")]
+        [HttpGet]
+        [Route("get-admin/{lastTaken}")]
+        public async Task<IEnumerable<Report>> GetReportsForAdmin(int lastTaken = 0)
+        {
+            var adminUnits = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
+            var reports = new List<Report>();
+            adminUnits.ForEach((unit) =>
+            {
+                var reportsForUnit = unit.Reports;
+                reportsForUnit.ForEach((report) => reports.Add(report));
+            });
+            if (lastTaken == 0)
+            {
+                return reports.Take(10).OrderByDescending(report => report.DateHappened);
+            }
+            var nextTenReports = new List<Report>();
+            reports.ForEach((report) =>
+            {
+                if (report.Id > lastTaken && report.Id < (lastTaken + 10))
+                {
+                    nextTenReports.Add(report);
+                }
+            });
+            return nextTenReports.OrderByDescending(report => report.DateHappened);
         }
 
         [HttpPost]
