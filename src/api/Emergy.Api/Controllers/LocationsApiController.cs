@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -28,10 +29,11 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         [Authorize(Roles = "Clients")]
         [Route("get-user")]
-        public async Task<IHttpActionResult> GetLocations()
+        public async Task<IEnumerable<Location>> GetLocations()
         {
-            return Ok(((await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).Locations)
-                .OrderByDescending(location => location.Timestamp));
+            return (await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))
+                .Locations
+                .OrderByDescending(location => location.Timestamp);
         }
 
         [HttpGet]

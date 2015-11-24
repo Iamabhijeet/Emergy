@@ -32,10 +32,10 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<IHttpActionResult> GetUnits()
+        public async Task<IEnumerable<Unit>> GetUnits()
         {
             var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).WithoutSync();
-            return Ok(units.OrderByDescending(unit => unit.DateCreated));
+            return units.OrderByDescending(unit => unit.DateCreated);
         }
 
         [HttpGet]

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
+using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
@@ -48,6 +49,31 @@ namespace Emergy.Core.Repositories
         {
             return (await GetAsync(unitId)).Reports;
         }
+
+        public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, int lastTaken)
+        {
+            var adminUnits = await this.GetAsync(admin);
+            var reports = new List<Report>();
+            adminUnits.ForEach((unit) =>
+            {
+                var reportsForUnit = unit.Reports;
+                reportsForUnit.ForEach((report) => reports.Add(report));
+            });
+            if (lastTaken == 0)
+            {
+                return reports.OrderByDescending(report => report.DateHappened).Take(10);
+            }
+            var nextTenReports = new List<Report>();
+            reports.ForEach((report) =>
+            {
+                if (report.Id > lastTaken && report.Id < (lastTaken + 10))
+                {
+                    nextTenReports.Add(report);
+                }
+            });
+            return nextTenReports.OrderByDescending(report => report.DateHappened);
+        }
+
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
             return (await GetAsync(unitId)).CustomProperties;

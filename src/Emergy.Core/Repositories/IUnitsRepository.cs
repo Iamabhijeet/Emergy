@@ -11,6 +11,7 @@ namespace Emergy.Core.Repositories
         Task<IEnumerable<ApplicationUser>> GetUsers(int unitId);
         Task<IEnumerable<Location>> GetLocations(int unitId);
         Task<IEnumerable<Report>> GetReports(int unitId);
+        Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser adminApplicationUser, int lastTaken);
         Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId);
 
         Task AddCustomProperty(int unitId, int propertyId);
