@@ -11,9 +11,10 @@ function reportsController($scope, $rootScope, reportsService, authService, noti
     $scope.isBusy = false;
     $scope.reports = [];
     $scope.lastReportDateTime = '';
+
     var loadReports = function () {
         $scope.isBusy = true;
-        var promise = reportsService.getReports(lastReportDateTime);
+        var promise = reportsService.getReports($scope.lastReportDateTime);
         promise.then(function (response) {
             angular.copy(response, $scope.reports);
         }, function (error) {

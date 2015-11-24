@@ -183,7 +183,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
 
     $scope.removeLocation = function (locationId) {
         $scope.isBusy = true;
-        var promise = unitsService.removeLocation($scope.unit.Id, locationId);
+        var promise = unitsService.removeLocation(locationId);
         promise.then(function (response) {
             notificationService.pushSuccess("Successfully removed location!");
             loadLocations();
@@ -199,7 +199,8 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         $scope.isBusy = true;
         var customProperty = {
             Name: customPropertyName,
-            CustomPropertyType: customPropertyType
+            CustomPropertyType: customPropertyType,
+            UnitId: unitId
         }
         var promise = unitsService.createCustomProperty(customProperty);
         promise.then(function (customPropertyId) {
@@ -220,7 +221,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
 
     $scope.removeCustomProperty = function (customPropertyId) {
         $scope.isBusy = true;
-        var promise = unitsService.removeCustomProperty($scope.unit.Id, customPropertyId);
+        var promise = unitsService.removeCustomProperty(customPropertyId);
         promise.then(function (response) {
             notificationService.pushSuccess("Successfully removed custom property!");
             loadCustomProperties();
@@ -236,7 +237,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         $scope.isBusy = true;
         var promise = unitsService.getClientByKey(clientKey);
         promise.then(function (client) {
-            promise = unitsService.addClient(unitId, client.Id);
+            promise = unitsService.addClient(unitId, JSON.stringify(client.Id));
             promise.then(function(response) {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();

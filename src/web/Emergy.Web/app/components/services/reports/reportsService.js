@@ -8,8 +8,9 @@ function reportsService($http, $q, serviceBase, authData) {
     var getReports = function (lastDateTime) {
         var deffered;
         if (lastDateTime) {
+            
             deffered = $q.defer();
-            $http.delete(serviceBase + 'api/reports/get-admin/' + lastDateTime)
+            $http.get(serviceBase + 'api/reports/get-admin/' + lastDateTime)
             .success(function (response) {
                 deffered.resolve(response);
             })
@@ -18,8 +19,10 @@ function reportsService($http, $q, serviceBase, authData) {
                 });
             return deffered.promise;
         }
+
         deffered = $q.defer();
-        $http.delete(serviceBase + 'api/reports/get-admin')
+        
+        $http.get(serviceBase + 'api/reports/get-admin')
         .success(function (response) {
             deffered.resolve(response);
         })

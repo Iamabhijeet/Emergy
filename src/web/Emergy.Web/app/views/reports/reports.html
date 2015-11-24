@@ -20,22 +20,22 @@
     </div>
     <div class="row report-grid-row">
         <div class="col l3 m6 s12">
-            <div class="card report-card">
+            <div class="card report-card" ng-repeat="report in reports">
                 <a href="#">
                     <div class="card-content waves-effect waves-block waves-light white-text">
-                        <p>Equipment fell off the pickup truck while driving to the surveying site. Two levelers are broken, but the total stations are okay.</p>
+                        <p>{{ report.Description }}</p>
                         <div class="row">
                             <div class="col l6 m6 s6">
-                                <p><i class="material-icons report-detail-icon">access_time</i> 4:69PM
+                                <p><i class="material-icons report-detail-icon">access_time</i> {{ report.Timestamp | date: 'HH:mma'}}
                                 </p>
                             </div>
                             <div class="col l6 m6 s6">
-                                <p><i class="material-icons report-detail-icon">list</i> Worker injury
+                                <p><i class="material-icons report-detail-icon">list</i> {{ report.Category }}
                                 </p>
                             </div>
                         </div>
                         <div class="report-status">
-                            <p>Processing</p>
+                            <p>{{ report.Status }}</p>
                         </div>
                     </div>
                 </a>

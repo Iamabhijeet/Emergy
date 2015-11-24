@@ -54,7 +54,7 @@ function unitsService($http, $q, serviceBase, authData) {
 
     var removeClient = function(unitId, clientId) {
         var deffered = $q.defer();
-        $http.post(serviceBase + 'api/units/clients/remove/' + unitId, clientId)
+        $http.delete(serviceBase + 'api/units/clients/remove/' + unitId, clientId)
         .success(function (response) {
             deffered.resolve(response);
         })
@@ -148,9 +148,9 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     }
 
-    var removeLocation = function (unitId, locationId) {
+    var removeLocation = function (locationId) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/units/locations/remove/' + unitId, locationId)
+        $http.delete(serviceBase + 'api/locations/delete/' + locationId)
         .success(function (response) {
             deffered.resolve(response);
         })
@@ -162,13 +162,13 @@ function unitsService($http, $q, serviceBase, authData) {
 
     var removeCategory = function (categoryId) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/units/categories/remove/' + categoryId)
+        $http.delete(serviceBase + 'api/categories/delete/' + categoryId)
         .success(function (response) {
             deffered.resolve(response);
         })
-            .error(function (response) {
-                deffered.reject(response);
-            });
+        .error(function (response) {
+            deffered.reject(response);
+        });
         return deffered.promise;
     };
 
@@ -196,9 +196,9 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
-    var removeCustomProperty = function (unitId, customPropertyId) {
+    var removeCustomProperty = function (customPropertyId) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/units/custom-property/remove/' + unitId, customPropertyId)
+        $http.delete(serviceBase + 'api/custom-props/delete/' + customPropertyId)
         .success(function (response) {
             deffered.resolve(response);
         })
