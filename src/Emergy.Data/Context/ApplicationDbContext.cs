@@ -20,7 +20,7 @@ namespace Emergy.Data.Context
             base.OnModelCreating(builder);
             // builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             // table mappings
-
+            
             builder.Entity<Resource>().ToTable("Resources");
             
 

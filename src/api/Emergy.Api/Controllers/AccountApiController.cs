@@ -31,7 +31,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-      //  [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators")]
         [Route("With-Key/{key}")]
         public async Task<IHttpActionResult> WithKey(string key)
         {

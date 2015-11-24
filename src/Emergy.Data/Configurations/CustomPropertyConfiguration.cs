@@ -10,7 +10,7 @@ namespace Emergy.Data.Configurations
             ToTable("CustomProperties");
 
             HasMany(x => x.CustomPropertyValues)
-                .WithRequired(x => x.CustomProperty)
+                .WithOptional(x => x.CustomProperty)
                 .WillCascadeOnDelete();
 
             HasRequired(x => x.Unit)

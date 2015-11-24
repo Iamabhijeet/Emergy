@@ -129,6 +129,24 @@ namespace Emergy.Api.Controllers
             return NotFound();
         }
 
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> DeleteLocation(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            var location = await _locationsRepository.GetAsync(id);
+            if (location != null)
+            {
+                _locationsRepository.Delete(location);
+                await _locationsRepository.SaveAsync();
+                return Ok();
+            }
+            return NotFound();
+        }
+
         private readonly IRepository<Location> _locationsRepository;
         private readonly IUnitsRepository _unitsRepository;
         private readonly IReportsRepository _reportsRepository;

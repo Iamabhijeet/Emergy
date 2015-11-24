@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -8,6 +7,7 @@ using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
+using System.Data.Entity;
 
 namespace Emergy.Core.Repositories
 {
@@ -78,7 +78,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.CustomProperties.Add(await Context.CustomProperties.FindAsync(propertyId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -87,13 +86,9 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                CustomProperty property = unit.CustomProperties.SingleOrDefault(prop => prop.Id == propertyId);
-                if (unit.CustomProperties.Contains(property))
-                {
-                    unit.CustomProperties.Remove(property);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                CustomProperty property = await Context.CustomProperties.FindAsync(propertyId);
+                unit.CustomProperties.Remove(property);
+                await this.SaveAsync();
             }
         }
         public async Task AddClient(int unitId, string userId)
@@ -102,7 +97,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Clients.Add(Context.Users.Find(userId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -111,13 +105,10 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                ApplicationUser user = unit.Clients.SingleOrDefault(u => u.Id == userId);
-                if (unit.Clients.Contains(user))
-                {
-                    unit.Clients.Remove(user);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                ApplicationUser user = Context.Users.Find(userId);
+                Context.Entry(unit).Collection("Clients").Load();
+                unit.Clients.Remove(user);
+                await this.SaveAsync();
             }
         }
         public async Task AddLocation(int unitId, int locationId)
@@ -126,7 +117,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Locations.Add(await Context.Locations.FindAsync(locationId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -135,13 +125,9 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                Location location = unit.Locations.SingleOrDefault(l => l.Id == locationId);
-                if (unit.Locations.Contains(location))
-                {
-                    unit.Locations.Remove(location);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                Location location = await Context.Locations.FindAsync(locationId);
+                unit.Locations.Remove(location);
+                await this.SaveAsync();
             }
         }
         public async Task AddCategory(int unitId, int categoryId)
@@ -150,7 +136,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Categories.Add(await Context.Categories.FindAsync(categoryId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -160,7 +145,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Categories.Remove(await Context.Categories.FindAsync(categoryId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
