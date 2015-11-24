@@ -35,7 +35,8 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<Unit>> GetUnits()
         {
             var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).WithoutSync();
-            return units.OrderByDescending(unit => unit.DateCreated);
+            return units.OrderByDescending(unit => unit.DateCreated)
+                        .ToArray();
         }
 
         [HttpGet]
@@ -164,7 +165,8 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp));
+                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
+                        .ToArray());
                 }
                 return Unauthorized();
             }
@@ -257,7 +259,8 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Categories.OrderByDescending(category => category.Id));
+                    return Ok(unit.Categories.OrderByDescending(category => category.Id)
+                                             .ToArray());
                 }
                 return Unauthorized();
             }

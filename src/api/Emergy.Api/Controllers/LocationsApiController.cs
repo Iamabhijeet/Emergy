@@ -33,7 +33,8 @@ namespace Emergy.Api.Controllers
         {
             return (await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))
                 .Locations
-                .OrderByDescending(location => location.Timestamp);
+                .OrderByDescending(location => location.Timestamp)
+                .ToArray();
         }
 
         [HttpGet]
@@ -45,7 +46,8 @@ namespace Emergy.Api.Controllers
             if (unit != null)
             {
                 return Ok(unit.Locations
-                   .OrderByDescending(location => location.Timestamp));
+                   .OrderByDescending(location => location.Timestamp)
+                   .ToArray());
             }
             return NotFound();
         }
@@ -121,7 +123,7 @@ namespace Emergy.Api.Controllers
                 location.Name = model.Name;
                 location.Type = model.Type;
                 _locationsRepository.Update(location);
-                await _locationsRepository.SaveAsync().Sync();
+                await _locationsRepository.SaveAsync();
                 return Ok();
             }
             return NotFound();
