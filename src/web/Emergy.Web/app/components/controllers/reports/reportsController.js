@@ -9,9 +9,19 @@ app.controller(controllerId,
 function reportsController($scope, $rootScope, reportsService, authService, notificationService, authData) {
     $rootScope.title = 'Reports | Emergy';
     $scope.isBusy = false;
-
-    var loadReports = function() {
-        //Add functionality
+    $scope.reports = [];
+    $scope.lastReportDateTime = '';
+    var loadReports = function () {
+        $scope.isBusy = true;
+        var promise = reportsService.getReports(lastReportDateTime);
+        promise.then(function (response) {
+            angular.copy(response, $scope.reports);
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
     }
 
     $scope.deleteReport = function (reportId) {
@@ -20,8 +30,8 @@ function reportsController($scope, $rootScope, reportsService, authService, noti
         var promise = reportsService.deleteReport(reportId);
         promise.then(function (response) {
             notificationService.pushSuccess("Report has been deleted!");
-                loadReports();
-            }, function (error) {
+            loadReports();
+        }, function (error) {
             notificationService.pushError(error.Message);
         })
         .finally(function () {

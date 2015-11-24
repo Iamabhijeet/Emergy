@@ -27,8 +27,9 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
 
     $scope.createUnit = function (unitName) {
         $scope.isBusy = true;
-
-        var promise = unitsService.createUnit(unit);
+        var promise = unitsService.createUnit({
+            Name : unitName
+        });
         promise.then(function (response) {
             loadUnits();
         },
