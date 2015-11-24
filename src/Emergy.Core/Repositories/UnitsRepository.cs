@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
-using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
@@ -49,31 +50,24 @@ namespace Emergy.Core.Repositories
         {
             return (await GetAsync(unitId)).Reports;
         }
-
-        public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, int lastTaken)
+        public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, DateTime? lastHappened)
         {
             var adminUnits = await this.GetAsync(admin);
-            var reports = new List<Report>();
-            adminUnits.ForEach((unit) =>
+            var reports =
+                adminUnits.AsParallel()
+                    .Where(unit => unit.AdministratorId == admin.Id)
+                    .Select(unit => unit.Reports)
+                    .Aggregate((current, next) => next.Concat(current).ToList())
+                    .OrderByDescending(report => report.DateHappened)
+                    .ToArray();
+            if (lastHappened == null)
             {
-                var reportsForUnit = unit.Reports;
-                reportsForUnit.ForEach((report) => reports.Add(report));
-            });
-            if (lastTaken == 0)
-            {
-                return reports.OrderByDescending(report => report.DateHappened).Take(10);
+                return reports.Take(10);
             }
-            var nextTenReports = new List<Report>();
-            reports.ForEach((report) =>
-            {
-                if (report.Id > lastTaken && report.Id < (lastTaken + 10))
-                {
-                    nextTenReports.Add(report);
-                }
-            });
-            return nextTenReports.OrderByDescending(report => report.DateHappened);
+            return reports.Where(report => report.DateHappened > lastHappened)
+                .OrderByDescending(report => report.DateHappened)
+                .Take(10);
         }
-
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
             return (await GetAsync(unitId)).CustomProperties;

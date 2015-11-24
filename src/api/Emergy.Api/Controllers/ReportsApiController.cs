@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,12 +46,22 @@ namespace Emergy.Api.Controllers
 
         [Authorize(Roles = "Administrators")]
         [HttpGet]
-        [Route("get-admin/{lastTaken}")]
-        public async Task<IEnumerable<Report>> GetReportsForAdmin(int lastTaken = 0)
+        [Route("get-admin/{lastHappened:datetime}")]
+        public async Task<IEnumerable<Report>> GetReportsForAdmin([FromUri] DateTime? lastHappened)
         {
             var admin = await AccountService.GetUserByIdAsync(User.Identity.Name);
-            return await _unitsRepository.GetReportsForAdmin(admin, lastTaken);
+            return await _unitsRepository.GetReportsForAdmin(admin, lastHappened);
         }
+
+        [Authorize(Roles = "Administrators")]
+        [HttpGet]
+        [Route("get-admin")]
+        public async Task<IEnumerable<Report>> GetReportsForAdmin()
+        {
+            var admin = await AccountService.GetUserByIdAsync(User.Identity.Name);
+            return await _unitsRepository.GetReportsForAdmin(admin, null);
+        }
+
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "Clients")]
