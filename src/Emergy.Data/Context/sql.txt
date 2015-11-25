@@ -5,9 +5,9 @@ create table `AspNetUserClaims` (`Id` int not null  auto_increment ,`UserId` nva
 create table `Locations` (`Id` int not null  auto_increment ,`Latitude` double not null ,`Longitude` double not null ,`Name` longtext,`Type` int not null ,`Timestamp` datetime not null ,`ApplicationUser_Id` nvarchar(128) ,`Unit_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
 create table `AspNetUserLogins` (`LoginProvider` nvarchar(128)  not null ,`ProviderKey` nvarchar(128)  not null ,`UserId` nvarchar(128)  not null ,primary key ( `LoginProvider`,`ProviderKey`,`UserId`) ) engine=InnoDb auto_increment=0
 create table `Resources` (`Id` int not null  auto_increment ,`Url` longtext,`Name` longtext,`DateUploaded` datetime not null ,`MimeType` longtext,`Base64` longtext,`Report_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-create table `Reports` (`Id` int not null  auto_increment ,`Description` nvarchar(200)  not null ,`CreatorId` nvarchar(128) ,`LocationId` int,`CategoryId` int,`DetailsId` int not null ,`Timestamp` datetime not null ,`DateHappened` datetime not null ,`Status` int not null ,`Unit_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `Reports` (`Id` int not null  auto_increment ,`Description` nvarchar(200)  not null ,`CreatorId` nvarchar(128) ,`LocationId` int,`CategoryId` int,`DetailsId` int not null ,`Timestamp` datetime not null ,`DateHappened` datetime not null ,`Status` int not null ,`Unit_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
 create table `ReportDetails` (`Id` int not null  auto_increment ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
-create table `CustomPropertyValues` (`Id` int not null  auto_increment ,`SerializedValue` longtext,`CustomProperty_Id` int not null ,`ReportDetails_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
+create table `CustomPropertyValues` (`Id` int not null  auto_increment ,`SerializedValue` longtext,`CustomProperty_Id` int,`ReportDetails_Id` int,primary key ( `Id`) ) engine=InnoDb auto_increment=0
 create table `CustomProperties` (`Id` int not null  auto_increment ,`Name` longtext not null ,`CustomPropertyType` int not null ,`Unit_Id` int not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
 create table `AspNetUserRoles` (`UserId` nvarchar(128)  not null ,`RoleId` nvarchar(128)  not null ,primary key ( `UserId`,`RoleId`) ) engine=InnoDb auto_increment=0
 create table `AspNetRoles` (`Id` nvarchar(128)  not null ,`Name` nvarchar(128)  not null ,primary key ( `Id`) ) engine=InnoDb auto_increment=0
@@ -47,7 +47,7 @@ alter table `Reports` add constraint `FK_Reports_AspNetUsers_CreatorId`  foreign
 alter table `Reports` add constraint `FK_Reports_ReportDetails_DetailsId`  foreign key (`DetailsId`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
 alter table `Reports` add constraint `FK_Reports_Locations_LocationId`  foreign key (`LocationId`) references `Locations` ( `Id`) 
 alter table `Reports` add constraint `FK_Reports_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
-alter table `CustomPropertyValues` add constraint `FK_0de4fc03a0a94123a10f8575338999c3`  foreign key (`CustomProperty_Id`) references `CustomProperties` ( `Id`)  on update cascade on delete cascade 
+alter table `CustomPropertyValues` add constraint `FK_08dae897d3e44b5fbe7542fb5a7eded1`  foreign key (`CustomProperty_Id`) references `CustomProperties` ( `Id`)  on update cascade on delete cascade 
 alter table `CustomPropertyValues` add constraint `FK_CustomPropertyValues_ReportDetails_ReportDetails_Id`  foreign key (`ReportDetails_Id`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 
 alter table `CustomProperties` add constraint `FK_CustomProperties_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
 alter table `AspNetUserRoles` add constraint `FK_AspNetUserRoles_AspNetUsers_UserId`  foreign key (`UserId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 

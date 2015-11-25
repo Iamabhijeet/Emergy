@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Emergy.Core.Common;
+using Emergy.Core.Models.File;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
-
 
 namespace Emergy.Api.Controllers
 {
@@ -26,31 +26,28 @@ namespace Emergy.Api.Controllers
             return (resource != null) ? (IHttpActionResult)Ok(resource) : BadRequest();
         }
         [Route("upload")]
-        public async Task<IHttpActionResult> Upload(HttpPostedFileBase file)
+        public async Task<IHttpActionResult> Upload(ValidatedHttpPostedFileBase file)
         {
-            if (file != null)
+            if (file != null && ModelState.IsValid)
             {
-                if (file.ContentLength <= (25 * 1024 * 1024))
-                {
-                    return BadRequest("Maximum resource upload size is 25 MB!");
-                }
                 int imageId = await SaveFile(file);
                 return Ok(imageId);
             }
             return BadRequest();
         }
         [Route("upload")]
-        public IHttpActionResult Upload(IEnumerable<HttpPostedFileBase> files)
+        public IHttpActionResult Upload(UploadMultipleResourcesViewModel model)
         {
-            ICollection<int> uploadedIds = new List<int>();
-            files?.ForEach(async (file) =>
+            if (model != null && ModelState.IsValid)
             {
-                if (file.ContentLength <= (25 * 1024 * 1024))
+                ICollection<int> uploadedIds = new List<int>();
+                model?.Files.ForEach(async (file) =>
                 {
                     uploadedIds.Add(await SaveFile(file).WithoutSync());
-                }
-            });
-            return Ok(uploadedIds);
+                });
+                return Ok(uploadedIds);
+            }
+            return BadRequest();
         }
         private async Task<int> SaveFile(HttpPostedFileBase file)
         {

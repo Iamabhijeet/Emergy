@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
@@ -40,6 +35,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(model.UnitId);
             if (unit != null && unit.AdministratorId == User.Identity.GetUserId())
             {
+                property.Unit = unit;
                 _propertiesRepository.Insert(property);
                 await _propertiesRepository.SaveAsync();
                 return Ok(property.Id);
@@ -65,6 +61,19 @@ namespace Emergy.Api.Controllers
                 return Ok(value.Id);
             }
             return NotFound();
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> DeleteProperty(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            _propertiesRepository.Delete(id);
+            await _propertiesRepository.SaveAsync();
+            return Ok();
         }
 
         private readonly IRepository<CustomProperty> _propertiesRepository;

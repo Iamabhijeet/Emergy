@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Emergy.Core.Repositories.Generic;
@@ -27,7 +23,7 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             return Ok((await _categoriesRepository.GetAsync())
-                .OrderByDescending(c => c.Name));
+                .OrderByDescending(c => c.Name).ToArray());
         }
         [HttpPost]
         [Route("create/{name}")]

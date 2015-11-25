@@ -43,7 +43,6 @@ namespace Emergy.Data.Migrations
                 Name = "Gabrijel",
                 Surname = "Boduljak",
                 Email = "gboduljak@outlook.com",
-                PasswordHash = new PasswordHasher().HashPassword("damngoood"),
                 UserKeyHash = new PasswordHasher().HashPassword("123123"),
                 Gender = Gender.Male,
                 BirthDate = Convert.ToDateTime("1999-04-23"),
@@ -55,7 +54,6 @@ namespace Emergy.Data.Migrations
                 Name = "Boris",
                 Surname = "Borovic",
                 Email = "bborovic@outlook.com",
-                PasswordHash = new PasswordHasher().HashPassword("damngoood"),
                 UserKeyHash = new PasswordHasher().HashPassword("123124"),
                 Gender = Gender.Male,
                 BirthDate = DateTime.Now,
@@ -67,13 +65,13 @@ namespace Emergy.Data.Migrations
                 Name = "Dummy",
                 Surname = "Client",
                 Email = "dummyClient@outlook.com",
-                PasswordHash = new PasswordHasher().HashPassword("damngoood"),
+                UserKeyHash = new PasswordHasher().HashPassword("123125"),
                 Gender = Gender.Male,
                 BirthDate = DateTime.Now
             };
-            manager.Create(gabrijel, gabrijel.PasswordHash);
-            manager.Create(boris, boris.PasswordHash);
-            manager.Create(dummyClient, dummyClient.PasswordHash);
+            manager.Create(gabrijel, "damngoood123");
+            manager.Create(boris, "damngoood123");
+            manager.Create(dummyClient, "damngoood123");
             manager.AddToRole(gabrijel.Id, "Administrators");
             manager.AddToRole(boris.Id, "Administrators");
             manager.AddToRole(dummyClient.Id, "Clients");

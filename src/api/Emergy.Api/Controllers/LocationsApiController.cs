@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -28,10 +29,12 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         [Authorize(Roles = "Clients")]
         [Route("get-user")]
-        public async Task<IHttpActionResult> GetLocations()
+        public async Task<IEnumerable<Location>> GetLocations()
         {
-            return Ok(((await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).Locations)
-                .OrderByDescending(location => location.Timestamp));
+            return (await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))
+                .Locations
+                .OrderByDescending(location => location.Timestamp)
+                .ToArray();
         }
 
         [HttpGet]
@@ -43,7 +46,8 @@ namespace Emergy.Api.Controllers
             if (unit != null)
             {
                 return Ok(unit.Locations
-                   .OrderByDescending(location => location.Timestamp));
+                   .OrderByDescending(location => location.Timestamp)
+                   .ToArray());
             }
             return NotFound();
         }
@@ -119,7 +123,25 @@ namespace Emergy.Api.Controllers
                 location.Name = model.Name;
                 location.Type = model.Type;
                 _locationsRepository.Update(location);
-                await _locationsRepository.SaveAsync().Sync();
+                await _locationsRepository.SaveAsync();
+                return Ok();
+            }
+            return NotFound();
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> DeleteLocation(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
+            var location = await _locationsRepository.GetAsync(id);
+            if (location != null)
+            {
+                _locationsRepository.Delete(location);
+                await _locationsRepository.SaveAsync();
                 return Ok();
             }
             return NotFound();

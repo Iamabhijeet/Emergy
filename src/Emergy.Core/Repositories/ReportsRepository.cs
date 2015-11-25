@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
@@ -22,7 +19,7 @@ namespace Emergy.Core.Repositories
         public async Task<IEnumerable<Report>> GetAsync(ApplicationUser user)
         {
             return await this.GetAsync(report => report.CreatorId == user.Id,
-                query => query.OrderBy(r => r.DateHappened), ConstRelations.LoadAllReportRelations).WithoutSync();
+                query => query.OrderByDescending(r => r.DateHappened), ConstRelations.LoadAllReportRelations).WithoutSync();
         }
 
         public override async Task<Report> GetAsync(object id)

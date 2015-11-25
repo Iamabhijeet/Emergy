@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Core.Common;
 using Emergy.Core.Models.CustomProperty;
+using Emergy.Core.Models.Delete;
 using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
@@ -22,7 +24,7 @@ namespace Emergy.Api.Controllers
     {
         public UnitsApiController()
         {
-            
+
         }
         public UnitsApiController(IUnitsRepository unitsRepository)
         {
@@ -31,10 +33,10 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get")]
-        public async Task<IHttpActionResult> GetUnits()
+        public async Task<IEnumerable<Unit>> GetUnits()
         {
-            var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()));
-            return Ok(units);
+            var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).WithoutSync();
+            return units;
         }
 
         [HttpGet]
@@ -61,9 +63,11 @@ namespace Emergy.Api.Controllers
             {
                 return Error();
             }
-            _unitsRepository.Insert(Mapper.Map<Unit>(model));
+            var unit = Mapper.Map<Unit>(model);
+            unit.AdministratorId = User.Identity.GetUserId();
+            _unitsRepository.Insert(unit);
             await _unitsRepository.SaveAsync();
-            return Ok(model);
+            return Ok(unit.Id);
         }
 
         [HttpPut]
@@ -136,22 +140,6 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [HttpDelete]
-        [Route("custom-property/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveCustomProperty([FromUri]int id, [FromBody] int propertyId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveCustomProperty(id, propertyId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
         [HttpGet]
         [Route("locations/get/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)
@@ -161,7 +149,8 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Locations);
+                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
+                        .ToArray());
                 }
                 return Unauthorized();
             }
@@ -178,22 +167,6 @@ namespace Emergy.Api.Controllers
             if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
             {
                 await _unitsRepository.AddLocation(id, locationId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
-        [HttpDelete]
-        [Route("locations/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveLocation([FromUri]int id, [FromBody] int locationId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveLocation(id, locationId);
                 return Ok();
             }
             return Unauthorized();
@@ -229,17 +202,17 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [HttpDelete]
-        [Route("clients/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveClient([FromUri]int id, [FromBody] string clientId)
+        [HttpPost]
+        [Route("clients/remove")]
+        public async Task<IHttpActionResult> RemoveClient([FromBody] Core.Models.Delete.ClientFromUnit model)
         {
             if (!ModelState.IsValid)
             {
                 return Error();
             }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            if (await _unitsRepository.IsAdministrator(model.UnitId, User.Identity.GetUserId()))
             {
-                await _unitsRepository.RemoveClient(id, clientId);
+                await _unitsRepository.RemoveClient(model.UnitId, model.ClientId);
                 return Ok();
             }
             return Unauthorized();
@@ -254,7 +227,8 @@ namespace Emergy.Api.Controllers
             {
                 if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
                 {
-                    return Ok(unit.Categories);
+                    return Ok(unit.Categories.OrderByDescending(category => category.Id)
+                                             .ToArray());
                 }
                 return Unauthorized();
             }
@@ -272,22 +246,6 @@ namespace Emergy.Api.Controllers
             if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
             {
                 await _unitsRepository.AddCategory(id, categoryId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
-        [HttpDelete]
-        [Route("categories/remove")]
-        public async Task<IHttpActionResult> RemoveCategory([FromUri]int id, [FromUri] int categoryId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveCategory(id, categoryId);
                 return Ok();
             }
             return Unauthorized();

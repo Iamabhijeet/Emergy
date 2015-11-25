@@ -54,7 +54,7 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Insert(T entity)
         {
-            DbSet.Add(entity);
+            Context.Entry(entity).State = EntityState.Added;
         }
         public virtual void Update(T entityToUpdate)
         {
@@ -66,7 +66,7 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Delete(T entityToDelete)
         {
-            DbSet.Remove(entityToDelete);
+            Context.Entry(entityToDelete).State = EntityState.Deleted;
         }
         public virtual bool Exists(int id)
         {

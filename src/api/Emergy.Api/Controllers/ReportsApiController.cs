@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -34,11 +36,30 @@ namespace Emergy.Api.Controllers
             _unitsRepository = unitsRepository;
         }
 
+        [Authorize(Roles = "Clients")]
         [HttpGet]
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
         {
-            return await _reportsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name));
+            return (await _reportsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))).ToArray();
+        }
+
+        [Authorize(Roles = "Administrators")]
+        [HttpGet]
+        [Route("get-admin/{lastHappened:datetime}")]
+        public async Task<IEnumerable<Report>> GetReportsForAdmin([FromUri] DateTime? lastHappened)
+        {
+            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            return (await _unitsRepository.GetReportsForAdmin(admin, lastHappened)).ToArray();
+        }
+
+        [Authorize(Roles = "Administrators")]
+        [HttpGet]
+        [Route("get-admin")]
+        public async Task<IEnumerable<Report>> GetReportsForAdmin()
+        {
+            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            return (await _unitsRepository.GetReportsForAdmin(admin, null)).ToArray();
         }
 
         [HttpPost]
@@ -101,18 +122,18 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpPost]
-        [Route("set-photos/{id}")]
-        public async Task<IHttpActionResult> SetPhotos(int id, [FromBody]IEnumerable<int> model)
+        [Route("set-resources/{id}")]
+        public async Task<IHttpActionResult> SetResources(int id, [FromBody]IEnumerable<int> model)
         {
             Report report = await _reportsRepository.GetAsync(id);
             if (report != null)
             {
-                model.ForEach(async (imageId) =>
+                model.ForEach(async (resourceId) =>
                 {
-                    var image = await _resourcesRepository.GetAsync(imageId);
-                    if (image != null)
+                    var resource = await _resourcesRepository.GetAsync(resourceId);
+                    if (resource != null)
                     {
-                        report.Resources.Add(image);
+                        report.Resources.Add(resource);
                     }
                 });
                 _reportsRepository.Update(report);

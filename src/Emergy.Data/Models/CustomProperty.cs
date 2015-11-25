@@ -8,14 +8,10 @@ namespace Emergy.Data.Models
 {
     public class CustomProperty : ModelBase
     {
-        public CustomProperty()
-        {
-            CustomPropertyValues = new HashSet<CustomPropertyValue>();
-        }
         [Required]
         public string Name { get; set; }
-        public CustomPropertyType CustomPropertyType { get; set; }
-        public ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
+        public virtual CustomPropertyType CustomPropertyType { get; set; }
+        public virtual ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
         [JsonIgnore]
         public Unit Unit { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -26,11 +28,11 @@ namespace Emergy.Core.Repositories
                 case AccountType.Administrator:
                     {
                         return await this.GetAsync(unit => unit.AdministratorId == user.Id,
-                                     query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
+                                     query => query.OrderByDescending(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                     }
                 case AccountType.Client:
                     {
-                        var units = await this.GetAsync(null, query => query.OrderBy(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
+                        var units = await this.GetAsync(null, query => query.OrderByDescending(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
                         return units.Where(unit => unit.Clients.Contains(user));
                     }
             }
@@ -48,6 +50,32 @@ namespace Emergy.Core.Repositories
         {
             return (await GetAsync(unitId)).Reports;
         }
+        public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, DateTime? lastHappened)
+        {
+            var adminUnits = await this.GetAsync(admin);
+            var units = adminUnits as Unit[] ?? adminUnits.ToArray();
+
+            if (units
+                .Where(unit => unit.AdministratorId == admin.Id)
+                .Select(unit => unit.Reports).Any())
+            {
+                var reports =
+                    units.AsParallel()
+                        .Where(unit => unit.AdministratorId == admin.Id)
+                        .Select(unit => unit.Reports)
+                        .Aggregate((current, next) => next.Concat(current).ToList())
+                        .OrderByDescending(report => report.DateHappened)
+                        .ToArray();
+                if (lastHappened == null)
+                {
+                    return reports.Take(10);
+                }
+                return reports.Where(report => report.DateHappened > lastHappened)
+                    .OrderByDescending(report => report.DateHappened)
+                    .Take(10);
+            }
+            return Enumerable.Empty<Report>();
+        }
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
             return (await GetAsync(unitId)).CustomProperties;
@@ -58,7 +86,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.CustomProperties.Add(await Context.CustomProperties.FindAsync(propertyId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -67,13 +94,9 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                CustomProperty property = unit.CustomProperties.SingleOrDefault(prop => prop.Id == propertyId);
-                if (unit.CustomProperties.Contains(property))
-                {
-                    unit.CustomProperties.Remove(property);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                CustomProperty property = await Context.CustomProperties.FindAsync(propertyId);
+                unit.CustomProperties.Remove(property);
+                await this.SaveAsync();
             }
         }
         public async Task AddClient(int unitId, string userId)
@@ -82,7 +105,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Clients.Add(Context.Users.Find(userId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -91,13 +113,9 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                ApplicationUser user = unit.Clients.SingleOrDefault(u => u.Id == userId);
-                if (unit.Clients.Contains(user))
-                {
-                    unit.Clients.Remove(user);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                ApplicationUser user = Context.Users.Find(userId);
+                unit.Clients.Remove(user);
+                await this.SaveAsync();
             }
         }
         public async Task AddLocation(int unitId, int locationId)
@@ -106,7 +124,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Locations.Add(await Context.Locations.FindAsync(locationId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -115,13 +132,9 @@ namespace Emergy.Core.Repositories
             var unit = await this.GetAsync(unitId);
             if (unit != null)
             {
-                Location location = unit.Locations.SingleOrDefault(l => l.Id == locationId);
-                if (unit.Locations.Contains(location))
-                {
-                    unit.Locations.Remove(location);
-                    this.Update(unit);
-                    await this.SaveAsync();
-                }
+                Location location = await Context.Locations.FindAsync(locationId);
+                unit.Locations.Remove(location);
+                await this.SaveAsync();
             }
         }
         public async Task AddCategory(int unitId, int categoryId)
@@ -130,7 +143,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Categories.Add(await Context.Categories.FindAsync(categoryId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }
@@ -140,7 +152,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 unit.Categories.Remove(await Context.Categories.FindAsync(categoryId));
-                this.Update(unit);
                 await this.SaveAsync();
             }
         }

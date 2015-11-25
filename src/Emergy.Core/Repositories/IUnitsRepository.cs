@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
@@ -11,6 +12,7 @@ namespace Emergy.Core.Repositories
         Task<IEnumerable<ApplicationUser>> GetUsers(int unitId);
         Task<IEnumerable<Location>> GetLocations(int unitId);
         Task<IEnumerable<Report>> GetReports(int unitId);
+        Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser adminApplicationUser, DateTime? lastHappened);
         Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId);
 
         Task AddCustomProperty(int unitId, int propertyId);
