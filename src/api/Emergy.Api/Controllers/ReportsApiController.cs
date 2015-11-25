@@ -41,7 +41,7 @@ namespace Emergy.Api.Controllers
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
         {
-            return (await _reportsRepository.GetAsync(await AccountService.GetUserByNameAsync(User.Identity.Name))).ToArray();
+            return (await _reportsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))).ToArray();
         }
 
         [Authorize(Roles = "Administrators")]
@@ -49,7 +49,7 @@ namespace Emergy.Api.Controllers
         [Route("get-admin/{lastHappened:datetime}")]
         public async Task<IEnumerable<Report>> GetReportsForAdmin([FromUri] DateTime? lastHappened)
         {
-            var admin = await AccountService.GetUserByIdAsync(User.Identity.Name);
+            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
             return (await _unitsRepository.GetReportsForAdmin(admin, lastHappened)).ToArray();
         }
 
@@ -58,7 +58,7 @@ namespace Emergy.Api.Controllers
         [Route("get-admin")]
         public async Task<IEnumerable<Report>> GetReportsForAdmin()
         {
-            var admin = await AccountService.GetUserByIdAsync(User.Identity.Name);
+            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
             return (await _unitsRepository.GetReportsForAdmin(admin, null)).ToArray();
         }
 

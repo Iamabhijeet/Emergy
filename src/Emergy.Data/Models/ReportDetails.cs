@@ -4,11 +4,6 @@ namespace Emergy.Data.Models
 {
     public class ReportDetails : ModelBase
     {
-        public ReportDetails()
-        {
-            CustomPropertyValues = new HashSet<CustomPropertyValue>();
-        }
-        public ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
-    
+        public virtual ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
     }
 }

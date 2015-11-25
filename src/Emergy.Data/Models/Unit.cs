@@ -9,34 +9,25 @@ namespace Emergy.Data.Models
 {
     public class Unit : ModelBase
     {
-        public Unit()
-        {
-            Reports = new HashSet<Report>();
-            Clients = new HashSet<ApplicationUser>();
-            CustomProperties = new HashSet<CustomProperty>();
-            Categories = new HashSet<Category>();
-            Locations = new HashSet<Location>();
-        }
-
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Name { get; set; }
 
-        [ForeignKey("AdministratorId")]
         [JsonIgnore]
-        public ApplicationUser Administrator { get; set; }
-        public string AdministratorId { get; set; }
+        [ForeignKey("AdministratorId")]
+        public virtual ApplicationUser Administrator { get; set; }
+        public virtual string AdministratorId { get; set; }
 
         [JsonIgnore]
-        public ICollection<ApplicationUser> Clients { get; set; }
+        public virtual ICollection<ApplicationUser> Clients { get; set; }
         [JsonIgnore]
-        public ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
         [JsonIgnore]
-        public ICollection<CustomProperty> CustomProperties { get; set; }
+        public virtual ICollection<CustomProperty> CustomProperties { get; set; }
         [JsonIgnore]
-        public ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
         [JsonIgnore]
-        public ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
 
         [Required]
         public DateTime DateCreated { get; set; }

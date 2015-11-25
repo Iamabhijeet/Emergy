@@ -6,6 +6,7 @@ using System.Web.Http;
 using AutoMapper;
 using Emergy.Core.Common;
 using Emergy.Core.Models.CustomProperty;
+using Emergy.Core.Models.Delete;
 using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
@@ -35,8 +36,7 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<Unit>> GetUnits()
         {
             var units = await _unitsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId())).WithoutSync();
-            return units.OrderByDescending(unit => unit.DateCreated)
-                        .ToArray();
+            return units;
         }
 
         [HttpGet]
@@ -140,22 +140,6 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [HttpDelete]
-        [Route("custom-property/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveCustomProperty([FromUri]int id, [FromBody] int propertyId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveCustomProperty(id, propertyId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
         [HttpGet]
         [Route("locations/get/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)
@@ -183,22 +167,6 @@ namespace Emergy.Api.Controllers
             if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
             {
                 await _unitsRepository.AddLocation(id, locationId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
-        [HttpDelete]
-        [Route("locations/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveLocation([FromUri]int id, [FromBody] int locationId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveLocation(id, locationId);
                 return Ok();
             }
             return Unauthorized();
@@ -234,17 +202,17 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [HttpDelete]
-        [Route("clients/remove/{id}")]
-        public async Task<IHttpActionResult> RemoveClient([FromUri]int id, [FromBody] string clientId)
+        [HttpPost]
+        [Route("clients/remove")]
+        public async Task<IHttpActionResult> RemoveClient([FromBody] Core.Models.Delete.ClientFromUnit model)
         {
             if (!ModelState.IsValid)
             {
                 return Error();
             }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
+            if (await _unitsRepository.IsAdministrator(model.UnitId, User.Identity.GetUserId()))
             {
-                await _unitsRepository.RemoveClient(id, clientId);
+                await _unitsRepository.RemoveClient(model.UnitId, model.ClientId);
                 return Ok();
             }
             return Unauthorized();
@@ -278,22 +246,6 @@ namespace Emergy.Api.Controllers
             if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
             {
                 await _unitsRepository.AddCategory(id, categoryId);
-                return Ok();
-            }
-            return Unauthorized();
-        }
-
-        [HttpDelete]
-        [Route("categories/remove")]
-        public async Task<IHttpActionResult> RemoveCategory([FromUri]int id, [FromUri] int categoryId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-            if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()))
-            {
-                await _unitsRepository.RemoveCategory(id, categoryId);
                 return Ok();
             }
             return Unauthorized();

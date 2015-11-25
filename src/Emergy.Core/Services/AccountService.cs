@@ -41,7 +41,7 @@ namespace Emergy.Core.Services
         {
             var users = await _userManager.Users.ToListAsync().WithoutSync();
             return await Task.FromResult(users
-                .SingleOrDefault(user => _userKeyService.VerifyKeys(user.UserKeyHash, userKey.Trim()))).WithoutSync();
+                .FirstOrDefault(user => _userKeyService.VerifyKeys(user.UserKeyHash, userKey.Trim()))).WithoutSync();
         }
         public async Task<ApplicationUser> GetUserByNameAsync(string userName)
         {

@@ -10,11 +10,6 @@ namespace Emergy.Data.Models
 {
     public class Report : ModelBase
     {
-        public Report()
-        {
-            Resources = new HashSet<Resource>();
-        }
-
         [Required]
         [StringLength(200, MinimumLength = 5)]
         public string Description { get; set; }
@@ -24,21 +19,21 @@ namespace Emergy.Data.Models
 
         [ForeignKey("CreatorId")]
         [JsonIgnore]
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
         public string CreatorId { get; set; }
 
         [ForeignKey("LocationId")]
         [JsonIgnore]
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
         public int? LocationId { get; set; }
 
         
         [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public int? CategoryId { get; set; }
 
         [ForeignKey("DetailsId")]
-        public ReportDetails Details { get; set; }
+        public virtual ReportDetails Details { get; set; }
         public int DetailsId { get; set; }
 
         [Required]
@@ -46,6 +41,6 @@ namespace Emergy.Data.Models
         public DateTime DateHappened { get; set; }
 
         public ReportStatus Status { get; set; }
-        public ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

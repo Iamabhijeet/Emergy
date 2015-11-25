@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -7,7 +8,6 @@ using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
-using System.Data.Entity;
 
 namespace Emergy.Core.Repositories
 {
@@ -53,20 +53,28 @@ namespace Emergy.Core.Repositories
         public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, DateTime? lastHappened)
         {
             var adminUnits = await this.GetAsync(admin);
-            var reports =
-                adminUnits.AsParallel()
-                    .Where(unit => unit.AdministratorId == admin.Id)
-                    .Select(unit => unit.Reports)
-                    .Aggregate((current, next) => next.Concat(current).ToList())
-                    .OrderByDescending(report => report.DateHappened)
-                    .ToArray();
-            if (lastHappened == null)
+            var units = adminUnits as Unit[] ?? adminUnits.ToArray();
+
+            if (units
+                .Where(unit => unit.AdministratorId == admin.Id)
+                .Select(unit => unit.Reports).Any())
             {
-                return reports.Take(10);
+                var reports =
+                    units.AsParallel()
+                        .Where(unit => unit.AdministratorId == admin.Id)
+                        .Select(unit => unit.Reports)
+                        .Aggregate((current, next) => next.Concat(current).ToList())
+                        .OrderByDescending(report => report.DateHappened)
+                        .ToArray();
+                if (lastHappened == null)
+                {
+                    return reports.Take(10);
+                }
+                return reports.Where(report => report.DateHappened > lastHappened)
+                    .OrderByDescending(report => report.DateHappened)
+                    .Take(10);
             }
-            return reports.Where(report => report.DateHappened > lastHappened)
-                .OrderByDescending(report => report.DateHappened)
-                .Take(10);
+            return Enumerable.Empty<Report>();
         }
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
@@ -106,7 +114,6 @@ namespace Emergy.Core.Repositories
             if (unit != null)
             {
                 ApplicationUser user = Context.Users.Find(userId);
-                Context.Entry(unit).Collection("Clients").Load();
                 unit.Clients.Remove(user);
                 await this.SaveAsync();
             }

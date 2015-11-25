@@ -13,13 +13,6 @@ namespace Emergy.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser()
-        {
-            Reports = new HashSet<Report>();
-            Units = new HashSet<Unit>();
-            Locations = new HashSet<Location>();
-        }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType = null)
         {
             return await manager.CreateIdentityAsync(this, authenticationType);
@@ -33,17 +26,17 @@ namespace Emergy.Data.Models
         public Gender Gender { get; set; }
 
         [ForeignKey("ProfilePhotoId")]
-        public Resource ProfilePhoto { get; set; }
+        public virtual Resource ProfilePhoto { get; set; }
 
         public int ProfilePhotoId { get; set; } = 1;
 
         public AccountType AccountType { get; set; }
         [JsonIgnore]
-        public ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
         [JsonIgnore]
-        public ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
         [JsonIgnore]
-        public ICollection<Unit> Units { get; set; }
+        public virtual ICollection<Unit> Units { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
     }
