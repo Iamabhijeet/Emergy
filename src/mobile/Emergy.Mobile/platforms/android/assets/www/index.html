@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+   
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet" />
+    <link href="css/shared/bar.css" rel="stylesheet" />
+    <link href="css/shared/tabs.css" rel="stylesheet" />
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="cordova.js"></script>
+  
+    <!-- modules -->
+    <script src="js/modules/app.js"></script>
+    <script src="js/modules/app.router.js"></script>
+    <script src="js/modules/services.js"></script>
+    <script src="js/modules/directives.js"></script>
+    <script src="js/modules/controllers.js"></script>
+    <!-- services -->
+
+    <!-- controllers -->
+    <script src="js/controllers/homeController.js"></script>
+    <script src="js/controllers/account/loginController.js"></script>
+    <script src="js/controllers/account/accountController.js"></script>
+    <script src="js/controllers/reports/reportsController.js"></script>
+    <script src="js/controllers/reports/reportController.js"></script>
+    <script src="js/controllers/settingsController.js"></script>
+
+    <!-- plugins -->
+    <script src="lib/ng-cordova/dist/ng-cordova.js"></script>
+</head>
+<body ng-app="emergy" class="platform-android platform-cordova platform-webview">
+    <ion-nav-bar class="has-tabs-top bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view view-title=""></ion-nav-view>
+</body>
+</html>
