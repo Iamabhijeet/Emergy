@@ -3,9 +3,9 @@
 var controllerId = 'registerController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', '$location', 'authService', 'notificationService', registerCtrl]);
+    ['$scope', '$state', '$rootScope', '$location', 'authService', 'notificationService', registerCtrl]);
 
-function registerCtrl($scope, $rootScope, $location, authService, notificationService) {
+function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService) {
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
@@ -20,10 +20,7 @@ function registerCtrl($scope, $rootScope, $location, authService, notificationSe
         $scope.isBusy = true;
         var promise = authService.register(newUser);
         promise.then(function () {
-            var loginPromise = authService.login(newUser);
-            loginPromise.then(function () { }, function () { }).finally(function () {
-                $scope.isBusy = false;
-            });
+            $state.go("RegisterSuccess");
         }, function (response) {
             notificationService.pushError(response.Message);
         }).finally(function () {

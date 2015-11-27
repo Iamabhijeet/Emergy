@@ -17,6 +17,11 @@
         controller: "registerController",
         templateUrl: "app/views/register/register.html"
     });
+    $stateProvider.state("RegisterSuccess", {
+        url: "/account/register/success",
+        controller: "registerController",
+        templateUrl: "app/views/register/registerSuccess.html"
+    });
     $stateProvider.state("Reports", {
         url: "/dashboard/reports",
         views: {

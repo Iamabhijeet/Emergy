@@ -43,6 +43,13 @@
     background-color: #ffffff;
 }
 
+.login-register-container .register-successful {
+    color: #ffffff;
+    font-size: 22px;
+    text-align: center;
+    margin-top: 150px;
+}
+
 .login-register-container .register-card {
     background-color: #ffffff;
     padding-bottom: 40px;
