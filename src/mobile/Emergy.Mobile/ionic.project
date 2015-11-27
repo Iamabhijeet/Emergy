@@ -1,0 +1,11 @@
+{
+  "name": "Emergy.Mobile",
+  "app_id": "405712f2",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "12.41.296.5"
+    }
+  ]
+}
