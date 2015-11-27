@@ -52,9 +52,9 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
-    var removeClient = function(unitId, clientId) {
+    var removeClient = function(client) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/units/clients/remove/' + unitId, clientId)
+        $http.post(serviceBase + 'api/units/clients/remove/', client)
         .success(function (response) {
             deffered.resolve(response);
         })

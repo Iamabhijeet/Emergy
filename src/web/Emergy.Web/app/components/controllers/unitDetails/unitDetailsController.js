@@ -76,7 +76,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
 
     $scope.removeClient = function(clientId) {
         $scope.isBusy = true;
-        var promise = unitsService.removeClient($scope.unit.Id, JSON.stringify(clientId));
+
+        var client = {
+            UnitId: $scope.unit.Id,
+            ClientId: clientId
+        }
+
+        var promise = unitsService.removeClient(client);
         promise.then(function (response) {
                 notificationService.pushSuccess("Successfully removed client!"); 
                 loadClients();
