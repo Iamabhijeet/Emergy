@@ -4,7 +4,6 @@ services.factory('reportsService', reportsService);
 reportsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 
 function reportsService($http, $q, serviceBase, authData) {
-
     var getReports = function (lastDateTime) {
         var deffered;
         if (lastDateTime) {
@@ -31,6 +30,19 @@ function reportsService($http, $q, serviceBase, authData) {
             });
         return deffered.promise;
     }
+
+    var getReport = function (reportId) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/reports/get/' + reportId)
+        .success(function (unit) {
+            deffered.resolve(unit);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var deleteReport = function (reportId) {
         var deffered = $q.defer();
         $http.delete(serviceBase + 'api/reports/delete/' + reportId)
@@ -57,6 +69,7 @@ function reportsService($http, $q, serviceBase, authData) {
 
     var service = {    
         getReports: getReports,
+        getReport: getReport, 
         changeStatus: changeStatus,
         deleteReport: deleteReport
     };

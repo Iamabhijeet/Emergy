@@ -44,6 +44,7 @@
   <ItemGroup>
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
+    <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
     <Content Include="app\components\controllers\unitDetails\unitDetailsController.js" />
     <Content Include="app\components\controllers\units\unitsController.js" />
@@ -60,6 +61,8 @@
     <Content Include="app\components\services\services.module.js" />
     <Content Include="app\components\services\notification\unitsService.js" />
     <Content Include="app\components\services\units\unitsService.js" />
+    <Content Include="app\views\register\registerSuccess.html" />
+    <Content Include="app\views\reportDetails\reportDetails.html" />
     <Content Include="app\views\reports\reports.html" />
     <Content Include="app\views\unitDetails\unitDetails.html" />
     <Content Include="app\views\units\units.html" />
@@ -70,6 +73,7 @@
     <Content Include="assets\img\account-icon.png" />
     <Content Include="assets\img\loading.svg" />
     <Content Include="assets\img\logout-icon.png" />
+    <Content Include="assets\img\map-marker.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />

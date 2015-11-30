@@ -1,4 +1,4 @@
-﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngSanitize',
+﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngMap', 'ngSanitize',
     'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives', 'angular-loading-bar']);
 
 app.config(function ($httpProvider) {

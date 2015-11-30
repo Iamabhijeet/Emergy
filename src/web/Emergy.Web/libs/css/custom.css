@@ -663,3 +663,93 @@
         width: 100%;
     }
 }
+
+
+/*-----------REPORT DETAILS PAGE-----------*/
+
+.main-container.reports .report-map {
+    height: 450px;
+}
+
+.main-container.reports .report-map ng-map {
+    height: 450px;
+}
+
+.main-container.reports .report-map ng-map .custom-marker {
+    height: 40px;
+}
+
+.main-container.reports .report-map ng-map .custom-marker img {
+    margin-top: 40px;
+}
+
+
+.main-container.reports .head-information {
+    margin-bottom: 5px; 
+}
+
+.main-container.reports .general-information {
+    margin-top: 35px;
+}
+
+.main-container.reports h4{
+    font-size: 1.5rem;
+    color: #1599AB;
+}
+
+.main-container.reports .general-information .input-field {
+    margin-top: 0; 
+}
+
+.main-container.reports .input-field label {
+    left: 0;
+}
+
+.main-container.reports .head-information .col {
+    padding: 0;
+}
+
+.main-container.reports .additional-details .col {
+    padding: 0;
+}
+
+.main-container.reports .head-information p {
+    margin-bottom: 0;
+}
+
+.main-container.reports .head-information span {
+    color: #1599AB;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 780px) {
+    .main-container.reports .report-map {
+        height: 350px;
+    }
+
+    .main-container.reports .report-map ng-map {
+        height: 350px;
+    }
+}
+
+@media only screen and (max-width: 601px) {
+    .main-container.reports .report-map {
+        height: 250px;
+    }
+
+    .main-container.reports .report-map ng-map {
+        height: 250px;
+    }
+
+    .main-container.reports .report-map {
+        margin-top: 30px;
+    }
+
+    .main-container.reports .report-map {
+        margin-top: 10px;
+    }
+
+    .main-container.reports .head-information p {
+        text-align: center;
+    }
+}

@@ -47,6 +47,31 @@
             }]
         }
     });
+    $stateProvider.state("ReportDetails", {
+        url: "/dashboard/report/:reportId",
+        views: {
+            '': {
+                templateUrl: 'app/views/reportDetails/reportDetails.html',
+                controller: "reportDetailsController"
+            },
+            'shell@ReportDetails': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     $stateProvider.state("Units", {
         url: "/dashboard/units",
         views: {
