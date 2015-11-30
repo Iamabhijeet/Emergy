@@ -20,9 +20,9 @@ namespace Emergy.Data.Context
             base.OnModelCreating(builder);
             // builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             // table mappings
-            
+
             builder.Entity<Resource>().ToTable("Resources");
-            
+
 
             //configurations
 
@@ -40,13 +40,14 @@ namespace Emergy.Data.Context
                 .WithOptional()
                 .WillCascadeOnDelete();
 
-
             builder.Configurations.Add(new ReportConfiguration());
             builder.Configurations.Add(new ReportDetailsConfiguration());
             builder.Configurations.Add(new CategoryConfiguration());
             builder.Configurations.Add(new UnitConfiguration());
             builder.Configurations.Add(new CustomPropertyConfiguration());
             builder.Configurations.Add(new CustomPropertyValueConfiguration());
+            builder.Configurations.Add(new NotificationConfiguration());
+            builder.Configurations.Add(new MessageConfiguration());
         }
 
         public DbSet<Unit> Units { get; set; }
@@ -55,8 +56,9 @@ namespace Emergy.Data.Context
         public DbSet<Resource> Resources { get; set; }
         public DbSet<CustomProperty> CustomProperties { get; set; }
         public DbSet<CustomPropertyValue> CustomPropertyValues { get; set; }
-
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public static ApplicationDbContext Create()
         {

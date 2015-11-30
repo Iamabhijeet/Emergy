@@ -8,6 +8,7 @@ namespace Emergy.Core.Common
     {
         public const string LoadAllUnitRelations = "Administrator,Clients,Reports,CustomProperties,Categories,Locations";
         public const string LoadAllReportRelations = "Creator,Location,Category,Details,Photos";
+        public const string LoadAllMessageRelations = "Sender,Target,Multimedia";
         public static class RawQuery
         {
             public static class Delete

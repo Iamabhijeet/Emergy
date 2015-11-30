@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Emergy.Core.Common;
 using Emergy.Core.Models.File;
 using Emergy.Core.Repositories.Generic;
@@ -20,6 +21,7 @@ namespace Emergy.Api.Controllers
             _resourcesRepository = resourcesRepository;
         }
         [Route("get/{id}")]
+        [ResponseType(typeof(Resource))]
         public async Task<IHttpActionResult> Get([FromUri] int id)
         {
             var resource = await _resourcesRepository.GetAsync(id);
@@ -41,7 +43,7 @@ namespace Emergy.Api.Controllers
             if (model != null && ModelState.IsValid)
             {
                 ICollection<int> uploadedIds = new List<int>();
-                model?.Files.ForEach(async (file) =>
+                model.Files.ForEach(async (file) =>
                 {
                     uploadedIds.Add(await SaveFile(file).WithoutSync());
                 });

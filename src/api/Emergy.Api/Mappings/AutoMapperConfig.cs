@@ -2,6 +2,8 @@
 using Emergy.Core.Models.Account;
 using Emergy.Core.Models.CustomProperty;
 using Emergy.Core.Models.Location;
+using Emergy.Core.Models.Message;
+using Emergy.Core.Models.Notification;
 using Emergy.Core.Models.Report;
 using Emergy.Core.Models.Unit;
 using Emergy.Data.Models;
@@ -41,6 +43,9 @@ namespace Emergy.Api.Mappings
             Mapper.CreateMap<EditLocationViewModel, Location>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateReportViewModel, Report>().IgnoreUnmappedProperties();
+
+            Mapper.CreateMap<CreateMessageVm, Message>().IgnoreUnmappedProperties();
+            Mapper.CreateMap<CreateNotificationVm, Notification>().IgnoreUnmappedProperties();
         }
     }
 }
