@@ -35,13 +35,15 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         return deffered.promise;
     }
 
-    function setAuthData(username, password, token) {
+    function setAuthData(userId, username, password, token) {
         localStorageService.clearAll();
+        localStorageService.set('userId', userId);
         localStorageService.set('username', username);
         localStorageService.set('password', password);
         localStorageService.set('token', token);
         localStorageService.set('loggedIn', true);
 
+        authData.userId = userId;
         authData.userName = username;
         authData.password = password;
         authData.token = token;
@@ -62,7 +64,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
 
         $http.post(serviceBase + 'api/account/login', createLoginData(user.userName, user.password), { headers: { 'Content-Type': 'application/json' } }).success(function (data) {
             deffered.resolve(data);
-            setAuthData(user.userName, user.password, data.Token);
+            setAuthData(user.Id, user.userName, user.password, data.Token);
             $rootScope.authData = authData;
             $location.path('/dashboard/units');
 
@@ -76,6 +78,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
     }
 
     function logout() {
+        localStorageService.remove('userId');
         localStorageService.remove('username');
         localStorageService.remove('password');
         localStorageService.remove('token');
@@ -112,6 +115,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
     }
 
     function fillAuthData() {
+        authData.userId = localStorageService.get('userId');
         authData.userName = localStorageService.get('username');
         authData.password = localStorageService.get('password');
         authData.token = localStorageService.get('token');

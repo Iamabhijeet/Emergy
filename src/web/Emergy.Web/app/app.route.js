@@ -22,6 +22,33 @@
         controller: "registerController",
         templateUrl: "app/views/register/registerSuccess.html"
     });
+
+    $stateProvider.state("UserProfile", {
+        url: "/account/profile/:userName",
+        views: {
+            '': {
+                templateUrl: 'app/views/account/profile.html',
+                controller: "profileController"
+            },
+            'shell@UserProfile': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+
     $stateProvider.state("Reports", {
         url: "/dashboard/reports",
         views: {
@@ -121,7 +148,7 @@
                 return deferred.promise;
             }]
         }
-    }); 
+    });
 }]);
 app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
     authService.fillAuthData();
