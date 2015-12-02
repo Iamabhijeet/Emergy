@@ -1,15 +1,88 @@
 ﻿<div ui-view="shell"></div>
 <div class="container main-container">
-    <div class="login-register-container">
-        <div class="row header-row">
-            <div class="col l3 m4 s12">
-                <h2>{{profile.UserName}}</h2>
-            </div>
+    <div class="row header-row">
+        <div class="col l3 m4 s12">
+            <h2>Profile</h2>
         </div>
-        <div class="row">
-            <div class="col l12">
-                <div class="card">
-                    <img ng-src="{{profile.ProfilePhoto.Url}}" src="/assets/img/login-account-icon.png" class="login-icon" />
+        <div class="col l1 m1 s1 offset-l8 offset-m7">
+            <a ng-href="#" class="center">
+                <i class="material-icons notification-icon">notifications</i>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m12">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="/assets/img/login-background.jpg">
+                    <img class="img responsive-img img-overlay" src="/assets/img/login-account-icon.png">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Your profile<i class="material-icons right">more_vert</i></span>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Edit profile<i class="material-icons right">close</i></span>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Change password</span>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col m12">
+                                <form role="form" name="changePasswordForm" class="col s12" novalidate>
+                                    <div class="input-field col s10 password">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input ng-class="{ 'valid' : changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$valid, 'invalid' : changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$invalid }" id="oldPassword"
+                                               name="oldPassword" placeholder="Old password" required type="password"
+                                               ng-model="changePasswordVm.OldPassword"
+                                               ng-minlength=8
+                                               ng-maxlength=64 />
+                                        <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.required">Old Password is required.</small>
+                                        <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.minlength">Old Password has to contain atleast 8 characters.</small>
+                                        <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.maxlength">Old Password cannot be more than 64 characters long.</small>
+                                    </div>
+                                    <div class="input-field col s10 password">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input ng-class="{ 'valid' : changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$valid, 'invalid' : changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$invalid }" id="newPassword"
+                                               name="newPassword" placeholder="New password" required type="password"
+                                               ng-model="changePasswordVm.NewPassword"
+                                               ng-minlength=8
+                                               ng-maxlength=64 />
+                                        <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.required">New Password is required.</small>
+                                        <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.minlength">New Password has to contain atleast 8 characters.</small>
+                                        <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.maxlength">New Password cannot be more than 64 characters long.</small>
+                                    </div>
+
+                                    <div class="input-field col s10 password">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input ng-class="{ 'valid' : changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$valid, 'invalid' : changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$invalid }" id="password"
+                                               name="confirmNewPassword" placeholder="Confirm new password" required type="password"
+                                               ng-model="changePasswordVm.ConfirmPassword"
+                                               ng-minlength=8
+                                               ng-maxlength=64 />
+                                        <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.required">Confirm New Password is required.</small>
+                                        <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.minlength">Confirm New Password has to contain atleast 8 characters.</small>
+                                        <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.maxlength">Confirm New Password cannot be more than 64 characters long.</small>
+                                    </div>
+
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-light white-text"
+                                                ng-disabled="changePasswordForm.$invalid || changePasswordForm.$pristine || isBusy"
+                                                ng-click="changePassword(changePasswordVm)"
+                                                type="submit" name="action">
+                                            SAVE
+                                            <i class="material-icons right">save</i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

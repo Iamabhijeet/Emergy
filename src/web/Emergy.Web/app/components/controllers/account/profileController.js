@@ -8,6 +8,11 @@ app.controller(controllerId,
 function profileController($rootScope, $scope, accountService, authData) {
     $rootScope.title = 'User ' + authData.userName;
     $scope.profile = {};
+    $scope.changePasswordVm = {
+        OldPassword: '',
+        NewPassword: '',
+        ConfirmPassword: ''
+    };
 
     function activate() {
         accountService.getProfile().then(function (profile) {
