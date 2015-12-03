@@ -7,8 +7,7 @@ directives.directive("passwordVerify", function () {
         },
         link: function (scope, element, attrs, ctrl) {
             scope.$watch(function () {
-                var combined;
-
+                var combined = '';
                 if (scope.passwordVerify || ctrl.$viewValue) {
                     combined = scope.passwordVerify + '_' + ctrl.$viewValue;
                 }
@@ -31,12 +30,23 @@ directives.directive("passwordVerify", function () {
     };
 });
 
-app.directive("fileread", [function () {
+directives.directive("ngFileSelect", function () {
+    return {
+        link: function ($scope, el) {
+            el.bind("change", function (e) {
+                $scope.file = (e.srcElement || e.target).files[0];
+                $scope.getFile();
+            });
+        }
+    }
+});
+
+directives.directive("fileread", [function () {
     return {
         scope: {
             fileread: "="
         },
-        link: function (scope, element, attributes) {
+        link: function (scope, element) {
             element.bind("change", function (changeEvent) {
                 var reader = new FileReader();
                 reader.onload = function (loadEvent) {

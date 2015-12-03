@@ -64,7 +64,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
 
         $http.post(serviceBase + 'api/account/login', createLoginData(user.userName, user.password), { headers: { 'Content-Type': 'application/json' } }).success(function (data) {
             deffered.resolve(data);
-            setAuthData(user.Id, user.userName, user.password, data.Token);
+            setAuthData(data.UserId, user.userName, user.password, data.Token);
             $rootScope.authData = authData;
             $location.path('/dashboard/units');
 
@@ -94,7 +94,8 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         $http.post(serviceBase + 'api/account/changepassword', createChangePasswordData(newPassword, confirmPassword)).success(
             function (response) {
                 deffered.resolve(response);
-                logout();
+                authData.password = newPassword;
+                localStorageService.set('password', newPassword);
             }).error(function (reason) {
                 deffered.reject(reason);
             });

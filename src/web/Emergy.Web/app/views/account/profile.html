@@ -2,7 +2,7 @@
 <div class="container main-container">
     <div class="row header-row">
         <div class="col l3 m4 s12">
-            <h2>Profile</h2>
+            <h2>{{::authData.userName}}</h2>
         </div>
         <div class="col l1 m1 s1 offset-l8 offset-m7">
             <a ng-href="#" class="center">
@@ -18,12 +18,90 @@
                     <img class="img responsive-img img-overlay" src="/assets/img/login-account-icon.png">
                 </div>
                 <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4">Your profile<i class="material-icons right">more_vert</i></span>
+                    <span class="card-title activator grey-text text-darken-4">Edit profile<i class="material-icons right">more_vert</i></span>
                 </div>
                 <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">Edit profile<i class="material-icons right">close</i></span>
-                    <div>
-
+                    <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
+                    <div class="row">
+                        <div class="col m4">
+                            <h5 class="card-title grey-text text-darken-4">Profile Photo</h5>
+                            <div class="col m12">
+                                <img class="img responsive-img center centered" ng-src="{{ profile.currentPhoto }}" />
+                                <span>
+                                    <input type="file" name="newProfilePhoto" class="waves-effect waves-teal btn-flat"
+                                           fileread="profile.currentPhoto " />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col m8">
+                            <h5 class="card-title grey-text text-darken-4">Account Info</h5>
+                            <div class="col m12">
+                                <form role="form" name="updateInfoForm" class="col s12" novalidate>
+                                    <div class="input-field col s10 username">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="username"
+                                               name="username"
+                                               placeholder="Username"
+                                               type="text"
+                                               ng-model="profile.UserName"
+                                               disabled/>
+                                    </div>
+                                    <div class="input-field col s10 email">
+                                        <i class="material-icons prefix">mail</i>
+                                        <input id="email"
+                                               name="email"
+                                               placeholder="Email"
+                                               type="email"
+                                               ng-model="profile.Email"
+                                               disabled/>
+                                    </div>
+                                    <div class="input-field col s10 username">
+                                        <i class="material-icons prefix">event</i>
+                                        <input id="timestamp"
+                                               name="timestamp"
+                                               placeholder="Timestamp"
+                                               type="text"
+                                               ng-model="profile.Timestamp"
+                                               disabled />
+                                    </div>
+                                    <div class="input-field col s10">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="name"
+                                               name="name"
+                                               placeholder="Name"
+                                               type="text"
+                                               ng-model="profile.Name"
+                                               />
+                                    </div>
+                                    <div class="input-field col s10">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="surname"
+                                               name="surname"
+                                               placeholder="Surname"
+                                               type="text"
+                                               ng-model="profile.Surname"
+                                               />
+                                    </div>
+                                    <div class="input-field col s10 account-type">
+                                        <select name="gender" class="" material-select watch
+                                                ng-model="profile.Gender">
+                                            <option value="" disabled selected style="font-size: 10px;">Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                    <br />
+                                    <div class="col s12">
+                                        <button class="btn waves-effect waves-notransition"
+                                                ng-click="updateInfo(profile)"
+                                                type="submit" name="action">
+                                            SAVE
+                                            <i class="material-icons right">save</i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,10 +118,12 @@
                                                name="oldPassword" placeholder="Old password" required type="password"
                                                ng-model="changePasswordVm.OldPassword"
                                                ng-minlength=8
-                                               ng-maxlength=64 />
+                                               ng-maxlength=64
+                                               password-verify="authData.password" />
                                         <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.required">Old Password is required.</small>
                                         <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.minlength">Old Password has to contain atleast 8 characters.</small>
                                         <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.maxlength">Old Password cannot be more than 64 characters long.</small>
+                                        <small class="validation" ng-show="changePasswordForm.oldPassword.$error.passwordVerify">Old Password is not correct.</small>
                                     </div>
                                     <div class="input-field col s10 password">
                                         <i class="material-icons prefix">vpn_key</i>
@@ -63,15 +143,17 @@
                                                name="confirmNewPassword" placeholder="Confirm new password" required type="password"
                                                ng-model="changePasswordVm.ConfirmPassword"
                                                ng-minlength=8
-                                               ng-maxlength=64 />
+                                               ng-maxlength=64
+                                               password-verify="changePasswordVm.NewPassword" />
                                         <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.required">Confirm New Password is required.</small>
                                         <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.minlength">Confirm New Password has to contain atleast 8 characters.</small>
                                         <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.maxlength">Confirm New Password cannot be more than 64 characters long.</small>
+                                        <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$error.passwordVerify">Password and Confirm Password have to be same.</small>
                                     </div>
 
                                     <div class="col s12">
                                         <button class="btn waves-effect waves-light white-text"
-                                                ng-disabled="changePasswordForm.$invalid || changePasswordForm.$pristine || isBusy"
+                                                ng-disabled="changePasswordForm.$invalid || changePasswordForm.$pristine"
                                                 ng-click="changePassword(changePasswordVm)"
                                                 type="submit" name="action">
                                             SAVE
