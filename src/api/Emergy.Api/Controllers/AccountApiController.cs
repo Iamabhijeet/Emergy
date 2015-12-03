@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using AutoMapper;
@@ -34,7 +35,7 @@ namespace Emergy.Api.Controllers
         [Route("Profile/Edit")]
         public async Task<IHttpActionResult> Profile(model::UserProfile profileVm)
         {
-            var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 user.ProfilePhotoId = profileVm.ProfilePhotoId;
@@ -85,10 +86,13 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
 
-            var ticket = await AccountService.LoginAsync(model, Startup.OAuthOptions);
+            var ticket = await AccountService.LoginAsync(model, Startup.OAuthOptions).WithoutSync();
+            var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId()).WithoutSync();
+            string role = UserManager.GetRoles(user.Id)[0];
             if (ticket != null)
             {
-                return Ok(new BearerTokenModel(Startup.OAuthOptions.AccessTokenFormat.Protect(ticket), ticket.Identity.GetUserId(), ticket.Identity.GetUserName()));
+                return Ok(new BearerTokenModel(Startup.OAuthOptions.AccessTokenFormat.Protect(ticket),
+                    ticket.Identity.GetUserId(), ticket.Identity.GetUserName(), role));
             }
             return BadRequest("User with specified credentials doesn't exist!");
         }
