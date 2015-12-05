@@ -102,6 +102,8 @@
     <Compile Include="Models\Hub\HubViewModels.cs" />
     <Compile Include="Models\Location\LocationViewModels.cs" />
     <Compile Include="Models\Log\ExceptionLog.cs" />
+    <Compile Include="Models\Message\MessageViewModels.cs" />
+    <Compile Include="Models\Notification\NotificationViewModels.cs" />
     <Compile Include="Models\Report\ReportViewModels.cs" />
     <Compile Include="Models\Unit\UnitViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

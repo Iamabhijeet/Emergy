@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Api.Models.Account;
+using Emergy.Core.Common;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
 
@@ -26,6 +30,23 @@ namespace Emergy.Api.Controllers
             if (user != null)
             {
                 return Ok(Mapper.Map<model.UserProfile>(user));
+            }
+            return NotFound();
+        }
+        [HttpPut]
+        [Route("Profile/Edit")]
+        public async Task<IHttpActionResult> Profile(model::UserProfile profileVm)
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                user.ProfilePhotoId = profileVm.ProfilePhotoId;
+                user.Name = profileVm.Name;
+                user.Surname = profileVm.Surname;
+                user.BirthDate = profileVm.BirthDate;
+                user.AccountType = profileVm.AccountType;
+                await UserManager.UpdateAsync(user).WithoutSync();
+                return Ok();
             }
             return NotFound();
         }
@@ -60,6 +81,7 @@ namespace Emergy.Api.Controllers
         [AllowAnonymous]
         [Route("Login")]
         [HttpPost]
+        [ResponseType(typeof(BearerTokenModel))]
         public async Task<IHttpActionResult> Login([FromBody] model::LoginUserBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -67,10 +89,21 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
 
-            var ticket = await AccountService.LoginAsync(model, Startup.OAuthOptions);
+            var ticket = await AccountService.LoginAsync(model, Startup.OAuthOptions).WithoutSync();
             if (ticket != null)
             {
-                return Ok(new BearerTokenModel(Startup.OAuthOptions.AccessTokenFormat.Protect(ticket), ticket.Identity.GetUserId(), ticket.Identity.GetUserName()));
+                var roles = ticket.Identity.Claims
+                    .Where(claim => claim.Type == ClaimTypes.Role)
+                    .Select(claim => claim.Value)
+                    .ToArray();
+
+                return Ok(new BearerTokenModel
+                    (
+                    Startup.OAuthOptions.AccessTokenFormat.Protect(ticket),
+                    ticket.Identity.GetUserId(),
+                    ticket.Identity.GetUserName(),
+                    roles
+                    ));
             }
             return BadRequest("User with specified credentials doesn't exist!");
         }
@@ -95,6 +128,6 @@ namespace Emergy.Api.Controllers
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
-       
+
     }
 }

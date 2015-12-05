@@ -12,30 +12,24 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class report
+    public partial class message
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public report()
+        public message()
         {
             this.resources = new HashSet<resource>();
         }
     
         public int Id { get; set; }
-        public string Description { get; set; }
-        public string CreatorId { get; set; }
-        public Nullable<int> LocationId { get; set; }
-        public Nullable<int> CategoryId { get; set; }
-        public int DetailsId { get; set; }
+        public string Content { get; set; }
         public System.DateTime Timestamp { get; set; }
-        public System.DateTime DateHappened { get; set; }
-        public int Status { get; set; }
-        public int Unit_Id { get; set; }
+        public string Sender_Id { get; set; }
+        public string Target_Id { get; set; }
+        public string ApplicationUser_Id { get; set; }
     
         public virtual aspnetuser aspnetuser { get; set; }
-        public virtual category category { get; set; }
-        public virtual location location { get; set; }
-        public virtual reportdetail reportdetail { get; set; }
-        public virtual unit unit { get; set; }
+        public virtual aspnetuser aspnetuser1 { get; set; }
+        public virtual aspnetuser aspnetuser2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<resource> resources { get; set; }
     }

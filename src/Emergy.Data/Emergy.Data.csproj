@@ -97,7 +97,9 @@
   <ItemGroup>
     <Compile Include="Configurations\CustomPropertyConfiguration.cs" />
     <Compile Include="Configurations\CustomPropertyValueConfiguration.cs" />
+    <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\MySqlConfiguration.cs" />
+    <Compile Include="Configurations\NotificationConfiguration.cs" />
     <Compile Include="Configurations\ReportConfiguration.cs" />
     <Compile Include="Configurations\ReportDetailsConfiguration.cs" />
     <Compile Include="Configurations\CategoryConfiguration.cs" />
@@ -116,6 +118,8 @@
     <Compile Include="Models\Enums\LocationType.cs" />
     <Compile Include="Models\Enums\ReportStatus.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\ReportDetails.cs" />
     <Compile Include="Models\Category.cs" />
@@ -161,19 +165,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmergyDb.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Visual\image.cs">
-      <DependentUpon>EmergyDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Visual\location.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Visual\profilephoto.cs">
+    <Compile Include="Visual\message.cs">
+      <DependentUpon>EmergyDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\notification.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Visual\report.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Visual\reportdetail.cs">
+      <DependentUpon>EmergyDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\resource.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Visual\unit.cs">
