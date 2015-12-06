@@ -47,15 +47,11 @@
             }
         }
     })
-    .state('tab.login', {
+    .state('login', {
         url: '/login',
-        views: {
-            'tab-login': {
-                templateUrl: 'app/views/login/login.html',
-                controller: 'loginController'
-            }
-        }
+        templateUrl: 'app/views/login/login.html',
+        controller: 'loginController'
     });
 
-    $urlRouterProvider.otherwise('/tab/home');
+    $urlRouterProvider.otherwise('/login');
 });

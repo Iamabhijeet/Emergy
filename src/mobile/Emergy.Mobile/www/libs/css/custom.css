@@ -52,3 +52,26 @@ ion-tabs.tabs-color-active-positive .tab-item {
     }
 
 /*-----------end TABS-----------*/
+
+/*-----------begin LOGIN-----------*/
+
+.login-container .login-button {
+    background-color: #00a2b7;
+    border-color: #00a2b7;
+}
+
+.login-container .login-button:hover {
+    background-color: #08c2da;
+    border-color: #08c2da;
+}
+
+.login-container .login-button.activated {
+    background-color: #DFDFDF;
+    border-color: #DFDFDF;
+}
+
+.login-container .login-inputs {
+    padding-right: 23px;
+}
+
+/*-----------end LOGIN-----------*/
