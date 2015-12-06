@@ -5,36 +5,30 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-   
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/general.css" rel="stylesheet" />
-    <link href="css/shared/bar.css" rel="stylesheet" />
-    <link href="css/shared/tabs.css" rel="stylesheet" />
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-    <script src="lib/platform.js/platform.js"></script>
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="cordova.js"></script>
+    <link href="libs/css/ionic/ionic.min.css" rel="stylesheet">
+    <link href="libs/css/platform/android/ionic.material.min.css" rel="stylesheet" />
+    <link href="libs/css/custom.css" rel="stylesheet" />
+    <script src="libs/js/platform/platform.js"></script>
+    <script src="libs/js/ionic/ionic.bundle.js"></script>
+    <script src="libs/js/ionic-material/ionic.material.min.js"></script>
+    <script src="libs/js/ng-cordova/ng-cordova.min.js"></script>
   
     <!-- modules -->
-    <script src="js/modules/app.js"></script>
-    <script src="js/modules/app.router.js"></script>
-    <script src="js/modules/services.js"></script>
-    <script src="js/modules/directives.js"></script>
-    <script src="js/modules/controllers.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/app.router.js"></script>
+    <script src="app/components/controllers/controllers.module.js"></script>
+    <script src="app/components/directives/directives.module.js"></script>
+    <script src="app/components/services/services.module.js"></script>
+
     <!-- services -->
 
     <!-- controllers -->
-    <script src="js/controllers/homeController.js"></script>
-    <script src="js/controllers/account/loginController.js"></script>
-    <script src="js/controllers/account/accountController.js"></script>
-    <script src="js/controllers/reports/reportsController.js"></script>
-    <script src="js/controllers/reports/reportController.js"></script>
-    <script src="js/controllers/settingsController.js"></script>
-
-    <!-- plugins -->
-    <script src="lib/ng-cordova/dist/ng-cordova.js"></script>
+    <script src="app/components/controllers/home/homeController.js"></script>
+    <script src="app/components/controllers/login/loginController.js"></script>
+    <script src="app/components/controllers/profile/profileController.js"></script>
+    <script src="app/components/controllers/reports/reportsController.js"></script>
+    <script src="app/components/controllers/report/reportController.js"></script>
+    <script src="app/components/controllers/settings/settingsController.js"></script>   
 </head>
 <body ng-app="emergy">
     <ion-nav-bar class="has-tabs-top bar-positive">
