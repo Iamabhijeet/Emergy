@@ -61,7 +61,6 @@
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\services.module.js" />
-    <Content Include="app\components\services\notification\unitsService.js" />
     <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\account\profile.html" />
     <Content Include="app\views\register\registerSuccess.html" />
@@ -74,6 +73,7 @@
     <Content Include="app\views\register\register.html" />
     <Content Include="app\views\shell\shell.html" />
     <Content Include="assets\img\account-icon.png" />
+    <Content Include="assets\img\card-background.jpg" />
     <Content Include="assets\img\loading.svg" />
     <Content Include="assets\img\logout-icon.png" />
     <Content Include="assets\img\map-marker.png" />
@@ -98,6 +98,7 @@
     <Content Include="libs\js\angular\angular-ui-router.js" />
     <Content Include="libs\js\angular\angular-ui-router.min.js" />
     <Content Include="libs\js\angular\loading-bar.js" />
+    <Content Include="libs\js\google-maps\ng-map.min.js" />
     <Content Include="libs\js\local-storage\angular-local-storage.js" />
     <Content Include="libs\js\angular\angular-animate.js" />
     <Content Include="libs\js\angular\angular-animate.min.js" />
