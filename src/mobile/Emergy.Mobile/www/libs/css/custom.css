@@ -67,11 +67,30 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .login-container .login-button.activated {
     background-color: #DFDFDF;
-    border-color: #DFDFDF;
+    border-color: #DFDFDF; 
 }
 
 .login-container .login-inputs {
     padding-right: 23px;
+
+}
+
+.login-container .login-inputs .highlight{
+    background: #00ffff;
+
+}
+
+.login-container .login-inputs label .input-label{
+    font-family:"Helvetica Neue",Roboto,"Segoe UI",sans-serif;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+.login-container h1 {
+    font-weight: 300;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 30px;
 }
 
 /*-----------end LOGIN-----------*/
