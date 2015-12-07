@@ -1,4 +1,4 @@
-﻿var services = angular.module('emergyWeb.services', ['LocalStorageModule', 'ui.router']);
+﻿var services = angular.module('emergyWeb.services', ['LocalStorageModule', 'ui.router', 'ngFileUpload', 'ngImgCrop']);
 services.value('authData', {
     userId: '',
     userName: '',
