@@ -98,6 +98,7 @@
     <Compile Include="Models\Email\LogMail.cs" />
     <Compile Include="Models\Email\RegisterMail.cs" />
     <Compile Include="Models\File\UploadMultipleResourcesViewModel.cs" />
+    <Compile Include="Models\File\UploadResourceModel.cs" />
     <Compile Include="Models\File\ValidatedHttpPostedFileBase.cs" />
     <Compile Include="Models\Hub\HubViewModels.cs" />
     <Compile Include="Models\Location\LocationViewModels.cs" />
