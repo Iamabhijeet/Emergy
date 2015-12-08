@@ -16,6 +16,7 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
         Id: 1
     };
     $scope.currentPhotoBase64 = '';
+    $scope.editorVisible = false;
 
     $scope.changePasswordVm = {
         OldPassword: '',
@@ -79,5 +80,8 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
         }
     }
 
+    $scope.onImageLoaded = function () {
+        $scope.editorVisible = true;
+    }
     activate();
 }
