@@ -766,69 +766,49 @@
 }
 
 /*ACCOUNT PROFILE*/
-.card .card-image .img-overlay {
-    position: absolute;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 1em;
-    width: 15em;
-    height: 15em;
+
+.main-container.profile .card {
+    
 }
 
+.main-container.profile .card .card-image .profile-photo {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 1em;
+    border-radius: 50%; 
+    width: 20em;
+    height: 20em;
+}
+
+.main-container.profile .card .input-field i{
+    top: 7px;
+}
+
+.main-container.profile .gender {
+    font-size: 14px;
+    z-index: 1000000;
+    margin-top: 0;
+}
+
+    .main-container.profile .gender span {
+        font-size: 1rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: #00a2b7;
+    }
+
 .cropArea {
+    margin-top: 25px;
     background: none;
     overflow: hidden;
-    width: 500px;
     height: 350px;
 }
 
-.img-circle {
-    width: inherit;
-    height: inherit;
-    border-radius: 150px;
-    -webkit-border-radius: 150px;
-    -moz-border-radius: 150px;
-}
-
-@media only screen and (max-width: 1920px) {
-    .card .card-image .img-overlay {
-        position: absolute;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 1em;
-        width: 20em;
-        height: 20em;
-    }
-
-    .cropArea {
-        background: none;
-        overflow: hidden;
-        width: 500px;
-        height: 350px;
-    }
-}
-
 @media only screen and (max-width: 1366px) {
-    .card .card-image .img-overlay {
-        position: absolute;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 1em;
+    .main-container.profile .card .card-image .profile-photo {
         width: 15em;
         height: 15em;
     }
@@ -836,22 +816,18 @@
     .cropArea {
         background: none;
         overflow: hidden;
-        width: 400px;
         height: 250px;
     }
 }
 
+@media only screen and (max-width: 1440px) {
+    .main-container.profile .col.l6 {
+        width: 100%;
+    }
+}
+
 @media only screen and (max-width: 768px) {
-    .card .card-image .img-overlay {
-        position: absolute;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 1em;
+    .main-container.profile .card .card-image .profile-photo {
         width: 10em;
         height: 10em;
     }
@@ -859,22 +835,12 @@
     .cropArea {
         background: none;
         overflow: hidden;
-        width: 300px;
         height: 150px;
     }
 }
 
-@media only screen and (max-width: 384px) {
-    .card .card-image .img-overlay {
-        position: absolute;
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 1em;
+@media only screen and (max-width: 449px) {
+    .main-container.profile .card .card-image .profile-photo {
         width: 5em;
         height: 5em;
     }
@@ -882,7 +848,6 @@
     .cropArea {
         background: none;
         overflow: hidden;
-        width: 200px;
         height: 75px;
     }
 }

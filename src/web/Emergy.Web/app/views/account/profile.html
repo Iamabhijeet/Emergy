@@ -1,6 +1,6 @@
 ﻿<div ui-view="shell"></div>
 
-<div class="container main-container">
+<div class="container main-container profile">
     <div class="row header-row">
         <div class="col l3 m4 s12">
             <h2>{{::authData.userName}}</h2>
@@ -16,7 +16,7 @@
             <div class="card">
                 <div class="card-image waves-effect waves-block waves-light">
                     <img class="activator" src="/assets/img/login-background.jpg">
-                    <img class="img responsive-img img-circle img-overlay" ng-src="{{ currentPhotoBase64 }}">
+                    <img class="profile-photo z-depth-2" ng-src="{{ currentPhotoBase64 }}">
                 </div>
                 <div class="card-content">
                     <span class="card-title activator grey-text text-darken-4">Edit profile<i class="material-icons right">more_vert</i></span>
@@ -24,12 +24,12 @@
                 <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
                     <div class="row">
-                        <div class="col l6">
-                            <h5 class="card-title grey-text text-darken-4">Profile Photo</h5>
+                        <div class="col l6 m12 s12">
+                            <h5 class="card-title activator grey-text text-darken-4">Profile Photo</h5>
                             <div class="col m12">
                                 <form name="profilePhotoForm">
                                     <div ngf-drop ng-model="tempPhoto" ngf-pattern="image/*"
-                                         class="cropArea z-depth-1 center-block">
+                                         class="cropArea z-depth-1">
                                         <img-crop image="tempPhoto | ngfDataUrl"
                                                   result-image="currentPhotoBase64">
                                         </img-crop>
@@ -46,14 +46,13 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="col l6">
+                        <div class="col l6 m12 s12">
                             <h5 class="card-title grey-text text-darken-4">Account Info</h5>
-                            <div class="container">
                                 <div class="row">
                                     <div class="col l12 m12 s12">
                                         <div class="center-block center-align centered center">
                                             <form role="form" name="updateInfoForm" novalidate>
-                                                <div class="input-field col s10 username">
+                                                <div class="input-field col s12 username">
                                                     <i class="material-icons prefix">account_circle</i>
                                                     <input id="username"
                                                            name="username"
@@ -62,7 +61,7 @@
                                                            ng-model="profile.UserName"
                                                            disabled />
                                                 </div>
-                                                <div class="input-field col s10 email">
+                                                <div class="input-field col s12 email">
                                                     <i class="material-icons prefix">mail</i>
                                                     <input id="email"
                                                            name="email"
@@ -71,7 +70,7 @@
                                                            ng-model="profile.Email"
                                                            disabled />
                                                 </div>
-                                                <div class="input-field col s10 username">
+                                                <div class="input-field col s12 username">
                                                     <i class="material-icons prefix">event</i>
                                                     <input id="timestamp"
                                                            name="timestamp"
@@ -80,7 +79,7 @@
                                                            ng-model="profile.Timestamp"
                                                            disabled />
                                                 </div>
-                                                <div class="input-field col s10">
+                                                <div class="input-field col s12">
                                                     <i class="material-icons prefix">account_circle</i>
                                                     <input id="name"
                                                            name="name"
@@ -88,7 +87,7 @@
                                                            type="text"
                                                            ng-model="profile.Name" />
                                                 </div>
-                                                <div class="input-field col s10">
+                                                <div class="input-field col s12">
                                                     <i class="material-icons prefix">account_circle</i>
                                                     <input id="surname"
                                                            name="surname"
@@ -96,7 +95,7 @@
                                                            type="text"
                                                            ng-model="profile.Surname" />
                                                 </div>
-                                                <div class="input-field col s10 account-type">
+                                                <div class="input-field col s12 gender">
                                                     <select name="gender" class="" material-select watch
                                                             ng-model="profile.Gender">
                                                         <option value="" disabled selected style="font-size: 10px;">Gender</option>
@@ -114,7 +113,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
