@@ -1,28 +1,5 @@
 ﻿<div ui-view="shell"></div>
-<style type="text/css">
-    .cropArea {
-        background: #E4E4E4;
-        overflow: hidden;
-        width: 500px;
-        height: 350px;
-    }
 
-    form .progress {
-        line-height: 15px;
-    }
-
-    .progress {
-        display: inline-block;
-        width: 100px;
-        border: 3px groove #CCC;
-    }
-
-        .progress div {
-            font-size: smaller;
-            background: orange;
-            width: 0;
-        }
-</style>
 <div class="container main-container">
     <div class="row header-row">
         <div class="col l3 m4 s12">
@@ -39,7 +16,7 @@
             <div class="card">
                 <div class="card-image waves-effect waves-block waves-light">
                     <img class="activator" src="/assets/img/login-background.jpg">
-                    <img class="img responsive-img img-overlay" ng-src="{{ currentPhotoBase64 }}">
+                    <img class="img responsive-img img-circle img-overlay" ng-src="{{ currentPhotoBase64 }}">
                 </div>
                 <div class="card-content">
                     <span class="card-title activator grey-text text-darken-4">Edit profile<i class="material-icons right">more_vert</i></span>
@@ -51,89 +28,92 @@
                             <h5 class="card-title grey-text text-darken-4">Profile Photo</h5>
                             <div class="col m12">
                                 <form name="profilePhotoForm">
-                                    <div>Crop Image and Upload</div>
-                                    <button ngf-select ng-model="tempPhoto" accept="image/*">
-                                        Select Picture
-                                    </button>
                                     <div ngf-drop ng-model="tempPhoto" ngf-pattern="image/*"
-                                         class="cropArea">
+                                         class="cropArea z-depth-1 center-block">
                                         <img-crop image="tempPhoto | ngfDataUrl"
                                                   result-image="currentPhotoBase64">
                                         </img-crop>
                                     </div>
-                                    <div>
-                                        <img ng-src="{{ currentPhotoBase64 }}"/>
+                                    <br />
+                                    <div class="center-block center-align center centered">
+                                        <button class="waves-effect btn-flat text-accent" ngf-select ng-model="tempPhoto" accept="image/*">
+                                            SELECT
+                                        </button>
+                                        <button class="waves-effect btn-flat text-accent modal-trigger" data-target="preview_photo" modal>
+                                            PREVIEW
+                                        </button>
                                     </div>
-                                    <span ng-show="result">Upload Successful</span>
-                                    <span class="err" ng-show="errorMsg">{{ errorMsg }}</span>
                                 </form>
                             </div>
                         </div>
                         <div class="col l6">
                             <h5 class="card-title grey-text text-darken-4">Account Info</h5>
-                            <div class="col m12">
-                                <form role="form" name="updateInfoForm" class="col s12" novalidate>
-                                    <div class="input-field col s10 username">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        <input id="username"
-                                               name="username"
-                                               placeholder="Username"
-                                               type="text"
-                                               ng-model="profile.UserName"
-                                               disabled />
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col l12 m12 s12">
+                                        <div class="center-block center-align centered center">
+                                            <form role="form" name="updateInfoForm" novalidate>
+                                                <div class="input-field col s10 username">
+                                                    <i class="material-icons prefix">account_circle</i>
+                                                    <input id="username"
+                                                           name="username"
+                                                           placeholder="Username"
+                                                           type="text"
+                                                           ng-model="profile.UserName"
+                                                           disabled />
+                                                </div>
+                                                <div class="input-field col s10 email">
+                                                    <i class="material-icons prefix">mail</i>
+                                                    <input id="email"
+                                                           name="email"
+                                                           placeholder="Email"
+                                                           type="email"
+                                                           ng-model="profile.Email"
+                                                           disabled />
+                                                </div>
+                                                <div class="input-field col s10 username">
+                                                    <i class="material-icons prefix">event</i>
+                                                    <input id="timestamp"
+                                                           name="timestamp"
+                                                           placeholder="Timestamp"
+                                                           type="text"
+                                                           ng-model="profile.Timestamp"
+                                                           disabled />
+                                                </div>
+                                                <div class="input-field col s10">
+                                                    <i class="material-icons prefix">account_circle</i>
+                                                    <input id="name"
+                                                           name="name"
+                                                           placeholder="Name"
+                                                           type="text"
+                                                           ng-model="profile.Name" />
+                                                </div>
+                                                <div class="input-field col s10">
+                                                    <i class="material-icons prefix">account_circle</i>
+                                                    <input id="surname"
+                                                           name="surname"
+                                                           placeholder="Surname"
+                                                           type="text"
+                                                           ng-model="profile.Surname" />
+                                                </div>
+                                                <div class="input-field col s10 account-type">
+                                                    <select name="gender" class="" material-select watch
+                                                            ng-model="profile.Gender">
+                                                        <option value="" disabled selected style="font-size: 10px;">Gender</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </div>
+                                                <button class="btn waves-effect waves-notransition"
+                                                        ng-click="updateInfo(profile)"
+                                                        type="submit" name="action">
+                                                    SAVE
+                                                    <i class="material-icons right">save</i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="input-field col s10 email">
-                                        <i class="material-icons prefix">mail</i>
-                                        <input id="email"
-                                               name="email"
-                                               placeholder="Email"
-                                               type="email"
-                                               ng-model="profile.Email"
-                                               disabled />
-                                    </div>
-                                    <div class="input-field col s10 username">
-                                        <i class="material-icons prefix">event</i>
-                                        <input id="timestamp"
-                                               name="timestamp"
-                                               placeholder="Timestamp"
-                                               type="text"
-                                               ng-model="profile.Timestamp"
-                                               disabled />
-                                    </div>
-                                    <div class="input-field col s10">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        <input id="name"
-                                               name="name"
-                                               placeholder="Name"
-                                               type="text"
-                                               ng-model="profile.Name" />
-                                    </div>
-                                    <div class="input-field col s10">
-                                        <i class="material-icons prefix">account_circle</i>
-                                        <input id="surname"
-                                               name="surname"
-                                               placeholder="Surname"
-                                               type="text"
-                                               ng-model="profile.Surname" />
-                                    </div>
-                                    <div class="input-field col s10 account-type">
-                                        <select name="gender" class="" material-select watch
-                                                ng-model="profile.Gender">
-                                            <option value="" disabled selected style="font-size: 10px;">Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                    <br />
-                                    <div class="col s12">
-                                        <button class="btn waves-effect waves-notransition"
-                                                ng-click="updateInfo(profile)"
-                                                type="submit" name="action">
-                                            SAVE
-                                            <i class="material-icons right">save</i>
-                                        </button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -194,6 +174,18 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="preview_photo" class="modal">
+        <div class="modal-content">
+            <h4>Here is your photo</h4>
+            <div class="center center-block centered center-align">
+                <img class="img responsive-img img-overlay img-circle" ng-src="{{ currentPhotoBase64 }}" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect btn-flat text-accent">DONE</a>
         </div>
     </div>
 </div>

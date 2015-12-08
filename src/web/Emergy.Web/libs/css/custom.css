@@ -780,6 +780,21 @@
     height: 15em;
 }
 
+.cropArea {
+    background: none;
+    overflow: hidden;
+    width: 500px;
+    height: 350px;
+}
+
+.img-circle {
+    width: inherit;
+    height: inherit;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+}
+
 @media only screen and (max-width: 1920px) {
     .card .card-image .img-overlay {
         position: absolute;
@@ -794,8 +809,14 @@
         width: 20em;
         height: 20em;
     }
-}
 
+    .cropArea {
+        background: none;
+        overflow: hidden;
+        width: 500px;
+        height: 350px;
+    }
+}
 
 @media only screen and (max-width: 1366px) {
     .card .card-image .img-overlay {
@@ -811,9 +832,14 @@
         width: 15em;
         height: 15em;
     }
+
+    .cropArea {
+        background: none;
+        overflow: hidden;
+        width: 400px;
+        height: 250px;
+    }
 }
-
-
 
 @media only screen and (max-width: 768px) {
     .card .card-image .img-overlay {
@@ -829,9 +855,14 @@
         width: 10em;
         height: 10em;
     }
+
+    .cropArea {
+        background: none;
+        overflow: hidden;
+        width: 300px;
+        height: 150px;
+    }
 }
-
-
 
 @media only screen and (max-width: 384px) {
     .card .card-image .img-overlay {
@@ -847,8 +878,15 @@
         width: 5em;
         height: 5em;
     }
+
+    .cropArea {
+        background: none;
+        overflow: hidden;
+        width: 200px;
+        height: 75px;
+    }
 }
 
-.input-field .prefix.active {
+.text-accent, .input-field .prefix.active {
     color: #1599AB;
 }
