@@ -124,6 +124,31 @@
             }]
         }
     });
+    $stateProvider.state("Notifications", {
+        url: "/dashboard/notifications",
+        views: {
+            '': {
+                templateUrl: 'app/views/notifications/notifications.html',
+                controller: "notificationsController"
+            },
+            'shell@Notifications': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     $stateProvider.state("UnitDetails", {
         url: "/dashboard/unit/:unitId/details",
         views: {

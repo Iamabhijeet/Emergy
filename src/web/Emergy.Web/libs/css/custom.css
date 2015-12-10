@@ -767,10 +767,6 @@
 
 /*ACCOUNT PROFILE*/
 
-.main-container.profile .card {
-    
-}
-
 .main-container.profile .card .card-image .profile-photo {
     position: absolute;
     margin: auto;
@@ -854,4 +850,16 @@
 
 .text-accent, .input-field .prefix.active {
     color: #1599AB;
+}
+
+
+/*NOTIFICATIONS*/
+
+.main-container.notifications .notification-list a {
+    color: #4A4A4A;
+}
+
+.main-container.notifications .notification-list a span{
+    color: #1599AB;
+    font-weight: 500;
 }

@@ -45,6 +45,7 @@
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
     <Content Include="app\components\controllers\account\profileController.js" />
+    <Content Include="app\components\controllers\notifications\notificationsController.js" />
     <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
     <Content Include="app\components\controllers\unitDetails\unitDetailsController.js" />
@@ -64,6 +65,7 @@
     <Content Include="app\components\services\services.module.js" />
     <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\account\profile.html" />
+    <Content Include="app\views\notifications\notifications.html" />
     <Content Include="app\views\register\registerSuccess.html" />
     <Content Include="app\views\reportDetails\reportDetails.html" />
     <Content Include="app\views\reports\reports.html" />
