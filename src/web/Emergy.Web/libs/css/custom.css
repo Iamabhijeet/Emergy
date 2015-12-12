@@ -863,3 +863,10 @@
     color: #1599AB;
     font-weight: 500;
 }
+
+.main-container.notifications .btn.load-more-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 120px;
+}

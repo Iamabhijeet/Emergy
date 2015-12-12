@@ -8,10 +8,11 @@
     </div>
     <div class="row">
         <div class="collection notification-list">
-            <a href="#!" class="collection-item"><span>BentyParadox</span> has submitted a new report to <span>Testing Unit</span> at <span>12:34PM</span></a>
-            <a href="#!" class="collection-item"><span>BentyParadox</span> has replied to a message at <span>12:34PM</span></a>
-            <a href="#!" class="collection-item"><span>gBoduljak</span> has submitted a new report to <span>Stonex - HQ</span> at <span>12:34PM</span></a>
-            <a href="#!" class="collection-item"><span>BentyParadox</span> has submitted a new report to <span>Testing Unit</span> at <span>12:34PM</span></a>
+            <div ng-repeat="notification in notifications">
+                <a ng-href="{{ notification.Target }}" class="collection-item"><span>{{ notification.Sender }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp }}</span></a>
+            </div>
         </div>
+
+        <a class="waves-effect waves-light btn load-more-button" ng-click="loadNotifications()">More</a>
     </div>
 </div>
