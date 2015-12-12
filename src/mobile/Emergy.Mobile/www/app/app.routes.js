@@ -1,5 +1,5 @@
 ﻿app.config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/tab/home');
 
     $stateProvider.state('tab', {
             url: '/tab',
@@ -107,17 +107,10 @@
 app.run(['$rootScope', '$state', 'authService', function ($rootScope, $state, authService) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
-    $rootScope.currentState = '';
 
-    $rootScope.$on('$stateChangeStart', function (e, toState) {
-        $rootScope.currentState = toState;
-    });
     $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
         if (error === "Not Authorized") {
             $state.go("Login");
         }
     });
-    $rootScope.logOut = function () {
-        authService.logout();
-    };
 }]);
