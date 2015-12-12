@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,6 +13,7 @@ using vm = Emergy.Core.Models.Notification;
 
 namespace Emergy.Api.Controllers
 {
+    [Authorize]
     public class NotificationsApiController : MasterApiController
     {
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
@@ -20,16 +22,13 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-latest")]
+        [Route("get-latest/{lastHappened:dateTime}")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> GetLatest()
+        public async Task<IHttpActionResult> GetLatest(DateTime? lastHappened)
         {
-            return Ok((await _notificationsRepository
-                .GetAsync(m => m.Target.Id == User.Identity.GetUserId(), null, ConstRelations.LoadAllMessageRelations))
-                .OrderByDescending(m => m.Timestamp)
-                .Take(10)
-                .ToArray());
+            return Ok(await GetNotifications(lastHappened).WithoutSync());
         }
+
         [HttpGet]
         [Route("search")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
@@ -48,7 +47,7 @@ namespace Emergy.Api.Controllers
               .OrderByDescending(m => m.Timestamp)
               .ToArray());
             }
-            return await GetLatest();
+            return await GetLatest(null);
         }
 
         [HttpPost]
@@ -83,6 +82,27 @@ namespace Emergy.Api.Controllers
                 return Ok(notification.Id);
             }
             return BadRequest();
+        }
+
+        private async Task<IEnumerable<db::Notification>> GetNotifications(DateTime? lastHappened)
+        {
+            var notifications = await _notificationsRepository
+                   .GetAsync(m => m.Target.Id == User.Identity.GetUserId(), null,
+                       ConstRelations.LoadAllNotificationRelations);
+
+            if (lastHappened == null)
+            {
+                return notifications
+                    .OrderByDescending(notification => notification.Timestamp)
+                    .Take(20)
+                    .ToArray();
+            }
+            return notifications
+                .AsParallel()
+                .Where(notifaction => notifaction.Timestamp > lastHappened.Value)
+                .OrderByDescending(notification => notification.Timestamp)
+                .Take(20)
+                .ToArray();
         }
 
         private readonly IRepository<db::Notification> _notificationsRepository;
