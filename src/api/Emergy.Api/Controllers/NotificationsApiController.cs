@@ -13,6 +13,7 @@ using vm = Emergy.Core.Models.Notification;
 
 namespace Emergy.Api.Controllers
 {
+    [RoutePrefix("api/notifications")]
     [Authorize]
     public class NotificationsApiController : MasterApiController
     {
@@ -24,7 +25,7 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         [Route("get-latest/{lastHappened:dateTime}")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> GetLatest(DateTime? lastHappened)
+        public async Task<IHttpActionResult> GetLatest(DateTime? lastHappened = null)
         {
             return Ok(await GetNotifications(lastHappened).WithoutSync());
         }
