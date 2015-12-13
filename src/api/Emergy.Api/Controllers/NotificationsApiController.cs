@@ -48,7 +48,7 @@ namespace Emergy.Api.Controllers
               .OrderByDescending(m => m.Timestamp)
               .ToArray());
             }
-            return await GetLatest(null);
+            return await GetLatest();
         }
 
         [HttpPost]

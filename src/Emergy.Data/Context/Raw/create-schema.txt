@@ -54,6 +54,8 @@ alter table `Messages` add constraint `FK_Messages_AspNetUsers_Sender_Id`  forei
 alter table `Messages` add constraint `FK_Messages_AspNetUsers_Target_Id`  foreign key (`Target_Id`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
 alter table `Notifications` add constraint `FK_Notifications_AspNetUsers_Sender_Id`  foreign key (`Sender_Id`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
 alter table `Notifications` add constraint `FK_Notifications_AspNetUsers_Target_Id`  foreign key (`Target_Id`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
+alter table `Notifications` add column `Type` int not null  
+alter table `Notifications` add column `ParameterId` longtext 
 alter table `Reports` add constraint `FK_Reports_Categories_CategoryId`  foreign key (`CategoryId`) references `Categories` ( `Id`) 
 alter table `Reports` add constraint `FK_Reports_AspNetUsers_CreatorId`  foreign key (`CreatorId`) references `AspNetUsers` ( `Id`) 
 alter table `Reports` add constraint `FK_Reports_ReportDetails_DetailsId`  foreign key (`DetailsId`) references `ReportDetails` ( `Id`)  on update cascade on delete cascade 

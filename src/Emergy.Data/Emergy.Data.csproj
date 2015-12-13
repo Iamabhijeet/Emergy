@@ -116,6 +116,7 @@
     <Compile Include="Models\Enums\CustomPropertyType.cs" />
     <Compile Include="Models\Enums\Gender.cs" />
     <Compile Include="Models\Enums\LocationType.cs" />
+    <Compile Include="Models\Enums\NotificationType.cs" />
     <Compile Include="Models\Enums\ReportStatus.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Message.cs" />
@@ -203,8 +204,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Context\nemoj_ovo_pokretat.txt" />
-    <Content Include="Context\sql.txt" />
+    <Content Include="Context\Raw\kill-all.txt" />
+    <Content Include="Context\Raw\create-schema.txt" />
     <Content Include="Visual\EmergyDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EmergyDb.edmx</DependentUpon>
