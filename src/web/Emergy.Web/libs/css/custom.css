@@ -25,6 +25,14 @@
     display: none;
 }
 
+.main-container .validation {
+        color: #F44336;
+    }
+
+.main-container .invalid {
+    border-bottom: 1px solid #F44336;
+}
+
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
 
 .login-register-container .col.s12 {
@@ -295,6 +303,28 @@
 
 
 /*-----------UNITS PAGE-----------*/
+
+.main-container.unit-details .row.add-user {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-container.unit-details .row.create-property {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+.main-container.unit-details .row.create-property.custom-property {
+    margin-bottom: 85px;
+}
+
+.main-container.units input, .main-container.unit-details input {
+    margin-bottom: 0;
+}
+
 .main-container {
     margin-left: 280px;
 }
@@ -333,6 +363,19 @@
     .main-container .loading-active {
         border: none;
         margin-bottom: 128px;
+    }
+
+    .main-container.units .row.create-unit {
+        margin-top: 35px;
+    }
+
+    .main-container.units .col.s1 {
+        text-align: right;
+    }
+
+    .main-container.units .col i {
+        font-weight: 900;
+        font-size: 25px;
     }
 
     .main-container .loading-inactive {
@@ -434,6 +477,10 @@
     }
 
 @media only screen and (max-width: 601px) {
+    .main-container.unit-details .row.create-property button {
+        margin-top: 25px;
+    }
+
     .main-container h2 {
         text-align: center;
         margin-bottom: 0;
@@ -552,13 +599,13 @@
     margin-bottom: 15px;
 }
 
-.main-container #addCustomProperty .custom-property-type {
+.main-container .custom-property-type {
     font-size: 14px;
     z-index: 1000000;
     margin-top: 0;
 }
 
-    .main-container #addCustomProperty .custom-property-type span {
+    .main-container .custom-property-type span {
         font-size: 1rem;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -682,15 +729,15 @@
     height: 450px;
 }
 
-    .main-container.reports .report-map ng-map {
+    .main-container.reports .report-map map {
         height: 450px;
     }
 
-        .main-container.reports .report-map ng-map .custom-marker {
+        .main-container.reports .report-map map .custom-marker {
             height: 40px;
         }
 
-            .main-container.reports .report-map ng-map .custom-marker img {
+            .main-container.reports .report-map map .custom-marker img {
                 margin-top: 40px;
             }
 

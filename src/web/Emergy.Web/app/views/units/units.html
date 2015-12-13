@@ -1,6 +1,6 @@
 ﻿<div ui-view="shell"></div>
 
-<div class="container main-container">
+<div class="container main-container units">
     <div class="row header-row">
         <div class="col l3 m4 s12">
             <h2>Units</h2>
@@ -25,19 +25,26 @@
             </div>
         </li>
     </ul>
+
     <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
         <img src="/assets/img/loading.svg" width="55" />
     </div>
 
-    <a href="#createUnit" class="btn btn-floating btn-large waves-effect waves-light add-unit-button" ng-hide="isBusy" modal><i class="material-icons">add</i></a>
+    <div class="row create-unit">
+        <form role="form" name="createUnitForm" novalidate>
+            <div class="col l11 m11 s10">
 
-    <div id="createUnit" class="modal add-detail-modal">
-        <div class="modal-content">
-            <h4>Create unit</h4>
-            <input id="unitName" placeholder="Type unit name here" type="text" ng-model="unitName" />
-        </div>
-        <div class="modal-footer">
-            <a href="#" ng-click="createUnit(unitName)" class="modal-action modal-close waves-effect waves-green btn-flat" ng-hide="isBusy">Add</a>
-        </div>
+                <input ng-class="{ 'valid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$valid, 'invalid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$invalid }" id="unitName" name="unitName" placeholder="New unit name" type="text" ng-model="unitName" ng-minlength="5" ng-maxlength="50" required />
+                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.required">Unit name is required.</small>
+                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.minlength">Unit name has to contain atleast 5 characters.</small>
+                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.maxlength">Unit name cannot be more than 50 characters long.</small>
+            </div>
+
+            <div class="col l1 m1 s2">
+                <button href="#" class="btn-floating waves-effect waves-light" ng-click="createUnit(unitName)" ng-disabled="createUnitForm.$invalid || createUnitForm.$pristine || isBusy">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
