@@ -95,6 +95,7 @@ namespace Emergy.Api.Controllers
             UserManager.Dispose();
             RoleManager.Dispose();
             AccountService.Dispose();
+            ReCaptchaValidator.Dispose();
         }
     }
 }
