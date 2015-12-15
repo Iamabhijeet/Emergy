@@ -105,6 +105,7 @@
     <Compile Include="Models\Log\ExceptionLog.cs" />
     <Compile Include="Models\Message\MessageViewModels.cs" />
     <Compile Include="Models\Notification\NotificationViewModels.cs" />
+    <Compile Include="Models\ReCaptcha\ReCaptchaViewModels.cs" />
     <Compile Include="Models\Report\ReportViewModels.cs" />
     <Compile Include="Models\Unit\UnitViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,9 +120,11 @@
     <Compile Include="Services\IAccountService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\ILoggingService.cs" />
+    <Compile Include="Services\IReCaptchaValidator.cs" />
     <Compile Include="Services\IUserKeyService.cs" />
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\ReCaptchaValidator.cs" />
     <Compile Include="Services\UserKeyService.cs" />
   </ItemGroup>
   <ItemGroup>
