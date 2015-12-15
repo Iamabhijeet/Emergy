@@ -91,7 +91,6 @@
     <Content Include="assets\img\units-icon.png" />
     <Content Include="assets\img\login-account-icon.png" />
     <Content Include="assets\img\login-background.jpg" />
-    <Content Include="libs\app.js" />
     <Content Include="libs\css\custom.css" />
     <Content Include="libs\css\loading-bar.css" />
     <Content Include="libs\css\ngImgCrop\ng-img-crop.css" />
