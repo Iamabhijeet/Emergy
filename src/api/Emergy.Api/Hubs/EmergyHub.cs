@@ -1,13 +1,10 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using Emergy.Core.Models.Hub;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -19,10 +16,15 @@ namespace Emergy.Api.Hubs
     [HubName("emergyHub")]
     public class EmergyHub : Hub
     {
-        public EmergyHub(IUnitsRepository unitsRepository, IReportsRepository reportsRepository)
+        public EmergyHub(IUnitsRepository unitsRepository,
+            IReportsRepository reportsRepository,
+            IRepository<Notification> notificationsRepository,
+            IRepository<Message> messagesRepository)
         {
             _unitsRepository = unitsRepository;
             _reportsRepository = reportsRepository;
+            _notificationsRepository = notificationsRepository;
+            _messagesRepository = messagesRepository;
             _userConnections = new ConcurrentDictionary<string, string>();
         }
 
@@ -64,23 +66,21 @@ namespace Emergy.Api.Hubs
                 await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
             }
         }
-
         [Authorize(Roles = "Administrators")]
         public async Task ChangedReportStatus(int unitId, int reportId)
         {
             Unit unit = null;
             Report report = null;
-            Parallel.Invoke(new ParallelOptions
-            {
-                TaskScheduler = TaskScheduler.Default,
-                CancellationToken = CancellationToken.None
-            }, async () =>
-            {
-                unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
-            }, async () =>
-            {
-                report = await _reportsRepository.GetAsync(reportId).WithoutSync();
-            });
+            await Task.WhenAll(
+               new Task(async () =>
+               {
+                   unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
+               }),
+               new Task(async () =>
+               {
+                   report = await _reportsRepository.GetAsync(reportId).WithoutSync();
+               }))
+               .WithoutSync();
 
             if (unit != null && report != null)
             {
@@ -92,9 +92,47 @@ namespace Emergy.Api.Hubs
                 }
             }
         }
+        public async Task UpdateUserLocation(int locationId, string userId, int reportId)
+        {
+            Report report = await _reportsRepository.GetAsync(reportId);
+            if (report != null)
+            {
+                string creatorConnection;
+                _userConnections.TryGetValue(report.CreatorId, out creatorConnection);
+                if (!string.IsNullOrEmpty(creatorConnection))
+                {
+                    await Clients.Client(creatorConnection).updateUserLocation(locationId);
+                }
+            }
+        }
+        public async Task SendNotification(int notificationId)
+        {
+            Notification notification = await _notificationsRepository.GetAsync(notificationId);
+            if (notification != null)
+            {
+                string targetConnection;
+                _userConnections.TryGetValue(notification.Target.Id, out targetConnection);
+                if (!string.IsNullOrEmpty(targetConnection))
+                {
+                    await Clients.Client(targetConnection).pushNotification(notificationId);
+                }
+            }
+        }
+        public async Task SendMessage(int messageId)
+        {
+            Message message = await _messagesRepository.GetAsync(messageId);
+            if (message != null)
+            {
+                string targetConnection;
+                _userConnections.TryGetValue(message.Target.Id, out targetConnection);
+                if (!string.IsNullOrEmpty(targetConnection))
+                {
+                    await Clients.Client(targetConnection).pushMessage(messageId);
+                }
+            }
+        }
 
         private readonly ConcurrentDictionary<string, string> _userConnections;
-
         protected IAccountService AccountService
         {
             get
@@ -107,6 +145,8 @@ namespace Emergy.Api.Hubs
             }
         }
         private IAccountService _accountService;
+        private readonly IRepository<Notification> _notificationsRepository;
+        private readonly IRepository<Message> _messagesRepository;
         private readonly IUnitsRepository _unitsRepository;
         private readonly IReportsRepository _reportsRepository;
 

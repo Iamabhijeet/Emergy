@@ -33,11 +33,12 @@ namespace Emergy.Data.Visual
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<customproperty> customproperties { get; set; }
         public virtual DbSet<custompropertyvalue> custompropertyvalues { get; set; }
-        public virtual DbSet<image> images { get; set; }
         public virtual DbSet<location> locations { get; set; }
-        public virtual DbSet<profilephoto> profilephotos { get; set; }
         public virtual DbSet<reportdetail> reportdetails { get; set; }
         public virtual DbSet<report> reports { get; set; }
         public virtual DbSet<unit> units { get; set; }
+        public virtual DbSet<message> messages { get; set; }
+        public virtual DbSet<notification> notifications { get; set; }
+        public virtual DbSet<resource> resources { get; set; }
     }
 }

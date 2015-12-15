@@ -13,13 +13,12 @@ namespace Emergy.Core.Models.Account
         public string Surname { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string UserKeyHash { get; set; }
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
         public Resource ProfilePhoto { get; set; }
         public int ProfilePhotoId { get; set; } = 1;
         public AccountType AccountType { get; set; }
-        public  ICollection<Data.Models.Location> Locations { get; set; }
+        public ICollection<Data.Models.Location> Locations { get; set; }
         public ICollection<Data.Models.Report> Reports { get; set; }
         public ICollection<Data.Models.Unit> Units { get; set; }
         [Required]

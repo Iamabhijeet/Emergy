@@ -37,6 +37,14 @@ namespace Emergy.Data.Models
         public virtual ICollection<Report> Reports { get; set; }
         [JsonIgnore]
         public virtual ICollection<Unit> Units { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Notification> SentNotifications { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Notification> ReceievedNotifications { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Message> SentMessages { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Message> ReceievedMessages { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
     }

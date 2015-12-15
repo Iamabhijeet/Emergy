@@ -4,24 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="39b2e7e553e84d0e99e98d22976e8b77" Name="Diagram1">
+      <Diagram DiagramId="39b2e7e553e84d0e99e98d22976e8b77" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="EmergyDbVisualModel.C__migrationhistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetrole" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetuserclaim" Width="1.5" PointX="5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetrole" Width="1.5" PointX="1" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetuserclaim" Width="1.5" PointX="5" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetuserlogin" Width="1.5" PointX="5" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="EmergyDbVisualModel.aspnetuser" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.category" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.customproperty" Width="1.5" PointX="7.5" PointY="17.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.custompropertyvalue" Width="1.5" PointX="9.625" PointY="20.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.image" Width="1.5" PointX="12" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.location" Width="1.5" PointX="5.25" PointY="20.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.profilephoto" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.reportdetail" Width="1.5" PointX="9.625" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.report" Width="1.5" PointX="9.75" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="EmergyDbVisualModel.unit" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.category" Width="1.5" PointX="5" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.customproperty" Width="1.5" PointX="7.125" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.custompropertyvalue" Width="1.5" PointX="7.125" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.location" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.reportdetail" Width="1.5" PointX="9.625" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.report" Width="1.5" PointX="9.625" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.unit" Width="1.5" PointX="5" PointY="16.875" IsExpanded="true" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_AspNetUserClaims_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_AspNetUserLogins_AspNetUsers_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="EmergyDbVisualModel.FK_AspNetUsers_ProfilePhotos_ProfilePhotoId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Reports_AspNetUsers_CreatorId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Units_AspNetUsers_AdministratorId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Categories_Units_Unit_Id" ManuallyRouted="false" />
@@ -29,7 +26,6 @@
         <AssociationConnector Association="EmergyDbVisualModel.FK_41248ebe63054e249715698df6b3bb7f" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_CustomProperties_Units_Unit_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_CustomPropertyValues_ReportDetails_ReportDetails_Id" ManuallyRouted="false" />
-        <AssociationConnector Association="EmergyDbVisualModel.FK_Images_Reports_Report_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Locations_Units_Unit_Id" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Reports_Locations_LocationId" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Reports_ReportDetails_DetailsId" ManuallyRouted="false" />
@@ -37,6 +33,18 @@
         <AssociationConnector Association="EmergyDbVisualModel.aspnetuserroles" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.units2clients" ManuallyRouted="false" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.message" Width="1.5" PointX="1" PointY="7.875" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.notification" Width="1.5" PointX="1" PointY="13" />
+        <EntityTypeShape EntityType="EmergyDbVisualModel.resource" Width="1.5" PointX="7.25" PointY="9.25" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_AspNetUsers_Resources_ProfilePhotoId" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_ApplicationUser_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_Sender_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_Target_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_ApplicationUser_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Sender_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Resources_Messages_Message_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Resources_Reports_Report_Id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

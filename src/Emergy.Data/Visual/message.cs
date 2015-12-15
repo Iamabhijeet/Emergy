@@ -12,19 +12,25 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class profilephoto
+    public partial class message
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public profilephoto()
+        public message()
         {
-            this.aspnetusers = new HashSet<aspnetuser>();
+            this.resources = new HashSet<resource>();
         }
     
         public int Id { get; set; }
-        public string Url { get; set; }
-        public byte[] Base64 { get; set; }
+        public string Content { get; set; }
+        public System.DateTime Timestamp { get; set; }
+        public string Sender_Id { get; set; }
+        public string Target_Id { get; set; }
+        public string ApplicationUser_Id { get; set; }
     
+        public virtual aspnetuser aspnetuser { get; set; }
+        public virtual aspnetuser aspnetuser1 { get; set; }
+        public virtual aspnetuser aspnetuser2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetuser> aspnetusers { get; set; }
+        public virtual ICollection<resource> resources { get; set; }
     }
 }

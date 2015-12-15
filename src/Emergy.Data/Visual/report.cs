@@ -17,7 +17,7 @@ namespace Emergy.Data.Visual
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public report()
         {
-            this.images = new HashSet<image>();
+            this.resources = new HashSet<resource>();
         }
     
         public int Id { get; set; }
@@ -33,10 +33,10 @@ namespace Emergy.Data.Visual
     
         public virtual aspnetuser aspnetuser { get; set; }
         public virtual category category { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<image> images { get; set; }
         public virtual location location { get; set; }
         public virtual reportdetail reportdetail { get; set; }
         public virtual unit unit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<resource> resources { get; set; }
     }
 }
