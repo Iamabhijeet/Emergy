@@ -68,8 +68,11 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             deffered.resolve(data);
             setAuthData(data.UserId, user.userName, user.password, data.Token, data.Roles);
             $rootScope.authData = authData;
-            $location.path('/dashboard/units');
-
+            if (authData.isAdmin()) {
+                $location.path('/dashboard/units');
+            } else {
+                $location.path('/dashboard/client/' + data.UserId);
+            }
         }).error(function (data) {
             deffered.reject(data);
             authData.loggedIn = false;

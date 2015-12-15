@@ -20,7 +20,7 @@ function notificationService($http, $q, serviceBase) {
 
         deffered = $q.defer();
 
-        $http.get(serviceBase + 'api/notifications/get-latest')
+        $http.get(serviceBase + 'api/notifications/get-latest/')
         .success(function (response) {
             deffered.resolve(response);
         })

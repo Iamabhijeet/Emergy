@@ -2,6 +2,7 @@
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise("/landing");
 
+    //admin routes
     $stateProvider.state("Landing", {
         url: "/landing",
         controller: "landingController",
@@ -48,7 +49,6 @@
             }]
         }
     });
-
     $stateProvider.state("Reports", {
         url: "/dashboard/reports",
         views: {
@@ -65,7 +65,7 @@
         {
             authorize: ['$q', 'authData', function ($q, authData) {
                 var deferred = $q.defer();
-                if (!authData.loggedIn) {
+                if (!authData.loggedIn || !authData.isAdmin()) {
                     deferred.reject("Not Authorized");
                 } else {
                     deferred.resolve('Authorized');
@@ -90,7 +90,7 @@
         {
             authorize: ['$q', 'authData', function ($q, authData) {
                 var deferred = $q.defer();
-                if (!authData.loggedIn) {
+                if (!authData.loggedIn || !authData.isAdmin()) {
                     deferred.reject("Not Authorized");
                 } else {
                     deferred.resolve('Authorized');
@@ -115,7 +115,7 @@
         {
             authorize: ['$q', 'authData', function ($q, authData) {
                 var deferred = $q.defer();
-                if (!authData.loggedIn) {
+                if (!authData.loggedIn || !authData.isAdmin()) {
                     deferred.reject("Not Authorized");
                 } else {
                     deferred.resolve('Authorized');
@@ -165,7 +165,7 @@
         {
             authorize: ['$q', 'authData', function ($q, authData) {
                 var deferred = $q.defer();
-                if (!authData.loggedIn) {
+                if (!authData.loggedIn || !authData.isAdmin()) {
                     deferred.reject("Not Authorized");
                 } else {
                     deferred.resolve('Authorized');
@@ -174,6 +174,34 @@
             }]
         }
     });
+
+    //client routes
+    $stateProvider.state("ClientDashboard", {
+        url: "/dashboard/client/:userId",
+        views: {
+            '': {
+                templateUrl: 'app/views/client/dashboard.html',
+                controller: "clientsController"
+            },
+            'shell@ClientDashboard': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn || !authData.isClient()) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+
 }]);
 app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
     authService.fillAuthData();
@@ -186,7 +214,7 @@ app.run(['$rootScope', '$state', 'authService', 'notificationService', function 
     $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
         if (error === "Not Authorized") {
             $state.go("Login");
-            notificationService.pushError('You are not authorized. Please log in!');
+            notificationService.pushError('You are not authenticated or you do not have access to specific functionality. Please log in!');
         }
     });
     $rootScope.logOut = function () {

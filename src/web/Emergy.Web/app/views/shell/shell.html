@@ -4,22 +4,22 @@
         <li class="logo">
             <img src="/assets/img/menu-heading.png"/>
         </li>
-        <li ng-class="(currentState.name == 'Units') ? 'item active' : 'item'">
+        <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Units') ? 'item active' : 'item'">
             <a ng-href="/dashboard/units" class="waves-effect">
                 <img src="/assets/img/units-icon.png"/>Units
             </a>
         </li>
-        <li ng-class="(currentState.name == 'Reports') ? 'item active' : 'item'">
+        <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Reports') ? 'item active' : 'item'">
             <a ng-href="/dashboard/reports" class="waves-effect">
                 <img src="/assets/img/reports-icon.png"/>Reports
             </a>
         </li>
-        <li ng-class="(currentState.name == 'Statistics') ? 'item active' : 'item'">
+        <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Statistics') ? 'item active' : 'item'">
             <a class="waves-effect">
                 <img src="/assets/img/statistics-icon.png"/>Statistics
             </a>
         </li>
-        <li ng-class="(currentState.name == 'Notifications') ? 'item active' : 'item'">
+        <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Notifications') ? 'item active' : 'item'">
             <a ng-href="/dashboard/notifications" class="waves-effect">
                 <img src="/assets/img/notifications-icon.png" />Notifications
             </a>
