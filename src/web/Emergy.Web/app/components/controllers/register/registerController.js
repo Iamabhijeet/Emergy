@@ -9,14 +9,15 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
-    $scope.captchaIsValid = null;
+    $scope.captchaIsValid = false;
 
     $scope.newUser = {
         Email: '',
         Username: '',
         Password: '',
         ConfirmPassword: '',
-        BirthDate: '1/1/0001 12:00:00 AM'
+        BirthDate: '1/1/0001 12:00:00 AM',
+        ReCaptchaResponse: ''
     };
 
     $scope.submitForm = function (newUser) {
@@ -31,14 +32,8 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
         });
     };
 
-    $scope.validateCaptcha = function () {
-        var response = grecaptcha.getResponse();
-        console.log("unutra sam");
-        $http.post('https://www.google.com/recaptcha/api/siteverify', { 'secret': '6Le9ABMTAAAAAOYeT7ZtmKCNnC9GMWqxjeR9_E34', 'response': response }).success(function() {
-            $scope.captchaIsValid = true;
-        }).error(function() {
-            $scope.captchaIsValid = false;
-        });
-        console.log(captchaIsValid);
+    $scope.setResponse = function(response) {
+        $scope.newUser.ReCaptchaResponse = response;
+        $scope.captchaIsValid = true; 
     };
 }

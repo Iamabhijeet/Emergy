@@ -40,7 +40,7 @@
                             <option value="Client">Regular user</option>
                         </select>
                     </div>
-                    <div class="g-recaptcha" id="captcha" ng-click="validateCaptcha()" ng-model="captcha" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0; width: 50%; margin-left: auto; margin-right: auto; margin-top: 20px;" data-sitekey="6Le9ABMTAAAAADS_36Av8KsUNVPWJRRqFaD0FEL1"></div>
+                    <div vc-recaptcha on-success="setResponse(response)" key="'6LeuIBMTAAAAALw4UdVMvv9ECJlT_ggCFnAg5Iiv'" style="transform:scale(0.77);-webkit-transform:scale(0.77);transform-origin:0 0;-webkit-transform-origin:0 0; width: 50%; margin-left: auto; margin-right: auto; margin-top: 20px;"></div>
                     <div class="col s12">
                         <button class="btn waves-effect waves-light register-button" ng-disabled="registerForm.$invalid || registerForm.$pristine || isBusy || !captchaIsValid"
                                 name="action" type="submit" ng-click="submitForm(newUser)">
