@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,11 +20,6 @@ namespace Emergy.Api.Controllers
     [RoutePrefix("api/Account")]
     public class AccountApiController : MasterApiController
     {
-        public AccountApiController()
-        {
-            // mora bit empty radi owina
-        }
-
         [HttpGet]
         [Route("Profile")]
         public async Task<IHttpActionResult> Profile()
@@ -67,15 +65,22 @@ namespace Emergy.Api.Controllers
         [AllowAnonymous]
         [Route("Register")]
         [HttpPost]
-        public async Task<IHttpActionResult> Register([FromBody] model::RegisterUserBindingModel model)
+        public async Task<HttpResponseMessage> Register([FromBody] model::RegisterUserBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                return Error();
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            var reCaptchaResponse = await ReCaptchaValidator.Validate(model.ReCaptchaResponse);
+            if (!reCaptchaResponse.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotAcceptable, ReCaptchaValidator.GetErrors(reCaptchaResponse));
             }
             ApplicationUser user = Mapper.Map<ApplicationUser>(model);
             IdentityResult result = await AccountService.CreateAccountAsync(user, model.Password);
-            return !result.Succeeded ? Error(result) : Ok();
+            return !result.Succeeded ?
+                Request.CreateResponse(HttpStatusCode.BadRequest, result.Errors)
+                : Request.CreateResponse(HttpStatusCode.OK, user.Id);
         }
 
         [AllowAnonymous]
@@ -128,6 +133,10 @@ namespace Emergy.Api.Controllers
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
-
+        public AccountApiController()
+        {
+            AccountService.EmailTemplates.Add("RegistrationSuccessfull",
+                HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
+        }
     }
 }

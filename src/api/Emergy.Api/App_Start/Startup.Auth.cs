@@ -20,6 +20,7 @@ namespace Emergy.Api
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             app.CreatePerOwinContext<IAccountService>((factory, context) => new AccountService(context.Get<ApplicationUserManager>(),
                 context.Get<ApplicationRoleManager>(), new Core.Services.EmailService()));
+            app.CreatePerOwinContext<IReCaptchaValidator>((factory, context) => new ReCaptchaValidator());
 
 
             // Enable the application to use a cookie to store information for the signed in user

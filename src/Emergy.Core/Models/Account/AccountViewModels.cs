@@ -43,6 +43,7 @@ namespace Emergy.Core.Models.Account
         [Required]
         public AccountType AccountType { get; set; }
         public Gender Gender { get; set; }
+        public string ReCaptchaResponse { get; set; }
     }
 
     public class LoginUserBindingModel

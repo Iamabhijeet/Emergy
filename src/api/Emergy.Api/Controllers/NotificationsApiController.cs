@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,6 +13,8 @@ using vm = Emergy.Core.Models.Notification;
 
 namespace Emergy.Api.Controllers
 {
+    [RoutePrefix("api/Notifications")]
+    [Authorize]
     public class NotificationsApiController : MasterApiController
     {
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
@@ -22,22 +25,27 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         [Route("get-latest")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> GetLatest()
+        public async Task<IEnumerable<db.Notification>> GetLatest()
         {
-            return Ok((await _notificationsRepository
-                .GetAsync(m => m.Target.Id == User.Identity.GetUserId(), null, ConstRelations.LoadAllMessageRelations))
-                .OrderByDescending(m => m.Timestamp)
-                .Take(10)
-                .ToArray());
+            return await GetNotifications(null).WithoutSync();
         }
+
+        [HttpGet]
+        [Route("get-latest/{lastHappened:datetime}")]
+        [ResponseType(typeof(IEnumerable<db.Notification>))]
+        public async Task<IEnumerable<db.Notification>> GetLatest([FromUri] DateTime? lastHappened)
+        {
+            return await GetNotifications(lastHappened).WithoutSync();
+        }
+
         [HttpGet]
         [Route("search")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> SearchByTerm(string searchTerm = null)
+        public async Task<IEnumerable<db.Notification>> SearchByTerm(string searchTerm = null)
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                return Ok((await _notificationsRepository
+                return (await _notificationsRepository
                 .GetAsync(m => (m.Target.Id == User.Identity.GetUserId() ||
                                m.Sender.Id == User.Identity.GetUserId()) &&
                                m.Content.Contains(searchTerm) ||
@@ -46,9 +54,9 @@ namespace Emergy.Api.Controllers
                                m.Target.Surname.Contains(searchTerm),
                                null, ConstRelations.LoadAllMessageRelations))
               .OrderByDescending(m => m.Timestamp)
-              .ToArray());
+              .ToArray();
             }
-            return await GetLatest();
+            return await GetLatest(null);
         }
 
         [HttpPost]
@@ -83,6 +91,27 @@ namespace Emergy.Api.Controllers
                 return Ok(notification.Id);
             }
             return BadRequest();
+        }
+
+        private async Task<IEnumerable<db::Notification>> GetNotifications(DateTime? lastHappened)
+        {
+            var notifications = await _notificationsRepository
+                   .GetAsync(m => m.Target.Id == User.Identity.GetUserId(), null,
+                       ConstRelations.LoadAllNotificationRelations);
+
+            if (lastHappened == null)
+            {
+                return notifications
+                    .OrderByDescending(notification => notification.Timestamp)
+                    .Take(20)
+                    .ToArray();
+            }
+            return notifications
+                .AsParallel()
+                .Where(notifaction => notifaction.Timestamp > lastHappened.Value)
+                .OrderByDescending(notification => notification.Timestamp)
+                .Take(20)
+                .ToArray();
         }
 
         private readonly IRepository<db::Notification> _notificationsRepository;

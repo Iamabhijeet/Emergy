@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
 using Emergy.Data.Models;
@@ -13,7 +11,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Emergy.Core.Models.Account;
 using Microsoft.AspNet.Identity.EntityFramework;
-using MySql.Data.MySqlClient;
 
 namespace Emergy.Core.Services
 {
@@ -67,7 +64,7 @@ namespace Emergy.Core.Services
                             break;
                         }
                 }
-                await _emailService.SendRegisterMailAsync(newUser.UserName, userKey, newUser.Email).WithoutSync();
+                await _emailService.SendRegisterMailAsync(newUser, userKey, EmailTemplates["RegistrationSuccessfull"]).WithoutSync();
             }
             return result;
         }
@@ -111,7 +108,7 @@ namespace Emergy.Core.Services
             userKey = randomKey;
             user.UserKeyHash = _userKeyService.HashKey(randomKey);
         }
-
+        public Dictionary<string, string> EmailTemplates { get; set; } = new Dictionary<string, string>();
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserKeyService _userKeyService;

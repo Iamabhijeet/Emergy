@@ -62,6 +62,20 @@ namespace Emergy.Api.Controllers
             }
         }
         private IAccountService _accountService;
+     
+        protected IReCaptchaValidator ReCaptchaValidator
+        {
+            get
+            {
+                return _reCaptchaValidator ?? HttpContext.Current.GetOwinContext().Get<IReCaptchaValidator>();
+            }
+            set
+            {
+                _reCaptchaValidator = value;
+            }
+        }
+        private IReCaptchaValidator _reCaptchaValidator;
+
         protected IHttpActionResult Error()
         {
             return BadRequest(ModelState);
@@ -81,6 +95,7 @@ namespace Emergy.Api.Controllers
             UserManager.Dispose();
             RoleManager.Dispose();
             AccountService.Dispose();
+            ReCaptchaValidator.Dispose();
         }
     }
 }

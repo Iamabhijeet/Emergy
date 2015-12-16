@@ -20,6 +20,8 @@ namespace Emergy.Data.Visual
         public string Sender_Id { get; set; }
         public string Target_Id { get; set; }
         public string ApplicationUser_Id { get; set; }
+        public int Type { get; set; }
+        public string ParameterId { get; set; }
     
         public virtual aspnetuser aspnetuser { get; set; }
         public virtual aspnetuser aspnetuser1 { get; set; }
