@@ -37,6 +37,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             notificationService.pushError(error.Message);
         })
         .finally(function () {
+                $scope.unitName = '';
             $scope.isBusy = false;
         });
     }

@@ -4,10 +4,32 @@ var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
     ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
-        'authService', 'notificationService', 'authData', unitDetailsController]);
+        'authService', 'notificationService', 'authData', 'NgMap', unitDetailsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, NgMap) {
     $rootScope.title = "Unit | Details";
+    var marker;
+
+    $scope.reRenderMap = function () {
+        google.maps.event.trigger(this.map, 'resize');
+    }
+    
+    NgMap.getMap().then(function (map) {
+        $scope.map = map;
+    });
+
+    $scope.pickLocation = function (e) {
+        if (marker) {
+            marker.setMap(null);
+            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
+            $scope.latitude = e.latLng.lat();
+            $scope.longitude = e.latLng.lng();
+        } else {
+            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
+            $scope.latitude = e.latLng.lat();
+            $scope.longitude = e.latLng.lng();
+        }
+    }
 
     var loadUnit = function () {
         $scope.isBusy = true;
@@ -144,6 +166,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushError(error.Message);
         })
         .finally(function () {
+            $scope.categoryName = '';
             $scope.isBusy = false;
         });
     }
@@ -221,6 +244,8 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushError(error.Message);
         })
         .finally(function () {
+            $scope.customPropertyName = '';
+            $scope.CustomPropertyType = '';
             $scope.isBusy = false;
         });
     }

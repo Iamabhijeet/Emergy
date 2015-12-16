@@ -9,13 +9,17 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
+    $scope.captchaIsValid = false;
+
     $scope.newUser = {
         Email: '',
         Username: '',
         Password: '',
         ConfirmPassword: '',
-        BirthDate: '1/1/0001 12:00:00 AM'
+        BirthDate: '1/1/0001 12:00:00 AM',
+        ReCaptchaResponse: ''
     };
+
     $scope.submitForm = function (newUser) {
         $scope.isBusy = true;
         var promise = authService.register(newUser);
@@ -26,5 +30,10 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
         }).finally(function () {
             $scope.isBusy = false;
         });
+    };
+
+    $scope.setResponse = function(response) {
+        $scope.newUser.ReCaptchaResponse = response;
+        $scope.captchaIsValid = true; 
     };
 }
