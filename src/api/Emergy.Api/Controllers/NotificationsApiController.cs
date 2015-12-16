@@ -13,7 +13,7 @@ using vm = Emergy.Core.Models.Notification;
 
 namespace Emergy.Api.Controllers
 {
-    [RoutePrefix("api/notifications")]
+    [RoutePrefix("api/Notifications")]
     [Authorize]
     public class NotificationsApiController : MasterApiController
     {
@@ -23,21 +23,29 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-latest/{lastHappened:dateTime}")]
+        [Route("get-latest")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> GetLatest(DateTime? lastHappened = null)
+        public async Task<IEnumerable<db.Notification>> GetLatest()
         {
-            return Ok(await GetNotifications(lastHappened).WithoutSync());
+            return await GetNotifications(null).WithoutSync();
+        }
+
+        [HttpGet]
+        [Route("get-latest/{lastHappened:datetime}")]
+        [ResponseType(typeof(IEnumerable<db.Notification>))]
+        public async Task<IEnumerable<db.Notification>> GetLatest([FromUri] DateTime? lastHappened)
+        {
+            return await GetNotifications(lastHappened).WithoutSync();
         }
 
         [HttpGet]
         [Route("search")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IHttpActionResult> SearchByTerm(string searchTerm = null)
+        public async Task<IEnumerable<db.Notification>> SearchByTerm(string searchTerm = null)
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                return Ok((await _notificationsRepository
+                return (await _notificationsRepository
                 .GetAsync(m => (m.Target.Id == User.Identity.GetUserId() ||
                                m.Sender.Id == User.Identity.GetUserId()) &&
                                m.Content.Contains(searchTerm) ||
@@ -46,9 +54,9 @@ namespace Emergy.Api.Controllers
                                m.Target.Surname.Contains(searchTerm),
                                null, ConstRelations.LoadAllMessageRelations))
               .OrderByDescending(m => m.Timestamp)
-              .ToArray());
+              .ToArray();
             }
-            return await GetLatest();
+            return await GetLatest(null);
         }
 
         [HttpPost]

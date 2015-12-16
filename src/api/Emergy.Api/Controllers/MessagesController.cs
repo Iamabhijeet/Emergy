@@ -15,7 +15,7 @@ using model = Emergy.Data.Models;
 
 namespace Emergy.Api.Controllers
 {
-    [RoutePrefix("api/messages")]
+    [RoutePrefix("api/Messages")]
     [Authorize]
     public class MessagesController : MasterApiController
     {
