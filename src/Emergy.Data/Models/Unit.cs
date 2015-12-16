@@ -29,6 +29,8 @@ namespace Emergy.Data.Models
         [JsonIgnore]
         public virtual ICollection<Location> Locations { get; set; }
 
+        public bool IsPublic { get; set; } = false;
+
         [Required]
         public DateTime DateCreated { get; set; }
     }

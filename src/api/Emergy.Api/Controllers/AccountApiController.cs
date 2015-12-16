@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
@@ -76,7 +78,7 @@ namespace Emergy.Api.Controllers
             }
             ApplicationUser user = Mapper.Map<ApplicationUser>(model);
             IdentityResult result = await AccountService.CreateAccountAsync(user, model.Password);
-            return !result.Succeeded ? 
+            return !result.Succeeded ?
                 Request.CreateResponse(HttpStatusCode.BadRequest, result.Errors)
                 : Request.CreateResponse(HttpStatusCode.OK, user.Id);
         }
@@ -133,7 +135,8 @@ namespace Emergy.Api.Controllers
         }
         public AccountApiController()
         {
-            // mora bit empty radi owina
+            AccountService.EmailTemplates.Add("RegistrationSuccessfull",
+                HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
         }
     }
 }

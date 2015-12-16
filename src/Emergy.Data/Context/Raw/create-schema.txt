@@ -43,6 +43,7 @@ CREATE index  `IX_UnitId` on `Units2Clients` (`UnitId` DESC) using HASH
 CREATE index  `IX_ClientId` on `Units2Clients` (`ClientId` DESC) using HASH
 alter table `Categories` add constraint `FK_Categories_Units_Unit_Id`  foreign key (`Unit_Id`) references `Units` ( `Id`)  on update cascade on delete cascade 
 alter table `Units` add constraint `FK_Units_AspNetUsers_AdministratorId`  foreign key (`AdministratorId`) references `AspNetUsers` ( `Id`) 
+alter table `Units` add column `IsPublic` bool not null  
 alter table `AspNetUsers` add constraint `FK_AspNetUsers_Resources_ProfilePhotoId`  foreign key (`ProfilePhotoId`) references `Resources` ( `Id`)  on update cascade on delete cascade 
 alter table `AspNetUserClaims` add constraint `FK_AspNetUserClaims_AspNetUsers_UserId`  foreign key (`UserId`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 
 alter table `Locations` add constraint `FK_Locations_AspNetUsers_ApplicationUser_Id`  foreign key (`ApplicationUser_Id`) references `AspNetUsers` ( `Id`)  on update cascade on delete cascade 

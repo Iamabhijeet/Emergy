@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Emergy.Core.Models.Account;
 using Emergy.Data.Models;
@@ -18,5 +19,6 @@ namespace Emergy.Core.Services
         Task<IdentityResult> ChangePasswordAsync(string userId, ChangePasswordBindingModel model);
         Task<bool> UserNameTaken(string username);
         Task UpdateLocation(ApplicationUser user, Location location);
+        Dictionary<string,string> EmailTemplates{ get; set; } 
     }
 }

@@ -1,20 +1,20 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using Emergy.Core.Common;
 using Emergy.Core.Models.Email;
 using Emergy.Core.Models.Log;
+using Emergy.Data.Models;
 
 namespace Emergy.Core.Services
 {
 
     public class EmailService : IEmailService
     {
-        public async Task SendRegisterMailAsync(string username, string userKey, string userEmail)
+        public async Task SendRegisterMailAsync(ApplicationUser user, string userKey, string htmlTemplatePath)
         {
             _InitializeSmtpClient();
-            var emailToSend = RegisterMail.RegisterMailFactory.CreateMail(username, userKey, userEmail);
+            var emailToSend = RegisterMail.RegisterMailFactory.CreateMail(user, userKey, htmlTemplatePath);
             await _smtpClient.SendMailAsync(emailToSend)
                 .ContinueWith((task) => { _smtpClient.Dispose(); }).WithoutSync();
         }
