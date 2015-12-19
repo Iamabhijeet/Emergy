@@ -71,6 +71,7 @@ namespace Emergy.Api
             kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
             kernel.Bind<IReCaptchaValidator>().To<ReCaptchaValidator>();
+            kernel.Bind<IStatsService>().To<StatsService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
         }

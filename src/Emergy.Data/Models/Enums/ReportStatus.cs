@@ -8,7 +8,7 @@ namespace Emergy.Data.Models.Enums
     {
         Created,
         Processing,
-        Success,
+        Completed,
         Failure
     }
 }
