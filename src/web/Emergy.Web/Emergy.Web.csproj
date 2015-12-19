@@ -45,6 +45,8 @@
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
     <Content Include="app\components\controllers\account\profileController.js" />
+    <Content Include="app\components\controllers\client\clients.controller.js" />
+    <Content Include="app\components\controllers\notifications\notificationsController.js" />
     <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
     <Content Include="app\components\controllers\unitDetails\unitDetailsController.js" />
@@ -58,12 +60,15 @@
     <Content Include="app\components\services\account\accountService.js" />
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
+    <Content Include="app\components\services\clients\clientsDashboardService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
     <Content Include="app\components\services\services.module.js" />
     <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\account\profile.html" />
+    <Content Include="app\views\client\dashboard.html" />
+    <Content Include="app\views\notifications\notifications.html" />
     <Content Include="app\views\register\registerSuccess.html" />
     <Content Include="app\views\reportDetails\reportDetails.html" />
     <Content Include="app\views\reports\reports.html" />
@@ -86,7 +91,6 @@
     <Content Include="assets\img\units-icon.png" />
     <Content Include="assets\img\login-account-icon.png" />
     <Content Include="assets\img\login-background.jpg" />
-    <Content Include="libs\app.js" />
     <Content Include="libs\css\custom.css" />
     <Content Include="libs\css\loading-bar.css" />
     <Content Include="libs\css\ngImgCrop\ng-img-crop.css" />

@@ -35,19 +35,21 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         return deffered.promise;
     }
 
-    function setAuthData(userId, username, password, token) {
+    function setAuthData(userId, username, password, token, roles) {
         localStorageService.clearAll();
         localStorageService.set('userId', userId);
         localStorageService.set('username', username);
         localStorageService.set('password', password);
         localStorageService.set('token', token);
         localStorageService.set('loggedIn', true);
+        localStorageService.set('roles', roles);
 
         authData.userId = userId;
         authData.userName = username;
         authData.password = password;
         authData.token = token;
         authData.loggedIn = true;
+        authData.roles = roles;
     }
 
     function createLoginData(username, password) {
@@ -64,10 +66,13 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
 
         $http.post(serviceBase + 'api/account/login', createLoginData(user.userName, user.password), { headers: { 'Content-Type': 'application/json' } }).success(function (data) {
             deffered.resolve(data);
-            setAuthData(data.UserId, user.userName, user.password, data.Token);
+            setAuthData(data.UserId, user.userName, user.password, data.Token, data.Roles);
             $rootScope.authData = authData;
-            $location.path('/dashboard/units');
-
+            if (authData.isAdmin()) {
+                $location.path('/dashboard/units');
+            } else {
+                $location.path('/dashboard/client/' + data.UserId);
+            }
         }).error(function (data) {
             deffered.reject(data);
             authData.loggedIn = false;
@@ -83,6 +88,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         localStorageService.remove('password');
         localStorageService.remove('token');
         localStorageService.remove('loggedIn');
+        localStorageService.remove('roles');
         localStorageService.set('loggedIn', false);
         authData.loggedIn = false;
         $location.path('/landing');
@@ -121,6 +127,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         authData.password = localStorageService.get('password');
         authData.token = localStorageService.get('token');
         authData.loggedIn = localStorageService.get('loggedIn');
+        authData.roles = localStorageService.get('roles');
     }
 
     function getAuthData() {
