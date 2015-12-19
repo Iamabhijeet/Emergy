@@ -265,6 +265,7 @@
     <Compile Include="Controllers\ResourcesApiController.cs" />
     <Compile Include="Controllers\LocationsApiController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
+    <Compile Include="Controllers\StatisticsApiController.cs" />
     <Compile Include="Controllers\UnitsApiController.cs" />
     <Compile Include="Filters\LogExceptionsAttribute.cs" />
     <Compile Include="Global.asax.cs">
