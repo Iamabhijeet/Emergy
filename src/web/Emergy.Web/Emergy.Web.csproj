@@ -85,6 +85,7 @@
     <Content Include="assets\img\loading.svg" />
     <Content Include="assets\img\logout-icon.png" />
     <Content Include="assets\img\map-marker.png" />
+    <Content Include="assets\img\notifications-icon.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />

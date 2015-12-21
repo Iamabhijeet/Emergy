@@ -1,1 +1,40 @@
-﻿
+﻿<div ui-view="shell"></div>
+
+<div class="container main-container reports">
+    <div class="row header-row" style="border-bottom: none;">
+        <div class="col l3 m4 s11">
+            <h2>Dashboard</h2>
+        </div>
+        <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0">
+            <a ng-href="#" class="center">
+                <i class="material-icons notification-icon">notifications</i>
+            </a>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs" tabs>
+                    <li class="tab col s12 m3 l3"><a href="#units">Units</a></li>
+                    <li class="tab col s12 m3 l3"><a href="#reports">Reports</a></li>
+                    <li class="tab col s12 m3 l3"><a href="#stats">Stats</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="units" class="col s12">
+        <ul class="collection units">
+            <li class="collection-item avatar" ng-repeat="unit in vm.units | filter:searchTerm">
+                <img class="unit-icon" src="/assets/img/unit-icon.png">
+                <p class="unit-name">{{ ::unit.Name }}</p>
+                <div class="secondary-content">
+                    <a ng-href="/dashboard/unit/{{ ::unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
+                    <a class="waves-effect waves-light btn">Reports</a>
+                </div>
+            </li>
+        </ul>
+        <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
+            <img src="/assets/img/loading.svg" width="55" />
+        </div>
+    </div>
+    <div id="reports" class="col s12">Reports</div>
+    <div id="stats" class="col s12">Stats</div>
+</div>

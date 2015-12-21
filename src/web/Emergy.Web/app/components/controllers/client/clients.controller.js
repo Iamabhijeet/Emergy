@@ -1,15 +1,17 @@
 ﻿(function () {
     'use strict';
 
-    function clientsController($location) {
+    function clientsController($location, $rootScope, unitsService, reportsService, notificationService, authData) {
         var vm = this;
-        vm.title = 'Dashboard';
+        $rootScope.title = 'Dashboard';
+
+        function activate() {
+            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
+        }
 
         activate();
-
-        function activate() { }
     }
 
     app.controller('clientsController', clientsController);
-    clientsController.$inject = ['$location'];
+    clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService', 'notificationService', 'authData'];
 })();
