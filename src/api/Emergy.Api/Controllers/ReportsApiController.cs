@@ -14,20 +14,15 @@ using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
 using static Emergy.Core.Common.IEnumerableExtensions;
-
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Reports")]
     [Authorize(Roles = "Administrators,Clients")]
     public class ReportsApiController : MasterApiController
     {
-        public ReportsApiController()
-        {
-
-        }
+        public ReportsApiController() { }
         public ReportsApiController(IReportsRepository reportsRepository,
-            IUnitsRepository unitsRepository,
-            IRepository<CustomPropertyValue> valuesRepository,
+            IUnitsRepository unitsRepository, IRepository<CustomPropertyValue> valuesRepository,
             IRepository<Resource> resourcesRepository)
         {
             _reportsRepository = reportsRepository;
@@ -35,43 +30,47 @@ namespace Emergy.Api.Controllers
             _resourcesRepository = resourcesRepository;
             _unitsRepository = unitsRepository;
         }
-
-        [Authorize(Roles = "Clients")]
+        [Authorize(Roles = "Administrators,Clients")]
+        [HttpGet]
+        [Route("get/{lastHappened:datetime}")]
+        public async Task<IEnumerable<Report>> GetReports([FromUri] DateTime? lastHappened)
+        {
+            if (User.IsInRole("Administrators"))
+            {
+                var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+                return (await _unitsRepository.GetReportsForUser(admin, lastHappened)).ToArray();
+            }
+            if (User.IsInRole("Clients"))
+            {
+                var client = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+                return (await _unitsRepository.GetReportsForUser(client, lastHappened)).ToArray();
+            }
+            return null;
+        }
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("get")]
         public async Task<IEnumerable<Report>> GetReports()
         {
-            return (await _reportsRepository.GetAsync(await AccountService.GetUserByIdAsync(User.Identity.GetUserId()))).ToArray();
+            if (User.IsInRole("Administrators"))
+            {
+                var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+                return (await _unitsRepository.GetReportsForUser(admin, null)).ToArray();
+            }
+            if (User.IsInRole("Clients"))
+            {
+                var client = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+                return (await _unitsRepository.GetReportsForUser(client, null)).ToArray();
+            }
+            return null;
         }
-
-        [Authorize(Roles = "Administrators")]
-        [HttpGet]
-        [Route("get-admin/{lastHappened:datetime}")]
-        public async Task<IEnumerable<Report>> GetReportsForAdmin([FromUri] DateTime? lastHappened)
-        {
-            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            return (await _unitsRepository.GetReportsForAdmin(admin, lastHappened)).ToArray();
-        }
-
-        [Authorize(Roles = "Administrators")]
-        [HttpGet]
-        [Route("get-admin")]
-        public async Task<IEnumerable<Report>> GetReportsForAdmin()
-        {
-            var admin = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            return (await _unitsRepository.GetReportsForAdmin(admin, null)).ToArray();
-        }
-
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "Clients")]
         [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> CreateReport([FromBody] CreateReportViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
+            if (!ModelState.IsValid) { return Error(); }
             Report report = Mapper.Map<Report>(model);
             if (await _unitsRepository.IsInUnit(model.UnitId, User.Identity.GetUserId()))
             {
@@ -86,7 +85,6 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
         [HttpGet]
         [Route("get-properties/{id}")]
         public async Task<IHttpActionResult> GetCustomProperties([FromUri] int id)
@@ -98,7 +96,6 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
-
         [HttpPost]
         [Route("set-properties/{id}")]
         public async Task<IHttpActionResult> SetCustomProperties(int id, [FromBody]IEnumerable<int> model)
@@ -114,13 +111,10 @@ namespace Emergy.Api.Controllers
                         report.Details.CustomPropertyValues.Add(value);
                     }
                 });
-                _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync();
-                return Ok();
+                _reportsRepository.Update(report); await _reportsRepository.SaveAsync(); return Ok();
             }
             return NotFound();
         }
-
         [HttpPost]
         [Route("set-resources/{id}")]
         public async Task<IHttpActionResult> SetResources(int id, [FromBody]IEnumerable<int> model)
@@ -132,17 +126,13 @@ namespace Emergy.Api.Controllers
                 {
                     var resource = await _resourcesRepository.GetAsync(resourceId);
                     if (resource != null)
-                    {
-                        report.Resources.Add(resource);
-                    }
+                    { report.Resources.Add(resource); }
                 });
                 _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync();
-                return Ok();
+                await _reportsRepository.SaveAsync(); return Ok();
             }
             return NotFound();
         }
-
         [HttpPost]
         [Route("change-status/{id}")]
         public async Task<IHttpActionResult> ChangeStatus(int id, [FromBody] ReportStatus newStatus)
@@ -152,20 +142,15 @@ namespace Emergy.Api.Controllers
             {
                 report.Status = newStatus;
                 _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync();
-                return Ok();
+                await _reportsRepository.SaveAsync(); return Ok();
             }
             return NotFound();
         }
-
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
+            if (!ModelState.IsValid) { return Error(); }
             if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
             {
                 _reportsRepository.Delete(id);
@@ -174,7 +159,6 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
         private readonly IReportsRepository _reportsRepository;
         private readonly IUnitsRepository _unitsRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;

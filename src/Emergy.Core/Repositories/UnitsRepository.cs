@@ -33,7 +33,7 @@ namespace Emergy.Core.Repositories
                 case AccountType.Client:
                     {
                         var units = await this.GetAsync(null, query => query.OrderByDescending(u => u.DateCreated), ConstRelations.LoadAllUnitRelations).WithoutSync();
-                        return units.Where(unit => unit.Clients.Contains(user));
+                        return units.Where(unit => unit.Clients.ContainsUser(user));
                     }
             }
             return null;
@@ -50,31 +50,71 @@ namespace Emergy.Core.Repositories
         {
             return (await GetAsync(unitId)).Reports;
         }
-        public async Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser admin, DateTime? lastHappened)
+        public async Task<IEnumerable<Report>> GetReportsForUser(ApplicationUser user, DateTime? lastHappened)
         {
-            var adminUnits = await this.GetAsync(admin);
-            var units = adminUnits as Unit[] ?? adminUnits.ToArray();
-
-            if (units
-                .Where(unit => unit.AdministratorId == admin.Id)
-                .Select(unit => unit.Reports).Any())
+            switch (user.AccountType)
             {
-                var reports =
-                    units.AsParallel()
-                        .Where(unit => unit.AdministratorId == admin.Id)
-                        .Select(unit => unit.Reports)
-                        .Aggregate((current, next) => next.Concat(current).ToList())
-                        .OrderByDescending(report => report.DateHappened)
-                        .ToArray();
-                if (lastHappened == null)
-                {
-                    return reports.Take(10);
-                }
-                return reports.Where(report => report.DateHappened > lastHappened)
-                    .OrderByDescending(report => report.DateHappened)
-                    .Take(10);
+                case AccountType.Administrator:
+                    {
+                        var adminUnits = await this.GetAsync(user);
+                        var units = adminUnits as Unit[] ?? adminUnits.ToArray();
+
+                        if (units
+                            .Where(unit => unit.AdministratorId == user.Id)
+                            .Select(unit => unit.Reports).Any())
+                        {
+                            var reports =
+                                units.AsParallel()
+                                    .Where(unit => unit.AdministratorId == user.Id)
+                                    .Select(unit => unit.Reports)
+                                    .Aggregate((current, next) => next.Concat(current).ToList())
+                                    .OrderByDescending(report => report.DateHappened)
+                                    .ToArray();
+                            if (lastHappened == null)
+                            {
+                                return reports.Take(10);
+                            }
+                            return reports.Where(report => report.DateHappened > lastHappened)
+                                .OrderByDescending(report => report.DateHappened)
+                                .Take(10);
+                        }
+                        return Enumerable.Empty<Report>();
+                    }
+                case AccountType.Client:
+                    {
+                        var clientUnits = (await this.GetAsync()).ToArray();
+                        var units = clientUnits.Where(unit => unit.Clients.ContainsUser(user))
+                            as Unit[] ?? clientUnits.ToArray();
+
+                        if (units
+                            .Where(unit => unit.AdministratorId == user.Id)
+                            .Select(unit => unit.Reports).Any())
+                        {
+                            var reports =
+                                units.AsParallel()
+                                    .Where(unit => unit.AdministratorId == user.Id)
+                                    .Select(unit => unit.Reports)
+                                    .Aggregate((current, next) => next.Concat(current).ToList())
+                                    .OrderByDescending(report => report.DateHappened)
+                                    .ToArray();
+                            if (lastHappened == null)
+                            {
+                                return reports.Take(10);
+                            }
+                            return reports.Where(report => report.DateHappened > lastHappened)
+                                .OrderByDescending(report => report.DateHappened)
+                                .Take(10);
+                        }
+                        return Enumerable.Empty<Report>();
+                    }
+                default:
+                    {
+                        return Enumerable.Empty<Report>();
+                    }
             }
-            return Enumerable.Empty<Report>();
+
+
+
         }
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
@@ -163,6 +203,11 @@ namespace Emergy.Core.Repositories
         public async Task<bool> IsInUnit(int unitId, string userId)
         {
             return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
+        }
+
+        public Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser adminApplicationUser, DateTime? lastHappened)
+        {
+            throw new NotImplementedException();
         }
     }
 }
