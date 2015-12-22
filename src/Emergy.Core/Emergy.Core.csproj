@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ResourceMaxSizeAttribute.cs" />
     <Compile Include="Attributes\ResourceTypeAttribute.cs" />
+    <Compile Include="Common\ClientsListExtensions.cs" />
     <Compile Include="Common\ConstRelations.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\IEnumerableExtensions.cs" />

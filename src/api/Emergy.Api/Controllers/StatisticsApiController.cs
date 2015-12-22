@@ -31,11 +31,11 @@ namespace Emergy.Api.Controllers
             }
             if (User.IsInRole("Administrators"))
             {
-                reports = (await UnitsRepository.GetReportsForAdmin(user, null))
+                reports = (await UnitsRepository.GetReportsForUser(user, null))
                            .Where(report => report.DateHappened <= DateTime.Now - new TimeSpan(120, 0, 0, 0))
-                           .ToList(); ;
+                           .ToList();
             }
-            return (reports != null) ? (IHttpActionResult) Ok(StatsService.ComputeStats(reports.AsReadOnly())) : Ok();
+            return (reports != null) ? (IHttpActionResult)Ok(StatsService.ComputeStats(reports.AsReadOnly())) : Ok();
         }
         private IStatsService StatsService { get; set; }
         private IReportsRepository ReportsRepository { get; set; }
