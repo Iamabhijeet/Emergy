@@ -4,23 +4,25 @@ services.factory('reportsService', reportsService);
 reportsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 
 function reportsService($http, $q, serviceBase, authData) {
-    var getReports = function (lastDateTime) {
+    var getReports = function (lastDateTime, isAdmin) {
         var deffered;
         if (lastDateTime) {
-            
             deffered = $q.defer();
-            $http.get(serviceBase + 'api/reports/get-admin/' + lastDateTime)
-            .success(function (response) {
-                deffered.resolve(response);
-            })
-                .error(function (response) {
-                    deffered.reject(response);
-                });
+            if (authData.isAdmin()) {
+                $http.get(serviceBase + 'api/reports/get-admin/' + lastDateTime)
+                    .success(function (response) { deffered.resolve(response); })
+                    .error(function (response) { deffered.reject(response); });
+            }
+            else {
+                $http.get(serviceBase + 'api/reports/get-client')
+                  .success(function (response) { deffered.resolve(response); })
+                  .error(function (response) { deffered.reject(response); });
+            }
             return deffered.promise;
         }
 
         deffered = $q.defer();
-        
+
         $http.get(serviceBase + 'api/reports/get-admin')
         .success(function (response) {
             deffered.resolve(response);
@@ -67,9 +69,9 @@ function reportsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     }
 
-    var service = {    
+    var service = {
         getReports: getReports,
-        getReport: getReport, 
+        getReport: getReport,
         changeStatus: changeStatus,
         deleteReport: deleteReport
     };

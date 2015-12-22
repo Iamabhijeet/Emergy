@@ -7,6 +7,7 @@
 
         function activate() {
             unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
+            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
         }
 
         activate();

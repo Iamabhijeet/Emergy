@@ -65,6 +65,7 @@
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
     <Content Include="app\components\services\services.module.js" />
+    <Content Include="app\components\services\stats\statsService.js" />
     <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\account\profile.html" />
     <Content Include="app\views\client\dashboard.html" />
