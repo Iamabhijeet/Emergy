@@ -11,11 +11,16 @@ using Newtonsoft.Json;
 
 namespace Emergy.Data.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IEquatable<ApplicationUser>
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType = null)
         {
             return await manager.CreateIdentityAsync(this, authenticationType);
+        }
+
+        public bool Equals(ApplicationUser other)
+        {
+            return this.Id == other.Id;
         }
 
         [Required]

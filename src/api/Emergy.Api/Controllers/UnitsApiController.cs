@@ -1,25 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using Emergy.Core.Common;
-using Emergy.Core.Models.CustomProperty;
-using Emergy.Core.Models.Delete;
-using Emergy.Core.Models.Location;
 using Emergy.Core.Repositories;
-using Emergy.Core.Services;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 using model = Emergy.Core.Models.Unit;
 
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
-    [Authorize(Roles = "Administrators")]
+    [Authorize]
     public class UnitsApiController : MasterApiController
     {
         public UnitsApiController()
@@ -30,7 +24,7 @@ namespace Emergy.Api.Controllers
         {
             _unitsRepository = unitsRepository;
         }
-
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("get")]
         public async Task<IEnumerable<Unit>> GetUnits()
@@ -54,7 +48,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUnit([FromBody] model::CreateUnitViewModel model)
@@ -69,7 +63,7 @@ namespace Emergy.Api.Controllers
             await _unitsRepository.SaveAsync();
             return Ok(unit.Id);
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpPut]
         [Route("edit")]
         public async Task<IHttpActionResult> EditUnit([FromBody] model::EditUnitViewModel model)
@@ -92,7 +86,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteUnit([FromUri] int id)
@@ -109,7 +103,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpGet]
         [Route("custom-properties/get/{unitId}")]
         public async Task<IHttpActionResult> GetCustomProperties(int unitId)
@@ -125,6 +119,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("custom-property/add/{id}")]
         public async Task<IHttpActionResult> AddCustomProperty([FromUri]int id, [FromBody] int propertyId)
@@ -140,6 +135,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
+        [Authorize(Roles = "Administrators")]
         [HttpGet]
         [Route("locations/get/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)
@@ -156,6 +152,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("locations/add/{id}")]
         public async Task<IHttpActionResult> AddLocation([FromUri]int id, [FromBody] int locationId)
@@ -171,7 +168,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpGet]
         [Route("clients/get/{id}")]
         public async Task<IHttpActionResult> GetClients(int id)
@@ -187,6 +184,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("clients/add/{id}")]
         public async Task<IHttpActionResult> AddClient([FromUri]int id, [FromBody] string clientId)
@@ -202,6 +200,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("clients/remove")]
         public async Task<IHttpActionResult> RemoveClient([FromBody] Core.Models.Delete.ClientFromUnit model)
@@ -217,7 +216,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpGet]
         [Route("categories/get/{id}")]
         public async Task<IHttpActionResult> GetCategories(int id)
@@ -234,7 +233,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
-
+        [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("categories/add/{id}")]
         public async Task<IHttpActionResult> AddCategory([FromUri]int id, [FromBody] int categoryId)
