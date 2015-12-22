@@ -4,32 +4,18 @@ services.factory('reportsService', reportsService);
 reportsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 
 function reportsService($http, $q, serviceBase, authData) {
-    var getReports = function (lastDateTime, isAdmin) {
-        var deffered;
+    var getReports = function (lastDateTime) {
+        var deffered = $q.defer();
         if (lastDateTime) {
-            deffered = $q.defer();
-            if (authData.isAdmin()) {
-                $http.get(serviceBase + 'api/reports/get-admin/' + lastDateTime)
-                    .success(function (response) { deffered.resolve(response); })
-                    .error(function (response) { deffered.reject(response); });
-            }
-            else {
-                $http.get(serviceBase + 'api/reports/get-client')
-                  .success(function (response) { deffered.resolve(response); })
-                  .error(function (response) { deffered.reject(response); });
-            }
+            $http.get(serviceBase + 'api/reports/get/' + lastDateTime)
+                .success(function (response) { deffered.resolve(response); })
+                .error(function (response) { deffered.reject(response); });
             return deffered.promise;
         }
+        $http.get(serviceBase + 'api/reports/get/')
+           .success(function (response) { deffered.resolve(response); })
+           .error(function (response) { deffered.reject(response); });
 
-        deffered = $q.defer();
-
-        $http.get(serviceBase + 'api/reports/get-admin')
-        .success(function (response) {
-            deffered.resolve(response);
-        })
-            .error(function (response) {
-                deffered.reject(response);
-            });
         return deffered.promise;
     }
 
