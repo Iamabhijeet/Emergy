@@ -16,12 +16,12 @@
         </div>
     </div>
     <ul class="collection units">
-        <li class="collection-item avatar" ng-repeat="unit in units | filter:searchTerm">
+        <li class="collection-item avatar waves-block waves-light" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{ ::unit.Name }}</p>
             <div class="secondary-content">
                 <a ng-href="/dashboard/unit/{{ ::unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
-                <a class="waves-effect waves-light btn">Reports</a>
+                <a  ng-href="/dashboard/reports/{{ ::unit.Id }}" class="waves-effect waves-light btn">Reports</a>
             </div>
         </li>
     </ul>

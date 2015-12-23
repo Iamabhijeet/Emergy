@@ -13,6 +13,11 @@
     background-color: #00a2b7;
 }
 
+.secondary-content {
+    float: right;
+    color: #00ACC1;
+}
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -26,8 +31,12 @@
 }
 
 .main-container .validation {
-        color: #F44336;
-    }
+    color: #F44336;
+}
+
+.validation {
+    color: #F44336;
+}
 
 .main-container .invalid {
     border-bottom: 1px solid #F44336;
@@ -317,9 +326,9 @@
     margin-bottom: 30px;
 }
 
-.main-container.unit-details .row.create-property.custom-property {
-    margin-bottom: 85px;
-}
+    .main-container.unit-details .row.create-property.custom-property {
+        margin-bottom: 85px;
+    }
 
 .main-container.units input, .main-container.unit-details input {
     margin-bottom: 0;
@@ -821,12 +830,12 @@
     left: 0;
     right: 0;
     bottom: 1em;
-    border-radius: 50%; 
+    border-radius: 50%;
     width: 20em;
     height: 20em;
 }
 
-.main-container.profile .card .input-field i{
+.main-container.profile .card .input-field i {
     top: 7px;
 }
 
@@ -906,10 +915,10 @@
     color: #4A4A4A;
 }
 
-.main-container.notifications .notification-list a span{
-    color: #1599AB;
-    font-weight: 500;
-}
+    .main-container.notifications .notification-list a span {
+        color: #1599AB;
+        font-weight: 500;
+    }
 
 .main-container.notifications .btn.load-more-button {
     display: block;
