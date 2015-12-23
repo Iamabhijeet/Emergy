@@ -4,9 +4,9 @@ var controllerId = 'unitsController';
 
 app.controller(controllerId,
     ['$scope', '$rootScope', 'unitsService',
-        'authService', 'notificationService', 'authData', unitsController]);
+        'authService', 'notificationService', '$location', unitsController]);
 
-function unitsController($scope, $rootScope, unitsService, authService, notificationService, authData) {
+function unitsController($scope, $rootScope, unitsService, authService, notificationService, $location) {
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
@@ -25,19 +25,23 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             });
     };
 
+    $scope.onUnitSelected = function (id) {
+        $location.path('/dashboard/unit/' + id + '/details');
+    }
+
     $scope.createUnit = function (unitName) {
         $scope.isBusy = true;
         var promise = unitsService.createUnit({
-            Name : unitName
+            Name: unitName
         });
-        promise.then(function (response) {
+        promise.then(function () {
             loadUnits();
         },
         function (error) {
             notificationService.pushError(error.Message);
         })
         .finally(function () {
-                $scope.unitName = '';
+            $scope.unitName = '';
             $scope.isBusy = false;
         });
     }

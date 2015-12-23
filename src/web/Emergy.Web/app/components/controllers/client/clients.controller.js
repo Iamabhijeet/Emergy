@@ -3,12 +3,13 @@
 
     function clientsController($location, $rootScope, unitsService,
         reportsService, statsService, notificationService, authData) {
+
+        $rootScope.title = 'Dashboard - ' + authData.userName + ' | Emergy';
+
         var vm = this;
         vm.units = [];
         vm.reports = [];
         vm.stats = [];
-
-        $rootScope.title = 'Dashboard - ' + authData.userName;
 
         function activate() {
             unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
@@ -20,5 +21,6 @@
     }
 
     app.controller('clientsController', clientsController);
-    clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService', 'statsService', 'notificationService', 'authData'];
+    clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService',
+        'statsService', 'notificationService', 'authData'];
 })();

@@ -1,6 +1,6 @@
 ﻿<div ui-view="shell"></div>
 
-<div class="container main-container reports">
+<div class="container main-container reports" ng-controller="clientsController as vm">
     <div class="row header-row" style="border-bottom: none;">
         <div class="col l3 m4 s11">
             <h2>Dashboard</h2>
@@ -38,7 +38,7 @@
     <div id="reports" class="col s12">
         <div class="row report-grid-row">
             <div class="col l3 m6 s12">
-                <div class="card report-card" ng-repeat="report in reports">
+                <div class="card report-card" ng-repeat="report in vm.reports">
                     <a>
                         <div class="card-content waves-effect waves-block waves-light white-text">
                             <p>{{ report.Description }}</p>

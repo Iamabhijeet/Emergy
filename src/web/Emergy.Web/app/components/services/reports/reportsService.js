@@ -18,6 +18,20 @@ function reportsService($http, $q, serviceBase, authData) {
 
         return deffered.promise;
     }
+    var getReportsForUnit = function (unitId, lastDateTime) {
+        var deffered = $q.defer();
+        if (lastDateTime) {
+            $http.get(serviceBase + 'api/reports/get-unit/' + unitId + '/' + lastDateTime)
+                .success(function (response) { deffered.resolve(response); })
+                .error(function (response) { deffered.reject(response); });
+            return deffered.promise;
+        }
+        $http.get(serviceBase + 'api/reports/get-unit/' + unitId + '/' + lastDateTime)
+           .success(function (response) { deffered.resolve(response); })
+           .error(function (response) { deffered.reject(response); });
+
+        return deffered.promise;
+    }
 
     var getReport = function (reportId) {
         var deffered = $q.defer();
@@ -57,6 +71,7 @@ function reportsService($http, $q, serviceBase, authData) {
 
     var service = {
         getReports: getReports,
+        getReportsForUnit: getReportsForUnit,
         getReport: getReport,
         changeStatus: changeStatus,
         deleteReport: deleteReport

@@ -50,7 +50,7 @@
         }
     });
     $stateProvider.state("Reports", {
-        url: "/dashboard/reports",
+        url: "/dashboard/reports/:unitId?",
         views: {
             '': {
                 templateUrl: 'app/views/reports/reports.html',
