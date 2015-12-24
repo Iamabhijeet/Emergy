@@ -103,7 +103,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("custom-properties/get/{unitId}")]
         public async Task<IHttpActionResult> GetCustomProperties(int unitId)
@@ -135,7 +135,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("locations/get/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)
@@ -216,7 +216,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("categories/get/{id}")]
         public async Task<IHttpActionResult> GetCategories(int id)
