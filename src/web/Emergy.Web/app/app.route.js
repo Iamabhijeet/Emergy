@@ -49,8 +49,33 @@
             }]
         }
     });
-    $stateProvider.state("Reports", {
+    $stateProvider.state("ReportsForUnit", {
         url: "/dashboard/reports/:unitId?",
+        views: {
+            '': {
+                templateUrl: 'app/views/reports/reports.html',
+                controller: "reportsController"
+            },
+            'shell@ReportsForUnit': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn || !authData.isAdmin()) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+    $stateProvider.state("Reports", {
+        url: "/dashboard/reports",
         views: {
             '': {
                 templateUrl: 'app/views/reports/reports.html',

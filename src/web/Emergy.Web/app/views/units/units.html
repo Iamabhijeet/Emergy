@@ -1,5 +1,4 @@
 ﻿<div ui-view="shell"></div>
-
 <div class="container main-container units">
     <div class="row header-row">
         <div class="col l3 m4 s12">
@@ -15,31 +14,41 @@
             </a>
         </div>
     </div>
+    <div class="row" ng-hide="!units.length">
+        <div class="col l6 m6 s12">
+            <div class="center center-align center-block centered">
+                <h3 class="cyan-text">{{ ::units.length }}</h3>
+                <h4 class="gray-text">UNITS</h4>
+            </div>
+        </div>
+        <div class="col l6 m6 s12">
+            <div class="center center-align center-block centered">
+                <h3 class="cyan-text">{{ ::clientsCount }}</h3>
+                <h4 class="gray-text">CLIENTS</h4>
+            </div>
+        </div>
+    </div>
     <ul class="collection units">
-        <li class="collection-item avatar waves-block waves-light" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
+        <li class="collection-item avatar waves-effect waves-block waves-light" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{ ::unit.Name }}</p>
             <div class="secondary-content">
                 <a ng-href="/dashboard/unit/{{ ::unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
-                <a  ng-href="/dashboard/reports/{{ ::unit.Id }}" class="waves-effect waves-light btn">Reports</a>
+                <a ng-href="/dashboard/reports/{{ ::unit.Id }}" class="waves-effect waves-light btn">Reports</a>
             </div>
         </li>
     </ul>
-
     <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
         <img src="/assets/img/loading.svg" width="55" />
     </div>
-
     <div class="row create-unit">
         <form role="form" name="createUnitForm" novalidate>
             <div class="col l11 m11 s10">
-
                 <input ng-class="{ 'valid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$valid, 'invalid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$invalid }" id="unitName" name="unitName" placeholder="New unit name" type="text" ng-model="unitName" ng-minlength="5" ng-maxlength="50" required />
                 <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.required">Unit name is required.</small>
                 <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.minlength">Unit name has to contain atleast 5 characters.</small>
                 <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.maxlength">Unit name cannot be more than 50 characters long.</small>
             </div>
-
             <div class="col l1 m1 s2">
                 <button href="#" class="btn-floating waves-effect waves-light" ng-click="createUnit(unitName)" ng-disabled="createUnitForm.$invalid || createUnitForm.$pristine || isBusy">
                     <i class="material-icons">add</i>

@@ -18,6 +18,14 @@
     color: #00ACC1;
 }
 
+.cyan-text {
+    color: #00ACC1;
+}
+
+.gray-text {
+    color: #757575;
+}
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;

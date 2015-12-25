@@ -61,6 +61,7 @@
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\clients\clientsDashboardService.js" />
+    <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
@@ -87,6 +88,7 @@
     <Content Include="assets\img\logout-icon.png" />
     <Content Include="assets\img\map-marker.png" />
     <Content Include="assets\img\notifications-icon.png" />
+    <Content Include="assets\img\powered-by-google-on-white.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />

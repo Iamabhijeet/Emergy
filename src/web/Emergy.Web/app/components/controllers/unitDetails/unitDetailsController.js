@@ -4,20 +4,43 @@ var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
     ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
-        'authService', 'notificationService', 'authData', 'NgMap', unitDetailsController]);
+        'authService', 'notificationService', 'authData', 'NgMap', 'mapService', unitDetailsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, NgMap) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, NgMap, mapService) {
     $rootScope.title = "Unit | Details";
     var marker;
 
     $scope.reRenderMap = function () {
         google.maps.event.trigger(this.map, 'resize');
     }
-    
+
     NgMap.getMap().then(function (map) {
         $scope.map = map;
     });
 
+    $scope.places = [];
+    $scope.currentLocation = {};
+    $scope.searchQuery = '';
+    $scope.queryPlaces = function (query) {
+        if (query) {
+            mapService.queryPlaces(query)
+                      .then(function (response) { $scope.places = response.data.results; },
+                            function () { $scope.places = []; });
+        } else {
+            $scope.places = [];
+        }
+    };
+
+    var tryNavigateToCurrentLocation = function () {
+        mapService.getCurrentLocation()
+            .then(function (position) {
+                $scope.currentLocation = position;
+                $scope.currentLocation = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+            });
+    };
     $scope.pickLocation = function (e) {
         if (marker) {
             marker.setMap(null);
@@ -30,6 +53,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.longitude = e.latLng.lng();
         }
     }
+
 
     var loadUnit = function () {
         $scope.isBusy = true;
@@ -96,7 +120,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     };
 
-    $scope.removeClient = function(clientId) {
+    $scope.removeClient = function (clientId) {
         $scope.isBusy = true;
 
         var client = {
@@ -106,9 +130,9 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
 
         var promise = unitsService.removeClient(client);
         promise.then(function (response) {
-                notificationService.pushSuccess("Successfully removed client!"); 
-                loadClients();
-            }, function (error) {
+            notificationService.pushSuccess("Successfully removed client!");
+            loadClients();
+        }, function (error) {
             notificationService.pushError(error.Message);
         })
         .finally(function () {
@@ -116,11 +140,11 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
-    $scope.editUnit = function(unitId) {
+    $scope.editUnit = function (unitId) {
         $scope.isBusy = true;
 
         var unitEdit = {
-            Id: unitId, 
+            Id: unitId,
             Name: $scope.unit.Name
         }
 
@@ -136,7 +160,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
-    $scope.deleteUnit = function(unitId) {
+    $scope.deleteUnit = function (unitId) {
         $scope.isBusy = true;
 
         var promise = unitsService.deleteUnit(unitId);
@@ -269,10 +293,10 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         var promise = unitsService.getClientByKey(clientKey);
         promise.then(function (client) {
             promise = unitsService.addClient(unitId, JSON.stringify(client.Id));
-            promise.then(function(response) {
+            promise.then(function (response) {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
-            }), function(error) {
+            }), function (error) {
                 notificationService.pushError(error.Message);
             }
         }, function (error) {
@@ -288,4 +312,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
     loadLocations();
     loadCategories();
     loadCustomProperties();
+
+    tryNavigateToCurrentLocation();
 }
