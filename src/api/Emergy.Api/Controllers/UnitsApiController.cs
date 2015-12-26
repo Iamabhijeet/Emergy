@@ -13,7 +13,7 @@ using model = Emergy.Core.Models.Unit;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
-    [Authorize]
+    [Authorize(Roles = "Administrators,Clients")]
     public class UnitsApiController : MasterApiController
     {
         public UnitsApiController()
@@ -33,6 +33,7 @@ namespace Emergy.Api.Controllers
             return units;
         }
 
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("get/{id}")]
         public async Task<IHttpActionResult> GetUnit(int id)
@@ -168,7 +169,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("clients/get/{id}")]
         public async Task<IHttpActionResult> GetClients(int id)
