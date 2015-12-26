@@ -83,7 +83,7 @@
                 </form>
             </div>
         </div>
-        <div id="properties" class="col s12">
+        <div id="properties" class="col s12 row-no-margin">
             <ul class="collapsible" data-collapsible="accordion" watch>
                 <li>
                     <div class="collapsible-header">Categories</div>
@@ -96,7 +96,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="row create-property">
+                        <div class="row create-property row-no-margin">
                             <form role="form" name="createCategoryForm" novalidate>
                                 <div class="col l11 m11 s10">
                                     <input ng-class="{ 'valid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$valid, 'invalid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$invalid }" id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required />
@@ -115,8 +115,8 @@
                 </li>
                 <li ng-click="reRenderMap()">
                     <div class="collapsible-header">Locations</div>
-                    <div class="collapsible-body">
-                        <div class="row">
+                    <div class="collapsible-body row-no-margin">
+                        <div class="row row-no-margin">
                             <div class="col s12">
                                 <ul class="collection properties">
                                     <li class="collection-item" ng-repeat="location in locations">
@@ -128,23 +128,41 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row create-property">
+                        <div class="row create-property row-no-margin">
                             <form role="form" name="createLocationForm" novalidate>
-                                <div class="col l6 m6 s12">
-                                    <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="locationName" ng-minlength="3" ng-maxlength="25" required />
-                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
-                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
-                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
-                                    <div class="center-align">
-                                        <button href="#" class="btn-floating waves-effect waves-light" ng-click="addLocation(unit.Id, locationName, latitude, longitude)" ng-disabled="createLocationForm.$invalid || createLocationForm.$pristine || (!latitude && !longitude)">
-                                            <i class="material-icons">add</i>
-                                        </button>
+                                <div class="col s12">
+                                    <div class="row">
+                                        <div class="col l8 m8 s12">
+                                            <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="locationName" ng-minlength="3" ng-maxlength="25" required />
+                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
+                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
+                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
+                                        </div>
+                                        <div class="col l2 m2 s12">
+                                            <div>
+                                                <button href="#" class="btn-floating waves-effect waves-light" ng-click="addLocation(unit.Id, locationName, latitude, longitude)" ng-disabled="createLocationForm.$invalid || createLocationForm.$pristine || (!latitude && !longitude)">
+                                                    <i class="material-icons">add</i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="s6">
+                                <div class="col s12">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">search</i>
+                                        <input id="placesQuery" name="placesQuery"
+                                               placeholder="Search..."
+                                               type="text"
+                                               ng-model="placesQuery"
+                                               ng-minlength="3"
+                                               ng-maxlength="50"
+                                               ng-change="queryPlaces(placesQuery)" />
+                                        <label for="icon_prefix">Search Locations</label>
+                                    </div>
+                                </div>
+                                <div class="col s12">
                                     <map center="currentLocation" disable-default-u-i="true" zoom="6" on-click="pickLocation()" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]"></map>
                                 </div>
-
                             </form>
                         </div>
                     </div>
@@ -160,7 +178,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="row create-property custom-property">
+                        <div class="row create-property custom-property row-no-margin">
                             <form role="form" name="createCustomPropertyForm" novalidate>
                                 <div class="col l8 m8 s12">
                                     <input ng-class="{ 'valid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$valid, 'invalid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$invalid }" id="customPropertyName" name="customPropertyName" placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required />

@@ -320,6 +320,13 @@
 
 
 /*-----------UNITS PAGE-----------*/
+.row-no-margin {
+    margin: 0;
+}
+
+.container .row {
+    margin: 0;
+}
 
 .main-container.unit-details .row.add-user {
     width: 50%;
@@ -328,10 +335,10 @@
 }
 
 .main-container.unit-details .row.create-property {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 30px;
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 30px;
 }
 
     .main-container.unit-details .row.create-property.custom-property {
