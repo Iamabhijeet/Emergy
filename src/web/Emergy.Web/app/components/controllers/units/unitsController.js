@@ -28,10 +28,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             });
     };
 
-    $scope.onUnitSelected = function (id) {
-        $location.path('/dashboard/unit/' + id + '/details');
-    }
-
     $scope.createUnit = function (unitName) {
         var promise = unitsService.createUnit({
             Name: unitName

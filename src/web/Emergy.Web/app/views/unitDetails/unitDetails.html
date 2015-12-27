@@ -57,16 +57,16 @@
                     </div>
                 </li>
             </ul>
-            <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
+            <div class="center" ng-if="isBusy">
                 <img src="/assets/img/loading.svg" width="55" />
             </div>
             <div class="row add-user">
                 <form role="form" name="addUserForm" novalidate>
-                    <div class="col l11 m11 s10">
+                    <div class="col l11 m11 s12">
                         <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid, 'invalid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }" id="clientKey" name="clientKey" placeholder="Type user code" type="text" ng-model="clientKey" required />
                         <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.required">User code is required.</small>
                     </div>
-                    <div class="col l1 m1 s2">
+                    <div class="col l1 m1 s12">
                         <button href="#" class="btn-floating waves-effect waves-light" ng-click="addClient(unit.Id, clientKey)" ng-disabled="addUserForm.$invalid || addUserForm.$pristine">
                             <i class="material-icons">add</i>
                         </button>
@@ -87,15 +87,15 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="row create-property row-no-margin">
+                        <div class="row create-property" style="margin-left: 0;">
                             <form role="form" name="createCategoryForm" novalidate>
-                                <div class="col l11 m11 s10">
+                                <div class="col l11 m11 s12">
                                     <input ng-class="{ 'valid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$valid, 'invalid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$invalid }" id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required />
                                     <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.required">Category name is required.</small>
                                     <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.minlength">Category name has to contain atleast 3 characters.</small>
                                     <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.maxlength">Category name cannot be more than 25 characters long.</small>
                                 </div>
-                                <div class="col l1 m1 s2">
+                                <div class="col l1 m1 s12 center">
                                     <button href="#" class="btn-floating waves-effect waves-light" ng-click="addCategory(unit.Id, categoryName)" ng-disabled="createCategoryForm.$invalid || createCategoryForm.$pristine || isBusy">
                                         <i class="material-icons">add</i>
                                     </button>
@@ -119,47 +119,37 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row create-property row-no-margin">
+                        <div class="row create-property" style="margin-left: 0; margin-bottom: 0; ">
                             <form role="form" name="createLocationForm" novalidate>
-                                <div class="col s12">
-                                    <div class="row">
-                                        <div class="col l8 m8 s12">
-                                            <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required />
-                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
-                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
-                                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
-                                            <input ng-class="{ 'valid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$valid, 'invalid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$invalid }" id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="number" ng-model="location.Latitude" required />
-                                            <small class="validation" ng-show="createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$error.required">Latitude is required.</small>
-                                            <input ng-class="{ 'valid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$valid, 'invalid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$invalid }" id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="number" ng-model="location.Longitude" required />
-                                            <small class="validation" ng-show="createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$error.required">Location longitude is required.</small>
-                                        </div>
-                                        <div class="col l2 m2 s12">
-                                            <div>
-                                                <button href="#" class="btn-floating waves-effect waves-light" ng-click="addLocation(unit.Id, location)" ng-disabled="createLocationForm.$invalid || createLocationForm.$pristine">
-                                                    <i class="material-icons">add</i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <br />
-                                    </div>
+                               <div class="col l12 m12 s12">
+                                    <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required />
+                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
+                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
+                                    <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
+
+                                    <input ng-class="{ 'valid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$valid, 'invalid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$invalid }" id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="text" ng-model="location.Latitude" required />
+                                    <small class="validation" ng-show="createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$error.required">Latitude is required.</small>
+
+                                    <input ng-class="{ 'valid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$valid, 'invalid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$invalid }" id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="text" ng-model="location.Longitude" required />
+                                    <small class="validation" ng-show="createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$error.required">Location longitude is required.</small>
                                 </div>
+                                <br />
                                 <div class="col s12" style="padding: 1em;">
                                     <div class="row">
                                         <div class="col l4 m4 s12">
-                                            <div class="input-field col s12">
-                                                <i class="material-icons prefix">search</i>
+                                            <div class="input-field col s12" style="margin-bottom: 20px;">
+                                                <i class="material-icons prefix" style="position: absolute; top: 10px;">search</i>
                                                 <input id="placesQuery" name="placesQuery"
-                                                       placeholder="Search..."
+                                                       placeholder="Search locations"
                                                        type="text"
                                                        ng-model="placesQuery"
                                                        ng-minlength="3"
                                                        ng-maxlength="50"
                                                        ng-change="queryPlaces(placesQuery)" />
-                                                <label for="icon_prefix">Search Locations</label>
                                             </div>
                                             <br />
                                             <br />
-                                            <p class="gray-text" ng-show="places.length ">{{ places.length }} matching search.</p>
+                                            <p ng-show="places.length ">{{ places.length }} matching places</p>
                                             <ul class="collection" style="margin: 0;">
                                                 <li class="collection-item avatar waves-block waves-effect waves-button-input"
                                                     quick-ng-repeat="place in places"
@@ -174,12 +164,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="col l8 m5 s12">
-                                            <style>
-                                                .angular-google-map-container {
-                                                    height: 400px;
-                                                }
-                                            </style>
+                                        <div class="col l8 m8 s12">
                                             <ui-gmap-google-map control="map.control"
                                                                 center='map.center'
                                                                 zoom='map.zoom'
@@ -189,15 +174,14 @@
                                                                 events="map.events"
                                                                 refresh="true">
                                                 <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" click="onMarkerClicked">
-                                                    <ui-gmap-windows show="'showWindow'" closeclick="'closeClick'" ng-cloak>
-                                                        <p>
-                                                            Current location
-                                                        </p>
-                                                    </ui-gmap-windows>
                                                 </ui-gmap-markers>
                                             </ui-gmap-google-map>
-
                                         </div>
+                                        <div class="col l12 m12 s12 center" style="margin-top: 30px;">
+                                            <button href="#" class="btn-floating waves-effect waves-light" ng-click="addLocation(unit.Id, location)" ng-disabled="createLocationForm.$invalid || createLocationForm.$pristine">
+                                                <i class="material-icons">add</i>
+                                            </button>
+                                        </div>  
                                     </div>
                                 </div>
                             </form>
