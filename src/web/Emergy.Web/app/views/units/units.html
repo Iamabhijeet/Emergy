@@ -38,7 +38,7 @@
             </div>
         </li>
     </ul>
-    <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
+    <div ng-show="isBusy" ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
         <img src="/assets/img/loading.svg" width="55" />
     </div>
     <div class="row create-unit">

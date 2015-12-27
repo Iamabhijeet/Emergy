@@ -50,6 +50,11 @@
     border-bottom: 1px solid #F44336;
 }
 
+#map {
+    width: 40em;
+    height: 100%;
+}
+
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
 
 .login-register-container .col.s12 {

@@ -10,7 +10,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
-    $scope.isBusy = true;
+    $scope.isBusy = false;
     $scope.clientsCount = 0;
     var sumClients = function () {
         _.for($scope.units, function (unit) {

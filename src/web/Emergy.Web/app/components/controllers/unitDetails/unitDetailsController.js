@@ -4,31 +4,84 @@ var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
     ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
-        'authService', 'notificationService', 'authData', 'NgMap', 'mapService', unitDetailsController]);
+        'authService', 'notificationService', 'authData', 'mapService', 'uiGmapGoogleMapApi', 'uiGmapIsReady', unitDetailsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, NgMap, mapService) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, mapService, uiGmapGoogleMapApi, uiGmapIsReady) {
     $rootScope.title = "Unit | Details";
-    var marker;
 
-    $scope.reRenderMap = function () {
-        google.maps.event.trigger(this.map, 'resize');
-    }
-
-    NgMap.getMap().then(function (map) {
-        $scope.map = map;
-    });
-
+    var createMarker = function (latitude, longitude, title) {
+        var marker = {
+            latitude: latitude,
+            longitude: longitude,
+            title: title,
+            id: title,
+            icon: 'assets/img/location.png'
+        };
+        return marker;
+    };
+    var centerMap = function() {
+        $scope.map.center = $scope.currentLocation;
+    };
+    $scope.map = {
+        control: {},
+        options: { draggable: true },
+        center: { latitude: 45, longitude: -73 },
+        events: {
+            click: function (map, eventName, args) {
+                $scope.markers = [];
+                $scope.markers.push(createMarker(args[0].latLng.lat(), args[0].latLng.lng(), 'Location'));
+                $scope.currentLocation = {
+                    latitude: args[0].latLng.lat(),
+                    longitude: args[0].latLng.lng()
+                };
+                $scope.location.Latitude = $scope.currentLocation.latitude;
+                $scope.location.Longitude = $scope.currentLocation.longitude;
+                centerMap();
+            }
+        },
+        zoom: 8,
+        styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
+    };
+    $scope.markers = [];
+    $scope.refreshMap = function () {
+        $scope.map.control.refresh();
+    };
     $scope.places = [];
     $scope.currentLocation = {};
     $scope.searchQuery = '';
     $scope.queryPlaces = function (query) {
-        if (query) {
-            mapService.queryPlaces(query)
-                      .then(function (response) { $scope.places = response.data.results; },
-                            function () { $scope.places = []; });
+        if (query !== '' &&
+            query !== undefined &&
+            query !== null) {
+            mapService.queryPlaces(query, $scope.map.control.getGMap())
+                .then(function (places) {
+                    if (places.length > 0) {
+                        $scope.places = places;
+                    }
+                }, function () { $scope.places = []; });
         } else {
             $scope.places = [];
         }
+    };
+    $scope.placeSelected = function (place) {
+   
+        $scope.markers = [];
+        $scope.markers.push(createMarker(place.geometry.location.lat(), place.geometry.location.lng(), 'Location'));
+        $scope.currentLocation = {
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng()
+        };
+        $scope.location.Name = place.name;
+        $scope.location.Latitude = $scope.currentLocation.latitude;
+        $scope.location.Longitude = $scope.currentLocation.longitude;
+        $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+        centerMap();
+    }
+    $scope.placeLocation = {};
+    $scope.location = {
+        Name: '',
+        Latitude: '',
+        Longitude: ''
     };
 
     var tryNavigateToCurrentLocation = function () {
@@ -39,21 +92,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
+                $scope.location.Latitude = $scope.currentLocation.latitude;
+                $scope.location.Longitude = $scope.currentLocation.longitude;
+                $scope.markers = [];
+                $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+                centerMap();
             });
     };
-    $scope.pickLocation = function (e) {
-        if (marker) {
-            marker.setMap(null);
-            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
-            $scope.latitude = e.latLng.lat();
-            $scope.longitude = e.latLng.lng();
-        } else {
-            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
-            $scope.latitude = e.latLng.lat();
-            $scope.longitude = e.latLng.lng();
-        }
-    }
-
 
     var loadUnit = function () {
         $scope.isBusy = true;
@@ -159,7 +204,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.deleteUnit = function (unitId) {
         $scope.isBusy = true;
 
@@ -209,18 +253,18 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
-    $scope.addLocation = function (unitId, locationName, latitude, longitude) {
+    $scope.addLocation = function (unitId, location) {
         $scope.isBusy = true;
-        var location = {
-            Latitude: latitude,
-            Longitude: longitude,
-            Name: locationName,
+        location = {
+            Latitude: location.Latitude,
+            Longitude: location.Longitude,
+            Name: location.Name,
             Type: "Fixed"
-        }
+        };
         var promise = unitsService.createLocation(location);
         promise.then(function (locationId) {
             promise = unitsService.addLocationToUnit(unitId, locationId);
-            promise.then(function (response) {
+            promise.then(function () {
                 notificationService.pushSuccess("Location has been successfully added!");
                 loadLocations();
             }), function (error) {
