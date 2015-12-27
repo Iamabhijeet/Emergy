@@ -10,7 +10,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
-    $scope.isBusy = false;
     $scope.clientsCount = 0;
     var sumClients = function () {
         _.for($scope.units, function (unit) {
@@ -18,7 +17,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         });
     };
     var loadUnits = function () {
-        $scope.isBusy = true;
         var promise = unitsService.getUnits();
         promise.then(function (units) {
             angular.copy(units, $scope.units);
@@ -27,7 +25,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         })
             .finally(function () {
                 sumClients();
-                $scope.isBusy = false;
             });
     };
 
@@ -36,7 +33,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     }
 
     $scope.createUnit = function (unitName) {
-        $scope.isBusy = true;
         var promise = unitsService.createUnit({
             Name: unitName
         });
@@ -48,7 +44,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         })
         .finally(function () {
             $scope.unitName = '';
-            $scope.isBusy = false;
         });
     }
 
