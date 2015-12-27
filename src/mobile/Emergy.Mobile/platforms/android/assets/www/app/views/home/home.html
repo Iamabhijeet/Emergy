@@ -1,0 +1,22 @@
+﻿<ion-view name="tab-home" view-title="Home">
+    <ion-content class="padding" ng-controller="homeController">
+        <div class="home-container">
+            <button ng-click="openSubmitPopup()" class="button icon ion-android-add button-new-report"></button>
+            <div class="report-inputs" ng-if="!isBusy">
+                <label class="item item-input item-select">
+                    <div class="input-label">Unit</div>
+                    <select ng-change="loadBasicProperties(report.UnitId)" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="unit.Id as unit.Name for unit in units"></select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">Location</div>
+                    <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">Category</div>
+                    <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
+                </label>
+            </div>
+            <ion-spinner class="loading-spinner" ng-if="isBusy"></ion-spinner>
+        </div>
+    </ion-content>
+</ion-view>

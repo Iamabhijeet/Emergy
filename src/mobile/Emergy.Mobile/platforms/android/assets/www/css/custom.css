@@ -1,0 +1,171 @@
+/*-----------begin BAR-----------*/
+.bar.bar-positive {
+    border-color: #00ACC1;
+    background-color: #00ACC1;
+    background-image: linear-gradient(0deg, #00ACC1, #00ACC1 50%, transparent 50%);
+    color: #fff;
+}
+
+    .bar.bar-positive .title {
+        color: #fff;
+    }
+
+    .bar.bar-positive.bar-footer {
+        background-image: linear-gradient(180deg, #00ACC1, #00ACC1 50%, transparent 50%);
+    }
+/*-----------end BAR-----------*/
+
+/*-----------begin TABS-----------*/
+
+.tabs-striped.tabs-positive .tabs {
+    background-color: #00ACC1;
+}
+
+.tabs-positive > .tabs,
+.tabs.tabs-positive {
+    border-color: #00ACC1;
+    background-color: #00ACC1;
+    background-image: linear-gradient(0deg, #00ACC1, #00ACC1 50%, transparent 50%);
+    color: #fff;
+}
+
+.tabs-background-positive .tabs,
+.tabs-background-positive > .tabs {
+    background-color: #00ACC1;
+    background-image: linear-gradient(0deg, #00ACC1, #00ACC1 50%, transparent 50%);
+    border-color: #00ACC1;
+}
+
+.tabs-positive > .tabs .tab-item .badge,
+.tabs.tabs-positive .tab-item .badge {
+    background-color: #fff;
+    color: #0097A7;
+}
+
+
+ion-tabs.tabs-color-active-positive .tab-item {
+    color: #444;
+}
+
+    ion-tabs.tabs-color-active-positive .tab-item.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated {
+        color: #00ACC1;
+    }
+
+/*-----------end TABS-----------*/
+
+/*-----------begin LOGIN-----------*/
+
+.login-container .login-inputs label {
+    border: none;
+}
+
+.login-container .login-inputs .input-label {
+    color: #ffffff;
+}
+
+.login-container .login-inputs input {
+    color: #ffffff;
+    border: none;
+}
+
+.login-container .login-inputs {
+    margin-bottom: 20px;
+}
+
+.login-container .login-button {
+    background-color: #00a2b7;
+    border-color: #00a2b7;
+}
+
+.login-container .login-button:hover {
+    background-color: #08c2da;
+    border-color: #08c2da;
+}
+
+.login-container .login-button.activated {
+    background-color: #007382;
+    border-color: #007382; 
+}
+
+.login-container h1 {
+    font-weight: 100;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 45px;
+}
+
+/*-----------end LOGIN-----------*/
+
+/*-----------begin HOME-----------*/
+
+.home-container .button-new-report {
+    background-color: #10CCE3;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+.home-container .button-new-report:before {
+    font-size: 100px;
+}
+
+.home-container button.button-new-report:hover {
+    color: #ffffff;
+}
+
+.home-container .button-new-report.activated {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    background-color: #1293A3;
+}
+
+.home-container .report-inputs {
+    margin-top: 25px; 
+}
+
+.home-container label {
+    margin-top: 15px;
+}
+
+.loading-spinner svg {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 125px; 
+}
+
+.popup-container.popup-showing.active .popup {
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+
+.popup-container.popup-showing.active .popup button.button-default {
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.popup-container.popup-showing.active .popup button.button-positive {
+    border: none;
+    border-radius: 2px;
+    background-color: #00ACC1;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.popup-container.popup-showing.active .popup .popup-head h5 {
+    font-size: 16px;
+}
+
+
+
+
+/*-----------end HOME-----------*/
