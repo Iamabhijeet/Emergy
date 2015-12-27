@@ -1,0 +1,201 @@
+﻿<div ui-view="shell"></div>
+
+<div class="container main-container profile">
+    <div class="row header-row">
+        <div class="col l3 m4 s12">
+            <h2>{{::authData.userName}}</h2>
+        </div>
+        <div class="col l1 m1 s1 offset-l8 offset-m7">
+            <a ng-href="#" class="center">
+                <i class="material-icons notification-icon">notifications</i>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m12">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="/assets/img/login-background.jpg">
+                    <img class="profile-photo z-depth-2" ng-src="{{ currentPhotoBase64 }}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Edit profile<i class="material-icons right">more_vert</i></span>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                         Your profile
+                        <i class="material-icons right">close</i>
+                    </span>
+                    <div class="col l6 m12 s12">   
+                        <div class="col m12 center center-block center-align centered">
+                            <form name="profilePhotoForm">
+                                <div ngf-drop
+                                     ng-show="editorVisible"
+                                     ng-model="tempPhoto"
+                                     ngf-pattern="image/*"
+                                     class="cropArea z-depth-1">
+                                    <img-crop image="tempPhoto | ngfDataUrl"
+                                              shape="circle"
+                                              result-image="currentPhotoBase64"
+                                              result-image-quality="0.6"
+                                              on-load-done="onImageLoaded()">
+                                    </img-crop>
+                                </div>
+                                <br />
+                                <div class="center-block center-align center centered">
+                                    <button class="waves-effect btn-flat text-accent"
+                                            ngf-select
+                                            ng-model="tempPhoto"
+                                            ngf-change="onImageLoaded()"
+                                            accept="image/*">
+                                        SELECT
+                                    </button>
+                                    <button class="waves-effect btn-flat text-accent modal-trigger" data-target="preview_photo" modal>
+                                        PREVIEW
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col l6 m12 s12">
+                        <div class="row">
+                            <div class="col l12 m12 s12">
+                                <div class="center-block center-align centered center">
+                                    <form role="form" name="updateInfoForm" novalidate>
+                                        <div class="input-field col s12 username">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input id="username"
+                                                   name="username"
+                                                   placeholder="Username"
+                                                   type="text"
+                                                   ng-model="profile.UserName"
+                                                   disabled />
+                                        </div>
+                                        <div class="input-field col s12 email">
+                                            <i class="material-icons prefix">mail</i>
+                                            <input id="email"
+                                                   name="email"
+                                                   placeholder="Email"
+                                                   type="email"
+                                                   ng-model="profile.Email"
+                                                   disabled />
+                                        </div>
+                                        <div class="input-field col s12 username">
+                                            <i class="material-icons prefix">event</i>
+                                            <input id="timestamp"
+                                                   name="timestamp"
+                                                   placeholder="Timestamp"
+                                                   type="text"
+                                                   ng-model="profile.Timestamp"
+                                                   disabled />
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input id="name"
+                                                   name="name"
+                                                   placeholder="Name"
+                                                   type="text"
+                                                   ng-model="profile.Name" />
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input id="surname"
+                                                   name="surname"
+                                                   placeholder="Surname"
+                                                   type="text"
+                                                   ng-model="profile.Surname" />
+                                        </div>
+                                        <div class="input-field col s12 gender">
+                                            <select name="gender" class="" material-select watch
+                                                    ng-model="profile.Gender">
+                                                <option value="" disabled selected style="font-size: 10px;">Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn waves-effect waves-notransition"
+                                                ng-click="updateInfo(profile)"
+                                                type="submit" name="action">
+                                            SAVE
+                                            <i class="material-icons right">save</i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Change password</span>
+                    <div class="row">
+                        <div class="col l12 m12 s12">
+                            <form role="form" name="changePasswordForm" novalidate>
+                                <div class="input-field col s12 m12 l12 password">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input ng-class="{ 'valid' : changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$valid, 'invalid' : changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$invalid }" id="oldPassword"
+                                           name="oldPassword" placeholder="Old password" required type="password"
+                                           ng-model="changePasswordVm.OldPassword"
+                                           ng-minlength=8
+                                           ng-maxlength=64
+                                           password-verify="authData.password" />
+                                    <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.required">Old Password is required.</small>
+                                    <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.minlength">Old Password has to contain atleast 8 characters.</small>
+                                    <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.maxlength">Old Password cannot be more than 64 characters long.</small>
+                                    <small class="validation" ng-show="changePasswordForm.oldPassword.$error.passwordVerify">Old Password is not correct.</small>
+                                </div>
+                                <div class="input-field col s12 m12 l12 password">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input ng-class="{ 'valid' : changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$valid, 'invalid' : changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$invalid }" id="newPassword"
+                                           name="newPassword" placeholder="New password" required type="password"
+                                           ng-model="changePasswordVm.NewPassword"
+                                           ng-minlength=8
+                                           ng-maxlength=64 />
+                                    <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.required">New Password is required.</small>
+                                    <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.minlength">New Password has to contain atleast 8 characters.</small>
+                                    <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.maxlength">New Password cannot be more than 64 characters long.</small>
+                                </div>
+
+                                <div class="input-field col s12 m12 l12 password">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input ng-class="{ 'valid' : changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$valid, 'invalid' : changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$invalid }" id="password"
+                                           name="confirmNewPassword" placeholder="Confirm new password" required type="password"
+                                           ng-model="changePasswordVm.ConfirmPassword"
+                                           ng-minlength=8
+                                           ng-maxlength=64
+                                           password-verify="changePasswordVm.NewPassword" />
+                                    <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.required">Confirm New Password is required.</small>
+                                    <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.minlength">Confirm New Password has to contain atleast 8 characters.</small>
+                                    <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.maxlength">Confirm New Password cannot be more than 64 characters long.</small>
+                                    <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$error.passwordVerify">Password and Confirm Password have to be same.</small>
+                                </div>
+                                <div class="col s12 m12 l12">
+                                    <button class="btn waves-effect waves-light white-text center-block"
+                                            ng-disabled="changePasswordForm.$invalid || changePasswordForm.$pristine"
+                                            ng-click="changePassword(changePasswordVm)"
+                                            type="submit" name="action">
+                                        SAVE
+                                        <i class="material-icons right">save</i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="preview_photo" class="modal">
+        <div class="modal-content">
+            <h4>Here is your photo</h4>
+            <div class="center center-block centered center-align">
+                <img class="img responsive-img img-overlay img-circle" ng-src="{{ currentPhotoBase64 }}" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect btn-flat text-accent">DONE</a>
+        </div>
+    </div>
+</div>
