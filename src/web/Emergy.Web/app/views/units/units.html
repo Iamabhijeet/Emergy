@@ -14,20 +14,16 @@
             </a>
         </div>
     </div>
-    <div class="row" ng-hide="!units.length">
-        <div class="col l6 m6 s12">
-            <div class="center center-align center-block centered">
-                <h3 class="cyan-text">{{ ::units.length }}</h3>
-                <h4 class="gray-text">UNITS</h4>
+    <ul class="collection units">
+        <li class="collection-item avatar" ng-repeat="unit in units | filter:searchTerm">
+            <img class="unit-icon" src="/assets/img/unit-icon.png">
+            <p class="unit-name">{{ unit.Name }}</p>
+            <div class="secondary-content">
+                <a ng-href="/dashboard/unit/{{ unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
+                <a ng-href="/dashboard/reports/{{ unit.Id }}" class="waves-effect waves-light btn">Reports</a>
             </div>
-        </div>
-        <div class="col l6 m6 s12">
-            <div class="center center-align center-block centered">
-                <h3 class="cyan-text">{{ ::clientsCount }}</h3>
-                <h4 class="gray-text">CLIENTS</h4>
-            </div>
-        </div>
-    </div>
+        </li>
+    </ul>
     <div class="row create-unit">
         <form role="form" name="createUnitForm" novalidate>
             <div class="col l11 m11 s10">
@@ -43,14 +39,18 @@
             </div>
         </form>
     </div>
-    <ul class="collection units">
-        <li class="collection-item avatar waves-effect waves-block waves-button-input" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
-            <img class="unit-icon" src="/assets/img/unit-icon.png">
-            <p class="unit-name">{{ ::unit.Name }}</p>
-            <div class="secondary-content">
-                <a ng-href="/dashboard/unit/{{ ::unit.Id }}/details" class="waves-effect waves-light white black-text btn">Details</a>
-                <a ng-href="/dashboard/reports/{{ ::unit.Id }}" class="waves-effect waves-light btn">Reports</a>
+    <div class="row" ng-hide="!units.length">
+        <div class="col l6 m6 s12">
+            <div class="center center-align center-block centered">
+                <h3 class="cyan-text">{{ units.length }}</h3>
+                <h4 class="gray-text">Units</h4>
             </div>
-        </li>
-    </ul>
+        </div>
+        <div class="col l6 m6 s12">
+            <div class="center center-align center-block centered">
+                <h3 class="cyan-text">{{ clientsCount }}</h3>
+                <h4 class="gray-text">Clients</h4>
+            </div>
+        </div>
+    </div>
 </div>

@@ -36,7 +36,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 };
                 $scope.location.Latitude = $scope.currentLocation.latitude;
                 $scope.location.Longitude = $scope.currentLocation.longitude;
-                centerMap();
             }
         },
         zoom: 8,

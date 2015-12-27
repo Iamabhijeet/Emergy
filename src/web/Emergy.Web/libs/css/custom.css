@@ -5,6 +5,10 @@
 
 /*-----------GENERAL STYLING-----------*/
 
+.container {
+    padding: 0;
+}
+
 .background-white {
     background-color: #ffffff;
 }
@@ -20,12 +24,14 @@
 
 .cyan-text {
     color: #00ACC1;
-    font-weight: 100;
+    font-weight: 300;
+    font-size: 32px;
 }
 
 .gray-text {
     color: #757575;
-    font-weight: 100;
+    font-weight: 300;
+    font-size: 32px;
 }
 
 .btn-gray-text {
@@ -332,17 +338,9 @@
 }
 
 
-/*-----------UNITS PAGE-----------*/
-.row-no-margin {
-    margin: 0;
-}
-
-.container .row {
-    margin: 0;
-}
+/*-----------UNITS PAGE-----------*/    
 
 .main-container.unit-details .row.add-user {
-    width: 50%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -443,6 +441,7 @@
         }
 
         .main-container .collection .collection-item .secondary-content {
+            top: 14px;
         }
 
             .main-container .collection .collection-item .secondary-content a.white {
@@ -510,6 +509,8 @@
     }
 
     .main-container .collection .collection-item.avatar span.title {
+        position: relative;
+        top: 10px;
         font-size: 20px;
     }
 
@@ -544,9 +545,14 @@
 }
 
 @media only screen and (max-width: 470px) {
+    .main-container .angular-google-map-container {
+        height: 200px;
+    }
+
     .main-container .collection .collection-item p.unit-name {
         width: 100px;
-        margin-top: 15px;
+        margin-top: 25px;
+        font-size: 14px;
     }
 
     .main-container .collection .collection-item .secondary-content {
@@ -608,6 +614,10 @@
 
 /*-----------UNIT DETAILS PAGE-----------*/
 
+.angular-google-map-container {
+    height: 400px;
+}
+
 .main-container .collection.user-collection {
     margin-top: 0;
 }
@@ -625,6 +635,7 @@
 }
 
     .main-container .collection.properties .collection-item span.property-title {
+        font-size: 12px;    
         color: #1599AB;
         text-transform: uppercase;
     }
