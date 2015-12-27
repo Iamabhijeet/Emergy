@@ -18,6 +18,14 @@
     color: #00ACC1;
 }
 
+.cyan-text {
+    color: #00ACC1;
+}
+
+.gray-text {
+    color: #757575;
+}
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -40,6 +48,11 @@
 
 .main-container .invalid {
     border-bottom: 1px solid #F44336;
+}
+
+#map {
+    width: 40em;
+    height: 100%;
 }
 
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
@@ -312,6 +325,13 @@
 
 
 /*-----------UNITS PAGE-----------*/
+.row-no-margin {
+    margin: 0;
+}
+
+.container .row {
+    margin: 0;
+}
 
 .main-container.unit-details .row.add-user {
     width: 50%;
@@ -320,10 +340,10 @@
 }
 
 .main-container.unit-details .row.create-property {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 30px;
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 30px;
 }
 
     .main-container.unit-details .row.create-property.custom-property {

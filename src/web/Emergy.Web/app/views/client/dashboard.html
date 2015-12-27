@@ -1,5 +1,4 @@
 ﻿<div ui-view="shell"></div>
-
 <div class="container main-container reports" ng-controller="clientsController as vm">
     <div class="row header-row" style="border-bottom: none;">
         <div class="col l3 m4 s11">
@@ -21,14 +20,18 @@
         </div>
     </div>
     <div id="units" class="col s12">
+        <div class="row">
+            <div class="col s12">
+                <div class="center center-align center-block centered gray-text">
+                    <h3>{{ ::vm.units.length }}</h3>
+                    <h4>UNITS</h4>
+                </div>
+            </div>
+        </div>
         <ul class="collection units">
             <li class="collection-item avatar" ng-repeat="unit in vm.units | filter:searchTerm">
                 <img class="unit-icon" src="/assets/img/unit-icon.png">
-                <p class="unit-name">{{ unit.Name }}</p>
-                <div class="secondary-content">
-                    <a class="waves-effect waves-light white black-text btn">Details</a>
-                    <a class="waves-effect waves-light btn">Reports</a>
-                </div>
+                <p class="unit-name">{{ ::unit.Name }}</p>
             </li>
         </ul>
         <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
@@ -41,19 +44,19 @@
                 <div class="card report-card" ng-repeat="report in vm.reports">
                     <a>
                         <div class="card-content waves-effect waves-block waves-light white-text">
-                            <p>{{ report.Description }}</p>
+                            <p>{{ ::report.Description }}</p>
                             <div class="row">
                                 <div class="col l6 m6 s6">
                                     <p>
-                                        <i class="material-icons report-detail-icon">access_time</i> {{ report.Timestamp | date: 'HH:mma'}}
+                                        <i class="material-icons report-detail-icon">access_time</i> {{ ::report.Timestamp | date: 'HH:mma'}}
                                     </p>
                                 </div>
                                 <div class="col l6 m6 s6">
-                                    <p><i class="material-icons report-detail-icon">list</i> {{ report.Category.Name }}</p>
+                                    <p><i class="material-icons report-detail-icon">list</i> {{ ::report.Category.Name }}</p>
                                 </div>
                             </div>
                             <div class="report-status">
-                                <p>{{ report.Status }}</p>
+                                <p>{{ ::report.Status }}</p>
                             </div>
                         </div>
                     </a>
@@ -66,7 +69,7 @@
                         <div class="collection status-collection">
                             <a href="#" ng-click="changeStatus(report.Id, 'Created')" class="collection-item">Created</a>
                             <a href="#" ng-click="changeStatus(report.Id, 'In progress')" class="collection-item">Processing</a>
-                            <a href="#" ng-click="changeStatus(report.Id, 'Success')" class="collection-item">Success</a>
+                            <a href="#" ng-click="changeStatus(report.Id, 'Completed')" class="collection-item">Completed</a>
                             <a href="#" ng-click="changeStatus(report.Id, 'Faliure')" class="collection-item">Faliure</a>
                         </div>
                     </div>

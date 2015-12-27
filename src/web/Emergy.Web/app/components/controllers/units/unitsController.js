@@ -10,8 +10,13 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
-    $scope.isBusy = true;
-
+    $scope.isBusy = false;
+    $scope.clientsCount = 0;
+    var sumClients = function () {
+        _.for($scope.units, function (unit) {
+            $scope.clientsCount += unit.Clients.length;
+        });
+    };
     var loadUnits = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnits();
@@ -21,6 +26,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             notificationService.pushError(error.Message);
         })
             .finally(function () {
+                sumClients();
                 $scope.isBusy = false;
             });
     };

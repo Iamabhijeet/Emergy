@@ -61,6 +61,7 @@
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\clients\clientsDashboardService.js" />
+    <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
@@ -84,9 +85,11 @@
     <Content Include="assets\img\card-background.jpg" />
     <Content Include="assets\img\docs.png" />
     <Content Include="assets\img\loading.svg" />
+    <Content Include="assets\img\location.png" />
     <Content Include="assets\img\logout-icon.png" />
     <Content Include="assets\img\map-marker.png" />
     <Content Include="assets\img\notifications-icon.png" />
+    <Content Include="assets\img\powered-by-google-on-white.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />
@@ -104,7 +107,9 @@
     <Content Include="libs\css\materialize\font\material-design-icons\LICENSE.txt" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.svg" />
     <Content Include="index.html" />
+    <Content Include="libs\js\angular-google-maps\logger.js" />
     <Content Include="libs\js\angular-recaptcha\angular-recaptcha.min.js" />
+    <Content Include="libs\js\angular\quick-ng-repeat.js" />
     <Content Include="libs\js\ngFileUpload\FileAPI.flash.swf" />
     <Content Include="libs\js\ngFileUpload\FileAPI.js" />
     <Content Include="libs\js\ngFileUpload\FileAPI.min.js" />
@@ -119,7 +124,7 @@
     <Content Include="libs\js\angular\angular-ui-router.js" />
     <Content Include="libs\js\angular\angular-ui-router.min.js" />
     <Content Include="libs\js\angular\loading-bar.js" />
-    <Content Include="libs\js\google-maps\ng-map.min.js" />
+    <Content Include="libs\js\angular-google-maps\ng-map.min.js" />
     <Content Include="libs\js\local-storage\angular-local-storage.js" />
     <Content Include="libs\js\angular\angular-animate.js" />
     <Content Include="libs\js\angular\angular-animate.min.js" />

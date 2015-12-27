@@ -4,32 +4,101 @@ var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
     ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
-        'authService', 'notificationService', 'authData', 'NgMap', unitDetailsController]);
+        'authService', 'notificationService', 'authData', 'mapService', 'uiGmapGoogleMapApi', 'uiGmapIsReady', unitDetailsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, NgMap) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, mapService, uiGmapGoogleMapApi, uiGmapIsReady) {
     $rootScope.title = "Unit | Details";
-    var marker;
 
-    $scope.reRenderMap = function () {
-        google.maps.event.trigger(this.map, 'resize');
-    }
-    
-    NgMap.getMap().then(function (map) {
-        $scope.map = map;
-    });
-
-    $scope.pickLocation = function (e) {
-        if (marker) {
-            marker.setMap(null);
-            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
-            $scope.latitude = e.latLng.lat();
-            $scope.longitude = e.latLng.lng();
+    var createMarker = function (latitude, longitude, title) {
+        var marker = {
+            latitude: latitude,
+            longitude: longitude,
+            title: title,
+            id: title,
+            icon: 'assets/img/location.png'
+        };
+        return marker;
+    };
+    var centerMap = function() {
+        $scope.map.center = $scope.currentLocation;
+    };
+    $scope.map = {
+        control: {},
+        options: { draggable: true },
+        center: { latitude: 45, longitude: -73 },
+        events: {
+            click: function (map, eventName, args) {
+                $scope.markers = [];
+                $scope.markers.push(createMarker(args[0].latLng.lat(), args[0].latLng.lng(), 'Location'));
+                $scope.currentLocation = {
+                    latitude: args[0].latLng.lat(),
+                    longitude: args[0].latLng.lng()
+                };
+                $scope.location.Latitude = $scope.currentLocation.latitude;
+                $scope.location.Longitude = $scope.currentLocation.longitude;
+                centerMap();
+            }
+        },
+        zoom: 8,
+        styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
+    };
+    $scope.markers = [];
+    $scope.refreshMap = function () {
+        $scope.map.control.refresh();
+    };
+    $scope.places = [];
+    $scope.currentLocation = {};
+    $scope.searchQuery = '';
+    $scope.queryPlaces = function (query) {
+        if (query !== '' &&
+            query !== undefined &&
+            query !== null) {
+            mapService.queryPlaces(query, $scope.map.control.getGMap())
+                .then(function (places) {
+                    if (places.length > 0) {
+                        $scope.places = places;
+                    }
+                }, function () { $scope.places = []; });
         } else {
-            marker = new google.maps.Marker({ position: e.latLng, map: $scope.map });
-            $scope.latitude = e.latLng.lat();
-            $scope.longitude = e.latLng.lng();
+            $scope.places = [];
         }
+    };
+    $scope.placeSelected = function (place) {
+   
+        $scope.markers = [];
+        $scope.markers.push(createMarker(place.geometry.location.lat(), place.geometry.location.lng(), 'Location'));
+        $scope.currentLocation = {
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng()
+        };
+        $scope.location.Name = place.name;
+        $scope.location.Latitude = $scope.currentLocation.latitude;
+        $scope.location.Longitude = $scope.currentLocation.longitude;
+        $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+        centerMap();
     }
+    $scope.placeLocation = {};
+    $scope.location = {
+        Name: '',
+        Latitude: '',
+        Longitude: ''
+    };
+
+    var tryNavigateToCurrentLocation = function () {
+        mapService.getCurrentLocation()
+            .then(function (position) {
+                $scope.currentLocation = position;
+                $scope.currentLocation = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+                $scope.location.Latitude = $scope.currentLocation.latitude;
+                $scope.location.Longitude = $scope.currentLocation.longitude;
+                $scope.markers = [];
+                $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+                centerMap();
+            });
+    };
 
     var loadUnit = function () {
         $scope.isBusy = true;
@@ -96,7 +165,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     };
 
-    $scope.removeClient = function(clientId) {
+    $scope.removeClient = function (clientId) {
         $scope.isBusy = true;
 
         var client = {
@@ -106,9 +175,9 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
 
         var promise = unitsService.removeClient(client);
         promise.then(function (response) {
-                notificationService.pushSuccess("Successfully removed client!"); 
-                loadClients();
-            }, function (error) {
+            notificationService.pushSuccess("Successfully removed client!");
+            loadClients();
+        }, function (error) {
             notificationService.pushError(error.Message);
         })
         .finally(function () {
@@ -116,11 +185,11 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
-    $scope.editUnit = function(unitId) {
+    $scope.editUnit = function (unitId) {
         $scope.isBusy = true;
 
         var unitEdit = {
-            Id: unitId, 
+            Id: unitId,
             Name: $scope.unit.Name
         }
 
@@ -135,8 +204,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
-    $scope.deleteUnit = function(unitId) {
+    $scope.deleteUnit = function (unitId) {
         $scope.isBusy = true;
 
         var promise = unitsService.deleteUnit(unitId);
@@ -185,18 +253,18 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     }
 
-    $scope.addLocation = function (unitId, locationName, latitude, longitude) {
+    $scope.addLocation = function (unitId, location) {
         $scope.isBusy = true;
-        var location = {
-            Latitude: latitude,
-            Longitude: longitude,
-            Name: locationName,
+        location = {
+            Latitude: location.Latitude,
+            Longitude: location.Longitude,
+            Name: location.Name,
             Type: "Fixed"
-        }
+        };
         var promise = unitsService.createLocation(location);
         promise.then(function (locationId) {
             promise = unitsService.addLocationToUnit(unitId, locationId);
-            promise.then(function (response) {
+            promise.then(function () {
                 notificationService.pushSuccess("Location has been successfully added!");
                 loadLocations();
             }), function (error) {
@@ -269,10 +337,10 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         var promise = unitsService.getClientByKey(clientKey);
         promise.then(function (client) {
             promise = unitsService.addClient(unitId, JSON.stringify(client.Id));
-            promise.then(function(response) {
+            promise.then(function (response) {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
-            }), function(error) {
+            }), function (error) {
                 notificationService.pushError(error.Message);
             }
         }, function (error) {
@@ -288,4 +356,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
     loadLocations();
     loadCategories();
     loadCustomProperties();
+
+    tryNavigateToCurrentLocation();
 }
