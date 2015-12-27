@@ -29,7 +29,7 @@
         </div>
     </div>
     <ul class="collection units">
-        <li class="collection-item avatar waves-effect waves-block waves-light" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
+        <li class="collection-item avatar waves-effect waves-block waves-button-input" ng-repeat="unit in units | filter:searchTerm" ng-click="onUnitSelected(unit.Id)">
             <img class="unit-icon" src="/assets/img/unit-icon.png">
             <p class="unit-name">{{ ::unit.Name }}</p>
             <div class="secondary-content">
@@ -38,9 +38,6 @@
             </div>
         </li>
     </ul>
-    <div ng-show="isBusy" ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
-        <img src="/assets/img/loading.svg" width="55" />
-    </div>
     <div class="row create-unit">
         <form role="form" name="createUnitForm" novalidate>
             <div class="col l11 m11 s10">
