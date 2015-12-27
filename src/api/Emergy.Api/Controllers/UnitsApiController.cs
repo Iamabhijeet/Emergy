@@ -33,6 +33,7 @@ namespace Emergy.Api.Controllers
             return units;
         }
 
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("get/{id}")]
         public async Task<IHttpActionResult> GetUnit(int id)
@@ -103,7 +104,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("custom-properties/get/{unitId}")]
         public async Task<IHttpActionResult> GetCustomProperties(int unitId)
@@ -111,11 +112,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(unitId);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.CustomProperties);
-                }
-                return Unauthorized();
+                return Ok(unit.CustomProperties);
             }
             return NotFound();
         }
@@ -135,7 +132,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("locations/get/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)
@@ -143,12 +140,8 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
-                        .ToArray());
-                }
-                return Unauthorized();
+                return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
+                    .ToArray());
             }
             return NotFound();
         }
@@ -168,7 +161,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("clients/get/{id}")]
         public async Task<IHttpActionResult> GetClients(int id)
@@ -176,11 +169,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Clients);
-                }
-                return Unauthorized();
+                return Ok(unit.Clients);
             }
             return NotFound();
         }
@@ -216,7 +205,7 @@ namespace Emergy.Api.Controllers
             }
             return Unauthorized();
         }
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpGet]
         [Route("categories/get/{id}")]
         public async Task<IHttpActionResult> GetCategories(int id)
@@ -224,12 +213,8 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Categories.OrderByDescending(category => category.Id)
-                                             .ToArray());
-                }
-                return Unauthorized();
+                return Ok(unit.Categories.OrderByDescending(category => category.Id)
+                                         .ToArray());
             }
             return NotFound();
         }

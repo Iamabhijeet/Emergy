@@ -146,7 +146,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
           <Property Name="CreatorId" Type="varchar" MaxLength="128" />
           <Property Name="LocationId" Type="int" />
           <Property Name="CategoryId" Type="int" />
@@ -177,6 +177,7 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AdministratorId" Type="varchar" MaxLength="128" />
           <Property Name="DateCreated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="IsPublic" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="units2clients">
           <Key>
@@ -818,6 +819,7 @@
           <NavigationProperty Name="locations" Relationship="Self.FK_Locations_Units_Unit_Id" FromRole="units" ToRole="locations" />
           <NavigationProperty Name="reports" Relationship="Self.FK_Reports_Units_Unit_Id" FromRole="units" ToRole="reports" />
           <NavigationProperty Name="aspnetusers" Relationship="Self.units2clients" FromRole="units" ToRole="aspnetusers" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_AspNetUserClaims_AspNetUsers_UserId">
           <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="1">
@@ -1427,6 +1429,7 @@
           <EntitySetMapping Name="units">
             <EntityTypeMapping TypeName="EmergyDbVisualModel.unit">
               <MappingFragment StoreEntitySet="units">
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AdministratorId" ColumnName="AdministratorId" />

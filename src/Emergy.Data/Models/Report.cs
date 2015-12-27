@@ -10,7 +10,6 @@ namespace Emergy.Data.Models
 {
     public class Report : ModelBase
     {
-        [Required]
         [StringLength(200, MinimumLength = 5)]
         public string Description { get; set; }
 

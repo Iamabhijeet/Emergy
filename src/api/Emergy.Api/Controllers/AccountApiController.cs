@@ -132,6 +132,24 @@ namespace Emergy.Api.Controllers
         {
             return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
         }
+
+        [AllowAnonymous]
+        [Route("IsValidKey")]
+        [HttpGet]
+        public async Task<bool> IsValidKey(string id, string key)
+        {
+            ApplicationUser userWithId = null, userWithKey = null;
+            var loadById = new Task((async () =>
+            {
+                userWithId = await AccountService.GetUserByIdAsync(id).WithoutSync();
+            }));
+            var loadByKey = new Task(async () =>
+            {
+                userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
+            });
+            await Task.WhenAll(loadById, loadByKey);
+            return (userWithId != null && userWithKey != null) && userWithId.Id == userWithKey.Id;
+        }
         public AccountApiController()
         {
             AccountService.EmailTemplates.Add("RegistrationSuccessfull",

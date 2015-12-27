@@ -28,6 +28,7 @@ namespace Emergy.Data.Visual
         public string Name { get; set; }
         public string AdministratorId { get; set; }
         public System.DateTime DateCreated { get; set; }
+        public bool IsPublic { get; set; }
     
         public virtual aspnetuser aspnetuser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

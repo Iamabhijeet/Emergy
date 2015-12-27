@@ -7,6 +7,7 @@ namespace Emergy.Core.Models.Unit
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Name { get; set; }
+        public bool IsPublic { get; set; } = false;
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 

@@ -17,7 +17,7 @@ using static Emergy.Core.Common.IEnumerableExtensions;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Reports")]
-    [Authorize(Roles = "Administrators,Clients")]
+    [Authorize]
     public class ReportsApiController : MasterApiController
     {
         public ReportsApiController() { }
@@ -146,6 +146,7 @@ namespace Emergy.Api.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "Administrators,Clients")]
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
