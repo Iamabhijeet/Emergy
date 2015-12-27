@@ -28,6 +28,12 @@
     font-weight: 100;
 }
 
+.btn-gray-text {
+    color: #757575;
+}
+.btn-floating {
+    background-color: #18C0D6;
+}
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -598,6 +604,8 @@
     }
 }
 
+
+
 /*-----------UNIT DETAILS PAGE-----------*/
 
 .main-container .collection.user-collection {
@@ -651,6 +659,26 @@
         color: #1599AB;
         font-size: 28px;
     }
+
+.unit-details-title-container {
+    width: 100%;
+    height: 400px;
+    background-image: url('/assets/img/login-background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 150px;
+    padding-bottom: 150px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+    .unit-details-title-container h2 {
+        background: transparent;
+        color: white;
+        font-weight: 100;
+        display: block;
+    }
+
 
 
 /*-----------REPORTS PAGE-----------*/

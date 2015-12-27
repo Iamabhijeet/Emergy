@@ -19,54 +19,43 @@
             </ul>
         </div>
         <div id="general" class="col s12">
-            <div class="card">
-                <div class="card-image waves-effect waves-block waves-light" style="max-height: 300px;">
-                    <img class="activator" src="/assets/img/card-background.jpg">
-                </div>
-                <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-1">{{ unit.Name }}<i class="material-icons right">settings</i></span>
-                    <p>
-                        <a href="#">View statistics</a>
-                    </p>
-                </div>
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">{{ unit.Name }}<i class="material-icons right">close</i></span>
-                    <div class="row">
-                        <div class="col l2 m5 s6">
-                            <p class="setting-title">Unit name</p>
+            <div class="unit-details-title-container">
+                <h2 class="center center-align centered center">
+                    {{ unit.Name }}
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <form name="editUnitForm" role="form" novalidate>
+                        <div class="row">
+                            <div class="input-field col m6 s12">
+                                <input id="unitName" name="unitName" type="text" ng-model="unit.Name" placeholder="New unit name" required ng-required/>
+                                <small class="validation" ng-show="editUnitForm.unitName.$touched && editUnitForm.unitName.$error.required">Unit name is required.</small>
+                            </div>
+                            <div class="input-field col m6 s12">
+                                <a class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
+                                <a class="waves-effect waves-light btn red white-text center-align" ng-click="deleteUnit(unit.Id)"><i class="material-icons left">delete</i>DELETE</a>
+                                <a ng-href="/statistics/{{unit.Id}}" class="waves-effect waves-light btn center-align" ng-click="editUnit(unit.Id)"><i class="material-icons left">equalizer</i> STATS</a>
+                            </div>
                         </div>
-                        <div class="input-field col l3 m5 s5">
-                            <input id="unitName" type="text" ng-model="unit.Name" />
-                        </div>
-                        <a href="#" ng-click="editUnit(unit.Id)" class="center">
-                            <i class="material-icons change-name-icon">done</i>
-                        </a>
-                    </div>
-                    <div class="row">
-                        <div class="col l2 m5 s6">
-                            <p class="setting-title">Delete unit</p>
-                        </div>
-                        <div class="input-field col l3 m5 s6">
-                            <a href="#" ng-click="deleteUnit(unit.Id)" class="waves-effect waves-light btn red white-text delete-unit-button">Delete</a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
         </div>
         <div id="users" class="col s12">
             <ul class="collection user-collection">
-                <div ng-repeat="client in clients">
-                    <li class="collection-item avatar">
-                        <div class="user-details">
-                            <img src="/assets/img/unit-icon.png" class="circle">
-                            <span class="title">{{ client.UserName }}</span>
-                            <p>{{ client.Name }} {{ client.Surname }}</p>
-                        </div>
-                        <div class="secondary-content">
-                            <a ng-click="removeClient(client.Id)" class="waves-effect waves-light red white-text btn">Remove</a>
-                        </div>
-                    </li>
-                </div>
+                <li class="collection-item avatar" ng-repeat="client in clients">
+                    <div class="user-details">
+                        <img src="/assets/img/unit-icon.png" class="circle">
+                        <span class="title">{{ client.UserName }}</span>
+                        <p>{{ client.Name }} {{ client.Surname }}</p>
+                    </div>
+                    <div class="secondary-content">
+                        <a ng-click="removeClient(client.Id)" class="waves-effect waves-light red white-text btn">Remove</a>
+                    </div>
+                </li>
             </ul>
             <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
                 <img src="/assets/img/loading.svg" width="55" />
@@ -192,13 +181,13 @@
                                                 }
                                             </style>
                                             <ui-gmap-google-map control="map.control"
-                                                                    center='map.center'
-                                                                    zoom='map.zoom'
-                                                                    styles="map.styles"
-                                                                    options="map.options"
-                                                                    style="height: 400px;"
-                                                                    events="map.events"
-                                                                    refresh="true">
+                                                                center='map.center'
+                                                                zoom='map.zoom'
+                                                                styles="map.styles"
+                                                                options="map.options"
+                                                                style="height: 400px;"
+                                                                events="map.events"
+                                                                refresh="true">
                                                 <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" click="onMarkerClicked">
                                                     <ui-gmap-windows show="'showWindow'" closeclick="'closeClick'" ng-cloak>
                                                         <p>
@@ -207,7 +196,7 @@
                                                     </ui-gmap-windows>
                                                 </ui-gmap-markers>
                                             </ui-gmap-google-map>
-                                     
+
                                         </div>
                                     </div>
                                 </div>
