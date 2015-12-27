@@ -13,7 +13,7 @@ using model = Emergy.Core.Models.Unit;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Units")]
-    [Authorize(Roles = "Administrators,Clients")]
+    [Authorize]
     public class UnitsApiController : MasterApiController
     {
         public UnitsApiController()
@@ -112,11 +112,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(unitId);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.CustomProperties);
-                }
-                return Unauthorized();
+                return Ok(unit.CustomProperties);
             }
             return NotFound();
         }
@@ -144,12 +140,8 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
-                        .ToArray());
-                }
-                return Unauthorized();
+                return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
+                    .ToArray());
             }
             return NotFound();
         }
@@ -177,11 +169,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Clients);
-                }
-                return Unauthorized();
+                return Ok(unit.Clients);
             }
             return NotFound();
         }
@@ -225,12 +213,8 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit.Categories.OrderByDescending(category => category.Id)
-                                             .ToArray());
-                }
-                return Unauthorized();
+                return Ok(unit.Categories.OrderByDescending(category => category.Id)
+                                         .ToArray());
             }
             return NotFound();
         }
