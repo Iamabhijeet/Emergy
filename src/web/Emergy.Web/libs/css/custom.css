@@ -20,10 +20,12 @@
 
 .cyan-text {
     color: #00ACC1;
+    font-weight: 100;
 }
 
 .gray-text {
     color: #757575;
+    font-weight: 100;
 }
 
 .background-image {
