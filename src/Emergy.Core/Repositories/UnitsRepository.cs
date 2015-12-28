@@ -86,13 +86,10 @@ namespace Emergy.Core.Repositories
                         var units = clientUnits.Where(unit => unit.Clients.ContainsUser(user))
                             as Unit[] ?? clientUnits.ToArray();
 
-                        if (units
-                            .Where(unit => unit.AdministratorId == user.Id)
-                            .Select(unit => unit.Reports).Any())
+                        if (units.Select(unit => unit.Reports).Any())
                         {
                             var reports =
                                 units.AsParallel()
-                                    .Where(unit => unit.AdministratorId == user.Id)
                                     .Select(unit => unit.Reports)
                                     .Aggregate((current, next) => next.Concat(current).ToList())
                                     .OrderByDescending(report => report.DateHappened)

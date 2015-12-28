@@ -39,16 +39,9 @@ namespace Emergy.Api.Controllers
         public async Task<IHttpActionResult> GetUnit(int id)
         {
             var unit = await _unitsRepository.GetAsync(id);
-            if (unit != null)
-            {
-                if (await _unitsRepository.IsAdministrator(unit.Id, User.Identity.GetUserId()))
-                {
-                    return Ok(unit);
-                }
-                return Unauthorized();
-            }
-            return NotFound();
+            return (unit != null) ? (IHttpActionResult) Ok(unit) : NotFound();
         }
+
         [Authorize(Roles = "Administrators")]
         [HttpPost]
         [Route("create")]
