@@ -7,18 +7,21 @@ app.controller(controllerId,
 
 function loginController($scope, $rootScope, authService, authData) {
     $scope.user = {};
+    $scope.isBusy = false;
     $scope.user = {
         userName: '',
         password: ''
     };
 
     $scope.login = function (user) {
+        $scope.isBusy = true;
         var promise = authService.login(user);
         promise.then(function() {
             
         }, function(response) {
 
-        }).finally(function() {
+        }).finally(function () {
+            $scope.isBusy = false; 
         });
 
     };

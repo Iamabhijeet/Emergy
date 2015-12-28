@@ -1,3 +1,10 @@
+.image-background {
+    background: url(assets/img/login.jpg) no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+}
+
+
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
     border-color: #00ACC1;
