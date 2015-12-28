@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -151,16 +152,8 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         public async Task<bool> IsValidKey(string id, string key)
         {
-            ApplicationUser userWithId = null, userWithKey = null;
-            var loadById = new Task((async () =>
-            {
-                userWithId = await AccountService.GetUserByIdAsync(id).WithoutSync();
-            }));
-            var loadByKey = new Task(async () =>
-            {
-                userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
-            });
-            await Task.WhenAll(loadById, loadByKey);
+            var userWithId = await UserManager.FindByIdAsync(id).WithoutSync();
+            var userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
             return (userWithId != null && userWithKey != null) && userWithId.Id == userWithKey.Id;
         }
         public AccountApiController()
