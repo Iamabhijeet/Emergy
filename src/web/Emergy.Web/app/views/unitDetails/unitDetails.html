@@ -63,12 +63,34 @@
             <div class="row add-user">
                 <form role="form" name="addUserForm" novalidate>
                     <div class="col m6 s12">
-                        <div class="input-field">
-                            <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid, 'invalid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }" id="clientKey" name="clientKey" placeholder="Type user code" type="text" ng-model="clientKey" required />
-                            <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.required">User code is required.</small>
-                        </div>
-                        <button class="btn-floating waves-effect waves-light" ng-click="addClient(unit.Id, clientKey)" ng-disabled="addUserForm.$invalid || addUserForm.$pristine">
-                            <i class="material-icons">add</i>
+                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
+                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                               id="userName" name="userName"
+                               placeholder="User Name"
+                               type="text"
+                               ng-model="clientName"
+                               ng-maxlength="50"
+                               ng-change="getUserByUsername(clientName)"
+                               required />
+                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.required">User Name is required.</small>
+                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.maxlength">User Name must not have more than 50 characters.</small>
+
+                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
+                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                               id="clientKey" name="clientKey"
+                               placeholder="User Key"
+                               type="number"
+                               ng-model="clientKey"
+                               ng-minlength="6"
+                               ng-maxlength="6"
+                               ng-disabled="!userFromUserName.Id"
+                               required />
+                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.required">User key is required.</small>
+                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.minlength">User key must be a 6 digit number.</small>
+                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.maxlength">User key must be a 6 digit number.</small>
+
+                        <button class="waves-effect waves-light btn center-align white-text" ng-click="addClient(unit.Id, clientKey)" ng-disabled="addUserForm.$invalid || addUserForm.$pristine">
+                            <i class="material-icons center-align">add</i>
                         </button>
                     </div>
                     <div class="col m6 s12">
