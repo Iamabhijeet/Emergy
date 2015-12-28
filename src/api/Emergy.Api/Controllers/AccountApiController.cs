@@ -61,6 +61,19 @@ namespace Emergy.Api.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        [Route("With-Username/{username}")]
+        public async Task<IHttpActionResult> WithUsername(string username)
+        {
+            var user = await AccountService.GetUserByNameAsync(username);
+            if (user != null)
+            {
+                return Ok(Mapper.Map<model.UserProfile>(user));
+            }
+            return NotFound();
+        }
+
         [AllowAnonymous]
         [Route("Register")]
         [HttpPost]
@@ -126,11 +139,11 @@ namespace Emergy.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("UsernameExists/{username}")]
+        [Route("IsUsernameTaken/{username}")]
         [HttpGet]
-        public async Task<IHttpActionResult> UsernameExists(string username)
+        public async Task<bool> IsUsernameTaken(string username)
         {
-            return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
+            return await AccountService.UserNameTaken(username);
         }
 
         [AllowAnonymous]
