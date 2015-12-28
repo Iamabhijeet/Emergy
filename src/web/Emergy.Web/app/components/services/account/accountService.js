@@ -28,7 +28,7 @@
             return $http.get(serviceBase + 'api/account/with-key/' + key);
         };
         var verifyKeyAndId = function (key, id) {
-            return $http.get(serviceBase + 'api/account/isvalidkey?id=' + id + '&key={key}' + key);
+            return $http.get(serviceBase + 'api/account/isvalidkey?id=' + id + '&key=' + key);
         };
 
         var service = {

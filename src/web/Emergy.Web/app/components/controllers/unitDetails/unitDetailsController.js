@@ -196,7 +196,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         var promise = unitsService.createCategory(categoryName);
         promise.then(function (categoryId) {
             promise = unitsService.addCategoryToUnit(unitId, categoryId);
-            promise.then(function (response) {
+            promise.then(function () {
                 notificationService.pushSuccess("Category has been successfully added!");
                 loadCategories();
             }), function (error) {
@@ -301,32 +301,26 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
     $scope.getUserByUsername = function (userName) {
         accountService.getProfileByUsername(userName).then(function (response) { angular.copy(response.data, $scope.userFromUserName); });
     };
-    $scope.getUserByKey = function (key) {
-        accountService.getProfileByKey(key).then(function (response) { angular.copy(response.data, $scope.userFromKey); });
-    };
-    $scope.verifyUserIdAndKey = function (id, key) {
-        accountService.verifyKeyAndId(key, id).then(function (response) {
-            $scope.clientValid = response.data;
+
+    $scope.verifyUserIdAndKey = function (key) {
+        accountService.getProfileByKey(key).then(function (response) {
+            $scope.clientValid = response.data.Id === $scope.userFromUserName.Id;
+            if ($scope.clientValid) {
+                notificationService.pushSuccess('User Key is valid!');
+            } else {
+                notificationService.pushError('User Key is not valid!');
+            }
+
         });
     };
-
-    $scope.addClient = function (unitId, clientKey) {
+    $scope.addClient = function (unitId) {
         $scope.isBusy = true;
-        var promise = unitsService.getClientByKey(clientKey);
-        promise.then(function (client) {
-            promise = unitsService.addClient(unitId, JSON.stringify(client.Id));
-            promise.then(function (response) {
+        unitsService.addClient(unitId, JSON.stringify(userFromUserName.Id))
+            .then(function () {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
-            }), function (error) {
-                notificationService.pushError(error.Message);
-            };
-        }, function (error) {
-            notificationService.pushError(error.Message);
-        })
-        .finally(function () {
-            $scope.isBusy = false;
-        });
+            })
+            .finally(function () { $scope.isBusy = false; });
     };
     $scope.removeClient = function (clientId) {
         $scope.isBusy = true;
@@ -336,7 +330,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             ClientId: clientId
         };
         var promise = unitsService.removeClient(client);
-        promise.then(function (response) {
+        promise.then(function () {
             notificationService.pushSuccess("Successfully removed client!");
             loadClients();
         }, function (error) {
@@ -346,6 +340,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
+
     loadUnit();
     loadClients();
     loadLocations();
