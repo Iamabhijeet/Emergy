@@ -11,8 +11,8 @@
                     <div class="input-label">Category</div>
                     <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
                 </label>
-                <ion-checkbox ng-model="useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
-                <label ng-if="!useCurrentLocation" class="item item-input item-select">
+                <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
+                <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
                     <div class="input-label">Location</div>
                     <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
                 </label>

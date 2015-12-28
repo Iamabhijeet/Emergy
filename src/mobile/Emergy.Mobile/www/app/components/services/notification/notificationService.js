@@ -1,44 +1,34 @@
 ﻿'use strict';
 services.factory('notificationService', notificationService);
 
-notificationService.$inject = ['$http', '$q', '$ionicPopup', '$ionicLoading', 'serviceBase', 'authData'];
+notificationService.$inject = ['$http', '$q', '$cordovaDialogs', '$ionicLoading', 'serviceBase', 'authData'];
 
-function notificationService($http, $q, $ionicPopup, $ionicLoading, serviceBase, authData) {
+function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceBase, authData) {
 
-    var displayInformationalPopup = function(message, buttonText) {
-       $ionicPopup.show({
-            subTitle: message,
-            type: 'button-positive',
-            buttons: [
-                {
-                    text: buttonText
-                }
-            ]
-        });
+    var displaySuccessPopup = function(message, buttonText) {
+        $cordovaDialogs.alert(message, "Success", buttonText)
+            .then(function() {
+
+            });
     };
 
-    var displayMultipleChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction ) {
-        $ionicPopup.show({
-            subTitle: message,
-            buttons: [
-             {
-                 text: firstButtonText
-             },
-             {
-                 text: secondButtonText,
-                 onTap: function (e) {
-                    secondaryFunction();
-                 }
-             },
-             {
-                 text: thirdButtonText,
-                 type: 'button-positive',
-                 onTap: function (e) {
-                     primaryFunction();
-                 }
-             }
-            ]
-        });
+    var displayErrorPopup = function (message, buttonText) {
+        $cordovaDialogs.alert(message, "Error", buttonText)
+            .then(function () {
+
+            });
+    };
+
+    var displayChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction ) {
+        $cordovaDialogs.confirm(message, 'Additional information', [firstButtonText, secondButtonText, thirdButtonText])
+            .then(function (buttonIndex) {
+                if (buttonIndex === 1) {
+                    secondaryFunction(); 
+                }
+                else if (buttonIndex === 3) {
+                    primaryFunction();
+                }
+            });
     };
 
     var displayLoading = function(message) {
@@ -52,8 +42,9 @@ function notificationService($http, $q, $ionicPopup, $ionicLoading, serviceBase,
     };
 
     var service = {
-        displayInformationalPopup: displayInformationalPopup,
-        displayMultipleChoicePopup: displayMultipleChoicePopup,
+        displaySuccessPopup: displaySuccessPopup,
+        displayErrorPopup: displayErrorPopup,
+        displayChoicePopup: displayChoicePopup,
         displayLoading: displayLoading,
         hideLoading: hideLoading
     };

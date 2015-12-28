@@ -9,7 +9,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
-    $scope.useCurrentLocation = true;
+    $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
     var loadUnits = function () {
@@ -21,7 +21,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
             $scope.selectedUnitId = units[0].Id;
             $scope.loadBasicProperties($scope.selectedUnitId);
         }, function (error) {
-            notificationService.displayInformationalPopup("There has been an error fetching unit information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
         })
             .finally(function () {
                 notificationService.hideLoading();
@@ -36,17 +36,17 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
         var promise = unitsService.getLocations(unitId);
         promise.then(function (locations) {
             $scope.locations = locations;
-            $scope.report.LocationId = locations[0].Id;
+            $scope.report.LocationId = $scope.locations[0].Id;
         }, function (error) {
-            notificationService.displayInformationalPopup("There has been an error fetching location information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching location information.", "Ok");
         });
 
         promise = unitsService.getCategories(unitId);
         promise.then(function (categories) {
             $scope.categories = categories;
-            $scope.report.CategoryId = categories[0].Id;
+            $scope.report.CategoryId = $scope.categories[0].Id;
         }, function (error) {
-            notificationService.displayInformationalPopup("There has been an error fetching category information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching category information.", "Ok");
         })
             .finally(function () {
                 notificationService.hideLoading();
@@ -55,7 +55,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     };
 
     var submitReportWithBasicInformation = function () {
-        if ($scope.useCurrentLocation) {
+        if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function(position) {
                 $scope.latitude = position.coords.latitude;
@@ -71,23 +71,23 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                 var promise = unitsService.createLocation(location);
                 promise.then(function (locationId) {
                     $scope.report.LocationId = locationId;
-                    console.log($scope.report);
 
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (response) {
+                        $scope.report.LocationId = $scope.locations[0].Id;
                         notificationService.hideLoading();
-                        notificationService.displayInformationalPopup("Report has been successfully submitted!", "Ok");
+                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
                     }, function (error) {
                         notificationService.hideLoading();
-                        notificationService.displayInformationalPopup("There has been an error submitting a report!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
                     });
                 }, function (error) {
                     notificationService.hideLoading();
-                    notificationService.displayInformationalPopup("There has been an error creating your location!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error creating your location!", "Ok");
                 });
             }, function (err) {
                 notificationService.hideLoading();
-                notificationService.displayInformationalPopup("There has been an error acquiring your location!", "Ok");
+                notificationService.displayErrorPopup("There has been an error acquiring your location!", "Ok");
             });
         }
         else {
@@ -95,10 +95,10 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
             var promise = reportsService.createReport($scope.report);
             promise.then(function (response) {
                 notificationService.hideLoading();
-                notificationService.displayInformationalPopup("Report has been successfully submitted!", "Ok");
+                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
             }, function (error) {
                 notificationService.hideLoading();
-                notificationService.displayInformationalPopup("Report has been successfully submitted!", "Ok");
+                notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
             });
         }
     };
@@ -119,21 +119,21 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                     var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
                     promise.then(function (response) {
                     }, function(error) {
-                        notificationService.displayInformationalPopup("There has been an error creating additional details!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error creating additional details!", "Ok");
                     });
                 });
                 if ($scope.reportPicture) {
                     
                 } else {
                     $scope.modal.hide();
-                    notificationService.displayInformationalPopup("Report has been successfully submitted!", "Ok");
+                    notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
                 }
             } else {
-                notificationService.displayInformationalPopup("Report has been successfully submitted!", "Ok");
+                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
             }
         }, function (error) {
             $scope.modal.hide();
-            notificationService.displayInformationalPopup("There has been an error submitting a report!", "Ok");
+            notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
         });
     };
 
@@ -143,7 +143,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
         promise.then(function (customProperties) {
             $scope.customProperties = customProperties;
         }, function (error) {
-            notificationService.displayInformationalPopup("There has been an error fetching details!", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching details!", "Ok");
         })
             .finally(function () {
                 notificationService.hideLoading();
@@ -162,7 +162,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     };
 
     $scope.openSubmitDialog = function () {
-        notificationService.displayMultipleChoicePopup("Do you want to fill additional information before submitting?", "Cancel", "No", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
+        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Cancel", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
     
     loadUnits();
