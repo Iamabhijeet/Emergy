@@ -4,9 +4,10 @@ var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
     ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
-        'authService', 'notificationService', 'authData', 'mapService', 'uiGmapGoogleMapApi', 'uiGmapIsReady', unitDetailsController]);
+        'authService', 'accountService', 'notificationService', 'authData',
+        'mapService', unitDetailsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, notificationService, authData, mapService, uiGmapGoogleMapApi, uiGmapIsReady) {
+function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
     $rootScope.title = "Unit | Details";
 
     var createMarker = function (latitude, longitude, title) {
@@ -19,13 +20,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         };
         return marker;
     };
-    var centerMap = function() {
+    var centerMap = function () {
         $scope.map.center = $scope.currentLocation;
     };
     $scope.map = {
         control: {},
         options: { draggable: true },
-        center: { latitude: 45, longitude: -73 },
+        center: { latitude: 0, longitude: 0 },
         events: {
             click: function (map, eventName, args) {
                 $scope.markers = [];
@@ -36,6 +37,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 };
                 $scope.location.Latitude = $scope.currentLocation.latitude;
                 $scope.location.Longitude = $scope.currentLocation.longitude;
+                centerMap();
             }
         },
         zoom: 8,
@@ -63,7 +65,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         }
     };
     $scope.placeSelected = function (place) {
-   
         $scope.markers = [];
         $scope.markers.push(createMarker(place.geometry.location.lat(), place.geometry.location.lng(), 'Location'));
         $scope.currentLocation = {
@@ -83,6 +84,10 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         Longitude: ''
     };
 
+    $scope.userFromUserName = {};
+    $scope.userFromKey = {};
+    $scope.clientValid = false;
+
     var tryNavigateToCurrentLocation = function () {
         mapService.getCurrentLocation()
             .then(function (position) {
@@ -98,7 +103,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 centerMap();
             });
     };
-
     var loadUnit = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnit($stateParams.unitId);
@@ -111,7 +115,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
-
     var loadClients = function () {
         $scope.isBusy = true;
         var promise = unitsService.getClients($stateParams.unitId);
@@ -124,7 +127,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
-
     var loadLocations = function () {
         $scope.isBusy = true;
         var promise = unitsService.getLocations($stateParams.unitId);
@@ -137,7 +139,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
-
     var loadCategories = function () {
         $scope.isBusy = true;
         var promise = unitsService.getCategories($stateParams.unitId);
@@ -150,7 +151,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
-
     var loadCustomProperties = function () {
         $scope.isBusy = true;
         var promise = unitsService.getCustomProperties($stateParams.unitId);
@@ -163,26 +163,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
-
-    $scope.removeClient = function (clientId) {
-        $scope.isBusy = true;
-
-        var client = {
-            UnitId: $scope.unit.Id,
-            ClientId: clientId
-        }
-
-        var promise = unitsService.removeClient(client);
-        promise.then(function (response) {
-            notificationService.pushSuccess("Successfully removed client!");
-            loadClients();
-        }, function (error) {
-            notificationService.pushError(error.Message);
-        })
-        .finally(function () {
-            $scope.isBusy = false;
-        });
-    }
 
     $scope.editUnit = function (unitId) {
         $scope.isBusy = true;
@@ -217,7 +197,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.addCategory = function (unitId, categoryName) {
         $scope.isBusy = true;
         var promise = unitsService.createCategory(categoryName);
@@ -237,7 +216,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.removeCategory = function (categoryId) {
         $scope.isBusy = true;
         var promise = unitsService.removeCategory(categoryId);
@@ -251,7 +229,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.addLocation = function (unitId, location) {
         $scope.isBusy = true;
         location = {
@@ -276,7 +253,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.removeLocation = function (locationId) {
         $scope.isBusy = true;
         var promise = unitsService.removeLocation(locationId);
@@ -290,7 +266,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.addCustomProperty = function (unitId, customPropertyName, customPropertyType) {
         $scope.isBusy = true;
         var customProperty = {
@@ -316,7 +291,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
-
     $scope.removeCustomProperty = function (customPropertyId) {
         $scope.isBusy = true;
         var promise = unitsService.removeCustomProperty(customPropertyId);
@@ -330,6 +304,17 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
+    $scope.getUserByUsername = function (userName) {
+        accountService.getProfileByUsername(userName).then(function (response) { angular.copy(response.data, $scope.userFromUserName); });
+    };
+    $scope.getUserByKey = function (key) {
+        accountService.getProfileByKey(key).then(function (response) { angular.copy(response.data, $scope.userFromKey); });
+    };
+    $scope.verifyUserIdAndKey = function (id, key) {
+        accountService.verifyKeyAndId(key, id).then(function (response) {
+            $scope.clientValid = response.data;
+        });
+    };
 
     $scope.addClient = function (unitId, clientKey) {
         $scope.isBusy = true;
@@ -349,6 +334,26 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     }
+    $scope.removeClient = function (clientId) {
+        $scope.isBusy = true;
+
+        var client = {
+            UnitId: $scope.unit.Id,
+            ClientId: clientId
+        }
+
+        var promise = unitsService.removeClient(client);
+        promise.then(function (response) {
+            notificationService.pushSuccess("Successfully removed client!");
+            loadClients();
+        }, function (error) {
+            notificationService.pushError(error.Message);
+        })
+        .finally(function () {
+            $scope.isBusy = false;
+        });
+    }
+
 
     loadUnit();
     loadClients();

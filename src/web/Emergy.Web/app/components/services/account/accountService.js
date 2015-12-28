@@ -3,28 +3,39 @@
 
     function accountService($http, serviceBase) {
 
-        var getProfile = function() {
+        var getProfile = function () {
             return $http.get(serviceBase + 'api/account/profile')
-                .success(function(response) {
+                .success(function (response) {
                     return response.data;
                 })
-                .error(function(response) {
+                .error(function (response) {
                     return response.data;
                 });
         };
-
-        var editProfile = function(profile) {
+        var editProfile = function (profile) {
             return $http.put(serviceBase + 'api/account/profile/edit', profile)
-                .success(function(response) {
+                .success(function (response) {
                     return response.data;
                 })
-                .error(function(response) {
+                .error(function (response) {
                     return response.data;
                 });
+        };
+        var getProfileByUsername = function (username) {
+            return $http.get(serviceBase + 'api/account/with-username/' + username);
+        };
+        var getProfileByKey = function (key) {
+            return $http.get(serviceBase + 'api/account/with-key/' + key);
+        };
+        var verifyKeyAndId = function (key, id) {
+            return $http.get(serviceBase + 'api/account/isvalidkey?id=' + id + '&key={key}' + key);
         };
 
         var service = {
             getProfile: getProfile,
+            getProfileByUsername: getProfileByUsername,
+            getProfileByKey: getProfileByKey,
+            verifyKeyAndId: verifyKeyAndId,
             editProfile: editProfile
         };
         return service;
