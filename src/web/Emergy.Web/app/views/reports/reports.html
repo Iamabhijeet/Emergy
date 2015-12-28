@@ -17,23 +17,25 @@
         </div>
     </div>
     <div class="row report-grid-row">
-        <div class="col l3 m6 s12">
-            <div class="card report-card" ng-repeat="report in reports">
-                <a ng-href="/dashboard/report/{{ ::report.Id }}">
+        <div class="col l3 m6 s12" ng-repeat="report in reports">
+            <div class="card report-card">
+                <a ng-href="/dashboard/report/{{ report.Id }}">
                     <div class="card-content waves-effect waves-block waves-light white-text">
-                        <p>{{ ::report.Description }}</p>
+                        <p ng-if="!report.Description">Client has not provided a description for this report.</p>
+                        <p ng-if="report.Description">{{ report.Description }}</p>
                         <div class="row">
                             <div class="col l6 m6 s6">
                                 <p>
-                                    <i class="material-icons report-detail-icon">access_time</i> {{ ::report.Timestamp | date: 'HH:mma'}}
+                                    <i class="material-icons report-detail-icon">access_time</i> {{ report.Timestamp | date: 'HH:mma'}}
                                 </p>
                             </div>
                             <div class="col l6 m6 s6">
-                                <p><i class="material-icons report-detail-icon">list</i> {{ ::report.Category.Name }}</p>
+                                <p><i class="material-icons report-detail-icon">list</i> {{ report.Category.Name }}
+                                </p>
                             </div>
                         </div>
                         <div class="report-status">
-                            <p>{{ ::report.Status }}</p>
+                            <p>{{ report.Status }}</p>
                         </div>
                     </div>
                 </a>
