@@ -35,6 +35,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 };
                 $scope.location.Latitude = $scope.currentLocation.latitude;
                 $scope.location.Longitude = $scope.currentLocation.longitude;
+                $scope.map.center = $scope.currentLocation;
             }
         },
         zoom: 8,
@@ -72,6 +73,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         $scope.location.Latitude = $scope.currentLocation.latitude;
         $scope.location.Longitude = $scope.currentLocation.longitude;
         $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+        $scope.map.center = $scope.currentLocation;
     };
     $scope.placeLocation = {};
     $scope.location = {
@@ -87,7 +89,6 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
     var tryNavigateToCurrentLocation = function () {
         mapService.getCurrentLocation()
             .then(function (position) {
-                $scope.currentLocation = position;
                 $scope.currentLocation = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
@@ -96,6 +97,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 $scope.location.Longitude = $scope.currentLocation.longitude;
                 $scope.markers = [];
                 $scope.markers.push(createMarker($scope.currentLocation.latitude, $scope.currentLocation.longitude, 'Location'));
+                $scope.map.center = $scope.currentLocation;
             });
     };
     var loadUnit = function () {
@@ -224,6 +226,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     };
     $scope.addLocation = function (unitId, location) {
+        $scope.map.center = $scope.currentLocation;
         $scope.isBusy = true;
         location = {
             Latitude: location.Latitude,
@@ -299,7 +302,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     };
     $scope.getUserByUsername = function (userName) {
-        accountService.getProfileByUsername(userName).then(function(response) {
+        accountService.getProfileByUsername(userName).then(function (response) {
             angular.copy(response.data, $scope.userFromUserName);
             if ($scope.clientKey) {
                 $scope.verifyUserIdAndKey($scope.clientKey);
