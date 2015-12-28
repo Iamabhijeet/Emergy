@@ -49,8 +49,9 @@
                 <li class="collection-item avatar" quick-ng-repeat="client in clients" quick-ng-repeat-list="clients">
                     <div class="user-details">
                         <img ng-src="{{ client.ProfilePhoto.Base64 }}" class="circle">
-                        <span class="title">{{ client.UserName }}</span>
-                        <p>{{ client.Name }} {{ client.Surname }}</p>
+                        <span class="cyan-text">{{ client.UserName }}</span>
+                        <br />
+                        <p class="grey-text">{{ client.Name }} {{ client.Surname }}</p>
                     </div>
                     <div class="secondary-content">
                         <a ng-click="removeClient(client.Id)" class="waves-effect waves-light red white-text btn">Remove</a>

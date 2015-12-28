@@ -299,23 +299,27 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
         });
     };
     $scope.getUserByUsername = function (userName) {
-        accountService.getProfileByUsername(userName).then(function (response) { angular.copy(response.data, $scope.userFromUserName); });
+        accountService.getProfileByUsername(userName).then(function(response) {
+            angular.copy(response.data, $scope.userFromUserName);
+            if ($scope.clientKey) {
+                $scope.verifyUserIdAndKey($scope.clientKey);
+            }
+        });
     };
 
     $scope.verifyUserIdAndKey = function (key) {
-        accountService.getProfileByKey(key).then(function (response) {
-            $scope.clientValid = response.data.Id === $scope.userFromUserName.Id;
+        accountService.verifyKeyAndId(key, $scope.userFromUserName.Id).then(function (response) {
+            $scope.clientValid = response.data;
             if ($scope.clientValid) {
                 notificationService.pushSuccess('User Key is valid!');
             } else {
                 notificationService.pushError('User Key is not valid!');
             }
-
         });
     };
     $scope.addClient = function (unitId) {
         $scope.isBusy = true;
-        unitsService.addClient(unitId, JSON.stringify(userFromUserName.Id))
+        unitsService.addClient(unitId, JSON.stringify($scope.userFromUserName.Id))
             .then(function () {
                 notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
