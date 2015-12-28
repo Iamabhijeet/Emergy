@@ -10,12 +10,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
-    $scope.clientsCount = 0;
-    var sumClients = function () {
-        _.for($scope.units, function (unit) {
-            $scope.clientsCount += unit.Clients.length;
-        });
-    };
+
     var loadUnits = function () {
         var promise = unitsService.getUnits();
         promise.then(function (units) {
@@ -27,10 +22,6 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 sumClients();
             });
     };
-
-    $scope.onUnitSelected = function (id) {
-        $location.path('/dashboard/unit/' + id + '/details');
-    }
 
     $scope.createUnit = function (unitName) {
         var promise = unitsService.createUnit({
