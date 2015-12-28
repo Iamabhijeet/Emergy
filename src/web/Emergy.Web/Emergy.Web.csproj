@@ -110,6 +110,7 @@
     <Content Include="libs\js\angular-google-maps\logger.js" />
     <Content Include="libs\js\angular-recaptcha\angular-recaptcha.min.js" />
     <Content Include="libs\js\angular\quick-ng-repeat.js" />
+    <Content Include="libs\js\ng-map\ng-map.min.js" />
     <Content Include="libs\js\ngFileUpload\FileAPI.flash.swf" />
     <Content Include="libs\js\ngFileUpload\FileAPI.js" />
     <Content Include="libs\js\ngFileUpload\FileAPI.min.js" />
