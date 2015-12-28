@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -54,6 +55,19 @@ namespace Emergy.Api.Controllers
         public async Task<IHttpActionResult> WithKey(string key)
         {
             var user = await AccountService.GetUserByKeyAsync(key);
+            if (user != null)
+            {
+                return Ok(Mapper.Map<model.UserProfile>(user));
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrators")]
+        [Route("With-Username/{username}")]
+        public async Task<IHttpActionResult> WithUsername(string username)
+        {
+            var user = await AccountService.GetUserByNameAsync(username);
             if (user != null)
             {
                 return Ok(Mapper.Map<model.UserProfile>(user));
@@ -126,11 +140,11 @@ namespace Emergy.Api.Controllers
         }
 
         [AllowAnonymous]
-        [Route("UsernameExists/{username}")]
+        [Route("IsUsernameTaken/{username}")]
         [HttpGet]
-        public async Task<IHttpActionResult> UsernameExists(string username)
+        public async Task<bool> IsUsernameTaken(string username)
         {
-            return (await AccountService.UserNameTaken(username)) ? (IHttpActionResult)BadRequest() : Ok();
+            return await AccountService.UserNameTaken(username);
         }
 
         [AllowAnonymous]
@@ -138,16 +152,8 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         public async Task<bool> IsValidKey(string id, string key)
         {
-            ApplicationUser userWithId = null, userWithKey = null;
-            var loadById = new Task((async () =>
-            {
-                userWithId = await AccountService.GetUserByIdAsync(id).WithoutSync();
-            }));
-            var loadByKey = new Task(async () =>
-            {
-                userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
-            });
-            await Task.WhenAll(loadById, loadByKey);
+            var userWithId = await UserManager.FindByIdAsync(id).WithoutSync();
+            var userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
             return (userWithId != null && userWithKey != null) && userWithId.Id == userWithKey.Id;
         }
         public AccountApiController()
