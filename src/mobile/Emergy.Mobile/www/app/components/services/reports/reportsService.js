@@ -16,6 +16,18 @@ function reportsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var setCustomProperties = function (reportId, customPropertyIds) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/reports/set-properties/' + reportId, customPropertyIds)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var addCustomPropertyValue = function(customPropertyValue, customPropertyId) {
         var deffered = $q.defer();
 
@@ -36,6 +48,7 @@ function reportsService($http, $q, serviceBase, authData) {
 
     var service = {
         createReport: createReport,
+        setCustomProperties: setCustomProperties,
         addCustomPropertyValue: addCustomPropertyValue
     };
 

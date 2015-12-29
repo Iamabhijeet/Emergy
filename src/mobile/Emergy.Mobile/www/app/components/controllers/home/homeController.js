@@ -9,6 +9,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
+    $scope.customPropertyValueIds = [];
     $scope.reportDetails = {};
 	
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
@@ -200,22 +201,21 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                         if ($scope.customPropertyValues.length > 0) {
                             angular.forEach($scope.customPropertyValues, function (customPropertyValue, customPropertyId) {
                                 var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
-                                promise.then(function (response) {
+                                promise.then(function (customPropertyId) {
+                                    var promise = reportsService.setCustomProperties($scope.reportId, [customPropertyId]);
+                                    promise.then(function(response) {
+
+                                    }, function(error) {
+
+                                    });
                                 }, function (error) {
-                                    notificationService.hideLoading();
-                                    $scope.modal.hide();
-                                    notificationService.displayErrorPopup("There has been an error creating additional details!", "Ok");
                                 });
                             });
-                            if ($scope.reportPicture) {
 
-                            } else {
-                                
-                            }
-                        } else {
-                            notificationService.hideLoading();
-                            $scope.modal.hide();
-                            notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        }
+
+                        if ($scope.reportPictures) {
+
                         }
                     }, function (error) {
                         notificationService.hideLoading();
