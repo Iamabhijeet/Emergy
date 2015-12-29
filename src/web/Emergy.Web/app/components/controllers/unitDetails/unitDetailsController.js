@@ -100,61 +100,66 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 $scope.map.center = $scope.currentLocation;
             });
     };
+
     var loadUnit = function () {
         $scope.isBusy = true;
         var promise = unitsService.getUnit($stateParams.unitId);
         promise.then(function (unit) {
             $scope.unit = unit;
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading the unit.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     var loadClients = function () {
         $scope.isBusy = true;
         var promise = unitsService.getClients($stateParams.unitId);
         promise.then(function (clients) {
             $scope.clients = clients;
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading unit clients.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     var loadLocations = function () {
         $scope.isBusy = true;
         var promise = unitsService.getLocations($stateParams.unitId);
         promise.then(function (locations) {
             $scope.locations = locations;
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading unit locations.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     var loadCategories = function () {
         $scope.isBusy = true;
         var promise = unitsService.getCategories($stateParams.unitId);
         promise.then(function (categories) {
             $scope.categories = categories;
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading unit categories.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     var loadCustomProperties = function () {
         $scope.isBusy = true;
         var promise = unitsService.getCustomProperties($stateParams.unitId);
         promise.then(function (customProperties) {
             $scope.customProperties = customProperties;
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading unit custom properties.");
         })
         .finally(function () {
             $scope.isBusy = false;
@@ -173,12 +178,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Successfully changed name!");
             loadUnit();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while changing unit name.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.deleteUnit = function (unitId) {
         $scope.isBusy = true;
 
@@ -187,12 +193,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Unit has been deleted!");
             $state.go("Units");
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while deleting the unit.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.addCategory = function (unitId, categoryName) {
         $scope.isBusy = true;
         var promise = unitsService.createCategory(categoryName);
@@ -202,16 +209,17 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 notificationService.pushSuccess("Category has been successfully added!");
                 loadCategories();
             }), function (error) {
-                notificationService.pushError(error.Message);
+                notificationService.pushError("Error has happened while adding category to unit.");
             };
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while creating category.");
         })
         .finally(function () {
             $scope.categoryName = '';
             $scope.isBusy = false;
         });
     };
+
     $scope.removeCategory = function (categoryId) {
         $scope.isBusy = true;
         var promise = unitsService.removeCategory(categoryId);
@@ -219,12 +227,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Successfully removed category!");
             loadCategories();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while ¸removing category.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.addLocation = function (unitId, location) {
         $scope.map.center = $scope.currentLocation;
         $scope.isBusy = true;
@@ -241,15 +250,16 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 notificationService.pushSuccess("Location has been successfully added!");
                 loadLocations();
             }), function (error) {
-                notificationService.pushError(error.Message);
+                notificationService.pushError("Error has happened adding location to unit.");
             };
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while creating the location.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.removeLocation = function (locationId) {
         $scope.isBusy = true;
         var promise = unitsService.removeLocation(locationId);
@@ -257,12 +267,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Successfully removed location!");
             loadLocations();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while removing location from unit.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.addCustomProperty = function (unitId, customPropertyName, customPropertyType) {
         $scope.isBusy = true;
         var customProperty = {
@@ -277,10 +288,10 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 notificationService.pushSuccess("Custom property has been successfully added!");
                 loadCustomProperties();
             }), function (error) {
-                notificationService.pushError(error.Message);
+                notificationService.pushError("Error has happened while adding custom property to unit.");
             };
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while creating the custom property.");
         })
         .finally(function () {
             $scope.customPropertyName = '';
@@ -288,6 +299,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             $scope.isBusy = false;
         });
     };
+
     $scope.removeCustomProperty = function (customPropertyId) {
         $scope.isBusy = true;
         var promise = unitsService.removeCustomProperty(customPropertyId);
@@ -295,12 +307,13 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Successfully removed custom property!");
             loadCustomProperties();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while removing the custom property.");
         })
         .finally(function () {
             $scope.isBusy = false;
         });
     };
+
     $scope.getUserByUsername = function (userName) {
         accountService.getProfileByUsername(userName).then(function (response) {
             angular.copy(response.data, $scope.userFromUserName);
@@ -320,6 +333,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             }
         });
     };
+
     $scope.addClient = function (unitId) {
         $scope.isBusy = true;
         unitsService.addClient(unitId, JSON.stringify($scope.userFromUserName.Id))
@@ -329,6 +343,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             })
             .finally(function () { $scope.isBusy = false; });
     };
+
     $scope.removeClient = function (clientId) {
         $scope.isBusy = true;
 
@@ -341,7 +356,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
             notificationService.pushSuccess("Successfully removed client!");
             loadClients();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while removing client from unit.");
         })
         .finally(function () {
             $scope.isBusy = false;

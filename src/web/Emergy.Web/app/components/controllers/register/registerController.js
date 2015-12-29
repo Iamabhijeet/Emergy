@@ -26,7 +26,7 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
         promise.then(function () {
             $state.go("RegisterSuccess");
         }, function (response) {
-            notificationService.pushError(response.Message);
+            notificationService.pushError("Error has happened while processing your registration.");
         }).finally(function () {
             $scope.isBusy = false;
         });

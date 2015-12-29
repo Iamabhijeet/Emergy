@@ -18,7 +18,7 @@ function loginCtrl($scope, $rootScope, authService, notificationService, authDat
         $scope.isBusy = true;
         var promise = authService.login(user);
         promise.then(function () { }, function (response) {
-            notificationService.pushError(response.Message);
+            notificationService.pushError("Error has happened while processing your login.");
         }).finally(function () {
             $scope.isBusy = false;
         });

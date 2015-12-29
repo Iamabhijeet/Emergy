@@ -11,21 +11,21 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
     $scope.notifications = [];
     $scope.lastNotificationDateTime = '';
 
-    var loadNotifications = function () {
+    $scope.loadNotifications = function () {
         $scope.isBusy = true;
         var promise = notificationService.getNotifications($scope.lastNotificationDateTime);
         promise.then(function (notifications) {
             angular.copy(notifications, $scope.notifications);
-            if (notifications.length == 20) {
+            if (notifications.length === 20) {
                 $scope.lastNotificationDateTime = notifications[notifications.length - 1].Timestamp;
             }
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading notifications.");
         })
             .finally(function () {
                 $scope.isBusy = false;
             });
     };
 
-    loadNotifications();
+    $scope.loadNotifications();
 }
