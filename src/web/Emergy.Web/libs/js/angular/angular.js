@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.4.4
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
@@ -844,20 +844,20 @@ function arrayRemove(array, value) {
 
  <script>
   angular.module('copyExample', [])
-    .controller('ExampleController', ['$scope', function($scope) {
-      $scope.master= {};
+    .controller('ExampleController', ['vm', function(vm) {
+      vm.master= {};
 
-      $scope.update = function(user) {
+      vm.update = function(user) {
         // Example with 1 argument
-        $scope.master= angular.copy(user);
+        vm.master= angular.copy(user);
       };
 
-      $scope.reset = function() {
+      vm.reset = function() {
         // Example with 2 arguments
-        angular.copy($scope.master, $scope.user);
+        angular.copy(vm.master, vm.user);
       };
 
-      $scope.reset();
+      vm.reset();
     }]);
  </script>
  </file>
@@ -1458,9 +1458,9 @@ function getNgAttribute(element, ngAttr) {
    </div>
    </file>
    <file name="script.js">
-   angular.module('ngAppDemo', []).controller('ngAppDemoController', function($scope) {
-     $scope.a = 1;
-     $scope.b = 2;
+   angular.module('ngAppDemo', []).controller('ngAppDemoController', function(vm) {
+     vm.a = 1;
+     vm.b = 2;
    });
    </file>
  </example>
@@ -1504,21 +1504,21 @@ function getNgAttribute(element, ngAttr) {
    angular.module('ngAppStrictDemo', [])
      // BadController will fail to instantiate, due to relying on automatic function annotation,
      // rather than an explicit annotation
-     .controller('BadController', function($scope) {
-       $scope.a = 1;
-       $scope.b = 2;
+     .controller('BadController', function(vm) {
+       vm.a = 1;
+       vm.b = 2;
      })
      // Unlike BadController, GoodController1 and GoodController2 will not fail to be instantiated,
      // due to using explicit annotations using the array style and $inject property, respectively.
-     .controller('GoodController1', ['$scope', function($scope) {
-       $scope.a = 1;
-       $scope.b = 2;
+     .controller('GoodController1', ['vm', function(vm) {
+       vm.a = 1;
+       vm.b = 2;
      }])
      .controller('GoodController2', GoodController2);
-     function GoodController2($scope) {
-       $scope.name = "World";
+     function GoodController2(vm) {
+       vm.name = "World";
      }
-     GoodController2.$inject = ['$scope'];
+     GoodController2.$inject = ['vm'];
    </file>
    <file name="style.css">
    div[ng-controller] {
@@ -1599,8 +1599,8 @@ function angularInit(element, bootstrap) {
  * <script src="angular.js"></script>
  * <script>
  *   var app = angular.module('demo', [])
- *   .controller('WelcomeController', function($scope) {
- *       $scope.greeting = 'Welcome!';
+ *   .controller('WelcomeController', function(vm) {
+ *       vm.greeting = 'Welcome!';
  *   });
  *   angular.bootstrap(document, ['demo']);
  * </script>
@@ -3093,7 +3093,7 @@ forEach({
 
   scope: function(element) {
     // Can't use jqLiteData here directly so we stay compatible with jQuery!
-    return jqLite.data(element, '$scope') || jqLiteInheritedData(element.parentNode || element, ['$isolateScope', '$scope']);
+    return jqLite.data(element, 'vm') || jqLiteInheritedData(element.parentNode || element, ['$isolateScope', 'vm']);
   },
 
   isolateScope: function(element) {
@@ -3886,12 +3886,12 @@ function annotate(fn, strictDi, name) {
  * names.
  * ```js
  *   // Given
- *   function MyController($scope, $route) {
+ *   function MyController(vm, $route) {
  *     // ...
  *   }
  *
  *   // Then
- *   expect(injector.annotate(MyController)).toEqual(['$scope', '$route']);
+ *   expect(injector.annotate(MyController)).toEqual(['vm', '$route']);
  * ```
  *
  * You can disallow this method by using strict injection mode.
@@ -3909,10 +3909,10 @@ function annotate(fn, strictDi, name) {
  *     // ...
  *   }
  *   // Define function dependencies
- *   MyController['$inject'] = ['$scope', '$route'];
+ *   MyController['$inject'] = ['vm', '$route'];
  *
  *   // Then
- *   expect(injector.annotate(MyController)).toEqual(['$scope', '$route']);
+ *   expect(injector.annotate(MyController)).toEqual(['vm', '$route']);
  * ```
  *
  * # The array notation
@@ -4580,9 +4580,9 @@ function $AnchorScrollProvider() {
        </file>
        <file name="script.js">
          angular.module('anchorScrollExample', [])
-           .controller('ScrollController', ['$scope', '$location', '$anchorScroll',
-             function ($scope, $location, $anchorScroll) {
-               $scope.gotoBottom = function() {
+           .controller('ScrollController', ['vm', '$location', '$anchorScroll',
+             function (vm, $location, $anchorScroll) {
+               vm.gotoBottom = function() {
                  // set the location.hash to the id of
                  // the element you wish to scroll to.
                  $location.hash('bottom');
@@ -4626,9 +4626,9 @@ function $AnchorScrollProvider() {
            .run(['$anchorScroll', function($anchorScroll) {
              $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
            }])
-           .controller('headerCtrl', ['$anchorScroll', '$location', '$scope',
-             function ($anchorScroll, $location, $scope) {
-               $scope.gotoAnchor = function(x) {
+           .controller('headerCtrl', ['$anchorScroll', '$location', 'vm',
+             function ($anchorScroll, $location, vm) {
+               vm.gotoAnchor = function(x) {
                  var newHash = 'anchor' + x;
                  if ($location.hash() !== newHash) {
                    // set the $location.hash to `newHash` and
@@ -5858,14 +5858,14 @@ function $BrowserProvider() {
      </file>
      <file name="script.js">
        angular.module('cacheExampleApp', []).
-         controller('CacheController', ['$scope', '$cacheFactory', function($scope, $cacheFactory) {
-           $scope.keys = [];
-           $scope.cache = $cacheFactory('cacheId');
-           $scope.put = function(key, value) {
-             if ($scope.cache.get(key) === undefined) {
-               $scope.keys.push(key);
+         controller('CacheController', ['vm', '$cacheFactory', function(vm, $cacheFactory) {
+           vm.keys = [];
+           vm.cache = $cacheFactory('cacheId');
+           vm.put = function(key, value) {
+             if (vm.cache.get(key) === undefined) {
+               vm.keys.push(key);
              }
-             $scope.cache.put(key, value === undefined ? null : value);
+             vm.cache.put(key, value === undefined ? null : value);
            };
          }]);
      </file>
@@ -6269,7 +6269,7 @@ function $TemplateCacheProvider() {
  *       restrict: 'A',
  *       templateNamespace: 'html',
  *       scope: false,
- *       controller: function($scope, $element, $attrs, $transclude, otherInjectables) { ... },
+ *       controller: function(vm, $element, $attrs, $transclude, otherInjectables) { ... },
  *       controllerAs: 'stringIdentifier',
  *       bindToController: false,
  *       require: 'siblingDirectiveName', // or // ['^parentDirectiveName', '?optionalDirectiveName', '?^optionalParent'],
@@ -6397,7 +6397,7 @@ function $TemplateCacheProvider() {
  * `require` attribute). This allows the directives to communicate with each other and augment
  * each other's behavior. The controller is injectable (and supports bracket notation) with the following locals:
  *
- * * `$scope` - Current scope associated with the element
+ * * `vm` - Current scope associated with the element
  * * `$element` - Current element
  * * `$attrs` - Current attributes object for the element
  * * `$transclude` - A transclude linking function pre-bound to the correct transclusion scope:
@@ -6813,9 +6813,9 @@ function $TemplateCacheProvider() {
           };
         });
       })
-      .controller('GreeterController', ['$scope', function($scope) {
-        $scope.name = 'Angular';
-        $scope.html = 'Hello {{name}}';
+      .controller('GreeterController', ['vm', function(vm) {
+        vm.name = 'Angular';
+        vm.html = 'Hello {{name}}';
       }]);
     </script>
     <div ng-controller="GreeterController">
@@ -7432,7 +7432,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     } : noop;
 
     compile.$$addScopeInfo = debugInfoEnabled ? function $$addScopeInfo($element, scope, isolated, noTemplate) {
-      var dataName = isolated ? (noTemplate ? '$isolateScopeNoTemplate' : '$isolateScope') : '$scope';
+      var dataName = isolated ? (noTemplate ? '$isolateScopeNoTemplate' : '$isolateScope') : 'vm';
       $element.data(dataName, scope);
     } : noop;
 
@@ -8119,7 +8119,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         for (var controllerKey in controllerDirectives) {
           var directive = controllerDirectives[controllerKey];
           var locals = {
-            $scope: directive === newIsolateScopeDirective || directive.$$isolateScope ? isolateScope : scope,
+            vm: directive === newIsolateScopeDirective || directive.$$isolateScope ? isolateScope : scope,
             $element: $element,
             $attrs: attrs,
             $transclude: transcludeFn
@@ -8701,7 +8701,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       fragment.appendChild(firstElementToRemove);
 
       if (jqLite.hasData(firstElementToRemove)) {
-        // Copy over user data (that includes Angular's $scope etc.). Don't copy private
+        // Copy over user data (that includes Angular's vm etc.). Don't copy private
         // data here because there's no public interface in jQuery to do that and copying over
         // event listeners (which is the main use of private data) wouldn't work anyway.
         jqLite(newNode).data(jqLite(firstElementToRemove).data());
@@ -9063,7 +9063,7 @@ function $ControllerProvider() {
         identifier = identifier || match[3];
         expression = controllers.hasOwnProperty(constructor)
             ? controllers[constructor]
-            : getter(locals.$scope, constructor, true) ||
+            : getter(locals.vm, constructor, true) ||
                 (globals ? getter($window, constructor, true) : undefined);
 
         assertArgFn(expression, constructor, true);
@@ -9115,13 +9115,13 @@ function $ControllerProvider() {
     };
 
     function addIdentifier(locals, identifier, instance, name) {
-      if (!(locals && isObject(locals.$scope))) {
+      if (!(locals && isObject(locals.vm))) {
         throw minErr('$controller')('noscp',
-          "Cannot export controller '{0}' as '{1}'! No $scope object provided via `locals`.",
+          "Cannot export controller '{0}' as '{1}'! No vm object provided via `locals`.",
           name, identifier);
       }
 
-      locals.$scope[identifier] = instance;
+      locals.vm[identifier] = instance;
     }
   }];
 }
@@ -9144,9 +9144,9 @@ function $ControllerProvider() {
      </file>
      <file name="script.js">
        angular.module('documentExample', [])
-         .controller('ExampleController', ['$scope', '$document', function($scope, $document) {
-           $scope.title = $document[0].title;
-           $scope.windowTitle = angular.element(window.document)[0].title;
+         .controller('ExampleController', ['vm', '$document', function(vm, $document) {
+           vm.title = $document[0].title;
+           vm.windowTitle = angular.element(window.document)[0].title;
          }]);
      </file>
    </example>
@@ -10087,28 +10087,28 @@ function $HttpProvider() {
 </file>
 <file name="script.js">
   angular.module('httpExample', [])
-    .controller('FetchController', ['$scope', '$http', '$templateCache',
-      function($scope, $http, $templateCache) {
-        $scope.method = 'GET';
-        $scope.url = 'http-hello.html';
+    .controller('FetchController', ['vm', '$http', '$templateCache',
+      function(vm, $http, $templateCache) {
+        vm.method = 'GET';
+        vm.url = 'http-hello.html';
 
-        $scope.fetch = function() {
-          $scope.code = null;
-          $scope.response = null;
+        vm.fetch = function() {
+          vm.code = null;
+          vm.response = null;
 
-          $http({method: $scope.method, url: $scope.url, cache: $templateCache}).
+          $http({method: vm.method, url: vm.url, cache: $templateCache}).
             then(function(response) {
-              $scope.status = response.status;
-              $scope.data = response.data;
+              vm.status = response.status;
+              vm.data = response.data;
             }, function(response) {
-              $scope.data = response.data || "Request failed";
-              $scope.status = response.status;
+              vm.data = response.data || "Request failed";
+              vm.status = response.status;
           });
         };
 
-        $scope.updateModel = function(method, url) {
-          $scope.method = method;
-          $scope.url = url;
+        vm.updateModel = function(method, url) {
+          vm.method = method;
+          vm.url = url;
         };
       }]);
 </file>
@@ -11118,42 +11118,42 @@ function $IntervalProvider() {
       * <file name="index.html">
       *   <script>
       *     angular.module('intervalExample', [])
-      *       .controller('ExampleController', ['$scope', '$interval',
-      *         function($scope, $interval) {
-      *           $scope.format = 'M/d/yy h:mm:ss a';
-      *           $scope.blood_1 = 100;
-      *           $scope.blood_2 = 120;
+      *       .controller('ExampleController', ['vm', '$interval',
+      *         function(vm, $interval) {
+      *           vm.format = 'M/d/yy h:mm:ss a';
+      *           vm.blood_1 = 100;
+      *           vm.blood_2 = 120;
       *
       *           var stop;
-      *           $scope.fight = function() {
+      *           vm.fight = function() {
       *             // Don't start a new fight if we are already fighting
       *             if ( angular.isDefined(stop) ) return;
       *
       *             stop = $interval(function() {
-      *               if ($scope.blood_1 > 0 && $scope.blood_2 > 0) {
-      *                 $scope.blood_1 = $scope.blood_1 - 3;
-      *                 $scope.blood_2 = $scope.blood_2 - 4;
+      *               if (vm.blood_1 > 0 && vm.blood_2 > 0) {
+      *                 vm.blood_1 = vm.blood_1 - 3;
+      *                 vm.blood_2 = vm.blood_2 - 4;
       *               } else {
-      *                 $scope.stopFight();
+      *                 vm.stopFight();
       *               }
       *             }, 100);
       *           };
       *
-      *           $scope.stopFight = function() {
+      *           vm.stopFight = function() {
       *             if (angular.isDefined(stop)) {
       *               $interval.cancel(stop);
       *               stop = undefined;
       *             }
       *           };
       *
-      *           $scope.resetFight = function() {
-      *             $scope.blood_1 = 100;
-      *             $scope.blood_2 = 120;
+      *           vm.resetFight = function() {
+      *             vm.blood_1 = 100;
+      *             vm.blood_2 = 120;
       *           };
       *
-      *           $scope.$on('$destroy', function() {
+      *           vm.$on('$destroy', function() {
       *             // Make sure that the interval is destroyed too
-      *             $scope.stopFight();
+      *             vm.stopFight();
       *           });
       *         }])
       *       // Register the 'myCurrentTime' directive factory method.
@@ -12281,9 +12281,9 @@ function $LocationProvider() {
    <example module="logExample">
      <file name="script.js">
        angular.module('logExample', [])
-         .controller('LogController', ['$scope', '$log', function($scope, $log) {
-           $scope.$log = $log;
-           $scope.message = 'Hello World!';
+         .controller('LogController', ['vm', '$log', function(vm, $log) {
+           vm.$log = $log;
+           vm.message = 'Hello World!';
          }]);
      </file>
      <file name="index.html">
@@ -12442,7 +12442,7 @@ var $parseMinErr = minErr('$parse');
 // Sandboxing Angular Expressions
 // ------------------------------
 // Angular expressions are generally considered safe because these expressions only have direct
-// access to `$scope` and locals. However, one can obtain the ability to execute arbitrary JS code by
+// access to `vm` and locals. However, one can obtain the ability to execute arbitrary JS code by
 // obtaining a reference to native JS functions such as the Function constructor.
 //
 // As an example, consider the following Angular expression:
@@ -15475,24 +15475,24 @@ function $RootScopeProvider() {
        *
        * # Example
        * ```js
-          $scope.names = ['igor', 'matias', 'misko', 'james'];
-          $scope.dataCount = 4;
+          vm.names = ['igor', 'matias', 'misko', 'james'];
+          vm.dataCount = 4;
 
-          $scope.$watchCollection('names', function(newNames, oldNames) {
-            $scope.dataCount = newNames.length;
+          vm.$watchCollection('names', function(newNames, oldNames) {
+            vm.dataCount = newNames.length;
           });
 
-          expect($scope.dataCount).toEqual(4);
-          $scope.$digest();
+          expect(vm.dataCount).toEqual(4);
+          vm.$digest();
 
           //still at 4 ... no changes
-          expect($scope.dataCount).toEqual(4);
+          expect(vm.dataCount).toEqual(4);
 
-          $scope.names.pop();
-          $scope.$digest();
+          vm.names.pop();
+          vm.$digest();
 
           //now there's been a change
-          expect($scope.dataCount).toEqual(3);
+          expect(vm.dataCount).toEqual(3);
        * ```
        *
        *
@@ -17939,9 +17939,9 @@ function urlIsSameOrigin(requestUrl) {
      <file name="index.html">
        <script>
          angular.module('windowExample', [])
-           .controller('ExampleController', ['$scope', '$window', function($scope, $window) {
-             $scope.greeting = 'Hello, World!';
-             $scope.doGreeting = function(greeting) {
+           .controller('ExampleController', ['vm', '$window', function(vm, $window) {
+             vm.greeting = 'Hello, World!';
+             vm.doGreeting = function(greeting) {
                $window.alert(greeting);
              };
            }]);
@@ -18111,9 +18111,9 @@ function $$CookieReaderProvider() {
 
      <file name="script.js">
       angular.module('filterExample', [])
-      .controller('MainCtrl', function($scope, $filter) {
-        $scope.originalText = 'hello';
-        $scope.filteredText = $filter('uppercase')($scope.originalText);
+      .controller('MainCtrl', function(vm, $filter) {
+        vm.originalText = 'hello';
+        vm.filteredText = $filter('uppercase')(vm.originalText);
       });
      </file>
    </example>
@@ -18457,8 +18457,8 @@ function getTypeForFilter(val) {
      <file name="index.html">
        <script>
          angular.module('currencyExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.amount = 1234.56;
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.amount = 1234.56;
            }]);
        </script>
        <div ng-controller="ExampleController">
@@ -18533,8 +18533,8 @@ function currencyFilter($locale) {
      <file name="index.html">
        <script>
          angular.module('numberFilterExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.val = 1234.56789;
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.val = 1234.56789;
            }]);
        </script>
        <div ng-controller="ExampleController">
@@ -19043,13 +19043,13 @@ var uppercaseFilter = valueFn(uppercase);
      <file name="index.html">
        <script>
          angular.module('limitToExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.numbers = [1,2,3,4,5,6,7,8,9];
-             $scope.letters = "abcdefghi";
-             $scope.longNumber = 2345432342;
-             $scope.numLimit = 3;
-             $scope.letterLimit = 3;
-             $scope.longNumberLimit = 3;
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.numbers = [1,2,3,4,5,6,7,8,9];
+             vm.letters = "abcdefghi";
+             vm.longNumber = 2345432342;
+             vm.numLimit = 3;
+             vm.letterLimit = 3;
+             vm.longNumberLimit = 3;
            }]);
        </script>
        <div ng-controller="ExampleController">
@@ -19184,8 +19184,8 @@ function limitToFilter() {
      <file name="index.html">
        <script>
          angular.module('orderByExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.friends =
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.friends =
                  [{name:'John', phone:'555-1212', age:10},
                   {name:'Mary', phone:'555-9876', age:19},
                   {name:'Mike', phone:'555-4321', age:21},
@@ -19217,18 +19217,18 @@ function limitToFilter() {
      <file name="index.html">
        <script>
          angular.module('orderByExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.friends =
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.friends =
                  [{name:'John', phone:'555-1212', age:10},
                   {name:'Mary', phone:'555-9876', age:19},
                   {name:'Mike', phone:'555-4321', age:21},
                   {name:'Adam', phone:'555-5678', age:35},
                   {name:'Julie', phone:'555-8765', age:29}];
-             $scope.predicate = 'age';
-             $scope.reverse = true;
-             $scope.order = function(predicate) {
-               $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
-               $scope.predicate = predicate;
+             vm.predicate = 'age';
+             vm.reverse = true;
+             vm.order = function(predicate) {
+               vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
+               vm.predicate = predicate;
              };
            }]);
        </script>
@@ -19297,19 +19297,19 @@ function limitToFilter() {
 
     <file name="script.js">
       angular.module('orderByExample', [])
-        .controller('ExampleController', ['$scope', '$filter', function($scope, $filter) {
+        .controller('ExampleController', ['vm', '$filter', function(vm, $filter) {
           var orderBy = $filter('orderBy');
-          $scope.friends = [
+          vm.friends = [
             { name: 'John',    phone: '555-1212',    age: 10 },
             { name: 'Mary',    phone: '555-9876',    age: 19 },
             { name: 'Mike',    phone: '555-4321',    age: 21 },
             { name: 'Adam',    phone: '555-5678',    age: 35 },
             { name: 'Julie',   phone: '555-8765',    age: 29 }
           ];
-          $scope.order = function(predicate, reverse) {
-            $scope.friends = orderBy($scope.friends, predicate, reverse);
+          vm.order = function(predicate, reverse) {
+            vm.friends = orderBy(vm.friends, predicate, reverse);
           };
-          $scope.order('-age',false);
+          vm.order('-age',false);
         }]);
     </file>
 </example>
@@ -19982,8 +19982,8 @@ function nullFormRenameControl(control, name) {
  * of `FormController`.
  *
  */
-//asks for $scope to fool the BC controller module
-FormController.$inject = ['$element', '$attrs', '$scope', '$animate', '$interpolate'];
+//asks for vm to fool the BC controller module
+FormController.$inject = ['$element', '$attrs', 'vm', '$animate', '$interpolate'];
 function FormController(element, attrs, $scope, $animate, $interpolate) {
   var form = this,
       controls = [];
@@ -20322,8 +20322,8 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
       <file name="index.html">
        <script>
          angular.module('formExample', [])
-           .controller('FormController', ['$scope', function($scope) {
-             $scope.userType = 'guest';
+           .controller('FormController', ['vm', function(vm) {
+             vm.userType = 'guest';
            }]);
        </script>
        <style>
@@ -20516,8 +20516,8 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('textInputExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.example = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.example = {
                  text: 'guest',
                  word: /^\s*\w*\s*$/
                };
@@ -20605,8 +20605,8 @@ var inputType = {
      <file name="index.html">
        <script>
           angular.module('dateInputExample', [])
-            .controller('DateController', ['$scope', function($scope) {
-              $scope.example = {
+            .controller('DateController', ['vm', function(vm) {
+              vm.example = {
                 value: new Date(2013, 9, 22)
               };
             }]);
@@ -20700,8 +20700,8 @@ var inputType = {
     <file name="index.html">
       <script>
         angular.module('dateExample', [])
-          .controller('DateController', ['$scope', function($scope) {
-            $scope.example = {
+          .controller('DateController', ['vm', function(vm) {
+            vm.example = {
               value: new Date(2010, 11, 28, 14, 57)
             };
           }]);
@@ -20796,8 +20796,8 @@ var inputType = {
    <file name="index.html">
      <script>
       angular.module('timeExample', [])
-        .controller('DateController', ['$scope', function($scope) {
-          $scope.example = {
+        .controller('DateController', ['vm', function(vm) {
+          vm.example = {
             value: new Date(1970, 0, 1, 14, 57, 0)
           };
         }]);
@@ -20891,8 +20891,8 @@ var inputType = {
     <file name="index.html">
       <script>
       angular.module('weekExample', [])
-        .controller('DateController', ['$scope', function($scope) {
-          $scope.example = {
+        .controller('DateController', ['vm', function(vm) {
+          vm.example = {
             value: new Date(2013, 0, 3)
           };
         }]);
@@ -20988,8 +20988,8 @@ var inputType = {
    <file name="index.html">
      <script>
       angular.module('monthExample', [])
-        .controller('DateController', ['$scope', function($scope) {
-          $scope.example = {
+        .controller('DateController', ['vm', function(vm) {
+          vm.example = {
             value: new Date(2013, 9, 1)
           };
         }]);
@@ -21107,8 +21107,8 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('numberExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.example = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.example = {
                  value: 12
                };
              }]);
@@ -21205,8 +21205,8 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('urlExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.url = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.url = {
                  text: 'http://google.com'
                };
              }]);
@@ -21304,8 +21304,8 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('emailExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.email = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.email = {
                  text: 'me@example.com'
                };
              }]);
@@ -21380,11 +21380,11 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('radioExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.color = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.color = {
                  name: 'blue'
                };
-               $scope.specialValue = {
+               vm.specialValue = {
                  "id": "12345",
                  "value": "green"
                };
@@ -21405,7 +21405,7 @@ var inputType = {
            </label><br/>
            <tt>color = {{color.name | json}}</tt><br/>
           </form>
-          Note that `ng-value="specialValue"` sets radio item's value to be the value of `$scope.specialValue`.
+          Note that `ng-value="specialValue"` sets radio item's value to be the value of `vm.specialValue`.
         </file>
         <file name="protractor.js" type="protractor">
           it('should change state', function() {
@@ -21442,8 +21442,8 @@ var inputType = {
         <file name="index.html">
          <script>
            angular.module('checkboxExample', [])
-             .controller('ExampleController', ['$scope', function($scope) {
-               $scope.checkboxModel = {
+             .controller('ExampleController', ['vm', function(vm) {
+               vm.checkboxModel = {
                 value1 : true,
                 value2 : 'YES'
               };
@@ -21983,8 +21983,8 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
       <file name="index.html">
        <script>
           angular.module('inputExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
-              $scope.user = {name: 'guest', last: 'visitor'};
+            .controller('ExampleController', ['vm', function(vm) {
+              vm.user = {name: 'guest', last: 'visitor'};
             }]);
        </script>
        <div ng-controller="ExampleController">
@@ -22121,9 +22121,9 @@ var CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/;
       <file name="index.html">
        <script>
           angular.module('valueExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
-              $scope.names = ['pizza', 'unicorns', 'robots'];
-              $scope.my = { favorite: 'unicorns' };
+            .controller('ExampleController', ['vm', function(vm) {
+              vm.names = ['pizza', 'unicorns', 'robots'];
+              vm.my = { favorite: 'unicorns' };
             }]);
        </script>
         <form ng-controller="ExampleController">
@@ -22202,8 +22202,8 @@ var ngValueDirective = function() {
      <file name="index.html">
        <script>
          angular.module('bindExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.name = 'Whirled';
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.name = 'Whirled';
            }]);
        </script>
        <div ng-controller="ExampleController">
@@ -22262,9 +22262,9 @@ var ngBindDirective = ['$compile', function($compile) {
      <file name="index.html">
        <script>
          angular.module('bindExample', [])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.salutation = 'Hello';
-             $scope.name = 'World';
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.salutation = 'Hello';
+             vm.name = 'World';
            }]);
        </script>
        <div ng-controller="ExampleController">
@@ -22340,8 +22340,8 @@ var ngBindTemplateDirective = ['$interpolate', '$compile', function($interpolate
 
      <file name="script.js">
        angular.module('bindHtmlExample', ['ngSanitize'])
-         .controller('ExampleController', ['$scope', function($scope) {
-           $scope.myHTML =
+         .controller('ExampleController', ['vm', function(vm) {
+           vm.myHTML =
               'I am an <code>HTML</code>string with ' +
               '<a href="#">links!</a> and other <em>stuff</em>';
          }]);
@@ -22408,10 +22408,10 @@ var ngBindHtmlDirective = ['$sce', '$parse', '$compile', function($sce, $parse, 
  *   <file name="index.html">
  *     <script>
  *       angular.module('changeExample', [])
- *         .controller('ExampleController', ['$scope', function($scope) {
- *           $scope.counter = 0;
- *           $scope.change = function() {
- *             $scope.counter++;
+ *         .controller('ExampleController', ['vm', function(vm) {
+ *           vm.counter = 0;
+ *           vm.change = function() {
+ *             vm.counter++;
  *           };
  *         }]);
  *     </script>
@@ -22954,7 +22954,7 @@ var ngCloakDirective = ngDirective({
  *
  * * one binds methods and properties directly onto the controller using `this`:
  * `ng-controller="SettingsController1 as settings"`
- * * one injects `$scope` into the controller:
+ * * one injects `vm` into the controller:
  * `ng-controller="SettingsController2"`
  *
  * The second option is more common in the Angular community, and is generally used in boilerplates
@@ -23051,7 +23051,7 @@ var ngCloakDirective = ngDirective({
  *   </file>
  * </example>
  *
- * This example demonstrates the "attach to `$scope`" style of controller.
+ * This example demonstrates the "attach to `vm`" style of controller.
  *
  * <example name="ngController" module="controllerExample">
  *  <file name="index.html">
@@ -23075,28 +23075,28 @@ var ngCloakDirective = ngDirective({
  *  </file>
  *  <file name="app.js">
  *   angular.module('controllerExample', [])
- *     .controller('SettingsController2', ['$scope', SettingsController2]);
+ *     .controller('SettingsController2', ['vm', SettingsController2]);
  *
- *   function SettingsController2($scope) {
- *     $scope.name = "John Smith";
- *     $scope.contacts = [
+ *   function SettingsController2(vm) {
+ *     vm.name = "John Smith";
+ *     vm.contacts = [
  *       {type:'phone', value:'408 555 1212'},
  *       {type:'email', value:'john.smith@example.org'} ];
  *
- *     $scope.greet = function() {
- *       alert($scope.name);
+ *     vm.greet = function() {
+ *       alert(vm.name);
  *     };
  *
- *     $scope.addContact = function() {
- *       $scope.contacts.push({type:'email', value:'yourname@example.org'});
+ *     vm.addContact = function() {
+ *       vm.contacts.push({type:'email', value:'yourname@example.org'});
  *     };
  *
- *     $scope.removeContact = function(contactToRemove) {
- *       var index = $scope.contacts.indexOf(contactToRemove);
- *       $scope.contacts.splice(index, 1);
+ *     vm.removeContact = function(contactToRemove) {
+ *       var index = vm.contacts.indexOf(contactToRemove);
+ *       vm.contacts.splice(index, 1);
  *     };
  *
- *     $scope.clearContact = function(contact) {
+ *     vm.clearContact = function(contact) {
  *       contact.type = 'phone';
  *       contact.value = '';
  *     };
@@ -23689,13 +23689,13 @@ forEach(
      <file name="index.html">
       <script>
         angular.module('submitExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
-            $scope.list = [];
-            $scope.text = 'hello';
-            $scope.submit = function() {
-              if ($scope.text) {
-                $scope.list.push(this.text);
-                $scope.text = '';
+          .controller('ExampleController', ['vm', function(vm) {
+            vm.list = [];
+            vm.text = 'hello';
+            vm.submit = function() {
+              if (vm.text) {
+                vm.list.push(this.text);
+                vm.text = '';
               }
             };
           }]);
@@ -24014,11 +24014,11 @@ var ngIfDirective = ['$animate', function($animate) {
     </file>
     <file name="script.js">
       angular.module('includeExample', ['ngAnimate'])
-        .controller('ExampleController', ['$scope', function($scope) {
-          $scope.templates =
+        .controller('ExampleController', ['vm', function(vm) {
+          vm.templates =
             [ { name: 'template1.html', url: 'template1.html'},
               { name: 'template2.html', url: 'template2.html'} ];
-          $scope.template = $scope.templates[0];
+          vm.template = vm.templates[0];
         }]);
      </file>
     <file name="template1.html">
@@ -24283,8 +24283,8 @@ var ngIncludeFillContentDirective = ['$compile',
      <file name="index.html">
    <script>
      angular.module('initExample', [])
-       .controller('ExampleController', ['$scope', function($scope) {
-         $scope.list = [['a', 'b'], ['c', 'd']];
+       .controller('ExampleController', ['vm', function(vm) {
+         vm.list = [['a', 'b'], ['c', 'd']];
        }]);
    </script>
    <div ng-controller="ExampleController">
@@ -24340,8 +24340,8 @@ var ngInitDirective = ngDirective({
  * <example name="ngList-directive" module="listExample">
  *   <file name="app.js">
  *      angular.module('listExample', [])
- *        .controller('ExampleController', ['$scope', function($scope) {
- *          $scope.names = ['morpheus', 'neo', 'trinity'];
+ *        .controller('ExampleController', ['vm', function(vm) {
+ *          vm.names = ['morpheus', 'neo', 'trinity'];
  *        }]);
  *   </file>
  *   <file name="index.html">
@@ -24661,7 +24661,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  *
  *
  */
-var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$parse', '$animate', '$timeout', '$rootScope', '$q', '$interpolate',
+var NgModelController = ['vm', '$exceptionHandler', '$attrs', '$element', '$parse', '$animate', '$timeout', '$rootScope', '$q', '$interpolate',
     function($scope, $exceptionHandler, $attr, $element, $parse, $animate, $timeout, $rootScope, $q, $interpolate) {
   this.$viewValue = Number.NaN;
   this.$modelValue = Number.NaN;
@@ -24896,16 +24896,16 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    *   <file name="app.js">
    *     angular.module('cancel-update-example', [])
    *
-   *     .controller('CancelUpdateController', ['$scope', function($scope) {
-   *       $scope.resetWithCancel = function(e) {
+   *     .controller('CancelUpdateController', ['vm', function(vm) {
+   *       vm.resetWithCancel = function(e) {
    *         if (e.keyCode == 27) {
-   *           $scope.myForm.myInput1.$rollbackViewValue();
-   *           $scope.myValue = '';
+   *           vm.myForm.myInput1.$rollbackViewValue();
+   *           vm.myValue = '';
    *         }
    *       };
-   *       $scope.resetWithoutCancel = function(e) {
+   *       vm.resetWithoutCancel = function(e) {
    *         if (e.keyCode == 27) {
-   *           $scope.myValue = '';
+   *           vm.myValue = '';
    *         }
    *       };
    *     }]);
@@ -25374,8 +25374,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
      <file name="index.html">
        <script>
         angular.module('inputExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
-            $scope.val = '1';
+          .controller('ExampleController', ['vm', function(vm) {
+            vm.val = '1';
           }]);
        </script>
        <style>
@@ -25436,9 +25436,9 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
      </file>
      <file name="app.js">
        angular.module('getterSetterExample', [])
-         .controller('ExampleController', ['$scope', function($scope) {
+         .controller('ExampleController', ['vm', function(vm) {
            var _name = 'Brian';
-           $scope.user = {
+           vm.user = {
              name: function(newName) {
               // Note that newName can be undefined for two reasons:
               // 1. Because it is called as a getter and thus called with no arguments
@@ -25577,12 +25577,12 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
     </file>
     <file name="app.js">
       angular.module('optionsExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
-          $scope.user = { name: 'say', data: '' };
+        .controller('ExampleController', ['vm', function(vm) {
+          vm.user = { name: 'say', data: '' };
 
-          $scope.cancel = function(e) {
+          vm.cancel = function(e) {
             if (e.keyCode == 27) {
-              $scope.userForm.userName.$rollbackViewValue();
+              vm.userForm.userName.$rollbackViewValue();
             }
           };
         }]);
@@ -25631,8 +25631,8 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
     </file>
     <file name="app.js">
       angular.module('optionsExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
-          $scope.user = { name: 'say' };
+        .controller('ExampleController', ['vm', function(vm) {
+          vm.user = { name: 'say' };
         }]);
     </file>
   </example>
@@ -25654,9 +25654,9 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
     </file>
     <file name="app.js">
       angular.module('getterSetterExample', [])
-        .controller('ExampleController', ['$scope', function($scope) {
+        .controller('ExampleController', ['vm', function(vm) {
           var _name = 'Brian';
-          $scope.user = {
+          vm.user = {
             name: function(newName) {
               // Note that newName can be undefined for two reasons:
               // 1. Because it is called as a getter and thus called with no arguments
@@ -25672,7 +25672,7 @@ var DEFAULT_REGEXP = /(\s+|^)default(\s+|$)/;
 var ngModelOptionsDirective = function() {
   return {
     restrict: 'A',
-    controller: ['$scope', '$attrs', function($scope, $attrs) {
+    controller: ['vm', '$attrs', function($scope, $attrs) {
       var that = this;
       this.$options = copy($scope.$eval($attrs.ngModelOptions));
       // Allow adding/overriding bound events
@@ -25901,7 +25901,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  * ```
  *
  * ```js
- * $scope.values = [{
+ * vm.values = [{
  *   id: 1,
  *   label: 'aLabel',
  *   subItem: { name: 'aSubItem' }
@@ -25911,7 +25911,7 @@ var ngOptionsMinErr = minErr('ngOptions');
  *   subItem: { name: 'bSubItem' }
  * }];
  *
- * $scope.selected = { name: 'aSubItem' };
+ * vm.selected = { name: 'aSubItem' };
  * ```
  *
  * With the purpose of preserving the selection, the **`track by`** expression is always applied to the element
@@ -25977,15 +25977,15 @@ var ngOptionsMinErr = minErr('ngOptions');
       <file name="index.html">
         <script>
         angular.module('selectExample', [])
-          .controller('ExampleController', ['$scope', function($scope) {
-            $scope.colors = [
+          .controller('ExampleController', ['vm', function(vm) {
+            vm.colors = [
               {name:'black', shade:'dark'},
               {name:'white', shade:'light', notAnOption: true},
               {name:'red', shade:'dark'},
               {name:'blue', shade:'dark', notAnOption: true},
               {name:'yellow', shade:'light', notAnOption: false}
             ];
-            $scope.myColor = $scope.colors[2]; // red
+            vm.myColor = vm.colors[2]; // red
           }]);
         </script>
         <div ng-controller="ExampleController">
@@ -26655,10 +26655,10 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
       <file name="index.html">
         <script>
           angular.module('pluralizeExample', [])
-            .controller('ExampleController', ['$scope', function($scope) {
-              $scope.person1 = 'Igor';
-              $scope.person2 = 'Misko';
-              $scope.personCount = 1;
+            .controller('ExampleController', ['vm', function(vm) {
+              vm.person1 = 'Igor';
+              vm.person2 = 'Misko';
+              vm.personCount = 1;
             }]);
         </script>
         <div ng-controller="ExampleController">
@@ -27341,10 +27341,10 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
- * <!-- when $scope.myValue is truthy (element is visible) -->
+ * <!-- when vm.myValue is truthy (element is visible) -->
  * <div ng-show="myValue"></div>
  *
- * <!-- when $scope.myValue is falsy (element is hidden) -->
+ * <!-- when vm.myValue is falsy (element is hidden) -->
  * <div ng-show="myValue" class="ng-hide"></div>
  * ```
  *
@@ -27517,10 +27517,10 @@ var ngShowDirective = ['$animate', function($animate) {
  * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
- * <!-- when $scope.myValue is truthy (element is hidden) -->
+ * <!-- when vm.myValue is truthy (element is hidden) -->
  * <div ng-hide="myValue" class="ng-hide"></div>
  *
- * <!-- when $scope.myValue is falsy (element is visible) -->
+ * <!-- when vm.myValue is falsy (element is visible) -->
  * <div ng-hide="myValue"></div>
  * ```
  *
@@ -27741,7 +27741,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  * Be aware that the attribute values to match against cannot be expressions. They are interpreted
  * as literal string values to match against.
  * For example, **`ng-switch-when="someVal"`** will match against the string `"someVal"` not against the
- * value of the expression `$scope.someVal`.
+ * value of the expression `vm.someVal`.
  * </div>
 
  * @animations
@@ -27790,9 +27790,9 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
     </file>
     <file name="script.js">
       angular.module('switchExample', ['ngAnimate'])
-        .controller('ExampleController', ['$scope', function($scope) {
-          $scope.items = ['settings', 'home', 'other'];
-          $scope.selection = $scope.items[0];
+        .controller('ExampleController', ['vm', function(vm) {
+          vm.items = ['settings', 'home', 'other'];
+          vm.selection = vm.items[0];
         }]);
     </file>
     <file name="animations.css">
@@ -27850,8 +27850,8 @@ var ngSwitchDirective = ['$animate', function($animate) {
   return {
     require: 'ngSwitch',
 
-    // asks for $scope to fool the BC controller module
-    controller: ['$scope', function ngSwitchController() {
+    // asks for vm to fool the BC controller module
+    controller: ['vm', function ngSwitchController() {
      this.cases = {};
     }],
     link: function(scope, element, attr, ngSwitchController) {
@@ -27950,9 +27950,9 @@ var ngSwitchDefaultDirective = ngDirective({
                          '</div>'
              };
          })
-         .controller('ExampleController', ['$scope', function($scope) {
-           $scope.title = 'Lorem Ipsum';
-           $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
+         .controller('ExampleController', ['vm', function(vm) {
+           vm.title = 'Lorem Ipsum';
+           vm.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
          }]);
        </script>
        <div ng-controller="ExampleController">
@@ -28053,7 +28053,7 @@ var noopNgModelController = { $setViewValue: noop, $render: noop };
  * added `<option>` elements, perhaps by an `ngRepeat` directive.
  */
 var SelectController =
-        ['$element', '$scope', '$attrs', function($element, $scope, $attrs) {
+        ['$element', 'vm', '$attrs', function($element, $scope, $attrs) {
 
   var self = this,
       optionsMap = new HashMap();

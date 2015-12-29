@@ -4,7 +4,7 @@ var controllerId = 'reportsController';
 
 app.controller(controllerId,
 [
-    '$scope', '$rootScope', '$stateParams', 'reportsService',
+    'vm', '$rootScope', '$stateParams', 'reportsService',
         'authService', 'notificationService', 'authData', reportsController]);
 
 function reportsController($scope, $rootScope, $stateParams,
@@ -33,7 +33,6 @@ function reportsController($scope, $rootScope, $stateParams,
 
     $scope.deleteReport = function (reportId) {
         $scope.isBusy = true;
-
         var promise = reportsService.deleteReport(reportId);
         promise.then(function () {
             notificationService.pushSuccess("Report has been deleted!");

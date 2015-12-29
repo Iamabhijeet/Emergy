@@ -30,13 +30,19 @@
         var verifyKeyAndId = function (key, id) {
             return $http.get(serviceBase + 'api/account/isvalidkey?id=' + id + '&key=' + key);
         };
+        var isUserNameTaken = function (userName) {
+            return $http.get(serviceBase + 'api/account/isusernametaken/' + userName);
+        };
+        var isEmailTaken = function (email) {
+            return $http.get(serviceBase + 'api/account/isemailtaken/' + email);
+        };
 
         var service = {
             getProfile: getProfile,
             getProfileByUsername: getProfileByUsername,
             getProfileByKey: getProfileByKey,
             verifyKeyAndId: verifyKeyAndId,
-            editProfile: editProfile
+            editProfile: ,
         };
         return service;
     }

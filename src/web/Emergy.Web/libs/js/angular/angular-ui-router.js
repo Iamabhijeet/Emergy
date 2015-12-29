@@ -1457,7 +1457,7 @@ function $UrlMatcherFactory() {
    *
    * $stateProvider.state('list', {
    *   url: "/list/{item:listItem}",
-   *   controller: function($scope, $stateParams) {
+   *   controller: function(vm, $stateParams) {
    *     console.log($stateParams.item);
    *   }
    * });
@@ -1513,7 +1513,7 @@ function $UrlMatcherFactory() {
    *   // ...
    * }).state('users.item', {
    *   url: "/{user:dbObject}",
-   *   controller: function($scope, $stateParams) {
+   *   controller: function(vm, $stateParams) {
    *     // $stateParams.user will now be an object returned from
    *     // the Users service
    *   },
@@ -2569,8 +2569,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <pre>controller: "MyRegisteredController"</pre>
    * <pre>controller:
    *     "MyRegisteredController as fooCtrl"}</pre>
-   * <pre>controller: function($scope, MyService) {
-   *     $scope.data = MyService.getData(); }</pre>
+   * <pre>controller: function(vm, MyService) {
+   *     vm.data = MyService.getData(); }</pre>
    *
    * @param {function=} stateConfig.controllerProvider
    * <a id='controllerProvider'></a>
@@ -2582,8 +2582,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *       return "FooCtrl"
    *     else if (MyResolveData.bar)
    *       return "BarCtrl";
-   *     else return function($scope) {
-   *       $scope.baz = "Qux";
+   *     else return function(vm) {
+   *       vm.baz = "Qux";
    *     }
    *   }</pre>
    *
@@ -2895,7 +2895,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
        * $state.go("lazy.state", {a:1, b:2}, {inherit:false});
        *
        * // somewhere else
-       * $scope.$on('$stateNotFound',
+       * vm.$on('$stateNotFound',
        * function(event, unfoundState, fromState, fromParams){
        *     console.log(unfoundState.to); // "lazy.state"
        *     console.log(unfoundState.toParams); // {a:1, b:2}
@@ -2955,8 +2955,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
-     *   $scope.reload = function(){
+     * app.controller('ctrl', function (vm, $state) {
+     *   vm.reload = function(){
      *     $state.reload();
      *   }
      * });
@@ -2976,8 +2976,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * //and current state is 'contacts.detail.item'
      * var app angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
-     *   $scope.reload = function(){
+     * app.controller('ctrl', function (vm, $state) {
+     *   vm.reload = function(){
      *     //will reload 'contact.detail' and 'contact.detail.item' states
      *     $state.reload('contact.detail');
      *   }
@@ -3015,8 +3015,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
-     *   $scope.changeState = function () {
+     * app.controller('ctrl', function (vm, $state) {
+     *   vm.changeState = function () {
      *     $state.go('contact.detail');
      *   };
      * });
@@ -3081,8 +3081,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * <pre>
      * var app = angular.module('app', ['ui.router']);
      *
-     * app.controller('ctrl', function ($scope, $state) {
-     *   $scope.changeState = function () {
+     * app.controller('ctrl', function (vm, $state) {
+     *   vm.changeState = function () {
      *     $state.transitionTo('contact.detail');
      *   };
      * });
@@ -3667,7 +3667,7 @@ function $ViewProvider() {
          * @example
          *
          * <pre>
-         * $scope.$on('$viewContentLoading',
+         * vm.$on('$viewContentLoading',
          * function(event, viewConfig){
          *     // Access to all the view config properties.
          *     // and one special property 'targetView'
@@ -4013,7 +4013,7 @@ function $ViewDirectiveFill (  $compile,   $controller,   $state,   $interpolate
         var link = $compile($element.contents());
 
         if (locals.$$controller) {
-          locals.$scope = scope;
+          locals.vm = scope;
           locals.$element = $element;
           var controller = $controller(locals.$$controller, locals);
           if (locals.$$controllerAs) {
@@ -4272,7 +4272,7 @@ $StateRefActiveDirective.$inject = ['$state', '$stateParams', '$interpolate'];
 function $StateRefActiveDirective($state, $stateParams, $interpolate) {
   return  {
     restrict: "A",
-    controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+    controller: ['vm', '$element', '$attrs', function ($scope, $element, $attrs) {
       var states = [], activeClass;
 
       // There probably isn't much point in $observing this

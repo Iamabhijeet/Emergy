@@ -3,7 +3,7 @@
 var controllerId = 'registerController';
 
 app.controller(controllerId,
-    ['$scope', '$state', '$rootScope', '$location', 'authService', 'notificationService', registerCtrl]);
+    ['vm', '$state', '$rootScope', '$location', 'authService', 'notificationService', registerCtrl]);
 
 function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService) {
     $rootScope.title = 'Register | Emergy';
