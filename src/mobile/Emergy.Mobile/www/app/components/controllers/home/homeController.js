@@ -10,6 +10,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     $scope.report = {};
     $scope.customPropertyValues = [];
     $scope.reportDetails = {};
+	
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
     var loadUnits = function () {
@@ -73,10 +74,31 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                     $scope.report.LocationId = locationId;
 
                     var promise = reportsService.createReport($scope.report);
-                    promise.then(function (response) {
-                        $scope.report.LocationId = $scope.locations[0].Id;
-                        notificationService.hideLoading();
-                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                    promise.then(function (reportId) {
+						$scope.reportId = reportId;
+						var promise = unitsService.getUnit($scope.selectedUnitId); 
+						promise.then(function(unit) {
+							var notification = {
+								Content: "has submitted a report", 
+								TargetId: unit.AdministratorId, 
+								Type: "ReportCreated", 
+								ParameterId: $scope.reportId
+							}
+							console.log(notification);
+							var promise = notificationService.pushNotification(notification);
+							promise.then(function(response) {
+								$scope.report.LocationId = $scope.locations[0].Id;
+								notificationService.hideLoading();
+								notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+							}, function(error) {
+								notificationService.hideLoading();
+								notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+							});
+						}, function(error) {
+							notificationService.hideLoading();
+							notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+						});
+						
                     }, function (error) {
                         notificationService.hideLoading();
                         notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
@@ -93,9 +115,29 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
         else {
             notificationService.displayLoading("Submitting report...");
             var promise = reportsService.createReport($scope.report);
-            promise.then(function (response) {
-                notificationService.hideLoading();
-                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+            promise.then(function (reportId) {
+				$scope.reportId = reportId; 
+				var promise = unitsService.getUnit($scope.selectedUnitId); 
+				promise.then(function(unit){
+					var notification = {
+						Content: "has submitted a report", 
+						TargetId: unit.AdministratorId, 
+						Type: "ReportCreated", 
+						ParameterId: $scope.reportId
+					}
+					console.log(notification);
+					var promise = notificationService.pushNotification(notification); 
+					promise.then(function(response) {
+						notificationService.hideLoading();
+						notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+					}, function(error) {
+						notificationService.hideLoading();
+						notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+					});
+				}, function(error) {
+					notificationService.hideLoading();
+					notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+				});
             }, function (error) {
                 notificationService.hideLoading();
                 notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
@@ -113,12 +155,32 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
 
     $scope.submitReportWithAdditionalInformation = function() {
         var promise = reportsService.createReport($scope.report);
-        promise.then(function (response) {        
+        promise.then(function (reportId) {
+			$scope.reportId = reportId; 
+			var promise = unitsService.getUnit($scope.selectedUnitId); 
+			promise.then(function(unit) {
+				var notification = {
+					Content: "has submitted a report", 
+					TargetId: unit.AdministratorId, 
+					Type: "ReportCreated", 
+					ParameterId: $scope.reportId
+				}
+				var promise = notificationService.pushNotification(notification); 
+				promise.then(function(response) {
+					$scope.modal.hide();
+					notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+				}, function(error) {
+					$scope.modal.hide();
+					notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+				});
+			});
+			
             if ($scope.customPropertyValues.length > 0) {
                 angular.forEach($scope.customPropertyValues, function (customPropertyValue, customPropertyId) {
                     var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
                     promise.then(function (response) {
                     }, function(error) {
+						$scope.modal.hide();
                         notificationService.displayErrorPopup("There has been an error creating additional details!", "Ok");
                     });
                 });
@@ -129,6 +191,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                     notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
                 }
             } else {
+				$scope.modal.hide();
                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
             }
         }, function (error) {

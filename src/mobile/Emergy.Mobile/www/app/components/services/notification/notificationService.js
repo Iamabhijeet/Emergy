@@ -4,7 +4,18 @@ services.factory('notificationService', notificationService);
 notificationService.$inject = ['$http', '$q', '$cordovaDialogs', '$ionicLoading', 'serviceBase', 'authData'];
 
 function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceBase, authData) {
-
+	var pushNotification = function (notification) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/create', notification)
+        .success(function (units) {
+            deffered.resolve(units);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+	
     var displaySuccessPopup = function(message, buttonText) {
         $cordovaDialogs.alert(message, "Success", buttonText)
             .then(function() {
@@ -42,6 +53,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var service = {
+		pushNotification: pushNotification,
         displaySuccessPopup: displaySuccessPopup,
         displayErrorPopup: displayErrorPopup,
         displayChoicePopup: displayChoicePopup,
