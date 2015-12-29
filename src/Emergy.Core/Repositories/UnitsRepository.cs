@@ -89,34 +89,19 @@ namespace Emergy.Core.Repositories
                     }
                 case AccountType.Client:
                     {
-                        var clientUnits = (await this.GetAsync()).ToArray();
-                        var units = clientUnits.Where(unit => unit.Clients.ContainsUser(user))
-                            as Unit[] ?? clientUnits.ToArray();
-
-                        if (units.Select(unit => unit.Reports).Any())
+                        var reports = Context.Reports.Where(report => report.CreatorId == user.Id)
+                                                     .OrderByDescending(report => report.DateHappened);
+                        if (lastHappened == null)
                         {
-                            var reports =
-                                units.AsParallel()
-                                    .Select(unit => unit.Reports)
-                                     .Aggregate((current, next) =>
-                                     {
-                                         if (current != null && next != null)
-                                         {
-                                             return next.Concat(current).ToList();
-                                         }
-                                         return null;
-                                     })
-                                    .OrderByDescending(report => report.DateHappened)
-                                    .ToArray();
-                            if (lastHappened == null)
-                            {
-                                return reports.Take(10);
-                            }
-                            return reports.Where(report => report.DateHappened > lastHappened)
-                                .OrderByDescending(report => report.DateHappened)
-                                .Take(10);
+                            return await reports.Take(10)
+                                                .ToArrayAsync()
+                                                .WithoutSync();
                         }
-                        return Enumerable.Empty<Report>();
+                        return await reports.Where(report => report.DateHappened > lastHappened)
+                                .OrderByDescending(report => report.DateHappened)
+                                .Take(10)
+                                .ToArrayAsync()
+                                .WithoutSync();
                     }
                 default:
                     {
