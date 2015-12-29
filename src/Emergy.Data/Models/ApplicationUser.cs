@@ -24,7 +24,6 @@ namespace Emergy.Data.Models
         }
         public override bool Equals(object obj)
         {
-            
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
@@ -41,12 +40,9 @@ namespace Emergy.Data.Models
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
-
         [ForeignKey("ProfilePhotoId")]
         public virtual Resource ProfilePhoto { get; set; }
-
         public int ProfilePhotoId { get; set; } = 1;
-
         public AccountType AccountType { get; set; }
         [JsonIgnore]
         public virtual ICollection<Location> Locations { get; set; }

@@ -46,8 +46,8 @@ namespace Emergy.Api.Controllers
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 return (await _notificationsRepository
-                .GetAsync(m => (m.Target.Id == User.Identity.GetUserId() ||
-                               m.Sender.Id == User.Identity.GetUserId()) &&
+                .GetAsync(m => (m.TargetId == User.Identity.GetUserId() ||
+                               m.SenderId == User.Identity.GetUserId()) &&
                                m.Content.Contains(searchTerm) ||
                                m.Target.UserName.Contains(searchTerm) ||
                                m.Target.Name.Contains(searchTerm) ||
@@ -69,23 +69,15 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             var notification = Mapper.Map<db.Notification>(model);
-            db.ApplicationUser sender = null;
-            db.ApplicationUser target = null;
-            await Task.WhenAll(
-                new Task(
-                    async () =>
-                    {
-                        sender = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-                    }),
-                new Task(
-                    async () =>
-                    {
-                        target = await AccountService.GetUserByIdAsync(model.TargetId);
-                    }));
+            var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            var targetTask = AccountService.GetUserByIdAsync(model.TargetId);
+            await Task.WhenAll(senderTask, targetTask).WithoutSync();
+            var sender = await senderTask.WithoutSync();
+            var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
-                notification.Sender = sender;
-                notification.Target = target;
+                notification.SenderId = sender.Id;
+                notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
                 await _notificationsRepository.SaveAsync();
                 return Ok(notification.Id);
@@ -98,7 +90,7 @@ namespace Emergy.Api.Controllers
             var notifications = (await _notificationsRepository
                    .GetAsync(null, null, ConstRelations.LoadAllNotificationRelations))
                    .ToArray();
-            notifications = notifications.Where(notification => notification.Target.Id == User.Identity.GetUserId()).ToArray();
+            notifications = notifications.Where(notification => notification.TargetId == User.Identity.GetUserId()).ToArray();
             if (lastHappened == null)
             {
                 return notifications

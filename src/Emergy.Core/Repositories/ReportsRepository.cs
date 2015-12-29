@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -31,6 +32,10 @@ namespace Emergy.Core.Repositories
         public async Task<bool> PermissionsGranted(int reportId, string userId)
         {
             Report report = await this.GetAsync(reportId).WithoutSync();
+            if (report == null)
+            {
+                throw new ArgumentException("Report is null!");
+            }
             return (report.CreatorId == userId || report.Unit.AdministratorId == userId);
         }
 

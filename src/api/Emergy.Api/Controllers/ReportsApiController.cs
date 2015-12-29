@@ -135,14 +135,19 @@ namespace Emergy.Api.Controllers
         }
         [HttpPost]
         [Route("change-status/{id}")]
-        public async Task<IHttpActionResult> ChangeStatus(int id, [FromBody] ReportStatus newStatus)
+        public async Task<IHttpActionResult> ChangeStatus([FromUri]int id, [FromBody] ReportStatus newStatus)
         {
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
             Report report = await _reportsRepository.GetAsync(id);
             if (report != null)
             {
                 report.Status = newStatus;
                 _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync(); return Ok();
+                await _reportsRepository.SaveAsync();
+                return Ok();
             }
             return NotFound();
         }
@@ -151,14 +156,22 @@ namespace Emergy.Api.Controllers
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
         {
-            if (!ModelState.IsValid) { return Error(); }
-            if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+            if (!ModelState.IsValid)
             {
-                _reportsRepository.Delete(id);
-                await _reportsRepository.SaveAsync().Sync();
-                return Ok();
+                return Error();
             }
-            return Unauthorized();
+            Report report = await _reportsRepository.GetAsync(id);
+            if (report != null)
+            {
+                if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+                {
+                    _reportsRepository.Delete(report);
+                    await _reportsRepository.SaveAsync();
+                    return Ok();
+                }
+                return Unauthorized();
+            }
+            return BadRequest();
         }
         private readonly IReportsRepository _reportsRepository;
         private readonly IUnitsRepository _unitsRepository;
