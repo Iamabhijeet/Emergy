@@ -16,8 +16,10 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
         var promise = notificationService.getNotifications($scope.lastNotificationDateTime);
         promise.then(function (notifications) {
             angular.copy(notifications, $scope.notifications);
+            if (notifications.length == 20) {
                 $scope.lastNotificationDateTime = notifications[notifications.length - 1].Timestamp;
-            }, function (error) {
+            }
+        }, function (error) {
             notificationService.pushError(error.Message);
         })
             .finally(function () {
