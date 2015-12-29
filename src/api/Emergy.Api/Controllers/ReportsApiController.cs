@@ -64,6 +64,20 @@ namespace Emergy.Api.Controllers
             }
             return null;
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<Report> GetReport([FromUri] int id)
+        {
+            if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+            {
+                var report = await _reportsRepository.GetAsync(id).WithoutSync();
+                return report;
+            }
+            return null;
+        }
+
         [HttpPost]
         [Route("create")]
         [Authorize(Roles = "Clients")]
