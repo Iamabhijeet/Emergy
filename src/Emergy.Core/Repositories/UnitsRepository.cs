@@ -67,7 +67,14 @@ namespace Emergy.Core.Repositories
                                 units.AsParallel()
                                     .Where(unit => unit.AdministratorId == user.Id)
                                     .Select(unit => unit.Reports)
-                                    .Aggregate((current, next) => next.Concat(current).ToList())
+                                    .Aggregate((current, next) =>
+                                    {
+                                        if (current != null && next != null)
+                                        {
+                                            return next.Concat(current).ToList();
+                                        }
+                                        return null;
+                                    })
                                     .OrderByDescending(report => report.DateHappened)
                                     .ToArray();
                             if (lastHappened == null)
@@ -91,7 +98,14 @@ namespace Emergy.Core.Repositories
                             var reports =
                                 units.AsParallel()
                                     .Select(unit => unit.Reports)
-                                    .Aggregate((current, next) => next.Concat(current).ToList())
+                                     .Aggregate((current, next) =>
+                                     {
+                                         if (current != null && next != null)
+                                         {
+                                             return next.Concat(current).ToList();
+                                         }
+                                         return null;
+                                     })
                                     .OrderByDescending(report => report.DateHappened)
                                     .ToArray();
                             if (lastHappened == null)
