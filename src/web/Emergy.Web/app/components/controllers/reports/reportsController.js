@@ -15,13 +15,16 @@ function reportsController($scope, $rootScope, $stateParams,
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
 
-    var loadReports = function () {
+    $scope.loadReports = function () {
         $scope.isBusy = true;
         var promise = reportsService.getReports($scope.lastReportDateTime); 
-        promise.then(function (response) {
-            angular.copy(response, $scope.reports);
+        promise.then(function (reports) {
+            angular.copy(reports, $scope.reports);
+            if (reports.length === 10) {
+                $scope.lastReportDateTime = reports[reports.length - 1].Timestamp;
+            }
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading reports.");
         })
         .finally(function () {
             $scope.isBusy = false;
@@ -36,7 +39,7 @@ function reportsController($scope, $rootScope, $stateParams,
             notificationService.pushSuccess("Report has been deleted!");
             loadReports();
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while deleting the report.");
         })
         .finally(function () {
             $scope.isBusy = false;
@@ -44,13 +47,14 @@ function reportsController($scope, $rootScope, $stateParams,
     }
 
     $scope.changeStatus = function (reportId, newStatus) {
+        console.log(reportId + " " + newStatus);
         var promise = reportsService.changeStatus(reportId, newStatus);
         promise.then(function () {
             notificationService.pushSuccess("Status changed to " + newStatus);
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while changing the status.");
         });
     }
 
-    loadReports();
+    $scope.loadReports();
 }

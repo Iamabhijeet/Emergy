@@ -763,6 +763,15 @@
         color: #00bcd4;
     }
 
+.main-container.reports .report-grid-row .btn {
+    width: 100px;
+    position: relative;
+    top: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
 
 @media only screen and (max-width: 601px) {
     .main-container.reports .header-row .btn.filter-button i {
@@ -784,11 +793,19 @@
     .main-container.reports .report-grid-row .col {
         width: 50%;
     }
+
+    .main-container.reports .report-grid-row .btn {
+        top: 50px;
+    }
 }
 
 @media only screen and (max-width: 820px) {
     .main-container.reports .report-grid-row .col {
         width: 100%;
+    }
+
+    .main-container.reports .report-grid-row .btn {
+        top: 25px;
     }
 }
 

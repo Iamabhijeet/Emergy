@@ -45,9 +45,9 @@ function reportsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
-    var deleteReport = function (reportId) {
+    var changeStatus = function (reportId, newStatus) {
         var deffered = $q.defer();
-        $http.delete(serviceBase + 'api/reports/delete/' + reportId)
+        $http.post(serviceBase + 'api/reports/change-status/' + reportId, newStatus)
         .success(function (response) {
             deffered.resolve(response);
         })
@@ -57,9 +57,9 @@ function reportsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     }
 
-    var changeStatus = function (reportId, newStatus) {
+    var deleteReport = function (reportId) {
         var deffered = $q.defer();
-        $http.post(serviceBase + 'api/reports/change-status/' + reportId, newStatus)
+        $http.delete(serviceBase + 'api/reports/delete/' + reportId)
         .success(function (response) {
             deffered.resolve(response);
         })

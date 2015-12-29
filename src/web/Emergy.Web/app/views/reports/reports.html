@@ -54,8 +54,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div ng-class="(isBusy) ? 'center loading-active' : 'center loading-inactive' ">
-        <img src="/assets/img/loading.svg" width="55" />
+        <a ng-if="lastReportDateTime" class="waves-effect waves-light btn load-more-button" ng-click="loadReports()">More</a>
     </div>
 </div>
