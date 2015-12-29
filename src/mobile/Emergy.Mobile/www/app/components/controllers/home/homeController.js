@@ -75,7 +75,8 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
 
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
-						$scope.reportId = reportId;
+                        $scope.reportId = reportId;
+                        $scope.report.LocationId = $scope.locations[0].Id;
 						var promise = unitsService.getUnit($scope.selectedUnitId); 
 						promise.then(function(unit) {
 							var notification = {
@@ -84,10 +85,8 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
 								Type: "ReportCreated", 
 								ParameterId: $scope.reportId
 							}
-							console.log(notification);
 							var promise = notificationService.pushNotification(notification);
-							promise.then(function(response) {
-								$scope.report.LocationId = $scope.locations[0].Id;
+							promise.then(function(response) {	
 								notificationService.hideLoading();
 								notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
 							}, function(error) {
@@ -153,51 +152,122 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
         });
     };
 
-    $scope.submitReportWithAdditionalInformation = function() {
-        var promise = reportsService.createReport($scope.report);
-        promise.then(function (reportId) {
-			$scope.reportId = reportId; 
-			var promise = unitsService.getUnit($scope.selectedUnitId); 
-			promise.then(function(unit) {
-				var notification = {
-					Content: "has submitted a report", 
-					TargetId: unit.AdministratorId, 
-					Type: "ReportCreated", 
-					ParameterId: $scope.reportId
-				}
-				var promise = notificationService.pushNotification(notification); 
-				promise.then(function(response) {
-					$scope.modal.hide();
-					notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
-				}, function(error) {
-					$scope.modal.hide();
-					notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
-				});
-			});
-			
-            if ($scope.customPropertyValues.length > 0) {
-                angular.forEach($scope.customPropertyValues, function (customPropertyValue, customPropertyId) {
-                    var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
-                    promise.then(function (response) {
-                    }, function(error) {
-						$scope.modal.hide();
-                        notificationService.displayErrorPopup("There has been an error creating additional details!", "Ok");
-                    });
-                });
-                if ($scope.reportPicture) {
+    $scope.submitReportWithAdditionalInformation = function () {
+        if ($scope.reportDetails.useCurrentLocation) {
+            notificationService.displayLoading("Submitting report...");
+            $cordovaGeolocation.getCurrentPosition(posOptions).then(function(position) {
+                $scope.latitude = position.coords.latitude;
+                $scope.longitude = position.coords.longitude;
+
+                var location = {
+                    Latitude: $scope.latitude,
+                    Longitude: $scope.longitude,
+                    Name: "Captured location",
+                    Type: "Captured"
+                };
+
+                var promise = unitsService.createLocation(location);
+                promise.then(function(locationId) {
+                    $scope.report.LocationId = locationId;
                     
-                } else {
+                    var promise = reportsService.createReport($scope.report);
+                    promise.then(function (reportId) {
+                        $scope.reportId = reportId;
+                        $scope.report.LocationId = $scope.locations[0].Id;
+
+                        var promise = unitsService.getUnit($scope.selectedUnitId);
+                        promise.then(function (unit) {
+                            var notification = {
+                                Content: "has submitted a report",
+                                TargetId: unit.AdministratorId,
+                                Type: "ReportCreated",
+                                ParameterId: $scope.reportId
+                            }
+
+                            var promise = notificationService.pushNotification(notification);
+                            promise.then(function (response) {
+                                notificationService.hideLoading();
+                                $scope.modal.hide();
+                                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                            }, function (error) {
+                                notificationService.hideLoading();
+                                $scope.modal.hide();
+                                $scope.report.LocationId = $scope.locations[0].Id;
+                                notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                            });
+                        });
+
+                        if ($scope.customPropertyValues.length > 0) {
+                            angular.forEach($scope.customPropertyValues, function (customPropertyValue, customPropertyId) {
+                                var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
+                                promise.then(function (response) {
+                                }, function (error) {
+                                    notificationService.hideLoading();
+                                    $scope.modal.hide();
+                                    notificationService.displayErrorPopup("There has been an error creating additional details!", "Ok");
+                                });
+                            });
+                            if ($scope.reportPicture) {
+
+                            } else {
+                                
+                            }
+                        } else {
+                            notificationService.hideLoading();
+                            $scope.modal.hide();
+                            notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        }
+                    }, function (error) {
+                        notificationService.hideLoading();
+                        $scope.modal.hide();
+                        notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                    });   
+                }, function (error) {
+                    notificationService.hideLoading();
                     $scope.modal.hide();
-                    notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
-                }
-            } else {
-				$scope.modal.hide();
-                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
-            }
-        }, function (error) {
-            $scope.modal.hide();
-            notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
-        });
+                    notificationService.displayErrorPopup("There has been an error creating your location!", "Ok");
+                });
+            }, function (error) {
+                notificationService.hideLoading();
+                $scope.modal.hide();
+                notificationService.displayErrorPopup("There has been an error acquiring your location!", "Ok");
+            });
+        } else {
+            notificationService.displayLoading("Submitting report...");
+            var promise = reportsService.createReport($scope.report);
+            promise.then(function(reportId) {
+                $scope.reportId = reportId;
+
+                var promise = unitsService.getUnit($scope.selectedUnitId);
+                promise.then(function (unit) {
+                    var notification = {
+                        Content: "has submitted a report",
+                        TargetId: unit.AdministratorId,
+                        Type: "ReportCreated",
+                        ParameterId: $scope.reportId
+                    };
+
+                    var promise = notificationService.pushNotification(notification);
+                    promise.then(function(response) {
+                        notificationService.hideLoading();
+                        $scope.modal.hide();
+                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                    }, function(error) {
+                        notificationService.hideLoading();
+                        $scope.modal.hide();
+                        notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                    });
+                }, function(error) {
+                    notificationService.hideLoading();
+                    $scope.modal.hide();
+                    notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                });
+            }, function(error) {
+                notificationService.hideLoading();
+                $scope.modal.hide();
+                notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+            });
+        }  
     };
 
     var loadCustomProperties = function (unitId) {
