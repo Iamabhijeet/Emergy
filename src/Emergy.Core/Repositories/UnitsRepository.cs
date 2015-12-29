@@ -108,9 +108,6 @@ namespace Emergy.Core.Repositories
                         return Enumerable.Empty<Report>();
                     }
             }
-
-
-
         }
         public async Task<IEnumerable<CustomProperty>> GetCustomProperties(int unitId)
         {
