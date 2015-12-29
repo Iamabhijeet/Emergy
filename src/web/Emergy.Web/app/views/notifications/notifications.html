@@ -9,7 +9,7 @@
     <div class="row">
         <div class="collection notification-list">
             <div ng-repeat="notification in notifications">
-                <a ng-if="notification.Type == 'ReportCreated'" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp }}</span></a>
+                <a ng-if="notification.Type == 'ReportCreated'" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender.UserName }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp | date: "h:mma" }}</span> on <span>{{ notification.Timestamp | date: "MM-dd-yyyy" }}</span></a>
             </div>
         </div>
 

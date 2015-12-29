@@ -37,7 +37,7 @@ function reportsController($scope, $rootScope, $stateParams,
         var promise = reportsService.deleteReport(reportId);
         promise.then(function () {
             notificationService.pushSuccess("Report has been deleted!");
-            loadReports();
+            $scope.loadReports();
         }, function (error) {
             notificationService.pushError("Error has happened while deleting the report.");
         })
@@ -48,9 +48,10 @@ function reportsController($scope, $rootScope, $stateParams,
 
     $scope.changeStatus = function (reportId, newStatus) {
         console.log(reportId + " " + newStatus);
-        var promise = reportsService.changeStatus(reportId, newStatus);
+        var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
         promise.then(function () {
             notificationService.pushSuccess("Status changed to " + newStatus);
+            $scope.loadReports();
         }, function (error) {
             notificationService.pushError("Error has happened while changing the status.");
         });
