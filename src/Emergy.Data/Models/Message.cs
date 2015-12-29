@@ -9,8 +9,10 @@ namespace Emergy.Data.Models
     {
         [JsonIgnore]
         public ApplicationUser Sender { get; set; }
+        public string SenderId { get; set; }
         [JsonIgnore]
         public ApplicationUser Target { get; set; }
+        public string TargetId { get; set; }
         public string Content { get; set; }
         public virtual ICollection<Resource> Multimedia { get; set; }
         public DateTime Timestamp { get; set; }

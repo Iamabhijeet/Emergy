@@ -10,10 +10,12 @@ namespace Emergy.Data.Configurations
             ToTable("Messages");
             HasOptional(n => n.Sender)
                 .WithMany(n => n.SentMessages)
+                .HasForeignKey(n => n.SenderId)
                 .WillCascadeOnDelete();
             HasOptional(n => n.Target)
-              .WithMany(n => n.ReceievedMessages)
-              .WillCascadeOnDelete();
+                .WithMany(n => n.ReceievedMessages)
+                .HasForeignKey(n => n.TargetId)
+                .WillCascadeOnDelete();
         }
     }
 }

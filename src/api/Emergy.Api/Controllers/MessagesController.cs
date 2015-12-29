@@ -77,8 +77,8 @@ namespace Emergy.Api.Controllers
             var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
-                message.Sender = new ApplicationUser { Id = sender.Id };
-                message.Target = new ApplicationUser { Id = target.Id };
+                message.SenderId = sender.Id;
+                message.TargetId = target.Id;
                 ListExtensions.ForEach(model.Multimedia, async (resourceId) =>
                 {
                     var resource = await _resourcesRepository.GetAsync(resourceId);
