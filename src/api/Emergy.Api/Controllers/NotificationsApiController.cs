@@ -46,8 +46,8 @@ namespace Emergy.Api.Controllers
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 return (await _notificationsRepository
-                .GetAsync(m => (m.Target.Id == User.Identity.GetUserId() ||
-                               m.Sender.Id == User.Identity.GetUserId()) &&
+                .GetAsync(m => (m.TargetId == User.Identity.GetUserId() ||
+                               m.SenderId == User.Identity.GetUserId()) &&
                                m.Content.Contains(searchTerm) ||
                                m.Target.UserName.Contains(searchTerm) ||
                                m.Target.Name.Contains(searchTerm) ||
@@ -90,7 +90,7 @@ namespace Emergy.Api.Controllers
             var notifications = (await _notificationsRepository
                    .GetAsync(null, null, ConstRelations.LoadAllNotificationRelations))
                    .ToArray();
-            notifications = notifications.Where(notification => notification.Target.Id == User.Identity.GetUserId()).ToArray();
+            notifications = notifications.Where(notification => notification.TargetId == User.Identity.GetUserId()).ToArray();
             if (lastHappened == null)
             {
                 return notifications

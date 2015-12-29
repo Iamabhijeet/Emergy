@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using Emergy.Data.Models;
-
-namespace Emergy.Core.Common
+﻿namespace Emergy.Core.Common
 {
     public static class ConstRelations
     {
