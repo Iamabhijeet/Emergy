@@ -148,6 +148,14 @@ namespace Emergy.Api.Controllers
         }
 
         [AllowAnonymous]
+        [Route("IsEmailTaken/{email}")]
+        [HttpGet]
+        public async Task<bool> IsEmailTaken(string email)
+        {
+            return await AccountService.EmailTaken(email);
+        }
+
+        [AllowAnonymous]
         [Route("IsValidKey")]
         [HttpGet]
         public async Task<bool> IsValidKey(string id, string key)

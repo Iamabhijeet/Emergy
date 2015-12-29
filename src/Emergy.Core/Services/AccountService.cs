@@ -94,6 +94,11 @@ namespace Emergy.Core.Services
             ApplicationUser user = await _userManager.FindByNameAsync(username).WithoutSync();
             return (user != null);
         }
+        public async Task<bool> EmailTaken(string email)
+        {
+            ApplicationUser user = await _userManager.FindByEmailAsync(email).WithoutSync();
+            return (user != null);
+        }
 
         public async Task UpdateLocation(ApplicationUser user, Location location)
         {

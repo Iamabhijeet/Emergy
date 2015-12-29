@@ -18,6 +18,7 @@ namespace Emergy.Core.Services
         Task<AuthenticationTicket> LoginAsync(LoginUserBindingModel model, OAuthAuthorizationServerOptions authOptions);
         Task<IdentityResult> ChangePasswordAsync(string userId, ChangePasswordBindingModel model);
         Task<bool> UserNameTaken(string username);
+        Task<bool> EmailTaken(string email);
         Task UpdateLocation(ApplicationUser user, Location location);
         Dictionary<string,string> EmailTemplates{ get; set; } 
     }
