@@ -76,8 +76,8 @@ namespace Emergy.Api.Controllers
             var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
-                notification.Sender = new db.ApplicationUser { Id = sender.Id };
-                notification.Target = new db.ApplicationUser { Id = target.Id };
+                notification.SenderId = sender.Id;
+                notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
                 await _notificationsRepository.SaveAsync();
                 return Ok(notification.Id);
