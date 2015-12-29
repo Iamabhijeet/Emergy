@@ -3,16 +3,35 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$cordovaGeolocation', '$cordovaCamera', '$ionicModal', 'notificationService', 'unitsService', 'reportsService', 'authData', homeController]);
+    ['$scope', '$cordovaGeolocation', '$cordovaCamera', '$ionicModal', 'notificationService', 'unitsService', 'reportsService', 'resourceService', 'authData', homeController]);
 
-function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal, notificationService, unitsService, reportsService, authData) {
+function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal, notificationService, unitsService, reportsService, resourceService, authData) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
+    $scope.reportPicturesData = [];
     $scope.reportDetails = {};
-	
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
+
+    var cameraOptions = {
+        quality: 75,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        allowEdit: true,
+        encodingType: Camera.EncodingType.JPEG,
+        popoverOptions: CameraPopoverOptions,
+        saveToPhotoAlbum: true,
+        correctOrientation: true
+    };
+
+    $scope.takePicture = function () {
+        $cordovaCamera.getPicture(cameraOptions).then(function (imageData) {
+            $scope.reportPicturesData.push("data:image/jpeg;base64," + imageData);
+        }, function (error) {
+            notificationService.displayErrorPopup("There has been an error while processing the image!", "Ok");
+        });
+    };
 
     var loadUnits = function () {
         notificationService.displayLoading("Loading reporting information...");
@@ -145,14 +164,6 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
         }
     };
 
-    $scope.takePicture = function() {
-        $cordovaCamera.getPicture().then(function (imageData) {
-            $scope.reportPicture = "data:image/jpeg;base64," + imageData;
-        }, function (err) {
-            // An error occured. Show a message to the user
-        });
-    };
-
     $scope.submitReportWithAdditionalInformation = function () {
         if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
@@ -214,8 +225,26 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
 
                         }
 
-                        if ($scope.reportPictures) {
+                        if ($scope.reportPicturesData) {
+                            angular.forEach($scope.reportPicturesData, function(reportPictureData, key) {
+                                var imageModel = {
+                                    Name: $scope.reportId + "_" + key,
+                                    Base64: reportPictureData,
+                                    ContentType: "image/jpeg"
+                                }
 
+                                var promise = resourceService.uploadBlob(imageModel);
+                                promise.then(function(resourceId) {
+                                    var promise = reportsService.setResources($scope.reportId, [resourceId]);
+                                    promise.then(function (response) {
+
+                                    }, function (error) {
+
+                                    });
+                                }, function(error) {
+
+                                });
+                            });
                         }
                     }, function (error) {
                         notificationService.hideLoading();
@@ -257,6 +286,43 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
                         $scope.modal.hide();
                         notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
                     });
+
+                    if ($scope.customPropertyValues.length > 0) {
+                        angular.forEach($scope.customPropertyValues, function (customPropertyValue, customPropertyId) {
+                            var promise = reportsService.addCustomPropertyValue(customPropertyValue, customPropertyId);
+                            promise.then(function (customPropertyId) {
+                                var promise = reportsService.setCustomProperties($scope.reportId, [customPropertyId]);
+                                promise.then(function (response) {
+
+                                }, function (error) {
+
+                                });
+                            }, function (error) {
+                            });
+                        });
+                    }
+
+                    if ($scope.reportPicturesData) {
+                        angular.forEach($scope.reportPicturesData, function (reportPictureData, key) {
+                            var imageModel = {
+                                Name: $scope.reportId + "_" + key,
+                                Base64: reportPictureData,
+                                ContentType: "image/jpeg"
+                            }
+
+                            var promise = resourceService.uploadBlob(imageModel);
+                            promise.then(function (resourceId) {
+                                var promise = reportsService.setResources($scope.reportId, [resourceId]);
+                                promise.then(function (response) {
+
+                                }, function (error) {
+
+                                });
+                            }, function (error) {
+
+                            });
+                        });
+                    }
                 }, function(error) {
                     notificationService.hideLoading();
                     $scope.modal.hide();
