@@ -16,7 +16,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         promise.then(function (units) {
             angular.copy(units, $scope.units);
         }, function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while loading units.");
         })
             .finally(function () {
                 sumClients();
@@ -31,7 +31,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             loadUnits();
         },
         function (error) {
-            notificationService.pushError(error.Message);
+            notificationService.pushError("Error has happened while creating a new unit.");
         })
         .finally(function () {
             $scope.unitName = '';

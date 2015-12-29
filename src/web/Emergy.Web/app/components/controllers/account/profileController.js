@@ -38,9 +38,10 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
             .then(function () {
                 notificationService.pushSuccess('Your password has been changed!');
             }, function (error) {
-                notificationService.pushError(error);
+                notificationService.pushError("Error has happened while changing the password.");
             });
     }
+
     var uploadPhoto = function () {
         $scope.newPhoto.Base64 = $scope.currentPhotoBase64;
         var deffered = $q.defer();
@@ -50,7 +51,7 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
             $scope.newPhoto.Id = id;
             deffered.resolve(id);
         }, function (error) {
-            notificationService.pushError(error);
+            notificationService.pushError("Error has happened while uploading the photo.");
             deffered.reject(error);
         });
         return deffered.promise;
@@ -65,7 +66,7 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
                      notificationService.pushSuccess('Your profile has been updated!');
                      activate();
                  }, function (error) {
-                     notificationService.pushError(error);
+                     notificationService.pushError("Error has happened while updating your profile.");
                  });
             });
         }
@@ -75,7 +76,7 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
                notificationService.pushSuccess('Your profile has been updated!');
                activate();
            }, function (error) {
-               notificationService.pushError(error);
+               notificationService.pushError("Error has happened while updating your profile.");
            });
         }
     }

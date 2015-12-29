@@ -9,10 +9,10 @@
     <div class="row">
         <div class="collection notification-list">
             <div ng-repeat="notification in notifications">
-                <a ng-href="{{ notification.Target }}" class="collection-item"><span>{{ notification.Sender }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp }}</span></a>
+                <a ng-if="notification.Type == 'ReportCreated'" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp }}</span></a>
             </div>
         </div>
 
-        <a ng-show="lastNotificationDateTime" class="waves-effect waves-light btn load-more-button" ng-click="loadNotifications()">More</a>
+        <a ng-if="lastNotificationDateTime" class="waves-effect waves-light btn load-more-button" ng-click="loadNotifications()">More</a>
     </div>
 </div>
