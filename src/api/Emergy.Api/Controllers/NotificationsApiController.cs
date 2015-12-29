@@ -69,19 +69,11 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             var notification = Mapper.Map<db.Notification>(model);
-            db.ApplicationUser sender = null;
-            db.ApplicationUser target = null;
-            await Task.WhenAll(
-                new Task(
-                    async () =>
-                    {
-                        sender = await AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-                    }),
-                new Task(
-                    async () =>
-                    {
-                        target = await AccountService.GetUserByIdAsync(model.TargetId);
-                    }));
+            var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            var targetTask = AccountService.GetUserByIdAsync(model.TargetId);
+            await Task.WhenAll(senderTask, targetTask).WithoutSync();
+            var sender = await senderTask.WithoutSync();
+            var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
                 notification.Sender = sender;

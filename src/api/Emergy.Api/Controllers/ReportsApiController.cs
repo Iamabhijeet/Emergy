@@ -135,14 +135,15 @@ namespace Emergy.Api.Controllers
         }
         [HttpPost]
         [Route("change-status/{id}")]
-        public async Task<IHttpActionResult> ChangeStatus(int id, [FromBody] ReportStatus newStatus)
+        public async Task<IHttpActionResult> ChangeStatus([FromUri]int id, [FromBody] ReportStatus newStatus)
         {
             Report report = await _reportsRepository.GetAsync(id);
             if (report != null)
             {
                 report.Status = newStatus;
                 _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync(); return Ok();
+                await _reportsRepository.SaveAsync();
+                return Ok();
             }
             return NotFound();
         }
@@ -151,7 +152,10 @@ namespace Emergy.Api.Controllers
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> DeleteReport([FromUri] int id)
         {
-            if (!ModelState.IsValid) { return Error(); }
+            if (!ModelState.IsValid)
+            {
+                return Error();
+            }
             if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
             {
                 _reportsRepository.Delete(id);
