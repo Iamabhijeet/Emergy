@@ -837,9 +837,37 @@
     margin-top: 35px;
 }
 
+.main-container.reports .general-information p {
+    margin-top: 0;
+}
+
 .main-container.reports h4 {
     font-size: 1.5rem;
     color: #1599AB;
+    margin-bottom: 0;
+}
+
+.main-container.reports .resources h4 {
+    margin-bottom: 10px;
+}
+
+.main-container.reports .resources .col {
+    padding: 5px;
+}
+
+.main-container.reports h5 {
+    font-size: 1.2rem;
+    color: #1599AB;
+    margin-top: 0;
+}
+
+.main-container.reports .additional-details h5 {
+    font-size: 1rem;
+    margin-bottom: 0; 
+}
+
+.main-container.reports .additional-details p {
+    margin: 0;  
 }
 
 .main-container.reports .general-information .input-field {
@@ -872,7 +900,7 @@
         height: 350px;
     }
 
-        .main-container.reports .report-map ng-map {
+        .main-container.reports .report-map map {
             height: 350px;
         }
 }
@@ -882,16 +910,12 @@
         height: 250px;
     }
 
-        .main-container.reports .report-map ng-map {
+        .main-container.reports .report-map map {
             height: 250px;
         }
 
     .main-container.reports .report-map {
         margin-top: 30px;
-    }
-
-    .main-container.reports .report-map {
-        margin-top: 10px;
     }
 
     .main-container.reports .head-information p {

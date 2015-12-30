@@ -23,8 +23,8 @@
         <div class="row">
             <div class="col s12">
                 <div class="center center-align center-block centered gray-text">
-                    <h3>{{ ::vm.units.length }}</h3>
-                    <h4>UNITS</h4>
+                    <h3 class="cyan-text">{{ ::vm.units.length }}</h3>
+                    <h4 class="gray-text">UNITS</h4>
                 </div>
             </div>
         </div>
@@ -39,38 +39,47 @@
         </div>
     </div>
     <div id="reports" class="col s12">
+        <div class="row">
+            <div class="col s12">
+                <div class="center center-align center-block centered gray-text">
+                    <h3 class="cyan-text">{{ ::vm.reports.length }}</h3>
+                    <h4 class="gray-text">REPORTS</h4>
+                </div>
+            </div>
+        </div>
         <div class="row report-grid-row">
             <div class="col l3 m6 s12">
-                <div class="card report-card" ng-repeat="report in vm.reports">
-                    <a>
-                        <div class="card-content waves-effect waves-block waves-light white-text">
-                            <p>{{ ::report.Description }}</p>
-                            <div class="row">
-                                <div class="col l6 m6 s6">
-                                    <p>
-                                        <i class="material-icons report-detail-icon">access_time</i> {{ ::report.Timestamp | date: 'HH:mma'}}
-                                    </p>
-                                </div>
-                                <div class="col l6 m6 s6">
-                                    <p><i class="material-icons report-detail-icon">list</i> {{ ::report.Category.Name }}</p>
-                                </div>
+                <div class="card report-card" quick-ng-repeat="report in vm.reports">
+                    <div class="card-content waves-effect waves-block waves-light white-text">
+                        <p ng-if="!report.Description">Client has not provided a description for this report.</p>
+                        <p ng-if="report.Description">{{ report.Description }}</p>
+                        <div class="row">
+                            <div class="col l6 m6 s6">
+                                <p>
+                                    <i class="material-icons report-detail-icon">access_time</i> {{ report.Timestamp | date: 'HH:mma'}}
+                                </p>
                             </div>
-                            <div class="report-status">
-                                <p>{{ ::report.Status }}</p>
+                            <div class="col l6 m6 s6">
+                                <p>
+                                    <i class="material-icons report-detail-icon">list</i> {{ report.Category.Name }}
+                                </p>
                             </div>
                         </div>
-                    </a>
+                        <div class="report-status">
+                            <p>{{ report.Status }}</p>
+                        </div>
+                    </div>
                     <div class="card-action">
                         <a class="change-status-button activator" href="#">Change status</a>
-                        <a class="delete-report-button" href="#" ng-click="deleteReport(report.Id)">Delete</a>
+                        <a class="delete-report-button" href="#" ng-click="vm.deleteReport(report.Id)">Delete</a>
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Change status<i class="material-icons right">close</i></span>
                         <div class="collection status-collection">
-                            <a href="#" ng-click="changeStatus(report.Id, 'Created')" class="collection-item">Created</a>
-                            <a href="#" ng-click="changeStatus(report.Id, 'In progress')" class="collection-item">Processing</a>
-                            <a href="#" ng-click="changeStatus(report.Id, 'Completed')" class="collection-item">Completed</a>
-                            <a href="#" ng-click="changeStatus(report.Id, 'Faliure')" class="collection-item">Faliure</a>
+                            <a href="#" ng-click="vm.changeStatus(report.Id, 'Created')" class="collection-item">Created</a>
+                            <a href="#" ng-click="vm.changeStatus(report.Id, 'Processing')" class="collection-item">Processing</a>
+                            <a href="#" ng-click="vm.changeStatus(report.Id, 'Completed')" class="collection-item">Completed</a>
+                            <a href="#" ng-click="vm.changeStatus(report.Id, 'Failure')" class="collection-item">Faliure</a>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 var controllerId = 'loginController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', 'authService', 'notificationService', 'authData', loginCtrl]);
+    ['vm', '$rootScope', 'authService', 'notificationService', 'authData', loginCtrl]);
 
 function loginCtrl($scope, $rootScope, authService, notificationService, authData) {
     $rootScope.title = 'Login | Emergy';

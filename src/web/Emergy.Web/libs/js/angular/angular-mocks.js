@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.4.4
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
@@ -990,22 +990,22 @@ angular.mock.dump = function(object) {
     .controller('MyController', MyController);
 
   // The controller code
-  function MyController($scope, $http) {
+  function MyController(vm, $http) {
     var authToken;
 
     $http.get('/auth.py').success(function(data, status, headers) {
       authToken = headers('A-Token');
-      $scope.user = data;
+      vm.user = data;
     });
 
-    $scope.saveMessage = function(message) {
+    vm.saveMessage = function(message) {
       var headers = { 'Authorization': authToken };
-      $scope.status = 'Saving...';
+      vm.status = 'Saving...';
 
       $http.post('/add-msg.py', message, { headers: headers } ).success(function(response) {
-        $scope.status = '';
+        vm.status = '';
       }).error(function() {
-        $scope.status = 'ERROR!';
+        vm.status = 'ERROR!';
       });
     };
   }
@@ -1034,7 +1034,7 @@ angular.mock.dump = function(object) {
          var $controller = $injector.get('$controller');
 
          createController = function() {
-           return $controller('MyController', {'$scope' : $rootScope });
+           return $controller('MyController', {'vm' : $rootScope });
          };
        }));
 

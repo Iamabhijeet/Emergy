@@ -3,7 +3,7 @@
 var controllerId = 'unitDetailsController';
 
 app.controller(controllerId,
-    ['$scope', '$state', '$rootScope', '$stateParams', 'unitsService',
+    ['vm', '$state', '$rootScope', '$stateParams', 'unitsService',
         'authService', 'accountService', 'notificationService', 'authData',
         'mapService', unitDetailsController]);
 

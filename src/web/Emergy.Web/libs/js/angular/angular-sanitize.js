@@ -72,13 +72,13 @@ var $sanitizeMinErr = angular.$$minErr('$sanitize');
    <file name="index.html">
      <script>
          angular.module('sanitizeExample', ['ngSanitize'])
-           .controller('ExampleController', ['$scope', '$sce', function($scope, $sce) {
-             $scope.snippet =
+           .controller('ExampleController', ['vm', '$sce', function(vm, $sce) {
+             vm.snippet =
                '<p style="color:blue">an html\n' +
                '<em onmouseover="this.textContent=\'PWN3D!\'">click here</em>\n' +
                'snippet</p>';
-             $scope.deliberatelyTrustDangerousSnippet = function() {
-               return $sce.trustAsHtml($scope.snippet);
+             vm.deliberatelyTrustDangerousSnippet = function() {
+               return $sce.trustAsHtml(vm.snippet);
              };
            }]);
      </script>
@@ -552,14 +552,14 @@ angular.module('ngSanitize', []).provider('$sanitize', $SanitizeProvider);
      <file name="index.html">
        <script>
          angular.module('linkyExample', ['ngSanitize'])
-           .controller('ExampleController', ['$scope', function($scope) {
-             $scope.snippet =
+           .controller('ExampleController', ['vm', function(vm) {
+             vm.snippet =
                'Pretty text with some links:\n'+
                'http://angularjs.org/,\n'+
                'mailto:us@somewhere.org,\n'+
                'another@somewhere.org,\n'+
                'and one more: ftp://127.0.0.1/.';
-             $scope.snippetWithTarget = 'http://angularjs.org/';
+             vm.snippetWithTarget = 'http://angularjs.org/';
            }]);
        </script>
        <div ng-controller="ExampleController">

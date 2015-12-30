@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="row report-grid-row">
-        <div class="col l3 m6 s12" ng-repeat="report in reports">
+        <div class="col l3 m6 s12" ng-repeat="report in reports | filter : searchTerm">
             <div class="card report-card">
                 <a ng-href="/dashboard/report/{{ report.Id }}">
                     <div class="card-content waves-effect waves-block waves-light white-text">
@@ -47,9 +47,9 @@
                     <span class="card-title grey-text text-darken-4">Change status<i class="material-icons right">close</i></span>
                     <div class="collection status-collection">
                         <a href="#" ng-click="changeStatus(report.Id, 'Created')" class="collection-item">Created</a>
-                        <a href="#" ng-click="changeStatus(report.Id, 'In progress')" class="collection-item">Processing</a>
+                        <a href="#" ng-click="changeStatus(report.Id, 'Processing')" class="collection-item">Processing</a>
                         <a href="#" ng-click="changeStatus(report.Id, 'Completed')" class="collection-item">Completed</a>
-                        <a href="#" ng-click="changeStatus(report.Id, 'Faliure')" class="collection-item">Faliure</a>
+                        <a href="#" ng-click="changeStatus(report.Id, 'Failure')" class="collection-item">Faliure</a>
                     </div>
                 </div>
             </div>

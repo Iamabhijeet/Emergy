@@ -3,7 +3,7 @@
 var controllerId = 'landingController';
 
 app.controller(controllerId,
-    ['$scope', '$timeout', '$rootScope', '$state', 'authService', 'authData', landingController]);
+    ['vm', '$timeout', '$rootScope', '$state', 'authService', 'authData', landingController]);
 
 function landingController($scope, $timeout, $rootScope, $state, authService, authData) {
     $rootScope.title = 'Landing';

@@ -3,7 +3,7 @@
 var controllerId = 'unitsController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', 'unitsService',
+    ['vm', '$rootScope', 'unitsService',
         'authService', 'notificationService', '$location', unitsController]);
 
 function unitsController($scope, $rootScope, unitsService, authService, notificationService, $location) {

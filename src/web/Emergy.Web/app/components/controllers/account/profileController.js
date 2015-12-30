@@ -3,7 +3,7 @@
 var controllerId = 'profileController';
 
 app.controller(controllerId,
-    ['$rootScope', '$scope', '$filter', 'accountService', 'authService', 'authData', 'notificationService', 'resourcesService', '$q', profileController]);
+    ['$rootScope', 'vm', '$filter', 'accountService', 'authService', 'authData', 'notificationService', 'resourcesService', '$q', profileController]);
 
 function profileController($rootScope, $scope, $filter, accountService, authService, authData, notificationService, resourcesService, $q) {
     $rootScope.title = 'User ' + authData.userName;

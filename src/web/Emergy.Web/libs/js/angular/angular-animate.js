@@ -3242,7 +3242,7 @@ var $$AnimationProvider = ['$animateProvider', function($animateProvider) {
  *   $animate.leave(kids[5]); //stagger index=0
  *   $animate.leave(kids[6]); //stagger index=1
  *
- *   $scope.$digest();
+ *   vm.$digest();
  * });
  * ```
  *
@@ -3735,7 +3735,7 @@ var $$AnimationProvider = ['$animateProvider', function($animateProvider) {
  * });
  * ```
  *
- * (Note that earlier versions of Angular prior to v1.4 required the promise code to be wrapped using `$scope.$apply(...)`. This is not the case
+ * (Note that earlier versions of Angular prior to v1.4 required the promise code to be wrapped using `vm.$apply(...)`. This is not the case
  * anymore.)
  *
  * In addition to the animation promise, we can also make use of animation-related callbacks within our directives and controller code by registering
