@@ -45,6 +45,10 @@
         <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Resources_Messages_Message_Id" />
         <AssociationConnector Association="EmergyDbVisualModel.FK_Resources_Reports_Report_Id" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" />
+        <AssociationConnector Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

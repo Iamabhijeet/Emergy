@@ -14,6 +14,7 @@ using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
 using static Emergy.Core.Common.IEnumerableExtensions;
+using dto = Emergy.Core.Models.Report;
 namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Reports")]
@@ -68,12 +69,16 @@ namespace Emergy.Api.Controllers
         [Authorize]
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<Report> GetReport([FromUri] int id)
+        public async Task<dto::ReportDetailsViewModel> GetReport([FromUri] int id)
         {
-            if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+            var report = await _reportsRepository.GetAsync(id).WithoutSync();
+            if (report != null)
             {
-                var report = await _reportsRepository.GetAsync(id).WithoutSync();
-                return report;
+                if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+                {
+                    return Mapper.Map<dto::ReportDetailsViewModel>(report);
+                }
+                return null;
             }
             return null;
         }
