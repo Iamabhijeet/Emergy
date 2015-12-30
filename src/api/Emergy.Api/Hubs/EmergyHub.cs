@@ -57,6 +57,7 @@ namespace Emergy.Api.Hubs
             });
         }
 
+        [HubMethodName("pushReport")]
         [Authorize(Roles = "Clients")]
         public async Task PushReport(int unitId, int reportId)
         {
@@ -66,6 +67,8 @@ namespace Emergy.Api.Hubs
                 await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
             }
         }
+
+        [HubMethodName("changedReportStatus")]
         public async Task ChangedReportStatus(int unitId, int reportId)
         {
             var unitTask = _unitsRepository.GetAsync(unitId);
@@ -83,6 +86,8 @@ namespace Emergy.Api.Hubs
                 }
             }
         }
+
+        [HubMethodName("updateUserLocation")]
         public async Task UpdateUserLocation(int locationId, string userId, int reportId)
         {
             Report report = await _reportsRepository.GetAsync(reportId);
@@ -96,6 +101,8 @@ namespace Emergy.Api.Hubs
                 }
             }
         }
+
+        [HubMethodName("sendNotification")]
         public async Task SendNotification(int notificationId)
         {
             Notification notification = await _notificationsRepository.GetAsync(notificationId);
@@ -109,6 +116,8 @@ namespace Emergy.Api.Hubs
                 }
             }
         }
+
+        [HubMethodName("sendMessage")]
         public async Task SendMessage(int messageId)
         {
             Message message = await _messagesRepository.GetAsync(messageId);
