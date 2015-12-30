@@ -44,6 +44,7 @@ namespace Emergy.Api.Mappings
             Mapper.CreateMap<EditLocationViewModel, Location>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateReportViewModel, Report>().IgnoreUnmappedProperties();
+            Mapper.CreateMap<Report, ReportDetailsViewModel>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateMessageVm, Message>().IgnoreUnmappedProperties();
             Mapper.CreateMap<CreateNotificationVm, Notification>().IgnoreUnmappedProperties();

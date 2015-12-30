@@ -66,22 +66,13 @@ namespace Emergy.Api.Hubs
                 await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
             }
         }
-        [Authorize(Roles = "Administrators")]
         public async Task ChangedReportStatus(int unitId, int reportId)
         {
-            Unit unit = null;
-            Report report = null;
-            await Task.WhenAll(
-               new Task(async () =>
-               {
-                   unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
-               }),
-               new Task(async () =>
-               {
-                   report = await _reportsRepository.GetAsync(reportId).WithoutSync();
-               }))
-               .WithoutSync();
-
+            var unitTask = _unitsRepository.GetAsync(unitId);
+            var reportTask = _reportsRepository.GetAsync(reportId);
+            await Task.WhenAll(unitTask, reportTask).WithoutSync();
+            var unit = await unitTask;
+            var report = await reportTask;
             if (unit != null && report != null)
             {
                 string creatorConnection;
