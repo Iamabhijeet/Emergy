@@ -31,6 +31,8 @@
             <div class="home-container modal">
                 <div class="report-inputs">
                     <span class="camera-button" ng-click="takePicture()"><i class="material-icons"><i class="material-icons">add_a_photo</i></i></span>
+                    <p style="text-align: center;" ng-if="reportPicturesData.length != 0">{{ reportPicturesData.length }} pictures added</p>
+
                     <label class="item item-input item-stacked-label" style="margin-top: 0;">
                         <span class="input-label">Description</span>
                         <textarea ng-model="report.Description"></textarea>
@@ -43,7 +45,7 @@
                         </label>
                     </div>
                 </div>
-                <button class="button button-full button-balanced" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
+                <button class="button button-create-report" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
             </div>
         </ion-content>
     </ion-modal-view>

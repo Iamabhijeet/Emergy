@@ -14,7 +14,7 @@ function homeController($scope, $cordovaGeolocation, $cordovaCamera, $ionicModal
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
-    var cameraOptions = {
+      var cameraOptions = {
         quality: 75,
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType: Camera.PictureSourceType.CAMERA,
