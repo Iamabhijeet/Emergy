@@ -1,1 +1,1 @@
-﻿var directives = angular.module('emergyWeb.directives',[]);
+﻿var directives = angular.module('emergyWeb.directives', ['emergyWeb.services']);

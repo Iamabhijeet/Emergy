@@ -30,57 +30,6 @@ directives.directive("passwordVerify", function () {
     };
 });
 
-directives.directive('userNameTaken', function (accountService) {
-    return {
-        scope: {
-            userName: "="
-        },
-        restrict: 'A',
-        link: function (scope, element, attributes, controller) {
-            scope.$watch(userName, function (value) {
-                accountService.isUserNameTaken(value)
-                    .then(function (response) {
-                        controller.$setValidity("userNameTaken", response.data);
-                    });
-            });
-        }
-    };
-});
-
-directives.directive('emailTaken', function (accountService) {
-    return {
-        scope: {
-            email: "="
-        },
-        restrict: 'A',
-        link: function (scope, element, attributes, controller) {
-            scope.$watch(email, function (value) {
-                accountService.isEmailTaken(value)
-                    .then(function (response) {
-                        controller.$setValidity("emailTaken", response.data);
-                    });
-            });
-        }
-    };
-});
-
-directives.directive('userNameValid', function () {
-    return {
-        scope: {
-            userName: "="
-        },
-        restrict: 'A',
-        link: function (scope, element, attributes, controller) {
-            scope.$watch(userName, function (value) {
-                if (value.indexOf('.') > -1) {
-                    controller.$setValidity("userNameValid", false);
-                } else {
-                    controller.$setValidity("userNameValid", true);
-                }
-            });
-        }
-    };
-});
 
 directives.directive("ngFileSelect", function () {
     return {

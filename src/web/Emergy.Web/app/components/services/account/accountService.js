@@ -31,10 +31,10 @@
             return $http.get(serviceBase + 'api/account/isvalidkey?id=' + id + '&key=' + key);
         };
         var isUserNameTaken = function (userName) {
-            return $http.get(serviceBase + 'api/account/isusernametaken/' + userName);
+            return $http.post(serviceBase + 'api/account/isusernametaken', JSON.stringify(userName));
         };
         var isEmailTaken = function (email) {
-            return $http.get(serviceBase + 'api/account/isemailtaken/' + email);
+            return $http.post(serviceBase + 'api/account/isemailtaken/', JSON.stringify(email));
         };
 
         var service = {
@@ -42,7 +42,9 @@
             getProfileByUsername: getProfileByUsername,
             getProfileByKey: getProfileByKey,
             verifyKeyAndId: verifyKeyAndId,
-            editProfile: ,
+            isUserNameTaken: isUserNameTaken,
+            isEmailTaken: isEmailTaken,
+            editProfile: editProfile
         };
         return service;
     }
