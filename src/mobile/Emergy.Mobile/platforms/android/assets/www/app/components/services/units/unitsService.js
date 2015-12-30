@@ -4,7 +4,19 @@ services.factory('unitsService', unitsService);
 unitsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 
 function unitsService($http, $q, serviceBase, authData) {
-    var getUnits = function () {
+    var getUnit = function (unitId) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/units/get/' + unitId)
+        .success(function (units) {
+            deffered.resolve(units);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+	
+	var getUnits = function () {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/units/get')
         .success(function (units) {
@@ -13,6 +25,30 @@ function unitsService($http, $q, serviceBase, authData) {
             .error(function (response) {
                 deffered.reject(response);
             });
+        return deffered.promise;
+    };
+
+    var getCustomProperties = function (unitId) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/units/custom-properties/get/' + unitId)
+        .success(function (customProperties) {
+            deffered.resolve(customProperties);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
+    var createLocation = function (location) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/locations/create/', location)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
         return deffered.promise;
     };
 
@@ -42,8 +78,11 @@ function unitsService($http, $q, serviceBase, authData) {
 
 
     var service = {
+		getUnit: getUnit,
         getUnits: getUnits,
+        getCustomProperties: getCustomProperties,
         getLocations: getLocations,
+        createLocation: createLocation,
         getCategories: getCategories
 };
 

@@ -1,3 +1,10 @@
+.image-background {
+    background: url(assets/img/login.jpg) no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+}
+
+
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
     border-color: #00ACC1;
@@ -100,21 +107,34 @@ ion-tabs.tabs-color-active-positive .tab-item {
 /*-----------begin HOME-----------*/
 
 .home-container .button-new-report {
-    background-color: #10CCE3;
+    background-color: #14B1C4;
     color: #ffffff;
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
+    width: 165px;
+    height: 165px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     border: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
+    margin-top: 5px;
+}
+
+.home-container .button-create-report {
+    background-color: #14B1C4;
+    color: #ffffff;
+    width: 100%;
+    border-radius: 3%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
 }
 
 .home-container .button-new-report:before {
-    font-size: 100px;
+    font-size: 75px;
 }
 
 .home-container button.button-new-report:hover {
@@ -127,11 +147,53 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .home-container .report-inputs {
-    margin-top: 25px; 
+    margin-top: 15px; 
 }
 
-.home-container label {
+.home-container .report-inputs label.item-checkbox {
+    padding-left: 45px;
+}
+
+.home-container .report-inputs label.item-checkbox .checkbox {
+    left: 0px;
+}
+
+.home-container .report-inputs label.item-checkbox .checkbox input:checked+.checkbox-icon:before, .checkbox input:checked:before {
+    background: #00ACC1;
+    border-color: #00A1B5;
+}
+
+
+.home-container .report-inputs label {
     margin-top: 15px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+}
+
+.home-container .report-inputs .input-label {
+    color: #00ACC1;
+    font-weight: 500;
+}
+
+.home-container.modal .report-inputs textarea {
+    height: 100px;
+}
+
+.home-container.modal .report-inputs {
+    margin-top: 0; 
+}
+
+.home-container.modal .report-inputs .camera-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.home-container.modal .report-inputs .camera-button i {
+    font-size: 50px;
+    color: #757575;
 }
 
 .loading-spinner svg {

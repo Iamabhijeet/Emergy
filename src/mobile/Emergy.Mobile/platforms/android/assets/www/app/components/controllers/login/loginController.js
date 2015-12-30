@@ -3,23 +3,23 @@
 var controllerId = 'loginController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', 'authService', 'authData', loginController]);
+    ['$scope', '$rootScope', '$ionicHistory', 'authService', 'notificationService', loginController]);
 
-function loginController($scope, $rootScope, authService, authData) {
-    $scope.user = {};
+function loginController($scope, $rootScope, $ionicHistory, authService, notificationService) {
+    $ionicHistory.nextViewOptions({
+        disableAnimate: false,
+        disableBack: true,
+        historyRoot: true
+    });
+
+    $scope.isBusy = false;
     $scope.user = {
         userName: '',
         password: ''
     };
-
     $scope.login = function (user) {
-        var promise = authService.login(user);
-        promise.then(function() {
-            
-        }, function(response) {
-
-        }).finally(function() {
-        });
-
+        $scope.isBusy = true;
+        notificationService.displayLoading('Logging in...');
+        authService.login(user).finally(function () { $scope.isBusy = false; notificationService.hideLoading(); });
     };
 }

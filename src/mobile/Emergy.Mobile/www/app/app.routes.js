@@ -97,7 +97,7 @@
             }]
         }
     });
-    $stateProvider.state('Login', {
+    $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'app/views/login/login.html',
         controller: 'loginController'

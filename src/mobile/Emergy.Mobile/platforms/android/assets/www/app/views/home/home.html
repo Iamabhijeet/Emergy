@@ -1,22 +1,52 @@
 ﻿<ion-view name="tab-home" view-title="Home">
-    <ion-content class="padding" ng-controller="homeController">
+    <ion-content class="padding has-header">
         <div class="home-container">
-            <button ng-click="openSubmitPopup()" class="button icon ion-android-add button-new-report"></button>
+            <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report"></button>
             <div class="report-inputs" ng-if="!isBusy">
                 <label class="item item-input item-select">
                     <div class="input-label">Unit</div>
                     <select ng-change="loadBasicProperties(report.UnitId)" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="unit.Id as unit.Name for unit in units"></select>
                 </label>
                 <label class="item item-input item-select">
-                    <div class="input-label">Location</div>
-                    <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
-                </label>
-                <label class="item item-input item-select">
                     <div class="input-label">Category</div>
                     <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
                 </label>
+                <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
+                <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
+                    <div class="input-label">Location</div>
+                    <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
+                </label>
             </div>
-            <ion-spinner class="loading-spinner" ng-if="isBusy"></ion-spinner>
         </div>
     </ion-content>
 </ion-view>
+
+<script id="submitReportWithAdditionalInformationModal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-positive">
+            <div class="title header-item">Additional information</div>
+            <span ng-click="modal.hide()"><i style="position: absolute; right:7px; top:10px; font-weight: 500;" class="material-icons">clear</i></span>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="home-container modal">
+                <div class="report-inputs">
+                    <span class="camera-button" ng-click="takePicture()"><i class="material-icons"><i class="material-icons">add_a_photo</i></i></span>
+                    <p style="text-align: center;" ng-if="reportPicturesData.length != 0">{{ reportPicturesData.length }} pictures added</p>
+
+                    <label class="item item-input item-stacked-label" style="margin-top: 0;">
+                        <span class="input-label">Description</span>
+                        <textarea ng-model="report.Description"></textarea>
+                    </label>
+                    <div ng-repeat="customProperty in customProperties">
+                        <ion-checkbox ng-if="customProperty.CustomPropertyType == 'CheckBox'" ng-model="customPropertyValues[customProperty.Id]" style="border-bottom: none;">{{ customProperty.Name }}</ion-checkbox>
+                        <label ng-if="customProperty.CustomPropertyType == 'Field'" class="item item-input item-stacked-label">
+                            <span class="input-label">{{ customProperty.Name }}</span>
+                            <input ng-model="customPropertyValues[customProperty.Id]" type="text">
+                        </label>
+                    </div>
+                </div>
+                <button class="button button-create-report" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
