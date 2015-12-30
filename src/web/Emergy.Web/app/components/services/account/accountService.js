@@ -42,7 +42,7 @@
             getProfileByUsername: getProfileByUsername,
             getProfileByKey: getProfileByKey,
             verifyKeyAndId: verifyKeyAndId,
-            editProfile: ,
+            editProfile: editProfile
         };
         return service;
     }

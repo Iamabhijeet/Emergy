@@ -13,12 +13,12 @@
     </div>
 
     <div class="row head-information">
-        <p>Submitted by <span>BentyParadox</span> at <span>12:34PM</span> on <span>9/11/2001</span>
+        <p>Submitted by <span>{{ report.Creator.Name }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
         
     </div>
     <div class="row report-map">
-        <map center="43.513963, 16.471078" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <custom-marker position="43.513963, 16.471078">
+        <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+            <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}">
                 <img src="/assets/img/map-marker.png"/>
             </custom-marker>
         </map>
@@ -26,40 +26,25 @@
     <div class="row general-information">
         <h4>General information</h4>
         <div class="col s12" style="padding: 0">
-            <div input-field>
-                <textarea class="materialize-textarea"></textarea>
-                <label class="active">Description</label>
-            </div>
+            <h5>Description</h5>
+            <p>{{ report.Description }}</p>
         </div>
         <div class="col l4 m4 s12" style="padding: 0">
-            <select ng-model="report.Category" material-select watch>
-                <option ng-repeat="category in categories">{{ category.Name }}</option>
-            </select>
+            <h5>Category</h5>
+            <p>{{ report.Category.Name }}</p>
         </div>
-        <div class="col l4 m4 s12">
-            <div input-field>
-                <input type="text" ng-model="report.Location.Latitude">
-                <label class="active">Latitude</label>
-            </div>
-        </div>
-        <div class="col l4 m4 s12" style="padding-right: 0">
-            <div input-field>
-                <input type="text" ng-model="report.Location.Longitude">
-                <label class="active">Longitude</label>
-            </div>
-        </div>
+        <div class="col l4 m4 s12" style="padding: 0">
+            <h5>Location</h5>
+            <p>{{ report.Location.Name }} ({{ report.Location.Latitude }}, {{ report.Location.Longitude }})</p>
+        </div> 
     </div>
     <div class="row additional-details">
         <h4>Additional details</h4>
-        <div class="col s12">
-            <div input-field>
-                <input type="text" ng-model="report.Location.Longitude">
-                <label class="active">Additional detail test</label>
-            </div>
-        </div>
-        <div class="col s12">
-            <input value="Alvin" id="first_name2" type="checkbox">
-            <label class="active" for="first_name2">First Name</label>
+        <div class="col s12" ng-repeat="detail in report.Details.CustomPropertyValues">
+            <h5>{{ detail.CustomProperty.Name }}</h5>
+            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True' ">Yes</p>
+            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False' ">No</p>
+            <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field' ">{{ detail.SerializedValue }}</p>
         </div>
     </div>
 </div>
