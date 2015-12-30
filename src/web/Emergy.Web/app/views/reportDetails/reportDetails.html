@@ -27,7 +27,8 @@
         <h4>General information</h4>
         <div class="col s12" style="padding: 0">
             <h5>Description</h5>
-            <p>{{ report.Description }}</p>
+            <p ng-if="report.Description">{{ report.Description }}</p>
+            <p ng-if="!report.Description">Client has not provided a description for this report.</p>
         </div>
         <div class="col l4 m4 s12" style="padding: 0">
             <h5>Category</h5>
@@ -40,11 +41,19 @@
     </div>
     <div class="row additional-details">
         <h4>Additional details</h4>
-        <div class="col s12" ng-repeat="detail in report.Details.CustomPropertyValues">
+        <div class="col s12" ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
             <h5>{{ detail.CustomProperty.Name }}</h5>
             <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True' ">Yes</p>
             <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False' ">No</p>
             <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field' ">{{ detail.SerializedValue }}</p>
         </div>
+        <p ng-if="report.Details.CustomPropertyValues.length == 0">Client has not provided any additional details for this report.</p>
+    </div>
+    <div class="row resources">
+        <h4>Pictures</h4>
+        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources"> 
+            <img materialboxed class="materialboxed responsive-img" ng-src="{{ resource.Base64 }}">
+        </div>
+        <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
     </div>
 </div>
