@@ -42,11 +42,8 @@
             getProfileByUsername: getProfileByUsername,
             getProfileByKey: getProfileByKey,
             verifyKeyAndId: verifyKeyAndId,
-<<<<<<< HEAD
             isUserNameTaken: isUserNameTaken,
             isEmailTaken: isEmailTaken,
-=======
->>>>>>> 613626698b6c54488107e98bd0f0b54fe033d969
             editProfile: editProfile
         };
         return service;

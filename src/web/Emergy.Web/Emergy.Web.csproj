@@ -63,6 +63,8 @@
     <Content Include="app\components\services\clients\clientsDashboardService.js" />
     <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
+    <Content Include="app\components\services\realtime\emergyHub.js" />
+    <Content Include="app\components\services\realtime\realTimeService.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
     <Content Include="app\components\services\services.module.js" />
@@ -110,6 +112,7 @@
     <Content Include="libs\js\angular-google-maps\logger.js" />
     <Content Include="libs\js\angular-recaptcha\angular-recaptcha.min.js" />
     <Content Include="libs\js\angular\quick-ng-repeat.js" />
+    <Content Include="libs\js\jquery\signalr.js" />
     <Content Include="libs\js\ng-map\ng-map.min.js" />
     <Content Include="libs\js\ngFileUpload\FileAPI.flash.swf" />
     <Content Include="libs\js\ngFileUpload\FileAPI.js" />
