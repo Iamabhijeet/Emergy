@@ -71,10 +71,14 @@ namespace Emergy.Api.Controllers
         [Route("get/{id}")]
         public async Task<dto::ReportDetailsViewModel> GetReport([FromUri] int id)
         {
-            if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+            var report = await _reportsRepository.GetAsync(id).WithoutSync();
+            if (report != null)
             {
-                var report = await _reportsRepository.GetAsync(id).WithoutSync();
-                return Mapper.Map<dto::ReportDetailsViewModel>(report);
+                if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
+                {
+                    return Mapper.Map<dto::ReportDetailsViewModel>(report);
+                }
+                return null;
             }
             return null;
         }
