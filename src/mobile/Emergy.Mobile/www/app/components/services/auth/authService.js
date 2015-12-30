@@ -52,6 +52,7 @@ function authService($http, $state, $rootScope, $q, serviceBase, localStorageSer
                 .error(function (data) {
                     authData.loggedIn = false;
                     $rootScope.authData = authData;
+                    notificationService.displayMessage('Invalid credentials!', 'Username or password is incorrect!');
                     deffered.reject(data);
                 });
 
@@ -83,7 +84,6 @@ function authService($http, $state, $rootScope, $q, serviceBase, localStorageSer
         fillAuthData();
         return authData;
     }
-
 
     var service = {
         login: login,
