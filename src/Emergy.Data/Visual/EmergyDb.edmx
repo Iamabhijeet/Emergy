@@ -118,22 +118,22 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderId" Type="varchar" MaxLength="128" />
+          <Property Name="TargetId" Type="varchar" MaxLength="128" />
           <Property Name="Content" Type="longtext" />
           <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Sender_Id" Type="varchar" MaxLength="128" />
-          <Property Name="Target_Id" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="notifications">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderId" Type="varchar" MaxLength="128" />
+          <Property Name="TargetId" Type="varchar" MaxLength="128" />
           <Property Name="Content" Type="longtext" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Sender_Id" Type="varchar" MaxLength="128" />
-          <Property Name="Target_Id" Type="varchar" MaxLength="128" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="ParameterId" Type="longtext" />
+          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="reportdetails">
           <Key>
@@ -176,8 +176,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AdministratorId" Type="varchar" MaxLength="128" />
-          <Property Name="DateCreated" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="IsPublic" Type="bool" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="units2clients">
           <Key>
@@ -187,7 +187,7 @@
           <Property Name="UnitId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_96d79c5f64e64fb895c4b9d23638d810">
+        <Association Name="FK_224acc2ec1eb43b1b019a8ff47324f9b">
           <End Role="customproperties" Type="Self.customproperties" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -341,7 +341,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_AspNetUsers_Sender_Id">
+        <Association Name="FK_Messages_AspNetUsers_SenderId">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -351,11 +351,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="messages">
-              <PropertyRef Name="Sender_Id" />
+              <PropertyRef Name="SenderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_AspNetUsers_Target_Id">
+        <Association Name="FK_Messages_AspNetUsers_TargetId">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -365,11 +365,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="messages">
-              <PropertyRef Name="Target_Id" />
+              <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Notifications_AspNetUsers_Sender_Id">
+        <Association Name="FK_Notifications_AspNetUsers_SenderId">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -379,11 +379,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="notifications">
-              <PropertyRef Name="Sender_Id" />
+              <PropertyRef Name="SenderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Notifications_AspNetUsers_Target_Id">
+        <Association Name="FK_Notifications_AspNetUsers_TargetId">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -393,7 +393,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="notifications">
-              <PropertyRef Name="Target_Id" />
+              <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -545,7 +545,7 @@
           <EntitySet Name="resources" EntityType="Self.resources" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units" EntityType="Self.units" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units2clients" EntityType="Self.units2clients" Schema="emergydb" store:Type="Tables" />
-          <AssociationSet Name="FK_96d79c5f64e64fb895c4b9d23638d810" Association="Self.FK_96d79c5f64e64fb895c4b9d23638d810">
+          <AssociationSet Name="FK_224acc2ec1eb43b1b019a8ff47324f9b" Association="Self.FK_224acc2ec1eb43b1b019a8ff47324f9b">
             <End Role="customproperties" EntitySet="customproperties" />
             <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
           </AssociationSet>
@@ -589,19 +589,19 @@
             <End Role="units" EntitySet="units" />
             <End Role="locations" EntitySet="locations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_Sender_Id" Association="Self.FK_Messages_AspNetUsers_Sender_Id">
+          <AssociationSet Name="FK_Messages_AspNetUsers_SenderId" Association="Self.FK_Messages_AspNetUsers_SenderId">
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="messages" EntitySet="messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_Target_Id" Association="Self.FK_Messages_AspNetUsers_Target_Id">
+          <AssociationSet Name="FK_Messages_AspNetUsers_TargetId" Association="Self.FK_Messages_AspNetUsers_TargetId">
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="messages" EntitySet="messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_Sender_Id" Association="Self.FK_Notifications_AspNetUsers_Sender_Id">
+          <AssociationSet Name="FK_Notifications_AspNetUsers_SenderId" Association="Self.FK_Notifications_AspNetUsers_SenderId">
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="notifications" EntitySet="notifications" />
           </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_Target_Id" Association="Self.FK_Notifications_AspNetUsers_Target_Id">
+          <AssociationSet Name="FK_Notifications_AspNetUsers_TargetId" Association="Self.FK_Notifications_AspNetUsers_TargetId">
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="notifications" EntitySet="notifications" />
           </AssociationSet>
@@ -727,6 +727,10 @@
           <NavigationProperty Name="notifications" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_ApplicationUser_Id" FromRole="aspnetuser" ToRole="notification" />
           <NavigationProperty Name="notifications1" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Sender_Id" FromRole="aspnetuser" ToRole="notification" />
           <NavigationProperty Name="notifications2" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" FromRole="aspnetuser" ToRole="notification" />
+          <NavigationProperty Name="messages3" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId" FromRole="aspnetuser" ToRole="message" />
+          <NavigationProperty Name="messages11" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="message" />
+          <NavigationProperty Name="notifications3" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" FromRole="aspnetuser" ToRole="notification" />
+          <NavigationProperty Name="notifications11" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="notification" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -1117,6 +1121,22 @@
             <End Role="report" EntitySet="reports" />
             <End Role="resource" EntitySet="resources" />
           </AssociationSet>
+          <AssociationSet Name="FK_Messages_AspNetUsers_SenderId" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="message" EntitySet="messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="message" EntitySet="messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_AspNetUsers_SenderId" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notifications_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
           <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
@@ -1146,6 +1166,10 @@
           <NavigationProperty Name="aspnetuser1" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Sender_Id" FromRole="message" ToRole="aspnetuser" />
           <NavigationProperty Name="aspnetuser2" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Target_Id" FromRole="message" ToRole="aspnetuser" />
           <NavigationProperty Name="resources" Relationship="EmergyDbVisualModel.FK_Resources_Messages_Message_Id" FromRole="message" ToRole="resource" />
+          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="aspnetuser3" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId" FromRole="message" ToRole="aspnetuser" />
+          <NavigationProperty Name="aspnetuser11" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" FromRole="message" ToRole="aspnetuser" />
         </EntityType>
         <EntityType Name="notification">
           <Key>
@@ -1162,6 +1186,10 @@
           <NavigationProperty Name="aspnetuser2" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" FromRole="notification" ToRole="aspnetuser" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="ParameterId" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="aspnetuser3" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" FromRole="notification" ToRole="aspnetuser" />
+          <NavigationProperty Name="aspnetuser11" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" FromRole="notification" ToRole="aspnetuser" />
         </EntityType>
         <EntityType Name="resource">
           <Key>
@@ -1288,6 +1316,62 @@
             </Principal>
             <Dependent Role="resource">
               <PropertyRef Name="Report_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_AspNetUsers_SenderId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_AspNetUsers_TargetId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_AspNetUsers_SenderId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notifications_AspNetUsers_TargetId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1456,8 +1540,8 @@
           <EntitySetMapping Name="messages">
             <EntityTypeMapping TypeName="EmergyDbVisualModel.message">
               <MappingFragment StoreEntitySet="messages">
-                <ScalarProperty Name="Target_Id" ColumnName="Target_Id" />
-                <ScalarProperty Name="Sender_Id" ColumnName="Sender_Id" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1467,10 +1551,10 @@
           <EntitySetMapping Name="notifications">
             <EntityTypeMapping TypeName="EmergyDbVisualModel.notification">
               <MappingFragment StoreEntitySet="notifications">
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
                 <ScalarProperty Name="ParameterId" ColumnName="ParameterId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Target_Id" ColumnName="Target_Id" />
-                <ScalarProperty Name="Sender_Id" ColumnName="Sender_Id" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
