@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Emergy.Core.Models.Account;
+using Emergy.Core.Models.Assignment;
 using Emergy.Core.Models.CustomProperty;
 using Emergy.Core.Models.Location;
 using Emergy.Core.Models.Message;
@@ -47,7 +48,10 @@ namespace Emergy.Api.Mappings
             Mapper.CreateMap<Report, ReportDetailsViewModel>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateMessageVm, Message>().IgnoreUnmappedProperties();
+
             Mapper.CreateMap<CreateNotificationVm, Notification>().IgnoreUnmappedProperties();
+
+            Mapper.CreateMap<CreateAssigmentVm, Assignment>().IgnoreUnmappedProperties();
         }
     }
 }

@@ -48,6 +48,7 @@ namespace Emergy.Data.Context
             builder.Configurations.Add(new CustomPropertyValueConfiguration());
             builder.Configurations.Add(new NotificationConfiguration());
             builder.Configurations.Add(new MessageConfiguration());
+            builder.Configurations.Add(new AssignmentConfiguration());
         }
 
         public DbSet<Unit> Units { get; set; }
@@ -59,7 +60,7 @@ namespace Emergy.Data.Context
         public DbSet<Location> Locations { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Message> Messages { get; set; }
-
+        public DbSet<Assignment> Assignments { get; set; }
         public static ApplicationDbContext Create()
         {
             Database.SetInitializer(new MySqlInitializer());

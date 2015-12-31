@@ -17,7 +17,7 @@ namespace Emergy.Data.Models
         {
             return await manager.CreateIdentityAsync(this, authenticationType);
         }
-        
+
         public bool Equals(ApplicationUser other)
         {
             return this.Id == other.Id;
@@ -58,6 +58,10 @@ namespace Emergy.Data.Models
         public virtual ICollection<Message> SentMessages { get; set; }
         [JsonIgnore]
         public virtual ICollection<Message> ReceievedMessages { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Assignment> CreatedAssignments { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Assignment> ReceievedAssignments { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
     }

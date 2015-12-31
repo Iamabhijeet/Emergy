@@ -26,7 +26,7 @@ namespace Emergy.Data.Models
         public virtual Location Location { get; set; }
         public int? LocationId { get; set; }
 
-        
+
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public int? CategoryId { get; set; }
@@ -41,5 +41,6 @@ namespace Emergy.Data.Models
 
         public ReportStatus Status { get; set; }
         public virtual ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
     }
 }

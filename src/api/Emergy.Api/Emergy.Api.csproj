@@ -256,6 +256,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountApiController.cs" />
+    <Compile Include="Controllers\AssignmentsApiController.cs" />
     <Compile Include="Controllers\CategoriesApiController.cs" />
     <Compile Include="Controllers\MasterApiController.cs" />
     <Compile Include="Controllers\CustomPropertiesApiController.cs" />
@@ -272,6 +273,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\EmergyHub.cs" />
+    <Compile Include="Hubs\HubActivator.cs" />
     <Compile Include="Mappings\AutoMapperConfig.cs" />
     <Compile Include="Models\Account\BearerTokenModel.cs" />
     <Compile Include="Models\PerformanceModel.cs" />
