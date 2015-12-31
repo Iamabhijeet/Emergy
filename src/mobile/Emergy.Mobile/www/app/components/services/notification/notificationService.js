@@ -7,8 +7,8 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     var pushNotification = function (notification) {
         var deffered = $q.defer();
         $http.post(serviceBase + 'api/notifications/create', notification)
-        .success(function (units) {
-            deffered.resolve(units);
+        .success(function (notification) {
+            deffered.resolve(notification);
         })
             .error(function (response) {
                 deffered.reject(response);
@@ -25,10 +25,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displayErrorPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Error", buttonText)
-            .then(function () {
-
-            });
+        $cordovaDialogs.alert(message, "Error", buttonText);
     };
 
     var displayChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction) {
@@ -37,7 +34,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
                 if (buttonIndex === 1) {
                     secondaryFunction();
                 }
-                else if (buttonIndex === 2) {
+                else if (buttonIndex === 3) {
                     primaryFunction();
                 }
             });

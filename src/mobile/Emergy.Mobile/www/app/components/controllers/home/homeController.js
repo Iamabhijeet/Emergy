@@ -17,7 +17,6 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
 
     emergyHub.ensureConnected();
 
-
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
             .then(function (base64) { $scope.reportPicturesData.push("data:image/jpeg;base64," + base64); },
@@ -79,11 +78,9 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                     Name: "Captured location",
                     Type: "Captured"
                 }
-
                 var promise = unitsService.createLocation(location);
                 promise.then(function (locationId) {
                     $scope.report.LocationId = locationId;
-
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
                         $scope.reportId = reportId;
@@ -349,7 +346,7 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
         });
     };
     $scope.openSubmitDialog = function () {
-        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Yes", "Cancel", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
+        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Cancel", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
 
     loadUnits();
