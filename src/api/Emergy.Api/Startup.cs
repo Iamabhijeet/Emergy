@@ -10,13 +10,13 @@ namespace Emergy.Api
     {
         public void Configuration(IAppBuilder app)
         {
+            ConfigureAuth(app);
             app.MapSignalR(new HubConfiguration()
             {
                 EnableDetailedErrors = true,
                 EnableJSONP = true,
                 EnableJavaScriptProxies = true
             });
-            ConfigureAuth(app);
         }
     }
 }
