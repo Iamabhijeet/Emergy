@@ -11,39 +11,8 @@
 
                 return {
                     on: function (eventName, callback) {
-                        proxy.on(eventName, function (result) {
-                            console.log(result);
-                            $rootScope.$apply(function () {
-                                if (callback) {
-                                    callback(result);
-                                }
-                            });
-                        });
-                    },
-                    off: function (eventName, callback) {
-                        proxy.off(eventName, function (result) {
-                            console.log(result);
-                            $rootScope.$apply(function () {
-                                if (callback) {
-                                    callback(result);
-                                }
-                            });
-                        });
-                    },
-                    invoke: function (methodName, params, callback) {
-                        if (params) {
-                            proxy.invoke(methodName, params)
-                                .done(function (result) {
-                                    console.log(result);
-                                    $rootScope.$apply(function () {
-                                        if (callback) {
-                                            callback(result);
-                                        }
-                                    });
-                                });
-                        }
-                        proxy.invoke(methodName)
-                            .done(function (result) {
+                        connection.start(startOptions).done(function () {
+                            proxy.on(eventName, function (result) {
                                 console.log(result);
                                 $rootScope.$apply(function () {
                                     if (callback) {
@@ -51,6 +20,34 @@
                                     }
                                 });
                             });
+                        });
+
+                    },
+                    off: function (eventName, callback) {
+                        connection.start(startOptions).done(function () {
+                            proxy.off(eventName, function (result) {
+                                console.log(result);
+                                $rootScope.$apply(function () {
+                                    if (callback) {
+                                        callback(result);
+                                    }
+                                });
+                            });
+                        });
+                    },
+                    invoke: function (methodName, params, callback) {
+                        connection.start(startOptions).done(function () {
+                            proxy.invoke(methodName, params)
+                                  .done(function (result) {
+                                      console.log(result);
+                                      $rootScope.$apply(function () {
+                                          if (callback) {
+                                              callback(result);
+                                          }
+                                      });
+                                  });
+                        });
+
                     },
                     connection: connection
                 };

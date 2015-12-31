@@ -3,20 +3,21 @@
 var controllerId = 'registerController';
 
 app.controller(controllerId,
-    ['vm', '$state', '$rootScope', '$location', 'authService', 'notificationService', 'accountService', registerCtrl]);
+    ['vm', '$state', '$rootScope', '$location', 'authService', 'notificationService', 'accountService', '$q', registerCtrl]);
 
-function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService, accountService) {
+function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService, accountService, $q) {
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
     $scope.captchaIsValid = false;
-    $scope.userNameValid = false;
-    $scope.isUserNameTaken = true;
-    $scope.isEmailTaken = true;
+    $scope.userNameValid = true;
+    $scope.isUserNameTaken = false;
+    $scope.isEmailTaken = false;
 
     var validateUserName = function () {
+        var deffered = $q.defer();
         if ($scope.newUser.Username) {
-            if ($scope.newUser.Username.indexOf('.') == -1) {
+            if ($scope.newUser.Username.indexOf('.') === -1) {
                 $scope.userNameValid = true;
             }
             else {
@@ -25,19 +26,22 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
             accountService.isUserNameTaken($scope.newUser.Username)
               .then(function (response) {
                   $scope.isUserNameTaken = response.data;
+                  deffered.resolve();
               });
         }
+        return deffered.promise;
     };
     var validateEmail = function () {
+        var deffered = $q.defer();
         if ($scope.newUser.Email) {
             accountService.isEmailTaken($scope.newUser.Email)
                .then(function (response) {
-                   $scope.isUserEmailTaken = response.data;
+                   $scope.isEmailTaken = response.data;
+                   deffered.resolve();
                });
         }
+        return deffered.promise;
     };
-
-
     $scope.newUser = {
         Email: '',
         Username: '',
@@ -51,15 +55,26 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
 
 
     $scope.submitForm = function (newUser) {
-        $scope.isBusy = true;
-        var promise = authService.register(newUser);
-        promise.then(function () {
-            $state.go("RegisterSuccess");
-        }, function (response) {
-            notificationService.pushError("Error has happened while processing your registration.");
-        }).finally(function () {
-            $scope.isBusy = false;
+        $q.all([validateUserName, validateEmail]).then(function () {
+            if ($scope.userNameValid && !$scope.isUserNameTaken && !$scope.isEmailTaken) {
+                $scope.isBusy = true;
+                var promise = authService.register(newUser);
+                promise.then(function () {
+                    $state.go("RegisterSuccess");
+                }, function () {
+                    notificationService.pushError("Error has happened while processing your registration.");
+                }).finally(function () {
+                    $scope.isBusy = false;
+                });
+            }
+            else if ($scope.isUserNameTaken) {
+                notificationService.pushError("The username is already in use.");
+            }
+            else {
+                notificationService.pushError("The email is already in use.");
+            }
         });
+
     };
 
     $scope.setResponse = function (response) {

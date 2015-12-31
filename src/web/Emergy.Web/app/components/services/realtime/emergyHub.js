@@ -14,6 +14,7 @@
                 console.log('sent notification ' + notificationId);
             });
         };
+
         var sendMessage = function (messageId) {
             hub.invoke('sendMessage', messageId, function () {
                 console.log('sent message ' + messageId);

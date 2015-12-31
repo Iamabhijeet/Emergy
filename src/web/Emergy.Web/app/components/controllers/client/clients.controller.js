@@ -2,7 +2,7 @@
     'use strict';
 
     function clientsController($location, $rootScope, unitsService,
-        reportsService, statsService, notificationService, authData) {
+        reportsService, statsService, notificationService, authData, emergyHub) {
         $rootScope.title = 'Dashboard - ' + authData.userName + ' | Emergy';
 
         var vm = this;
@@ -15,6 +15,7 @@
             unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
             reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
             statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            emergyHub.sendNotification(1);
         }
 
         vm.loadReports = function () {
@@ -46,5 +47,5 @@
 
     app.controller('clientsController', clientsController);
     clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService',
-        'statsService', 'notificationService', 'authData'];
+        'statsService', 'notificationService', 'authData', 'emergyHub'];
 })();
