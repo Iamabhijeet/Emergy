@@ -73,6 +73,7 @@ namespace Emergy.Api
             kernel.Bind<IRepository<Message>>().To<Repository<Message>>();
             kernel.Bind<IReportsRepository>().To<ReportsRepository>();
             kernel.Bind<IUnitsRepository>().To<UnitsRepository>();
+            kernel.Bind<IAssignmentsRepository>().To<AssignmentsRepository>();
             kernel.Bind<IReCaptchaValidator>().To<ReCaptchaValidator>();
             kernel.Bind<IStatsService>().To<StatsService>();
 

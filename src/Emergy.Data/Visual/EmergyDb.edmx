@@ -74,6 +74,16 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <EntityType Name="assignments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportId" Type="int" Nullable="false" />
+          <Property Name="TargetId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="AdminId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="categories">
           <Key>
             <PropertyRef Name="Id" />
@@ -97,8 +107,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SerializedValue" Type="longtext" />
-          <Property Name="CustomProperty_Id" Type="int" />
           <Property Name="ReportDetails_Id" Type="int" />
+          <Property Name="CustomProperty_Id" Type="int" />
         </EntityType>
         <EntityType Name="locations">
           <Key>
@@ -187,7 +197,7 @@
           <Property Name="UnitId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_224acc2ec1eb43b1b019a8ff47324f9b">
+        <Association Name="FK_8f944ceed80246c183bfed98e7c86aae">
           <End Role="customproperties" Type="Self.customproperties" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -268,6 +278,48 @@
             </Principal>
             <Dependent Role="aspnetusers">
               <PropertyRef Name="ProfilePhotoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assignments_AspNetUsers_AdminId">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignments">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assignments_AspNetUsers_TargetId">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignments">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assignments_Reports_ReportId">
+          <End Role="reports" Type="Self.reports" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignments">
+              <PropertyRef Name="ReportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -534,6 +586,7 @@
           <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogins" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="aspnetuserroles" EntityType="Self.aspnetuserroles" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" Schema="emergydb" store:Type="Tables" />
+          <EntitySet Name="assignments" EntityType="Self.assignments" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="categories" EntityType="Self.categories" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="customproperties" EntityType="Self.customproperties" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="custompropertyvalues" EntityType="Self.custompropertyvalues" Schema="emergydb" store:Type="Tables" />
@@ -545,7 +598,7 @@
           <EntitySet Name="resources" EntityType="Self.resources" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units" EntityType="Self.units" Schema="emergydb" store:Type="Tables" />
           <EntitySet Name="units2clients" EntityType="Self.units2clients" Schema="emergydb" store:Type="Tables" />
-          <AssociationSet Name="FK_224acc2ec1eb43b1b019a8ff47324f9b" Association="Self.FK_224acc2ec1eb43b1b019a8ff47324f9b">
+          <AssociationSet Name="FK_8f944ceed80246c183bfed98e7c86aae" Association="Self.FK_8f944ceed80246c183bfed98e7c86aae">
             <End Role="customproperties" EntitySet="customproperties" />
             <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
           </AssociationSet>
@@ -568,6 +621,18 @@
           <AssociationSet Name="FK_AspNetUsers_Resources_ProfilePhotoId" Association="Self.FK_AspNetUsers_Resources_ProfilePhotoId">
             <End Role="resources" EntitySet="resources" />
             <End Role="aspnetusers" EntitySet="aspnetusers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assignments_AspNetUsers_AdminId" Association="Self.FK_Assignments_AspNetUsers_AdminId">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="assignments" EntitySet="assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assignments_AspNetUsers_TargetId" Association="Self.FK_Assignments_AspNetUsers_TargetId">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="assignments" EntitySet="assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assignments_Reports_ReportId" Association="Self.FK_Assignments_Reports_ReportId">
+            <End Role="reports" EntitySet="reports" />
+            <End Role="assignments" EntitySet="assignments" />
           </AssociationSet>
           <AssociationSet Name="FK_Categories_Units_Unit_Id" Association="Self.FK_Categories_Units_Unit_Id">
             <End Role="units" EntitySet="units" />
@@ -731,6 +796,8 @@
           <NavigationProperty Name="messages11" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="message" />
           <NavigationProperty Name="notifications3" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" FromRole="aspnetuser" ToRole="notification" />
           <NavigationProperty Name="notifications11" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="notification" />
+          <NavigationProperty Name="assignments" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId" FromRole="aspnetuser" ToRole="assignment" />
+          <NavigationProperty Name="assignments1" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="assignment" />
         </EntityType>
         <EntityType Name="category">
           <Key>
@@ -808,6 +875,7 @@
           <NavigationProperty Name="reportdetail" Relationship="Self.FK_Reports_ReportDetails_DetailsId" FromRole="reports" ToRole="reportdetails" />
           <NavigationProperty Name="unit" Relationship="Self.FK_Reports_Units_Unit_Id" FromRole="reports" ToRole="units" />
           <NavigationProperty Name="resources" Relationship="EmergyDbVisualModel.FK_Resources_Reports_Report_Id" FromRole="report" ToRole="resource" />
+          <NavigationProperty Name="assignments" Relationship="EmergyDbVisualModel.FK_Assignments_Reports_ReportId" FromRole="report" ToRole="assignment" />
         </EntityType>
         <EntityType Name="unit">
           <Key>
@@ -1137,6 +1205,19 @@
             <End Role="aspnetuser" EntitySet="aspnetusers" />
             <End Role="notification" EntitySet="notifications" />
           </AssociationSet>
+          <EntitySet Name="assignments" EntityType="EmergyDbVisualModel.assignment" />
+          <AssociationSet Name="FK_Assignments_AspNetUsers_AdminId" Association="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="assignment" EntitySet="assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assignments_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId">
+            <End Role="aspnetuser" EntitySet="aspnetusers" />
+            <End Role="assignment" EntitySet="assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Assignments_Reports_ReportId" Association="EmergyDbVisualModel.FK_Assignments_Reports_ReportId">
+            <End Role="report" EntitySet="reports" />
+            <End Role="assignment" EntitySet="assignments" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
           <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
@@ -1375,6 +1456,61 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="assignment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="TargetId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="AdminId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId" FromRole="assignment" ToRole="aspnetuser" />
+          <NavigationProperty Name="aspnetuser1" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId" FromRole="assignment" ToRole="aspnetuser" />
+          <NavigationProperty Name="report" Relationship="EmergyDbVisualModel.FK_Assignments_Reports_ReportId" FromRole="assignment" ToRole="report" />
+        </EntityType>
+        <Association Name="FK_Assignments_AspNetUsers_AdminId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignment">
+              <PropertyRef Name="AdminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assignments_AspNetUsers_TargetId">
+          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetuser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignment">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Assignments_Reports_ReportId">
+          <End Type="EmergyDbVisualModel.report" Role="report" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="assignment">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1571,6 +1707,17 @@
                 <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="assignments">
+            <EntityTypeMapping TypeName="EmergyDbVisualModel.assignment">
+              <MappingFragment StoreEntitySet="assignments">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

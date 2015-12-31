@@ -12,13 +12,16 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class aspnetuserclaim
+    public partial class assignment
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
+        public int ReportId { get; set; }
+        public string TargetId { get; set; }
+        public string AdminId { get; set; }
+        public System.DateTime Timestamp { get; set; }
     
         public virtual aspnetuser aspnetuser { get; set; }
+        public virtual aspnetuser aspnetuser1 { get; set; }
+        public virtual report report { get; set; }
     }
 }

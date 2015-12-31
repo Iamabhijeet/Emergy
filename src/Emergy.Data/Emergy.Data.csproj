@@ -123,6 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AssignmentConfiguration.cs" />
     <Compile Include="Configurations\CustomPropertyConfiguration.cs" />
     <Compile Include="Configurations\CustomPropertyValueConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Migrations\MySqlHistoryContext.cs" />
     <Compile Include="Initializers\MySqlInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />
     <Compile Include="Models\CustomProperty.cs" />
     <Compile Include="Models\CustomPropertyValue.cs" />
@@ -165,6 +167,9 @@
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Visual\aspnetuserlogin.cs">
+      <DependentUpon>EmergyDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Visual\assignment.cs">
       <DependentUpon>EmergyDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Visual\category.cs">
@@ -232,8 +237,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Context\Raw\kill-all.txt" />
-    <Content Include="Context\Raw\create-schema.txt" />
+    <Content Include="Context\Raw\MSSQl\kill-all.txt" />
+    <Content Include="Context\Raw\MySql\create-schema.txt" />
     <Content Include="Visual\EmergyDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>EmergyDb.edmx</DependentUpon>
