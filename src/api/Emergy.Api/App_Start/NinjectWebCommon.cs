@@ -2,11 +2,14 @@ using System;
 using System.Web;
 using System.Web.Http;
 using Emergy.Api;
+using Emergy.Api.Hubs;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -74,6 +77,7 @@ namespace Emergy.Api
             kernel.Bind<IStatsService>().To<StatsService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+            GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel));
         }
     }
 }
