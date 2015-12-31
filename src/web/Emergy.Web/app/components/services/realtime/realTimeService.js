@@ -1,8 +1,10 @@
 ﻿(function () {
     'use strict';
 
-    function realTimeService($rootScope, serviceBase) {
+    function realTimeService($rootScope, serviceBase, authData) {
         function configuredService(serverUrl, hubName, startOptions) {
+
+            $.signalR.ajaxDefaults.headers = { Authorization: "Bearer " + authData.token };
             var connection = $.hubConnection(serviceBase);
             var proxy = connection.createHubProxy(hubName);
             connection.start(startOptions).done(function () { });
@@ -57,5 +59,5 @@
 
     services.factory('realTimeService', realTimeService);
 
-    realTimeService.$inject = ['$rootScope', 'serviceBase'];
+    realTimeService.$inject = ['$rootScope', 'serviceBase', 'authData'];
 })();
