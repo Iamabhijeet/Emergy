@@ -102,6 +102,7 @@ namespace Emergy.Core.Services
 
         public async Task UpdateLocation(ApplicationUser user, Location location)
         {
+            user.Locations.Clear();
             user.Locations.Add(location);
             await _userManager.UpdateAsync(user).WithoutSync();
         }

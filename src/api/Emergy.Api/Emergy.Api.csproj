@@ -278,6 +278,7 @@
     </Compile>
     <Compile Include="Hubs\EmergyHub.cs" />
     <Compile Include="Hubs\HubActivator.cs" />
+    <Compile Include="Hubs\Mappings\ConnectionMapping.cs" />
     <Compile Include="Mappings\AutoMapperConfig.cs" />
     <Compile Include="Models\Account\BearerTokenModel.cs" />
     <Compile Include="Models\PerformanceModel.cs" />

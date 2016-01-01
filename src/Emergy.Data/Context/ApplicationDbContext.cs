@@ -66,10 +66,5 @@ namespace Emergy.Data.Context
             Database.SetInitializer(new MySqlInitializer());
             return new ApplicationDbContext();
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            // prevent identitydbcontext from being disposed
-        }
     }
 }
