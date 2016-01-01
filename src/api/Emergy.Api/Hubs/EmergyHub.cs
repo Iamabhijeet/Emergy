@@ -6,6 +6,7 @@ using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Context;
 using Emergy.Data.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -24,7 +25,7 @@ namespace Emergy.Api.Hubs
         {
             _unitsRepository = unitsRepository;
             _reportsRepository = reportsRepository;
-            _notificationsRepository = new Repository<Notification>(new ApplicationDbContext());
+            _notificationsRepository = notificationsRepository;
             _messagesRepository = messagesRepository;
             _userConnections = new ConcurrentDictionary<string, string>();
         }
@@ -32,7 +33,7 @@ namespace Emergy.Api.Hubs
         public async override Task OnConnected()
         {
             await base.OnConnected();
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
+            var currentUser = await AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId());
             _userConnections.TryAdd(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
@@ -49,7 +50,7 @@ namespace Emergy.Api.Hubs
         public async override Task OnDisconnected(bool stopCalled)
         {
             await base.OnDisconnected(stopCalled);
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
+            var currentUser = await AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId());
             string connection;
             _userConnections.TryRemove(currentUser.Id, out connection);
             currentUser.Units.ForEach(async (unit) =>
@@ -106,7 +107,11 @@ namespace Emergy.Api.Hubs
         [HubMethodName("sendNotification")]
         public async Task SendNotification(int notificationId)
         {
+            Clients.All.querying(notificationId);
             Notification notification = await _notificationsRepository.GetAsync(notificationId);
+            string senderConnection;
+            _userConnections.TryGetValue(notification.SenderId, out senderConnection);
+            Clients.Client(senderConnection).foundNotification(notification);
             if (notification != null)
             {
                 string targetConnection;
