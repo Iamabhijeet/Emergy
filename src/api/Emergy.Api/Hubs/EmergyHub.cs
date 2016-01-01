@@ -4,6 +4,7 @@ using System.Web;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
+using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
@@ -23,7 +24,7 @@ namespace Emergy.Api.Hubs
         {
             _unitsRepository = unitsRepository;
             _reportsRepository = reportsRepository;
-            _notificationsRepository = notificationsRepository;
+            _notificationsRepository = new Repository<Notification>(new ApplicationDbContext());
             _messagesRepository = messagesRepository;
             _userConnections = new ConcurrentDictionary<string, string>();
         }
