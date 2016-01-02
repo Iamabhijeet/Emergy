@@ -3,7 +3,7 @@
     'use strict';
 
     function clientsController($location, $rootScope, unitsService,
-        reportsService, statsService, notificationService, authData, pusher) {
+        reportsService, statsService, notificationService, authData, pusher, notificationsValidator) {
         $rootScope.title = 'Dashboard - ' + authData.userName + ' | Emergy';
 
         var vm = this;
@@ -16,12 +16,19 @@
             //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
             //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
             //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
-            $rootScope.$on('testSuccess', function (message) {
-                alert(message);
+            $rootScope.$on('testSuccess', function (event, response) {
+                if (notificationsValidator.isNotificationValid()) {
+                    alert(response);
+                    notificationsValidator.setLastCame(Date.now()); // grob
+                }
             });
             $rootScope.$on('realTimeConnected', function () {
                 pusher.testPush('working');
+                setTimeout(function() {
+                    pusher.testPush('working#2');
+                }, 2000);
             });
+
 
 
             //emergyHub.connection.start().done(function() {
@@ -60,5 +67,5 @@
 
     app.controller('clientsController', clientsController);
     clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService',
-        'statsService', 'notificationService', 'authData', 'pusher'];
+        'statsService', 'notificationService', 'authData', 'pusher', 'notificationsValidator'];
 })();

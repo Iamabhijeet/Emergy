@@ -235,7 +235,8 @@ app.run(['$rootScope', 'serviceBase', 'hubConnector', function ($rootScope, serv
         var connection = $.hubConnection(serviceBase);
         var proxy = connection.createHubProxy('emergyHub');
         $rootScope.hub = proxy;
-        hubConnector(connection, function() {
+
+        hubConnector(connection, function () {
             proxy.on('testSuccess', function (message) {
                 $rootScope.$broadcast('testSuccess', message);
             });
@@ -251,11 +252,13 @@ app.run(['$rootScope', 'serviceBase', 'hubConnector', function ($rootScope, serv
             proxy.on('updateUserLocation', function (locationId) {
                 $rootScope.$broadcast('updateUserLocation', locationId);
             });
-            $rootScope.$on('connectionStateChanged', function(state) {
-                
+            $rootScope.$on('connectionStateChanged', function (state) {
+                var stateConversion = {0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected'};
+                console.log('state changed from: ' + stateConversion[state.oldState]
+                 + ' to: ' + stateConversion[state.newState]);
             });
         });
-    
+
     });
 }]);
 
