@@ -46,6 +46,8 @@
     <Content Include="app\app.route.js" />
     <Content Include="app\components\controllers\account\profileController.js" />
     <Content Include="app\components\controllers\client\clients.controller.js" />
+    <Content Include="app\components\controllers\messages\messagesController.js" />
+    <Content Include="app\components\controllers\messaging\messagingController.js" />
     <Content Include="app\components\controllers\notifications\notificationsController.js" />
     <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
@@ -73,6 +75,8 @@
     <Content Include="app\components\services\units\unitsService.js" />
     <Content Include="app\views\account\profile.html" />
     <Content Include="app\views\client\dashboard.html" />
+    <Content Include="app\views\messages\messages.html" />
+    <Content Include="app\views\messaging\messaging.html" />
     <Content Include="app\views\notifications\notifications.html" />
     <Content Include="app\views\register\registerSuccess.html" />
     <Content Include="app\views\reportDetails\reportDetails.html" />
@@ -87,6 +91,7 @@
     <Content Include="assets\img\card-background-with-user.jpg" />
     <Content Include="assets\img\card-background.jpg" />
     <Content Include="assets\img\docs.png" />
+    <Content Include="assets\img\messages-icon.png" />
     <Content Include="assets\img\loading.svg" />
     <Content Include="assets\img\location.png" />
     <Content Include="assets\img\logout-icon.png" />

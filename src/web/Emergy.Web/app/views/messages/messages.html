@@ -1,0 +1,28 @@
+﻿<div ui-view="shell"></div>
+<div class="container main-container messages">
+    <div class="row header-row">
+        <div class="col l8 m10 s8 offset-s1">
+            <h2>Messages</h2>
+        </div>
+        <div class="col l1 m1 s1 offset-l3 offset-m1">
+            <a ng-href="/dashboard/notifications" class="center">
+                <i class="material-icons notification-icon">notifications</i>
+            </a>
+        </div>
+    </div>
+    <div class="row messages-row">
+        
+    </div>
+    <div class="row send-message">
+        <form role="form" name="sendMessageForm" novalidate>
+            <div class="col l11 m11 s10">
+                <input id="messaage" name="message" placeholder="Type your message here" type="text" ng-model="message" required />
+            </div>
+            <div class="col l1 m1 s2">
+                <button href="#" class="btn-floating waves-effect waves-light" ng-click="sendMessage(message)" ng-disabled="sendMessageForm.$invalid || initiateMessagingForm.$pristine">
+                    <i class="material-icons">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

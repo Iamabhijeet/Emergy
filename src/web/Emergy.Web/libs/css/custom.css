@@ -288,12 +288,11 @@
     }
 
 .shell-navigation .spacer {
-    height: calc(100% - 550px);
+    height: calc(100% - 600px);
     background-color: inherit;
 }
 
     .shell-navigation .spacer:hover, .space:active {
-        height: calc(100% - 490px);
         background-color: inherit;
     }
 
@@ -673,18 +672,16 @@
 
 .unit-details-title-container {
     width: 100%;
-    height: 400px;
+    height: 150px;
     background-image: url('/assets/img/login-background.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    padding-top: 150px;
-    padding-bottom: 150px;
+    padding-top: 30px;
     padding-left: 0;
     padding-right: 0;
 }
 
     .unit-details-title-container h2 {
-        background: transparent;
         color: white;
         font-weight: 100;
         display: block;
@@ -1027,4 +1024,61 @@
     margin-left: auto;
     margin-right: auto;
     width: 120px;
+}
+
+/*-----------MESSAGING-----------*/
+
+
+.main-container.messages .initiate-messaging {
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.main-container.messages .col.l11 {
+    padding-left: 5px;
+}
+
+.main-container.messages .col.l1 {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.main-container.messages input {
+    margin-bottom: 0;
+}
+
+.main-container.messages button {
+    position: relative;
+    top: 9px;
+}
+
+.main-container.messages button i {
+    font-size: 20px;
+}
+
+.main-container.messages .people-row {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.main-container.messages .people-row .collection {
+    margin-top: 5px;
+}
+
+
+.main-container.messages .people-row .collection .collection-item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-container.messages .people-row h4 {
+    font-size: 1.5rem;
+    color: #1599AB;
+    margin-bottom: 0;
+}
+
+.main-container.messages .send-message {
+    position: fixed;
+    width: inherit;
+    bottom: 10px;
 }

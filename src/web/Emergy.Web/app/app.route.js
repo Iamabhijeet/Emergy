@@ -174,6 +174,56 @@
             }]
         }
     });
+    $stateProvider.state("Messaging", {
+        url: "/dashboard/messaging",
+        views: {
+            '': {
+                templateUrl: 'app/views/messaging/messaging.html',
+                controller: "messagingController"
+            },
+            'shell@Messaging': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+    $stateProvider.state("Messages", {
+        url: "/dashboard/messages/:targetId",
+        views: {
+            '': {
+                templateUrl: 'app/views/messages/messages.html',
+                controller: "messagesController"
+            },
+            'shell@Messages': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     $stateProvider.state("UnitDetails", {
         url: "/dashboard/unit/:unitId/details",
         views: {
