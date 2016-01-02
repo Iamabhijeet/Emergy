@@ -228,9 +228,43 @@
     });
 
 }]);
+
+app.run(['$rootScope', 'serviceBase', 'hubConnector', function ($rootScope, serviceBase, hubConnector) {
+
+    $rootScope.$on('userAuthenticated', function () {
+        var connection = $.hubConnection(serviceBase);
+        var proxy = connection.createHubProxy('emergyHub');
+        $rootScope.hub = proxy;
+        hubConnector(connection, function() {
+            proxy.on('testSuccess', function (message) {
+                $rootScope.$broadcast('testSuccess', message);
+            });
+            proxy.on('pushNotification', function (notificationId) {
+                $rootScope.$broadcast('pushNotification', notificationId);
+            });
+            proxy.on('pushMessage', function (messageId) {
+                $rootScope.$broadcast('pushMessage', messageId);
+            });
+            proxy.on('notifyReportStatusChanged', function (reportId) {
+                $rootScope.$broadcast('notifyReportStatusChanged', reportId);
+            });
+            proxy.on('updateUserLocation', function (locationId) {
+                $rootScope.$broadcast('updateUserLocation', locationId);
+            });
+            $rootScope.$on('connectionStateChanged', function(state) {
+                
+            });
+        });
+    
+    });
+}]);
+
 app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
+    if ($rootScope.authData.loggedIn) {
+        $rootScope.$broadcast('userAuthenticated');
+    }
     $rootScope.currentState = '';
 
     $rootScope.$on('$stateChangeStart', function (e, toState) {

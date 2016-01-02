@@ -890,7 +890,7 @@
     margin-bottom: 0;
 }
 
-.main-container.reports span {
+.main-container.reports .head-information span {
     color: #1599AB;
     font-weight: 500;
 }
