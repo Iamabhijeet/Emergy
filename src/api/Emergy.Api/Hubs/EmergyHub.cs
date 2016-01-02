@@ -16,6 +16,7 @@ using static Emergy.Core.Common.TaskExtensions;
 namespace Emergy.Api.Hubs
 {
     [HubName("emergyHub")]
+    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
@@ -31,39 +32,30 @@ namespace Emergy.Api.Hubs
             _locationsRepository = locationsRepository;
         }
 
-        public async override Task OnConnected()
+        public override Task OnConnected()
         {
-            var currentUser = await AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId());
+            var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
             Connections.Add(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
                 await Groups.Add(Context.ConnectionId, unit.Name);
             });
+            return base.OnConnected();
         }
-        public async override Task OnReconnected()
+        public override Task OnReconnected()
         {
-            await OnConnected();
+            OnConnected();
+            return base.OnReconnected();
         }
-        public async override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnected(bool stopCalled)
         {
-            await base.OnDisconnected(stopCalled);
-            var currentUser = await AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId());
+            var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
             Connections.Remove(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
                 await Groups.Remove(Context.ConnectionId, unit.Name);
             });
-        }
-
-        [HubMethodName("pushReport")]
-        [Authorize(Roles = "Clients")]
-        public async Task PushReport(int unitId, int reportId)
-        {
-            Unit unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
-            if (unit != null)
-            {
-                await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
-            }
+            return base.OnDisconnected(stopCalled);
         }
 
         [HubMethodName("updateUserLocation")]
@@ -88,7 +80,6 @@ namespace Emergy.Api.Hubs
         public async Task SendNotification(int notificationId)
         {
             Notification notification = await _notificationsRepository.GetAsync(notificationId);
-            Clients.Caller.pushNotification(notification.SenderId);
             if (notification != null)
             {
                 var targetConnections = Connections.GetConnections(notification.TargetId);
@@ -111,6 +102,12 @@ namespace Emergy.Api.Hubs
                     await Clients.Client(connection).pushNotification(messageId);
                 });
             }
+        }
+
+        [HubMethodName("testPush")]
+        public void TestPush(string greeting)
+        {
+            Clients.Caller.testSuccess(greeting);
         }
 
         private readonly static ConnectionMapping<string> Connections = new ConnectionMapping<string>();
