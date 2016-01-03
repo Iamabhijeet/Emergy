@@ -10,6 +10,11 @@ function landingController($scope, $timeout, $rootScope, $state, authService, au
     $rootScope.background = 'background-cyan';
 
     $timeout(function () {
-        $state.go('Units');
+        if (authData.isAdmin()) {
+            $state.go('Units');
+        } else {
+            $state.go('ClientDashboard', authData.userId);
+        }
+      
     }, 5000);
 }

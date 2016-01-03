@@ -13,9 +13,9 @@
         vm.stats = [];
 
         function activate() {
-            //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
-            //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
-            //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
+            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
+            statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
             $rootScope.$on('testSuccess', function (event, response) {
                 if (notificationsValidator.isNotificationValid()) {
                     alert(response);
@@ -28,14 +28,6 @@
                     pusher.testPush('working#2');
                 }, 2000);
             });
-
-
-
-            //emergyHub.connection.start().done(function() {
-            //    emergyHub.sendNotification(1);
-            //    emergyHub.sendNotification(11);
-            //});
-
         }
 
         vm.loadReports = function () {

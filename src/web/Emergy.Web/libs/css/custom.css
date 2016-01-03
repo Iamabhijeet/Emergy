@@ -37,9 +37,11 @@
 .btn-gray-text {
     color: #757575;
 }
+
 .btn-floating {
     background-color: #18C0D6;
 }
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -296,7 +298,30 @@
         height: calc(100% - 490px);
         background-color: inherit;
     }
+    
+.shell-navigation.side-nav li .a-connected {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #00e676;
+    padding-left: 20px;
+}
+    
+.shell-navigation.side-nav li .a-re-connecting {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #ffeb3b;
+    padding-left: 20px;
+}
 
+.shell-navigation.side-nav li .a-disconnected {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #F44336;
+    padding-left: 20px;
+}
 .shell-navigation.side-nav li a {
     height: 50px;
     line-height: 50px;
@@ -305,7 +330,15 @@
     padding-left: 20px;
 }
 
+
 .shell-navigation.side-nav li.item img {
+    width: 20px;
+    position: relative;
+    top: 4px;
+    margin-right: 8px;
+}
+
+.shell-navigation.side-nav li.item i {
     width: 20px;
     position: relative;
     top: 4px;
@@ -338,7 +371,7 @@
 }
 
 
-/*-----------UNITS PAGE-----------*/    
+/*-----------UNITS PAGE-----------*/
 
 .main-container.unit-details .row.add-user {
     margin-left: auto;
@@ -635,7 +668,7 @@
 }
 
     .main-container .collection.properties .collection-item span.property-title {
-        font-size: 12px;    
+        font-size: 12px;
         color: #1599AB;
         text-transform: uppercase;
     }
@@ -837,9 +870,9 @@
     margin-top: 35px;
 }
 
-.main-container.reports .general-information p {
-    margin-top: 0;
-}
+    .main-container.reports .general-information p {
+        margin-top: 0;
+    }
 
 .main-container.reports h4 {
     font-size: 1.5rem;
@@ -863,11 +896,11 @@
 
 .main-container.reports .additional-details h5 {
     font-size: 1rem;
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .main-container.reports .additional-details p {
-    margin: 0;  
+    margin: 0;
 }
 
 .main-container.reports .general-information .input-field {
