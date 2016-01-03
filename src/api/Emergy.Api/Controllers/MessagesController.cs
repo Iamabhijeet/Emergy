@@ -5,8 +5,10 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Core.Common;
+using Emergy.Core.Models.Account;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using WebGrease.Css.Extensions;
 using vm = Emergy.Core.Models.Message;
@@ -37,6 +39,24 @@ namespace Emergy.Api.Controllers
                 .OrderByDescending(m => m.Timestamp)
                 .Take(50)
                 .ToArray());
+        }
+
+        [HttpGet]
+        [Route("get-chats")]
+        [ResponseType(typeof(IEnumerable<UserProfile>))]
+        public async Task<IEnumerable<UserProfile>> GetChats()
+        {
+            var messages = await _messagesRepository.GetAsync(null, null, ConstRelations.LoadAllMessageRelations);
+            IEnumerable<UserProfile> chats;
+            if (User.IsInRole("Administrators"))
+            {
+                chats = messages.Where(message => message.SenderId == User.Identity.GetUserId())
+                    .Select(message => Mapper.Map<UserProfile>(message.Target));
+                return chats.DistinctBy(profile => profile.Id);
+            }
+            chats = messages.Where(message => message.TargetId == User.Identity.GetUserId())
+                .Select(message => Mapper.Map<UserProfile>(message.Sender));
+            return chats.DistinctBy(profile => profile.Id);
         }
 
         [HttpGet]
