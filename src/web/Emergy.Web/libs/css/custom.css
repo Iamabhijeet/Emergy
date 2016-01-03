@@ -290,7 +290,7 @@
     }
 
 .shell-navigation .spacer {
-    height: calc(100% - 600px);
+    height: calc(100% - 550px);
     background-color: inherit;
 }
 
@@ -298,29 +298,33 @@
         background-color: inherit;
     }
     
-.shell-navigation.side-nav li .a-connected {
-    height: 50px;
-    line-height: 50px;
+
+.shell-navigation.side-nav .connection-indicator {
+    position: relative;
+    left: 62px;
+    font-size: 14px;
     font-weight: 500;
-    color: #00e676;
-    padding-left: 20px;
-}
-    
-.shell-navigation.side-nav li .a-re-connecting {
-    height: 50px;
-    line-height: 50px;
-    font-weight: 500;
-    color: #ffeb3b;
-    padding-left: 20px;
 }
 
-.shell-navigation.side-nav li .a-disconnected {
-    height: 50px;
-    line-height: 50px;
-    font-weight: 500;
-    color: #F44336;
-    padding-left: 20px;
+.shell-navigation.side-nav .connection-indicator i {
+    font-size: 20px;
+    position: relative; 
+    top: 5px;
 }
+
+.shell-navigation.side-nav .a-connected {
+    color: #00e676;
+}
+
+    
+.shell-navigation.side-nav .a-re-connecting {
+    color: #ffeb3b;
+}
+
+.shell-navigation.side-nav .a-disconnected {
+    color: #F44336;
+}
+
 .shell-navigation.side-nav li a {
     height: 50px;
     line-height: 50px;
