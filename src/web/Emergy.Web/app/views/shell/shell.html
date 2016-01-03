@@ -26,15 +26,44 @@
         </li>
         <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Notifications') ? 'item active' : 'item'">
             <a ng-href="/dashboard/notifications" class="waves-effect">
-                <img src="/assets/img/notifications-icon.png" />Notifications
+                <img src="/assets/img/notifications-icon.png"/>Notifications
             </a>
         </li>
-        <li class="spacer" ng-if="authData.isAdmin()"></li>
+        <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Messaging') ? 'item active' : 'item'">
+            <a ng-href="/dashboard/messaging" class="waves-effect">
+                <img src="/assets/img/messages-icon.png" />Messaging
+            </a>
+        </li>
+        <li class="spacer"></li>
         <li ng-class="(currentState.name == 'UserProfile') ? 'item active' : 'item'"><a ng-href="/account/profile/{{ authData.userName }}" class="waves-effect waves-teal"><img src="/assets/img/account-icon.png" />{{authData.userName}}</a></li>
         <li ng-class="(currentState.name == 'Settings') ? 'item active' : 'item'"><a ng-href="/settings" class="waves-effect waves-teal"><img src="/assets/img/settings-icon.png" />Settings</a></li>
         <li class="item">
             <a ng-click="logOut()" class="waves-effect">
                 <img src="/assets/img/logout-icon.png" />Log out
+            </a>
+        </li>
+        <li class="item" ng-show="signalR.connectionState == 'connected' || signalr.isConnected">
+            <a class="a-connected">
+                <i class="material-icons">settings_input_antenna</i>
+                CONNECTED
+            </a>
+        </li>
+        <li class="item" ng-show="signalR.connectionState == 'connecting' && !signalr.isConnected">
+            <a class="a-re-connecting">
+                <i class="material-icons">settings_input_antenna</i>
+                CONNECTING
+            </a>
+        </li>
+        <li class="item" ng-show="signalR.connectionState == 'reconnecting' && !signalr.isConnected">
+            <a class="a-re-connecting">
+                <i class="material-icons">settings_input_antenna</i>
+                CONNECTING
+            </a>
+        </li>
+        <li class="item" ng-show="signalR.connectionState == 'disconnected' && !signalr.isConnected">
+            <a class="a-disconnected">
+                <i class="material-icons">settings_input_antenna</i>
+                DISCONNECTED
             </a>
         </li>
     </ul>

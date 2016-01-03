@@ -174,6 +174,56 @@
             }]
         }
     });
+    $stateProvider.state("Messaging", {
+        url: "/dashboard/messaging",
+        views: {
+            '': {
+                templateUrl: 'app/views/messaging/messaging.html',
+                controller: "messagingController"
+            },
+            'shell@Messaging': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+    $stateProvider.state("Messages", {
+        url: "/dashboard/messages/:targetId",
+        views: {
+            '': {
+                templateUrl: 'app/views/messages/messages.html',
+                controller: "messagesController"
+            },
+            'shell@Messages': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     $stateProvider.state("UnitDetails", {
         url: "/dashboard/unit/:unitId/details",
         views: {
@@ -228,13 +278,35 @@
     });
 
 }]);
-app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
+
+app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
+    $rootScope.constructor.prototype.$off = function (eventName) {
+        if (this.$$listeners) {
+            this.$$listeners[eventName] = [];
+        }
+    };
+
+    $rootScope.unSubscribeAll = function () {
+        $rootScope.$off(signalR.events.connectionStateChanged);
+        $rootScope.$off(signalR.events.realTimeConnected);
+        $rootScope.$off(signalR.events.client.testSuccess);
+        $rootScope.$off(signalR.events.client.pushNotification);
+        $rootScope.$off(signalR.events.client.updateUserLocation);
+    };
+}]);
+
+
+app.run(['$rootScope', '$state', 'authService', 'notificationService', 'signalR', function ($rootScope, $state, authService, notificationService, signalR) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
+    if ($rootScope.authData.loggedIn) {
+        $rootScope.$broadcast('userAuthenticated');
+    }
     $rootScope.currentState = '';
 
     $rootScope.$on('$stateChangeStart', function (e, toState) {
         $rootScope.currentState = toState;
+        $rootScope.unSubscribeAll();
     });
     $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
         if (error === "Not Authorized") {

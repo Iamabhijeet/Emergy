@@ -37,9 +37,11 @@
 .btn-gray-text {
     color: #757575;
 }
+
 .btn-floating {
     background-color: #18C0D6;
 }
+
 .background-image {
     background-image: url('../../assets/img/login-background.jpg');
     background-position: center center;
@@ -288,15 +290,37 @@
     }
 
 .shell-navigation .spacer {
-    height: calc(100% - 550px);
+    height: calc(100% - 600px);
     background-color: inherit;
 }
 
     .shell-navigation .spacer:hover, .space:active {
-        height: calc(100% - 490px);
         background-color: inherit;
     }
+    
+.shell-navigation.side-nav li .a-connected {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #00e676;
+    padding-left: 20px;
+}
+    
+.shell-navigation.side-nav li .a-re-connecting {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #ffeb3b;
+    padding-left: 20px;
+}
 
+.shell-navigation.side-nav li .a-disconnected {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 500;
+    color: #F44336;
+    padding-left: 20px;
+}
 .shell-navigation.side-nav li a {
     height: 50px;
     line-height: 50px;
@@ -305,7 +329,15 @@
     padding-left: 20px;
 }
 
+
 .shell-navigation.side-nav li.item img {
+    width: 20px;
+    position: relative;
+    top: 4px;
+    margin-right: 8px;
+}
+
+.shell-navigation.side-nav li.item i {
     width: 20px;
     position: relative;
     top: 4px;
@@ -338,7 +370,7 @@
 }
 
 
-/*-----------UNITS PAGE-----------*/    
+/*-----------UNITS PAGE-----------*/
 
 .main-container.unit-details .row.add-user {
     margin-left: auto;
@@ -635,7 +667,7 @@
 }
 
     .main-container .collection.properties .collection-item span.property-title {
-        font-size: 12px;    
+        font-size: 12px;
         color: #1599AB;
         text-transform: uppercase;
     }
@@ -673,18 +705,16 @@
 
 .unit-details-title-container {
     width: 100%;
-    height: 400px;
+    height: 150px;
     background-image: url('/assets/img/login-background.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    padding-top: 150px;
-    padding-bottom: 150px;
+    padding-top: 30px;
     padding-left: 0;
     padding-right: 0;
 }
 
     .unit-details-title-container h2 {
-        background: transparent;
         color: white;
         font-weight: 100;
         display: block;
@@ -837,9 +867,9 @@
     margin-top: 35px;
 }
 
-.main-container.reports .general-information p {
-    margin-top: 0;
-}
+    .main-container.reports .general-information p {
+        margin-top: 0;
+    }
 
 .main-container.reports h4 {
     font-size: 1.5rem;
@@ -863,11 +893,11 @@
 
 .main-container.reports .additional-details h5 {
     font-size: 1rem;
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .main-container.reports .additional-details p {
-    margin: 0;  
+    margin: 0;
 }
 
 .main-container.reports .general-information .input-field {
@@ -1027,4 +1057,61 @@
     margin-left: auto;
     margin-right: auto;
     width: 120px;
+}
+
+/*-----------MESSAGING-----------*/
+
+
+.main-container.messages .initiate-messaging {
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.main-container.messages .col.l11 {
+    padding-left: 5px;
+}
+
+.main-container.messages .col.l1 {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.main-container.messages input {
+    margin-bottom: 0;
+}
+
+.main-container.messages button {
+    position: relative;
+    top: 9px;
+}
+
+.main-container.messages button i {
+    font-size: 20px;
+}
+
+.main-container.messages .people-row {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.main-container.messages .people-row .collection {
+    margin-top: 5px;
+}
+
+
+.main-container.messages .people-row .collection .collection-item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-container.messages .people-row h4 {
+    font-size: 1.5rem;
+    color: #1599AB;
+    margin-bottom: 0;
+}
+
+.main-container.messages .send-message {
+    position: fixed;
+    width: inherit;
+    bottom: 10px;
 }

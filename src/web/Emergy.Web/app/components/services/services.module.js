@@ -14,3 +14,24 @@ services.value('authData', {
     }
 });
 services.constant('serviceBase', 'http://emergy-api.azurewebsites.net/');
+services.constant('signalR', {
+    endpoint: 'http://emergy-api.azurewebsites.net/',
+    hub: {},
+    connection: {},
+    isConnected: false,
+    connectionState: '',
+    events: {
+        realTimeConnected: 'realTimeConnected',
+        connectionStateChanged: 'connectionStateChanged',
+        server: {
+            testPush: 'testPush',
+            sendNotification: 'sendNotification',
+            updateUserLocation: 'updateUserLocation'
+        },
+        client: {
+            testSuccess: 'testSuccess',
+            pushNotification: 'pushNotification',
+            updateUserLocation: 'updateUserLocation'
+        }
+    }
+});

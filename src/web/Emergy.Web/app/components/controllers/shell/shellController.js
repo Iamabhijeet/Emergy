@@ -3,9 +3,15 @@
 var controllerId = 'shellController';
 
 app.controller(controllerId,
-    ['vm', '$rootScope', 'authService', 'authData', shellCtrl]);
+    ['vm', '$rootScope', 'authData', 'signalR', shellCtrl]);
 
-function shellCtrl($scope, $rootScope, authService, authData) {
+function shellCtrl($scope, $rootScope, authData, signalR) {
     $rootScope.background = 'background-white';
-    $rootScope.authData = authData;
+    $scope.authData = authData;
+    $scope.signalR = signalR;
+
+    $rootScope.$on(signalR.events.realTimeConnected, function () {
+        $scope.signalR.connectionState = 'connected';
+        $scope.$apply();
+    });
 }
