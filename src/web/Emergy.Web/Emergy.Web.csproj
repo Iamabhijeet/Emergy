@@ -64,9 +64,7 @@
     <Content Include="app\components\services\clients\clientsDashboardService.js" />
     <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
-    <Content Include="app\components\services\realtime\connector.service.js" />
-    <Content Include="app\components\services\realtime\notifications-validator.service.js" />
-    <Content Include="app\components\services\realtime\pusher.service.js" />
+    <Content Include="app\components\services\realtime\hub.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
     <Content Include="app\components\services\services.module.js" />

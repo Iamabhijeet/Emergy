@@ -229,7 +229,24 @@
 
 }]);
 
-app.run(['$rootScope', '$state', 'authService', 'notificationService', function ($rootScope, $state, authService, notificationService) {
+app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
+    $rootScope.constructor.prototype.$off = function (eventName) {
+        if (this.$$listeners) {
+            this.$$listeners[eventName] = [];
+        }
+    };
+
+    $rootScope.unSubscribeAll = function () {
+        $rootScope.$off(signalR.events.connectionStateChanged);
+        $rootScope.$off(signalR.events.realTimeConnected);
+        $rootScope.$off(signalR.events.client.testSuccess);
+        $rootScope.$off(signalR.events.client.pushNotification);
+        $rootScope.$off(signalR.events.client.updateUserLocation);
+    };
+}]);
+
+
+app.run(['$rootScope', '$state', 'authService', 'notificationService', 'signalR', function ($rootScope, $state, authService, notificationService, signalR) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
     if ($rootScope.authData.loggedIn) {
@@ -239,6 +256,7 @@ app.run(['$rootScope', '$state', 'authService', 'notificationService', function 
 
     $rootScope.$on('$stateChangeStart', function (e, toState) {
         $rootScope.currentState = toState;
+        $rootScope.unSubscribeAll();
     });
     $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
         if (error === "Not Authorized") {

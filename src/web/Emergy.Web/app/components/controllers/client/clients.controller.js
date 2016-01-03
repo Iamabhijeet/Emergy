@@ -3,7 +3,7 @@
     'use strict';
 
     function clientsController($location, $rootScope, unitsService,
-        reportsService, statsService, notificationService, authData, pusher, notificationsValidator) {
+        reportsService, statsService, notificationService, authData, hub, signalR) {
         $rootScope.title = 'Dashboard - ' + authData.userName + ' | Emergy';
 
         var vm = this;
@@ -13,19 +13,16 @@
         vm.stats = [];
 
         function activate() {
-            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
-            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
-            statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
-            $rootScope.$on('testSuccess', function (event, response) {
-                if (notificationsValidator.isNotificationValid()) {
-                    alert(response);
-                    notificationsValidator.setLastCame(Date.now()); // grob
-                }
+            //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
+            //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
+            //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
+                alert(response);
             });
-            $rootScope.$on('realTimeConnected', function () {
-                pusher.testPush('working');
-                setTimeout(function() {
-                    pusher.testPush('working#2');
+            $rootScope.$on(signalR.events.realTimeConnected, function () {
+                hub.server.testPush('working');
+                setTimeout(function () {
+                    hub.server.testPush('working#2');
                 }, 2000);
             });
         }
@@ -59,5 +56,5 @@
 
     app.controller('clientsController', clientsController);
     clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService',
-        'statsService', 'notificationService', 'authData', 'pusher', 'notificationsValidator'];
+        'statsService', 'notificationService', 'authData', 'hub', 'signalR'];
 })();

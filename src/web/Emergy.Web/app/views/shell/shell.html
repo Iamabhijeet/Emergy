@@ -37,25 +37,25 @@
                 <img src="/assets/img/logout-icon.png" />Log out
             </a>
         </li>
-        <li class="item" ng-show="connectionState == 'connected'">
+        <li class="item" ng-show="signalR.connectionState == 'connected' || signalr.isConnected">
             <a class="a-connected">
-               <i class="material-icons">settings_input_antenna</i>
+                <i class="material-icons">settings_input_antenna</i>
                 CONNECTED
             </a>
         </li>
-        <li class="item" ng-show="connectionState == 'connecting'">
+        <li class="item" ng-show="signalR.connectionState == 'connecting' && !signalr.isConnected">
             <a class="a-re-connecting">
                 <i class="material-icons">settings_input_antenna</i>
                 CONNECTING
             </a>
         </li>
-        <li class="item" ng-show="connectionState == 'reconnecting'">
+        <li class="item" ng-show="signalR.connectionState == 'reconnecting' && !signalr.isConnected">
             <a class="a-re-connecting">
                 <i class="material-icons">settings_input_antenna</i>
                 CONNECTING
             </a>
         </li>
-        <li class="item" ng-show="connectionState == 'disconnected'">
+        <li class="item" ng-show="signalR.connectionState == 'disconnected' && !signalr.isConnected">
             <a class="a-disconnected">
                 <i class="material-icons">settings_input_antenna</i>
                 DISCONNECTED

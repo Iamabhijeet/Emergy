@@ -12,4 +12,3 @@ app.config(function ($httpProvider, uiGmapGoogleMapApiProvider) {
         libraries: 'weather,geometry,visualization'
     });
 });
-
