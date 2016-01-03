@@ -358,6 +358,7 @@
     <None Include="Properties\PublishProfiles\emergy-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\emergy-api - Web Deploy.pubxml" />
     <Content Include="Content\Templates\RegistrationSuccessful.cshtml" />
+    <None Include="Properties\PublishProfiles\emergy-api-production.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

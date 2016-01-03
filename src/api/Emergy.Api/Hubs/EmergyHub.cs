@@ -90,20 +90,6 @@ namespace Emergy.Api.Hubs
             }
         }
 
-        [HubMethodName("sendMessage")]
-        public async Task SendMessage(int messageId)
-        {
-            Message message = await _messagesRepository.GetAsync(messageId);
-            if (message != null)
-            {
-                var targetConnections = Connections.GetConnections(message.TargetId);
-                targetConnections.ForEach(async (connection) =>
-                {
-                    await Clients.Client(connection).pushNotification(messageId);
-                });
-            }
-        }
-
         [HubMethodName("testPush")]
         public void TestPush(string greeting)
         {
@@ -129,7 +115,6 @@ namespace Emergy.Api.Hubs
         private readonly IUnitsRepository _unitsRepository;
         private readonly IReportsRepository _reportsRepository;
         private readonly IRepository<Location> _locationsRepository;
-
 
         protected override void Dispose(bool disposing)
         {

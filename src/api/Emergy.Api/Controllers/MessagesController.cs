@@ -42,21 +42,37 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Route("get-chats")]
+        [Route("get-chats/users")]
         [ResponseType(typeof(IEnumerable<UserProfile>))]
         public async Task<IEnumerable<UserProfile>> GetChats()
         {
-            var messages = await _messagesRepository.GetAsync(null, null, ConstRelations.LoadAllMessageRelations);
-            IEnumerable<UserProfile> chats;
-            if (User.IsInRole("Administrators"))
-            {
-                chats = messages.Where(message => message.SenderId == User.Identity.GetUserId())
-                    .Select(message => Mapper.Map<UserProfile>(message.Target));
-                return chats.DistinctBy(profile => profile.Id);
-            }
-            chats = messages.Where(message => message.TargetId == User.Identity.GetUserId())
-                .Select(message => Mapper.Map<UserProfile>(message.Sender));
-            return chats.DistinctBy(profile => profile.Id);
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var messages = user.SentMessages.Concat(user.ReceievedMessages);
+            return messages.Where(message => message.SenderId == User.Identity.GetUserId() ||
+                                  message.TargetId == User.Identity.GetUserId())
+                                 .SelectMany(message =>
+                                 {
+                                     IEnumerable<UserProfile> users = new List<UserProfile>(2)
+                                      {
+                                               Mapper.Map<UserProfile>(message.Sender),
+                                               Mapper.Map<UserProfile>(message.Target)
+                                      };
+                                     return users;
+                                 })
+                                 .OrderBy(message => message.Timestamp)
+                                 .DistinctBy(profile => profile.Id);
+        }
+
+        [HttpGet]
+        [Route("get-chats/messages/{userId}")]
+        [ResponseType(typeof(IEnumerable<Message>))]
+        public async Task<IEnumerable<Message>> GetChats(string userId)
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var messages = user.SentMessages.Concat(user.ReceievedMessages);
+            return messages.Where(message => message.SenderId == userId ||
+                                  message.TargetId == userId)
+                           .OrderBy(message => message.Timestamp);
         }
 
         [HttpGet]

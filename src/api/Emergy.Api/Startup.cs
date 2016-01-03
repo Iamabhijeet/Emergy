@@ -19,7 +19,7 @@ namespace Emergy.Api
                 {
                     EnableDetailedErrors = true,
                     EnableJSONP = true,
-                    EnableJavaScriptProxies = true
+                    EnableJavaScriptProxies = false
                 };
                 map.RunSignalR(hubConfiguration);
             });
