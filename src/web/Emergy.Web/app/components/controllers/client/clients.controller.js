@@ -1,8 +1,9 @@
-﻿(function () {
+﻿/// <reference path="../../services/realtime/hubService.js" />
+(function () {
     'use strict';
 
     function clientsController($location, $rootScope, unitsService,
-        reportsService, statsService, notificationService, authData, emergyHub) {
+        reportsService, statsService, notificationService, authData, hub, signalR) {
         $rootScope.title = 'Dashboard - ' + authData.userName + ' | Emergy';
 
         var vm = this;
@@ -12,10 +13,18 @@
         vm.stats = [];
 
         function activate() {
-            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
-            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
-            statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
-            emergyHub.sendNotification(1);
+            //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
+            //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
+            //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
+                alert(response);
+            });
+            $rootScope.$on(signalR.events.realTimeConnected, function () {
+                hub.server.testPush('working');
+                setTimeout(function () {
+                    hub.server.testPush('working#2');
+                }, 2000);
+            });
         }
 
         vm.loadReports = function () {
@@ -47,5 +56,5 @@
 
     app.controller('clientsController', clientsController);
     clientsController.$inject = ['$location', '$rootScope', 'unitsService', 'reportsService',
-        'statsService', 'notificationService', 'authData', 'emergyHub'];
+        'statsService', 'notificationService', 'authData', 'hub', 'signalR'];
 })();

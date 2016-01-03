@@ -91,6 +91,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         localStorageService.remove('roles');
         localStorageService.set('loggedIn', false);
         authData.loggedIn = false;
+        $rootScope.$broadcast('logout');
         $location.path('/landing');
     }
 
