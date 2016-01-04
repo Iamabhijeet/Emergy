@@ -17,10 +17,11 @@ namespace Emergy.Core.Services
             List<StatsViewModel.Chart.ChartRow> chart = new List<StatsViewModel.Chart.ChartRow>();
 
             var currentMonthQuery = reportsForQuartal.Where(report => report.DateHappened.Month == DateTime.Now.Month);
-            var currentMonthCompleted = currentMonthQuery.Count(report => report.Status == ReportStatus.Completed);
-            var currentMonthProcessing = currentMonthQuery.Count(report => report.Status == ReportStatus.Processing);
-            var currentMonthFails = currentMonthQuery.Count(report => report.Status == ReportStatus.Failure);
-            var currentMonthSummary = currentMonthQuery.Count();
+            var monthQuery = currentMonthQuery as Report[] ?? currentMonthQuery.ToArray();
+            var currentMonthCompleted = monthQuery.Count(report => report.Status == ReportStatus.Completed);
+            var currentMonthProcessing = monthQuery.Count(report => report.Status == ReportStatus.Processing);
+            var currentMonthFails = monthQuery.Count(report => report.Status == ReportStatus.Failure);
+            var currentMonthSummary = monthQuery.Count();
 
             vm.ThisMonthStats = new StatsViewModel.Chart.ChartRow
             {
@@ -44,11 +45,11 @@ namespace Emergy.Core.Services
 
             chart.Add(vm.ThisMonthStats);
 
-            var offset = new TimeSpan(30, 0, 0, 0);
+            var offset = TimeSpan.FromDays(30);
             for (int i = 0; i < 3; i++)
             {
                 chart.Add(BuildChartRow(reportsForQuartal, DateTime.Now - offset));
-                offset += new TimeSpan(30, 0, 0, 0);
+                offset += TimeSpan.FromDays(30);
             }
             vm.ReportsChart = chart.AsReadOnly();
             return vm;
@@ -58,8 +59,9 @@ namespace Emergy.Core.Services
             DateTime dateTime)
         {
             var monthQuery = reportsForQuartal.Where(report => report.DateHappened.Month == dateTime.Month);
-            var monthQueryCompleted = monthQuery.Count(report => report.Status == ReportStatus.Completed);
-            var monthQuerySummary = monthQuery.Count();
+            var reports = monthQuery as Report[] ?? monthQuery.ToArray();
+            var monthQueryCompleted = reports.Count(report => report.Status == ReportStatus.Completed);
+            var monthQuerySummary = reports.Count();
             return new StatsViewModel.Chart.ChartRow
             {
                 Month = dateTime.ToMonthName(),
