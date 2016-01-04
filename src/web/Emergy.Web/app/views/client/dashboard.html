@@ -20,7 +20,6 @@
         </div>
     </div>
     <div id="units" class="col s12">
-
         <ul class="collection units">
             <li class="collection-item avatar" ng-repeat="unit in vm.units | filter:searchTerm">
                 <img class="unit-icon" src="/assets/img/unit-icon.png">
@@ -32,7 +31,6 @@
         </div>
     </div>
     <div id="reports" class="col s12">
-
         <div class="row report-grid-row">
             <div class="col l3 m6 s12" quick-ng-repeat="report in vm.reports">
                 <div class="card report-card">
@@ -71,5 +69,18 @@
             </div>
         </div>
     </div>
-    <div id="stats" class="col s12">Stats</div>
+    <div id="stats" class="col s12">
+        <div class="row">
+            <canvas id="reportsChart" class="chart chart-line" chart-data="vm.chartData"
+                    chart-labels="vm.chartLabels" chart-legend="true" chart-series="vm.chartSeries"
+                    chart-click="onClick"></canvas>
+        </div>
+        <div class="row">
+            <div class="col m3 s12">
+                <h1 class="cyan-text">{{vm.stats}}</h1>
+            </div>
+            <div class="col m3 s12"></div>
+            <div class="col m3 s12"></div>
+        </div>
+    </div>
 </div>

@@ -13,14 +13,14 @@ function shellCtrl($scope, $rootScope, authData, signalR, hub, notificationServi
     $rootScope.$on(signalR.events.realTimeConnected, function () {
         $scope.signalR.connectionState = 'connected';
         if (!$scope.$$phase) {
-            scope.$apply();
+            $scope.$apply();
         }
     });
 
     $rootScope.$on(signalR.events.connectionStateChanged, function (event,state) {
         $scope.signalR.connectionState = state;
         if (!$scope.$$phase) {
-            scope.$apply();
+            $scope.$apply();
         }
     });
 
