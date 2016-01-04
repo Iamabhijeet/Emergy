@@ -3,7 +3,7 @@
 <div class="container main-container reports">
     <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
-            <h2>Details #{{report.Id}}</h2>
+            <h2>Details</h2>
         </div>
         <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0">
             <a ng-href="#" class="center">
@@ -14,7 +14,7 @@
 
     <div class="row head-information">
         <p class="lead">
-            <i class="material-icons">today</i>
+            <i style="position: relative; top: 5px;" class="material-icons">today</i>
             Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half">
@@ -54,17 +54,17 @@
 
         <div ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
             <div class="row row-no-margin" style="margin-left: 0; margin-bottom: 0;">
-                <div class="col l1 m1 s12">
-                    <h5 class="truncate gray-text" style="font-weight: normal; color: gray">{{ detail.CustomProperty.Name }}</h5>
+                <div class="col l6 m6 s12">
+                    <h5 class="gray-text" style="font-weight: normal; color: gray">{{ detail.CustomProperty.Name }}</h5>
                 </div>
-                <div class="col l11 m11 s12">
-                    <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="green-text">
+                <div class="col l6 m6 s12">
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="green-text">
                         Yes
                     </p>
-                    <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
                         No
                     </p>
-                    <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong></p>
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong></p>
                 </div>
             </div>
         </div>
