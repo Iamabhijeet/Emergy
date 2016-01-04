@@ -5,7 +5,7 @@
 
 /*-----------GENERAL STYLING-----------*/
 html, body {
-   height: 100%;
+    height: 100%;
 }
 
 .container {
@@ -383,7 +383,18 @@ html, body {
     top: 25px;
     left: 15px;
     color: #757575;
+    background-color: transparent;
 }
+
+    .shell-wrapper .button-collapse .menu-icon-white {
+        font-size: 35px;
+        position: absolute;
+        top: 25px;
+        left: 15px;
+        color: #1599AB;
+        background-color: transparent;
+    }
+
 
 
 
@@ -867,6 +878,31 @@ html, body {
 
 
 /*-----------REPORT DETAILS PAGE-----------*/
+.report-details-title-container {
+    width: 100%;
+    height: 150px;
+    background-image: url('/assets/img/login-background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 30px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .report-details-title-container h2 {
+        color: white;
+        font-weight: 100;
+        display: block;
+    }
+
+
+@media only screen and (max-width: 601px) {
+    .report-details-title-container {
+    }
+}
 
 .main-container.reports .report-map {
     height: 450px;
@@ -918,6 +954,7 @@ html, body {
 
 .lead {
     font-size: 1.25rem;
+    font-weight: 200;
     color: #616161;
 }
 
@@ -1161,37 +1198,37 @@ html, body {
     bottom: 10px;
 }
 
-.main-container.messages .send-message .col.l1 {
-    text-align: center;
-}
+    .main-container.messages .send-message .col.l1 {
+        text-align: center;
+    }
 
-.main-container.messages  {
+.main-container.messages {
     height: 100%;
 }
 
-.main-container.messages .messages-row {
-    height: calc(100% - 200px);
-    overflow-y: scroll;
-}
+    .main-container.messages .messages-row {
+        height: calc(100% - 200px);
+        overflow-y: scroll;
+    }
 
-.main-container.messages .messages-row .collection {
-    margin-top: 0;
-    margin-bottom: 0;
-}
+        .main-container.messages .messages-row .collection {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
 
-.main-container.messages .messages-row .collection .collection-item {
-    padding-left: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-}
+            .main-container.messages .messages-row .collection .collection-item {
+                padding-left: 5px;
+                padding-bottom: 5px;
+                padding-top: 5px;
+            }
 
-.main-container.messages .messages-row .collection .collection-item span.title {
-    font-size: 16px;
-    color: #1599AB;
-    font-weight: 500;
-}
+                .main-container.messages .messages-row .collection .collection-item span.title {
+                    font-size: 16px;
+                    color: #1599AB;
+                    font-weight: 500;
+                }
 
-.main-container.messages .messages-row .collection .collection-item p {
-    margin-top: 5px;
-    margin-bottom: 0px;
-}
+                .main-container.messages .messages-row .collection .collection-item p {
+                    margin-top: 5px;
+                    margin-bottom: 0px;
+                }
