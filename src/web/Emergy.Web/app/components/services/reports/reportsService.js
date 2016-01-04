@@ -7,7 +7,7 @@ function reportsService($http, $q, serviceBase, authData) {
     var getReports = function (lastDateTime) {
         var deffered = $q.defer();
         if (lastDateTime) {
-            $http.get(serviceBase + 'api/reports/get/' + lastDateTime)
+            $http.get(serviceBase + 'api/reports/get/' + encodeURIComponent(lastDateTime))
                 .success(function (response) { deffered.resolve(response); })
                 .error(function (response) { deffered.reject(response); });
             return deffered.promise;
@@ -20,16 +20,14 @@ function reportsService($http, $q, serviceBase, authData) {
     }
     var getReportsForUnit = function (unitId, lastDateTime) {
         var deffered = $q.defer();
-        if (lastDateTime) {
-            $http.get(serviceBase + 'api/reports/get-unit/' + unitId + '/' + lastDateTime)
-                .success(function (response) { deffered.resolve(response); })
-                .error(function (response) { deffered.reject(response); });
-            return deffered.promise;
-        }
-        $http.get(serviceBase + 'api/reports/get-unit/' + unitId + '/' + lastDateTime)
-           .success(function (response) { deffered.resolve(response); })
-           .error(function (response) { deffered.reject(response); });
-
+        var reportsForUnit = [];
+        getReports(lastDateTime)
+        .then(function (response) {
+            reportsForUnit = _.filter(response.data, function (report) {
+                return report.Unit.Id === unitId;
+            });
+            deffered.resolve(reportsForUnit);
+        }, function (response) { deffered.reject(response) });
         return deffered.promise;
     }
 
@@ -39,9 +37,9 @@ function reportsService($http, $q, serviceBase, authData) {
         .success(function (unit) {
             deffered.resolve(unit);
         })
-            .error(function (response) {
-                deffered.reject(response);
-            });
+        .error(function (response) {
+            deffered.reject(response);
+        });
         return deffered.promise;
     };
 

@@ -5,7 +5,7 @@
 app.config(function ($httpProvider, uiGmapGoogleMapApiProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $httpProvider.interceptors.push('authInterceptorService');
-
+    $httpProvider.useApplyAsync(true);
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyD96dv6SVIOtho6kDXvLqsDe2A1D_ZDq28',
         v: '3.20',

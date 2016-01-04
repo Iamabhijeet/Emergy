@@ -23,7 +23,7 @@ function reportsController($scope, $rootScope, $stateParams,
             if (reports.length === 10) {
                 $scope.lastReportDateTime = reports[reports.length - 1].Timestamp;
             }
-        }, function (error) {
+        }, function () {
             notificationService.pushError("Error has happened while loading reports.");
         })
         .finally(function () {

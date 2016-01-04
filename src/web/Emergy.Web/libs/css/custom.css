@@ -297,7 +297,7 @@
     .shell-navigation .spacer:hover, .space:active {
         background-color: inherit;
     }
-    
+
 
 .shell-navigation.side-nav .connection-indicator {
     position: relative;
@@ -306,9 +306,28 @@
     font-weight: 500;
 }
 
+.shell-navigation.side-nav .connection-button {
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+
+    .shell-navigation.side-nav .connection-button a {
+        color: white;
+    }
+
+    .shell-navigation.side-nav .connection-button i {
+        font-size: 20px;
+        position: relative;
+        top: 5px;
+        color: white;
+    }
+
 .shell-navigation.side-nav .connection-indicator i {
     font-size: 20px;
-    position: relative; 
+    position: relative;
     top: 5px;
 }
 
@@ -316,7 +335,7 @@
     color: #00e676;
 }
 
-    
+
 .shell-navigation.side-nav .a-re-connecting {
     color: #ffeb3b;
 }
@@ -879,7 +898,26 @@
     font-size: 1.5rem;
     color: #1599AB;
     margin-bottom: 0;
+    font-weight: 200;
 }
+
+.main-container.reports h3 {
+    font-size: 2rem;
+    color: #1599AB;
+    margin-bottom: 0;
+    font-weight: 300;
+}
+
+.card .materialboxed {
+    cursor: zoom-in;
+    position: relative;
+}
+
+.lead {
+    font-size: 1.25rem;
+    color: #616161;
+}
+
 
 .main-container.reports .resources h4 {
     margin-bottom: 10px;
@@ -1089,30 +1127,30 @@
     top: 9px;
 }
 
-.main-container.messages button i {
-    font-size: 20px;
-}
+    .main-container.messages button i {
+        font-size: 20px;
+    }
 
 .main-container.messages .people-row {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.main-container.messages .people-row .collection {
-    margin-top: 5px;
-}
+    .main-container.messages .people-row .collection {
+        margin-top: 5px;
+    }
 
 
-.main-container.messages .people-row .collection .collection-item {
-    padding-left: 0;
-    padding-right: 0;
-}
+        .main-container.messages .people-row .collection .collection-item {
+            padding-left: 0;
+            padding-right: 0;
+        }
 
-.main-container.messages .people-row h4 {
-    font-size: 1.5rem;
-    color: #1599AB;
-    margin-bottom: 0;
-}
+    .main-container.messages .people-row h4 {
+        font-size: 1.5rem;
+        color: #1599AB;
+        margin-bottom: 0;
+    }
 
 .main-container.messages .send-message {
     position: fixed;

@@ -12,12 +12,17 @@
                 signalR.hub = signalR.connection.createHubProxy('emergyHub');
             }
         };
-        var startConnection = function () {
+        var startConnection = function (callback) {
+            signalR.isConnecting = true;
             signalR.connection.start()
             .done(function () {
                 signalR.isConnected = true;
+                signalR.isConnecting = false;
                 signalR.connectionState = 'connected';
                 $rootScope.$broadcast(signalR.events.realTimeConnected);
+                $rootScope.$applyAsync(function () {
+                    callback && callback();
+                });
             });
         };
         var stopConnection = function () {

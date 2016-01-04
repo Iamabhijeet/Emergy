@@ -13,9 +13,9 @@
         vm.stats = [];
 
         function activate() {
-            //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
-            //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
-            //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error.Message) });
+            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error.Message); });
+            statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error.Message); });
             $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
                 alert(response);
             });
