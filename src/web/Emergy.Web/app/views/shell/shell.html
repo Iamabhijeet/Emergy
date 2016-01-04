@@ -26,7 +26,7 @@
         </li>
         <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Notifications') ? 'item active' : 'item'">
             <a ng-href="/dashboard/notifications" class="waves-effect">
-                <img src="/assets/img/notifications-icon.png"/>Notifications
+                <img src="/assets/img/notifications-icon.png" />Notifications
             </a>
         </li>
         <li ng-if="authData.isAdmin()" ng-class="(currentState.name == 'Messaging') ? 'item active' : 'item'">
@@ -64,6 +64,11 @@
                 <i class="material-icons">settings_input_antenna</i>
                 DISCONNECTED
             </span>
+        </div>
+        <div class="connection-button center-block" ng-show="!signalr.isConnecting && !signalr.isConnected && signalR.connectionState !== 'connected'">
+            <a ng-click="reconnect()" class="waves-effect waves-block center-align">
+                <i class="material-icons">loop</i> Reconnect
+            </a>
         </div>
     </ul>
 </div>

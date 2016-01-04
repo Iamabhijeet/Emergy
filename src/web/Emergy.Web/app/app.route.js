@@ -255,8 +255,7 @@
         url: "/dashboard/client/:userId",
         views: {
             '': {
-                templateUrl: 'app/views/client/dashboard.html',
-                controller: "clientsController"
+                templateUrl: 'app/views/client/dashboard.html'
             },
             'shell@ClientDashboard': {
                 templateUrl: 'app/views/shell/shell.html',

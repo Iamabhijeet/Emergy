@@ -19,6 +19,7 @@ services.constant('signalR', {
     hub: {},
     connection: {},
     isConnected: false,
+    isConnecting: false,
     connectionState: '',
     events: {
         realTimeConnected: 'realTimeConnected',

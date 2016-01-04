@@ -13,46 +13,69 @@
     </div>
 
     <div class="row head-information">
-        <p>Submitted by <span>{{ report.Creator.Name }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
-        
+        <p class="lead">
+            <i style="position: relative; top: 5px;" class="material-icons">today</i>
+            Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
-    <div class="row report-map">
+    <div class="row report-map z-depth-1-half">
         <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}">
-                <img src="/assets/img/map-marker.png"/>
+            <info-window>
+                <div ng-non-bindable="">
+                    <strong>{{ report.Location.Name }}</strong> <br />
+                    Lat: {{anchor.getPosition().lat()}}<br />
+                    Lng: {{anchor.getPosition().lng()}}<br />
+                </div>
+            </info-window>
+            <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
+                <img src="/assets/img/report-marker.png"/>
             </custom-marker>
         </map>
     </div>
     <div class="row general-information">
-        <h4>General information</h4>
+        <h3>
+            General information
+        </h3>
         <div class="col s12" style="padding: 0">
-            <h5>Description</h5>
+            <h5 style="margin-left: 0; margin-bottom: 0;">Description</h5>
             <p ng-if="report.Description">{{ report.Description }}</p>
             <p ng-if="!report.Description">Client has not provided a description for this report.</p>
         </div>
         <div class="col l4 m4 s12" style="padding: 0">
-            <h5>Category</h5>
-            <p>{{ report.Category.Name }}</p>
+            <h5 style="margin-left: 0; margin-bottom: 0;">Category</h5>
+            <p style="margin-left: 0; margin-bottom: 0;">
+                {{ report.Category.Name }}
+            </p>
         </div>
-        <div class="col l4 m4 s12" style="padding: 0">
-            <h5>Location</h5>
-            <p>{{ report.Location.Name }} ({{ report.Location.Latitude }}, {{ report.Location.Longitude }})</p>
-        </div> 
     </div>
     <div class="row additional-details">
-        <h4>Additional details</h4>
-        <div class="col s12" ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
-            <h5>{{ detail.CustomProperty.Name }}</h5>
-            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True' ">Yes</p>
-            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False' ">No</p>
-            <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field' ">{{ detail.SerializedValue }}</p>
+        <h3>
+            Additional details
+        </h3>
+
+        <div ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
+            <div class="row row-no-margin" style="margin-left: 0; margin-bottom: 0;">
+                <div class="col l6 m6 s12">
+                    <h5 class="gray-text" style="font-weight: normal; color: gray">{{ detail.CustomProperty.Name }}</h5>
+                </div>
+                <div class="col l6 m6 s12">
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="green-text">
+                        Yes
+                    </p>
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
+                        No
+                    </p>
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong></p>
+                </div>
+            </div>
         </div>
         <p ng-if="report.Details.CustomPropertyValues.length == 0">Client has not provided any additional details for this report.</p>
     </div>
     <div class="row resources">
-        <h4>Pictures</h4>
-        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources"> 
-            <img materialboxed class="materialboxed responsive-img" ng-src="{{ resource.Base64 }}">
+        <h3>
+            Multimedia
+        </h3>
+        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
+            <img materialboxed class="materialboxed responsive-img card" ng-src="{{ resource.Base64 }}">
         </div>
         <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
     </div>
