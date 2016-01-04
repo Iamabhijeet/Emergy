@@ -167,6 +167,7 @@
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.woff" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.ttf" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.eot" />
+    <Content Include="libs\js\scroll-glue\scrollglue.js" />
     <Content Include="packages.config" />
     <Content Include="libs\js\jquery\jquery-1.6.4.js" />
     <Content Include="libs\js\jquery\jquery.signalR-2.2.0.js" />

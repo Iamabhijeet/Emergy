@@ -10,8 +10,13 @@
             </a>
         </div>
     </div>
-    <div class="row messages-row">
-        
+    <div class="row messages-row" scroll-glue>
+        <ul class="collection">
+            <li class="collection-item" ng-repeat="message in messages">
+                <span class="title">{{ message.Sender.UserName }}</span> - <span class="message-tim">{{ message.Timestamp | date: "h:mma" }}</span>
+                <p>{{ message.Content }}</p>
+            </li>
+        </ul>
     </div>
     <div class="row send-message">
         <form role="form" name="sendMessageForm" novalidate>

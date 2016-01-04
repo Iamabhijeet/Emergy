@@ -4,6 +4,9 @@
 
 
 /*-----------GENERAL STYLING-----------*/
+html, body, body > div {
+   height: 100%;
+}
 
 .container {
     padding: 0;
@@ -1118,4 +1121,39 @@
     position: fixed;
     width: inherit;
     bottom: 10px;
+}
+
+.main-container.messages .send-message .col.l1 {
+    text-align: center;
+}
+
+.main-container.messages  {
+    height: 100%;
+}
+
+.main-container.messages .messages-row {
+    height: calc(100% - 200px);
+    overflow-y: scroll;
+}
+
+.main-container.messages .messages-row .collection {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.main-container.messages .messages-row .collection .collection-item {
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.main-container.messages .messages-row .collection .collection-item span.title {
+    font-size: 16px;
+    color: #1599AB;
+    font-weight: 500;
+}
+
+.main-container.messages .messages-row .collection .collection-item p {
+    margin-top: 5px;
+    margin-bottom: 0px;
 }

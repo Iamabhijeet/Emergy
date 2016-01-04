@@ -15,7 +15,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, units
             $scope.report = report;
             console.log(report);
         }, function (error) {
-            notificationService.pushError("Error has happened while loading report details!")
+            notificationService.pushError("Error has happened while loading report details!");
         }); 
     };
 
