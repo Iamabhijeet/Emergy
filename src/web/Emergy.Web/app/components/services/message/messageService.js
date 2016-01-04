@@ -32,7 +32,7 @@ function messageService($http, $q, serviceBase) {
 
         var messageModel = {
             Content: message,
-            TargetId: JSON.stringify(userId)
+            TargetId: userId
         }
 
         $http.post(serviceBase + 'api/messages/create', messageModel)
