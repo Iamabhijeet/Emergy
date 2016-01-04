@@ -29,21 +29,14 @@
         </form>
     </div>
 
-    <div class="row people-row">
+    <div class="row people-row" ng-if="messagedUsers.length > 0">
         <h4>Messaged users</h4>
         <ul class="collection">
-            <li class="collection-item">
-                <div>Alvin 1<a ng-href="/dashboard/messages/1" class="secondary-content"><i class="material-icons">forum</i></a>
-                </div></li>
-            <li class="collection-item">
-                <div>Alvin 2<a ng-href="/dashboard/messages/1" class="secondary-content"><i class="material-icons">forum</i></a>
-                </div></li>
-            <li class="collection-item">
-                <div>Alvin 3<a ng-href="/dashboard/messages/1" class="secondary-content"><i class="material-icons">forum</i></a>
-                </div></li>
-            <li class="collection-item">
-                <div>Alvin 4<a ng-href="/dashboard/messages/1" class="secondary-content"><i class="material-icons">forum</i></a>
-                </div></li>
+            <li class="collection-item" ng-repeat="messagedUser in messagedUsers">
+                <div>
+                    {{ messagedUser.UserName }}<a ng-href="/dashboard/messages/{{ messagedUser.Id }}" class="secondary-content"><i class="material-icons">forum</i></a>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
