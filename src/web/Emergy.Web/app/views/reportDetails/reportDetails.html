@@ -1,7 +1,6 @@
 ﻿<div ui-view="shell"></div>
-
 <div class="container main-container reports">
-    <!--<div class="row header-row">
+    <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
             <h2>Details</h2>
         </div>
@@ -12,12 +11,12 @@
         </div>
     </div>
 
-    <div class="row head-information">
+    <div class="row head-information" ng-if="!isLoading">
         <p class="lead">
         <i style="position: relative; top: 5px;" class="material-icons">today</i>
         Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
-    <div class="row report-map z-depth-1-half">
+    <div class="row report-map z-depth-1-half" ng-if="!isLoading">
         <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
             <info-window>
                 <div ng-non-bindable="">
@@ -27,14 +26,29 @@
                 </div>
             </info-window>
             <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                <img src="/assets/img/report-marker.png"/>
+                <img src="/assets/img/report-marker.png" />
             </custom-marker>
         </map>
     </div>
-    <div class="row general-information">
-        <h3>
-            General information
-        </h3>
+    <div class="row report-assignment" ng-if="!isLoading">
+        <p ng-if="assignedUser">
+            <span>{{ assignedUser.UserName}}</span> is currently assigned to resolve this report.
+        </p>
+        <form role="form" name="createAssignmentForm" novalidate>
+            <div class="col l11 m11 s10" style="padding: 0;">
+                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required />
+                <small class="validation" ng-show="createAssignmentForm.userName.$touched && createAssignmentForm.userName.$error.required">Username is required.</small>
+            </div>
+            <div class="col l1 m1 s2">
+                <button href="#" class="btn-floating waves-effect waves-light" ng-click="assignUser(userName)" ng-disabled="createAssignmentForm.$invalid || createAssignmentForm.$pristine || isBusy">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row general-information" ng-if="!isLoading">
+        <h3>General information</h3>
         <div class="col s12" style="padding: 0">
             <h5 style="margin-left: 0; margin-bottom: 0;">Description</h5>
             <p ng-if="report.Description">{{ report.Description }}</p>
@@ -47,10 +61,8 @@
             </p>
         </div>
     </div>
-    <div class="row additional-details">
-        <h3>
-            Additional details
-        </h3>
+    <div class="row additional-details" ng-if="!isLoading">
+        <h3>Additional details</h3>
 
         <div ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
             <div class="row row-no-margin" style="margin-left: 0; margin-bottom: 0;">
@@ -70,116 +82,27 @@
         </div>
         <p ng-if="report.Details.CustomPropertyValues.length == 0">Client has not provided any additional details for this report.</p>
     </div>
-    <div class="row resources">
-        <h3>
-            Multimedia
-        </h3>
-
-    </div>-->
-    <div class="row">
-        <div class="col s12">
-            <div class="report-details-title-container">
-                <h2 class="center center-align centered center">
-                    Report #{{ report.Id }}
-                </h2>
-                <p class="lead" style="color: white; margin-top: -15px;">
-                    <i style="position: relative; top: 5px;" class="material-icons">today</i>
-                    Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>,
-                    <i style="position: relative; top: 5px;" class="material-icons">list</i> category is {{ report.Category.Name }}.
-                </p>
-            </div>
+    <div class="row resources" ng-if="!isLoading">
+        <h3>Multimedia</h3>
+        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
+            <img materialboxed class="materialboxed responsive-img card" ng-src="{{ resource.Base64 }}">
+        </div>
+        <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
+    </div>
+    <div class="row actions" ng-if="!isLoading">
+        <h3 style="margin-top: 0;">Actions</h3>
+        <div class="col l8 m6 s12" style="padding-left: 0;">
+            <select name="reportStatus" class="" material-select watch ng-model="newStatus" ng-change="changeStatus(report.Id, newStatus)">
+                <option value="" disabled selected style="font-size: 10px;">Report Status</option>
+                <option value="Created">Created</option>
+                <option value="Processing">Processing</option>
+                <option value="Completed">Completed</option>
+                <option value="Failure">Failure</option>
+            </select>
+        </div>
+        <div class="col l4 m6 s12" style="padding-left: 0;">
+            <a style="margin-top: 10px;" class="waves-effect waves-light btn red white-text center-align" ng-click="deleteReport(report.Id)"><i class="material-icons left">delete</i>DELETE</a>
         </div>
     </div>
-    <div class="row report-map">
-        <div class="col s12" style="margin-top: -20px;">
-            <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-                <info-window>
-                    <div ng-non-bindable="">
-                        <strong>{{ report.Location.Name }}</strong> <br />
-                        Lat: {{anchor.getPosition().lat()}}<br />
-                        Lng: {{anchor.getPosition().lng()}}<br />
-                    </div>
-                </info-window>
-                <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                    <img src="/assets/img/report-marker.png" />
-                </custom-marker>
-            </map>
-        </div>
-    </div>
-    <div class="row" style="margin: 0;">
-        <div class="col m8 s12">
-            <div>
-                <h3>
-                    General information
-                </h3>
-                <div class="row" style="margin: 0;">
-                    <div class="col m6 s12" style="padding: 0">
-                        <p>
-                            <strong>DESCRIPTION</strong> <br />
-                            <span style="margin-left: 0; margin-bottom: 0;" ng-if="report.Description">{{ report.Description }} <br /></span>
-                            <span style="margin-left: 0; margin-bottom: 0;" ng-if="!report.Description">Client has not provided a description for this report.</span>
-                        <p />
-
-                        <ul class="collection status-collection" ng-if="report.Details.CustomPropertyValues.length > 0" style="margin:0">
-                            <li class="collection-item" ng-repeat="detail in report.Details.CustomPropertyValues">
-                                <div class="row row-no-margin" style="margin-left: 0; margin-bottom: 0;">
-                                    <div class="col l4 m4 s12">
-                                        <p style="margin-left: 0; margin-bottom: 0;">{{ detail.CustomProperty.Name }}</p>
-                                    </div>
-                                    <div class="col l8 m8 s12">
-                                        <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="green-text">
-                                            Yes
-                                        </p>
-                                        <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
-                                            No
-                                        </p>
-                                        <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate">
-                                            <strong>{{ detail.SerializedValue }}</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <span ng-if="report.Details.CustomPropertyValues.length == 0">Client has not provided any additional details for this report.</span>
-
-                    </div>
-                    <div class="col m6 s12 resources" style="padding: 0">
-                        <div class="col l3 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
-                            <img materialboxed class="materialboxed responsive-img card" ng-src="{{ resource.Base64 }}">
-                        </div>
-                        <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col m4 s12">
-            <h3>
-                Actions
-            </h3>
-            <span class="grey-text text-darken-4"><strong>CHANGE STATUS</strong></span>
-            <div class="collection status-collection" style="margin: 0">
-                <a href="#" ng-click="changeStatus(report.Id, 'Created')" class="collection-item">Created</a>
-                <a href="#" ng-click="changeStatus(report.Id, 'Processing')" class="collection-item">Processing</a>
-                <a href="#" ng-click="changeStatus(report.Id, 'Completed')" class="collection-item">Completed</a>
-                <a href="#" ng-click="changeStatus(report.Id, 'Failure')" class="collection-item">Faliure</a>
-            </div>
-            <span class="grey-text text-darken-4"><strong>DELETE REPORT</strong></span>
-            <a class="btn red waves-block waves-effect waves-light" href="#" ng-click="deleteReport(report.Id)">Delete</a>
-            <br />
-            <span class="grey-text text-darken-4"><strong>ASSIGN USER</strong></span>
-            <form name="assignUserForm">
-                <input ng-class="{ 'valid' : assignUserForm.clientKey.$touched && assignUserForm.clientKey.$valid,
-                                           'invalid': assignUserForm.clientKey.$touched && assignUserForm.clientKey.$invalid }"
-                       id="userName" name="userName"
-                       placeholder="User Name"
-                       type="text"
-                       ng-model="clientName"
-                       ng-maxlength="50"
-                       required />
-                <small class="validation" ng-show="assignUserForm.userName.$touched && assignUserForm.userName.$error.required">User Name is required.</small>
-                <small class="validation" ng-show="assignUserForm.userName.$touched && assignUserForm.userName.$error.maxlength">User Name must not have more than 50 characters.</small>
-                <a class="btn waves-block waves-effect waves-light" href="#" ng-click="assignUser(report.Id)">ASSIGN</a> <br />
-            </form>
-        </div>
     </div>
 </div>

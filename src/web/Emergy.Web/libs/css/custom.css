@@ -926,7 +926,7 @@ html, body {
 }
 
 .main-container.reports .general-information {
-    margin-top: 35px;
+    margin-top: 20px;
 }
 
     .main-container.reports .general-information p {
@@ -954,10 +954,9 @@ html, body {
 
 .lead {
     font-size: 1.25rem;
-    font-weight: 200;
+    font-weight: 300;
     color: #616161;
 }
-
 
 .main-container.reports .resources h4 {
     margin-bottom: 10px;
@@ -985,6 +984,32 @@ html, body {
 .main-container.reports .general-information .input-field {
     margin-top: 0;
 }
+
+.main-container.reports .dropdown-content {
+    font-size: 14px;
+    z-index: 1000000;
+}
+
+    .main-container.reports .dropdown-content span {
+        font-size: 1rem;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: #00a2b7;
+    }
+
+.main-container.reports .select-dropdown {
+    color: #C9C9C9;
+}
+
+.main-container.reports .report-assignment {
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
+.main-container.reports .report-assignment .col.l1 {
+    text-align: right;
+}
+
 
 .main-container.reports .input-field label {
     left: 0;
