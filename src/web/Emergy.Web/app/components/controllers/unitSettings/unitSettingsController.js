@@ -1,13 +1,13 @@
 ﻿'use strict';
 
-var controllerId = 'unitDetailsController';
+var controllerId = 'unitSettingsController';
 
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', 'unitsService',
         'authService', 'accountService', 'notificationService', 'authData',
-        'mapService', unitDetailsController]);
+        'mapService', unitSettingsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
+function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
     $rootScope.title = "Unit | Details";
 
     var createMarker = function (latitude, longitude, title) {

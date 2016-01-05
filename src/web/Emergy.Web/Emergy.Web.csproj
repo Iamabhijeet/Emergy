@@ -52,7 +52,7 @@
     <Content Include="app\components\controllers\notifications\notificationsController.js" />
     <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
-    <Content Include="app\components\controllers\unitDetails\unitDetailsController.js" />
+    <Content Include="app\components\controllers\unitSettings\unitSettingsController.js" />
     <Content Include="app\components\controllers\units\unitsController.js" />
     <Content Include="app\components\controllers\landing\landingController.js" />
     <Content Include="app\components\controllers\login\loginController.js" />
@@ -82,7 +82,7 @@
     <Content Include="app\views\register\registerSuccess.html" />
     <Content Include="app\views\reportDetails\reportDetails.html" />
     <Content Include="app\views\reports\reports.html" />
-    <Content Include="app\views\unitDetails\unitDetails.html" />
+    <Content Include="app\views\unitSettings\unitSettings.html" />
     <Content Include="app\views\units\units.html" />
     <Content Include="app\views\landing.html" />
     <Content Include="app\views\login\login.html" />
