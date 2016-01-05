@@ -2,6 +2,7 @@
     'use strict';
 
     function cameraService($cordovaCamera) {
+
         var options = {
             quality: 75,
             destinationType: Camera.DestinationType.DATA_URL,

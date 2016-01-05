@@ -3,10 +3,10 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
+    ['$scope', '$q','$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
      'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', homeController]);
 
-function homeController($scope, $rootScope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR) {
+function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
@@ -14,9 +14,6 @@ function homeController($scope, $rootScope, $cordovaGeolocation, $ionicModal, no
     $scope.reportPicturesData = [];
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
-
-    
-
 
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
@@ -66,6 +63,7 @@ function homeController($scope, $rootScope, $cordovaGeolocation, $ionicModal, no
                 $scope.isBusy = false;
             });
     };
+
     var submitReportWithBasicInformation = function () {
         if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
@@ -96,8 +94,8 @@ function homeController($scope, $rootScope, $cordovaGeolocation, $ionicModal, no
                             }
                             var promise = notificationService.pushNotification(notification);
                             promise.then(function (notificationId) {
-                                $rootScope.$on(signalR.events.realTimeConnected, function () {
-                                    hub.server.pushNotification(notificationId);
+                                $q.when(signalR.events.realTimeConnected, function() {
+                                    hub.server.sendNotification(notificationId);
                                 });
                                 notificationService.hideLoading();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");

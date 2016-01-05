@@ -2,9 +2,9 @@
     'use strict';
 
     services.factory('hub', hub);
-    hub.$inject = ['$rootScope', 'signalR', 'authData'];
+    hub.$inject = ['$rootScope', '$q', 'signalR', 'authData'];
 
-    function hub($rootScope, signalR, authData) {
+    function hub($rootScope, $q, signalR, authData) {
         var createConnection = function () {
             if (!signalR.isConnected) {
                 $.signalR.ajaxDefaults.headers = { Authorization: "Bearer " + authData.token };
@@ -14,8 +14,7 @@
         };
         var startConnection = function (callback) {
             signalR.isConnecting = true;
-            signalR.connection.start()
-            .done(function () {
+            $q.when(signalR.connection.start(), function() {
                 signalR.isConnected = true;
                 signalR.isConnecting = false;
                 signalR.connectionState = 'connected';
@@ -69,7 +68,7 @@
             },
             server: {
                 sendNotification: function (notificationId) {
-                    if (signalR.hub.isConnected) {
+                    if (signalR.isConnected) {
                         signalR.hub.invoke(signalR.events.server.sendNotification, notificationId)
                         .done(function () {
                             console.log('sent notification ' + notificationId);
@@ -80,7 +79,7 @@
                     }
                 },
                 updateUserLocation: function (locationId, reportId) {
-                    if (signalR.hub.isConnected) {
+                    if (signalR.isConnected) {
                         signalR.hub.invoke(signalR.events.server.updateUserLocation, [locationId, reportId])
                         .done(function () {
                             console.log('updatedLocation ' + locationId);
