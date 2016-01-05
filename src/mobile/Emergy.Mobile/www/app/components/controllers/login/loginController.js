@@ -20,6 +20,12 @@ function loginController($scope, $rootScope, $ionicHistory, authService, notific
     $scope.login = function (user) {
         $scope.isBusy = true;
         notificationService.displayLoading('Logging in...');
-        authService.login(user).finally(function () { $scope.isBusy = false; notificationService.hideLoading(); });
+
+        authService.login(user).then(function() {
+            $rootScope.$broadcast('userAuthenticated');
+        }).finally(function() {
+            $scope.isBusy = false;
+            notificationService.hideLoading();
+        });
     };
 }

@@ -3,10 +3,10 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
-     'cameraService', 'reportsService', 'resourceService', 'emergyHub', 'authData', homeController]);
+    ['$scope', '$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
+     'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', homeController]);
 
-function homeController($scope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, emergyHub, authData) {
+function homeController($scope, $rootScope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
@@ -15,7 +15,8 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
 
-    emergyHub.ensureConnected();
+    
+
 
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
@@ -94,7 +95,10 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                                 ParameterId: $scope.reportId
                             }
                             var promise = notificationService.pushNotification(notification);
-                            promise.then(function () {
+                            promise.then(function (notificationId) {
+                                $rootScope.$on(signalR.events.realTimeConnected, function () {
+                                    hub.server.pushNotification(notificationId);
+                                });
                                 notificationService.hideLoading();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
 

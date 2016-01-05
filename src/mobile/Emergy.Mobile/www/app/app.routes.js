@@ -104,10 +104,32 @@
     });
 });
 
-app.run(['$rootScope', '$state', 'authService', function ($rootScope, $state, authService) {
+app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
+    $rootScope.constructor.prototype.$off = function (eventName) {
+        if (this.$$listeners) {
+            this.$$listeners[eventName] = [];
+        }
+    };
+
+    $rootScope.unSubscribeAll = function () {
+        $rootScope.$off(signalR.events.connectionStateChanged);
+        $rootScope.$off(signalR.events.realTimeConnected);
+        $rootScope.$off(signalR.events.client.testSuccess);
+        $rootScope.$off(signalR.events.client.pushNotification);
+        $rootScope.$off(signalR.events.client.updateUserLocation);
+    };
+}]);
+
+app.run(['$rootScope', '$state', 'authService', 'signalR', function ($rootScope, $state, authService, signalR) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
     authService.logout();
+    $rootScope.currentState = '';
+
+    $rootScope.$on('$stateChangeStart', function (e, toState) {
+        $rootScope.currentState = toState;
+        $rootScope.unSubscribeAll();
+    });
 
     $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
         if (error === "Not Authorized") {
