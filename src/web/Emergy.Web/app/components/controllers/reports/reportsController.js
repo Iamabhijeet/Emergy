@@ -5,15 +5,19 @@ var controllerId = 'reportsController';
 app.controller(controllerId,
 [
     'vm', '$rootScope', '$stateParams', 'reportsService',
-        'authService', 'notificationService', 'authData', reportsController]);
+        'authService', 'notificationService', 'authData', 'hub', 'signalR', reportsController]);
 
-function reportsController($scope, $rootScope, $stateParams,
-    reportsService, authService, notificationService, authData) {
+function reportsController($scope, $rootScope, $stateParams, reportsService, authService, notificationService, authData, hub, signalR) {
     $rootScope.title = 'Reports | Emergy';
     $scope.isBusy = false;
     $scope.reports = [];
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
+
+    $rootScope.$on(signalR.events.client.pushNotification, function(event, response) {
+        notificationService.pushSuccess("New report is here");
+        $scope.loadReports();
+    });
 
     $scope.loadReports = function () {
         $scope.isBusy = true;
