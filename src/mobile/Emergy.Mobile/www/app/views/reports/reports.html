@@ -1,16 +1,20 @@
 ﻿<ion-view name="tab-reports" view-title="Reports">
     <ion-content class="padding has-header">
-        <div class="list card">
-            <div class="item item-divider">Report</div>
+        <div class="reports-container">
+            <div class="card" ng-repeat="report in reports">
+                <div class="item item-text-wrap description" ng-if="!report.Description">
+                    You haven't provided a description for this report.
+                </div>
+                <div class="item item-text-wrap description" ng-if="report.Description">
+                    {{ report.Description }}
+                </div>
+                <div class="item details">
+                    <p>Submitted at <span>{{ report.Timestamp | date: "HH:mm" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span><br>with the category of <span>{{ report.Category.Name }}</span>.
+</div>
+                <div class="item item-divider status">
+                    <p>{{ report.Status }}</p>
+                </div>
+            </div>
         </div>
-        <div class="list card">
-            <div class="item item-divider">Report</div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Report</div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Report</div>
-        </div>
-    </ion-content>
+</ion-content>
 </ion-view>

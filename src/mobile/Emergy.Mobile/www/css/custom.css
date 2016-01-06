@@ -227,7 +227,55 @@ ion-tabs.tabs-color-active-positive .tab-item {
     font-size: 16px;
 }
 
-
-
-
 /*-----------end HOME-----------*/
+
+/*-----------begin REPORTS-----------*/
+
+.reports-container .card {
+    border-radius: 0;
+    border: none;
+}
+
+.reports-container .card .status, .reports-container .card .description, .reports-container .card .details {
+    border: none;
+}
+
+.reports-container .card .description {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.reports-container .card .status {
+    background-color: #00CEE8;
+    
+}
+
+.reports-container .card .status p {
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+.reports-container .card .details {
+    padding-top: 5px;
+}
+
+.reports-container .card .details p {
+    text-align: center;
+}
+
+.reports-container .card .details p span{
+    
+    font-weight: 500;
+    color: #10B0C4;
+}
+
+
+
+
+
+/*-----------end REPORTS-----------*/

@@ -54,34 +54,13 @@
             }]
         }
     });
-    $stateProvider.state('tab.report-details', {
-        url: '/report/:reportId',
-        views: {
-            'tab-report-details': {
-                templateUrl: 'app/views/reportDetails/reportDetails.html',
-                controller: 'reportController'
-            }
-        },
-        resolve:
-        {
-            authorize: ['$q', 'authData', function ($q, authData) {
-                var deferred = $q.defer();
-                if (!authData.loggedIn) {
-                    deferred.reject("Not authorized");
-                } else {
-                    deferred.resolve("Authorized");
-                }
-                return deferred.promise;
-            }]
-        }
-    });
 
-    $stateProvider.state('tab.profile', {
-        url: '/profile/:userId',
+    $stateProvider.state('tab.messaging', {
+        url: '/messaging',
         views: {
-            'tab-profile': {
-                templateUrl: 'app/views/profile/profile.html',
-                controller: 'profileController'
+            'tab-messaging': {
+                templateUrl: 'app/views/messaging/messaging.html',
+                controller: 'messagingController'
             }
         },
         resolve:
@@ -97,6 +76,7 @@
             }]
         }
     });
+    
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'app/views/login/login.html',

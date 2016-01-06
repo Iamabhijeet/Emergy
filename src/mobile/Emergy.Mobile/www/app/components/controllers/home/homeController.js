@@ -137,7 +137,10 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                     }
                     console.log(notification);
                     var promise = notificationService.pushNotification(notification);
-                    promise.then(function () {
+                    promise.then(function (notificationId) {
+                        $q.when(signalR.events.realTimeConnected, function () {
+                            hub.server.sendNotification(notificationId);
+                        });
                         notificationService.hideLoading();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
                     }, function () {
@@ -187,7 +190,10 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                             }
 
                             var promise = notificationService.pushNotification(notification);
-                            promise.then(function () {
+                            promise.then(function (notificationId) {
+                                $q.when(signalR.events.realTimeConnected, function () {
+                                    hub.server.sendNotification(notificationId);
+                                });
                                 notificationService.hideLoading();
                                 $scope.modal.hide();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
@@ -267,7 +273,10 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                     };
 
                     var promise = notificationService.pushNotification(notification);
-                    promise.then(function () {
+                    promise.then(function (notificationId) {
+                        $q.when(signalR.events.realTimeConnected, function () {
+                            hub.server.sendNotification(notificationId);
+                        });
                         notificationService.hideLoading();
                         $scope.modal.hide();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
