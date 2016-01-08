@@ -1,9 +1,14 @@
-﻿<ion-view name="tab-reports" view-title="Messaging">
+﻿<ion-view name="tab-messaging" view-title="Messaging">
     <ion-content class="padding has-header">
-        <ul class="list">
-            <li class="item" ng-repeat="messagedUser in messagedUsers">
-                {{ messagedUser.UserName }}
-            </li>
-        </ul>
+        <div class="messaging-container">
+            <ul class="list">
+                <li class="item" ng-click="openMessages('TestAdmin')">
+                    <p>TestAdmin</p></li>
+                <li class="item" ng-click="openMessages('TestAdmin')">
+                    <p>TestAdmin</p></li>
+                <li class="item" ng-click="openMessages('TestAdmin')">
+                    <p>TestAdmin</p></li>
+            </ul>
+        </div>
     </ion-content>
 </ion-view>

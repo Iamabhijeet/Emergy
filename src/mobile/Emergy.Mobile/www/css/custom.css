@@ -269,13 +269,66 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .reports-container .card .details p span{
-    
     font-weight: 500;
     color: #10B0C4;
 }
 
-
-
-
-
 /*-----------end REPORTS-----------*/
+
+/*-----------begin MESSAGING-----------*/
+
+.messaging-container li.item {
+    border: none; 
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    margin-top: 15px;
+}
+
+.messaging-container li.item p{
+    font-size: 16px;
+    font-weight: 500;
+    color: #10B0C4;
+}
+
+/*-----------end MESSAGING-----------*/
+
+/*-----------begin MESSAGES-----------*/
+
+.bar.bar-footer .item.send-message {
+    width: 100%;
+}
+
+.platform-ios .bar.bar-footer.send-message-bar {
+    border: none;
+    margin-bottom: 50px;
+}
+
+.platform-android .bar.bar-footer.send-message-bar {
+    border: none;
+}
+
+.bar.bar-footer .item.send-message {
+    border: none;
+}
+.bar.bar-footer .item.send-message a {
+    display: block;
+    width: 10%; 
+}
+
+.bar.bar-footer .item.send-message i {
+    position: relative;
+    left: 12px;
+    top: 3px;
+    color: #00ACC1;
+}
+
+.bar.bar-footer .item.send-message label {
+    width: 100%;
+}
+
+.bar.bar-footer .item.send-message input {
+    width: 100%;
+}
+
+/*-----------end MESSAGES-----------*/

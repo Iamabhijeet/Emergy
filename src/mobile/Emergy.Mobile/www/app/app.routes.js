@@ -76,6 +76,28 @@
             }]
         }
     });
+
+    $stateProvider.state('tab.messages', {
+        url: '/messaging/:senderId',
+        views: {
+            'tab-messaging': {
+                templateUrl: 'app/views/messages/messages.html',
+                controller: 'messagesController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not authorized");
+                } else {
+                    deferred.resolve("Authorized");
+                }
+                return deferred.promise;
+            }]
+        }
+    });
     
     $stateProvider.state('login', {
         url: '/login',

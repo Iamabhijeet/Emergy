@@ -3,7 +3,9 @@
 
     function cameraService($cordovaCamera) {
 
-        var options = {
+        /*
+         
+         var options = {
             quality: 75,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: Camera.PictureSourceType.CAMERA,
@@ -13,9 +15,11 @@
             saveToPhotoAlbum: true,
             correctOrientation: true
         };
+         
+         */
 
         var takePhotoFromCamera = function () {
-            return $cordovaCamera.getPicture(options);
+            return $cordovaCamera.getPicture(/*options*/);
         };
         var factory = {
             takePhotoFromCamera: takePhotoFromCamera
