@@ -63,7 +63,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrators")]
+        [Authorize]
         [Route("With-Username/{username}")]
         public async Task<IHttpActionResult> WithUsername(string username)
         {

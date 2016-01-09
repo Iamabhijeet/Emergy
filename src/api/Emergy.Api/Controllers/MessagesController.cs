@@ -63,10 +63,10 @@ namespace Emergy.Api.Controllers
                                  .DistinctBy(profile => profile.Id);
         }
 
-        [HttpGet]
-        [Route("get-chats/messages/{userId}")]
+        [HttpPost]
+        [Route("get-chats/messages")]
         [ResponseType(typeof(IEnumerable<Message>))]
-        public async Task<IEnumerable<Message>> GetChats(string userId)
+        public async Task<IEnumerable<Message>> GetChats([FromBody]string userId)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var messages = user.SentMessages.Concat(user.ReceievedMessages);
