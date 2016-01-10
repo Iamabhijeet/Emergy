@@ -14,9 +14,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.arrivedReport = {};
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
-
     
-
     $rootScope.$on(signalR.events.client.pushNotification, function(event, response) {
         var promise = notificationService.getNotification(response);
         promise.then(function(notification) {
@@ -24,12 +22,18 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
                 $scope.reports = [];
                 $scope.lastReportDateTime = '';
                 $scope.loadReports();
-                
-                ngDialog.open({
-                    template: "reportCreatedModal",
-                    disableAnimation: true
+                $scope.arrivedReport = {};
+                var promise = reportsService.getReport(notification.ParameterId);
+                promise.then(function (report) {
+                    ngDialog.close();
+                    $scope.arrivedReport = report;
+                    ngDialog.open({
+                        template: "reportCreatedModal",
+                        disableAnimation: true
+                    });
+                }, function(error) {
+                    notificationService.pushError("Error has happened while loading notification.");
                 });
-
             }
             else if (notification.Type === "MessageArrived") {
 
@@ -58,6 +62,8 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
         var promise = reportsService.deleteReport(reportId);
         promise.then(function () {
             notificationService.pushSuccess("Report has been deleted!");
+            $scope.reports = [];
+            $scope.lastReportDateTime = '';
             $scope.loadReports();
         }, function (error) {
             notificationService.pushError("Error has happened while deleting the report.");
@@ -72,6 +78,8 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
         var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
         promise.then(function () {
             notificationService.pushSuccess("Status changed to " + newStatus);
+            $scope.reports = [];
+            $scope.lastReportDateTime = '';
             $scope.loadReports();
         }, function (error) {
             notificationService.pushError("Error has happened while changing the status.");
