@@ -1,6 +1,6 @@
 ﻿<ion-view name="tab-home" view-title="Home">
     <ion-content class="padding has-header">
-        <div class="home-container">
+        <div class="home-container" ng-if="units.length != 0">
             <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report"></button>
             <div class="report-inputs" ng-if="!isBusy">
                 <label class="item item-input item-select">
@@ -17,6 +17,9 @@
                     <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
                 </label>
             </div>
+        </div>
+        <div class="home-container" ng-if="units.length == 0">
+            <p class="empty-warning">You don't belong to any units. Please contact your administrator in order to start reporting.</p>
         </div>
     </ion-content>
 </ion-view>

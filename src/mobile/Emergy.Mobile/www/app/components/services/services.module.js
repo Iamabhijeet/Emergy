@@ -15,7 +15,7 @@ services.value('authData', {
     }
 });
 
-services.constant('serviceBase', 'http://emergy-api.azurewebsites.net/');
+services.constant('serviceBase', 'http://emergy-api.dump.hr/');
 
 services.constant('signalR', {
     endpoint: 'http://emergy-api.azurewebsites.net/',

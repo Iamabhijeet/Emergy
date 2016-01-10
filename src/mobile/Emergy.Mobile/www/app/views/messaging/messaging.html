@@ -1,6 +1,6 @@
 ﻿<ion-view name="tab-messaging" view-title="Messaging">
     <ion-content class="padding has-header">
-        <div class="messaging-container">
+        <div class="messaging-container" ng-if="messagedUsers.length != 0">
             <ul class="list">
                 <li class="item" ng-click="openMessages('TestAdmin')">
                     <p>TestAdmin</p></li>
@@ -9,6 +9,9 @@
                 <li class="item" ng-click="openMessages('TestAdmin')">
                     <p>TestAdmin</p></li>
             </ul>
+        </div>
+        <div class="messaging-container" ng-if="messagedUsers.length == 0">
+            <p class="empty-warning">You haven't been messaged by any administrators.</p>
         </div>
     </ion-content>
 </ion-view>
