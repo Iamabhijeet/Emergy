@@ -1,10 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    function cameraService($cordovaCamera) {
-
-        /*
-         
+    function cameraService($cordovaCamera) { 
          var options = {
             quality: 75,
             destinationType: Camera.DestinationType.DATA_URL,
@@ -15,11 +12,9 @@
             saveToPhotoAlbum: true,
             correctOrientation: true
         };
-         
-         */
 
         var takePhotoFromCamera = function () {
-            return $cordovaCamera.getPicture(/*options*/);
+            return $cordovaCamera.getPicture(options);
         };
         var factory = {
             takePhotoFromCamera: takePhotoFromCamera
