@@ -86,12 +86,14 @@ namespace Emergy.Api.Controllers
             }
             var notification = Mapper.Map<db.Notification>(model);
             var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            var targetTask = AccountService.Create().GetUserByIdAsync(model.TargetId);
+            var accountService = AccountService.Create();
+            var targetTask = accountService.GetUserByIdAsync(model.TargetId);
             await Task.WhenAll(senderTask, targetTask).WithoutSync();
             var sender = await senderTask.WithoutSync();
             var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
+                accountService.Dispose();
                 notification.SenderId = sender.Id;
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);

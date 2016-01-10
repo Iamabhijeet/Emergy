@@ -107,12 +107,14 @@ namespace Emergy.Api.Controllers
             }
             var message = Mapper.Map<Message>(model);
             var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            var targetTask = AccountService.Create().GetUserByIdAsync(model.TargetId);
+            var accountService = AccountService.Create();
+            var targetTask = accountService.GetUserByIdAsync(model.TargetId);
             await Task.WhenAll(senderTask, targetTask).WithoutSync();
             var sender = await senderTask.WithoutSync();
             var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
+                accountService.Dispose();
                 message.SenderId = sender.Id;
                 message.TargetId = target.Id;
                 ListExtensions.ForEach(model.Multimedia, async (resourceId) =>
