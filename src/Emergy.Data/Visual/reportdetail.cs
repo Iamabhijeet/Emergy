@@ -12,20 +12,20 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class reportdetail
+    public partial class ReportDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public reportdetail()
+        public ReportDetail()
         {
-            this.custompropertyvalues = new HashSet<custompropertyvalue>();
-            this.reports = new HashSet<report>();
+            this.CustomPropertyValues = new HashSet<CustomPropertyValue>();
+            this.Reports = new HashSet<Report>();
         }
     
         public int Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<custompropertyvalue> custompropertyvalues { get; set; }
+        public virtual ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<report> reports { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

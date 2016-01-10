@@ -11,11 +11,11 @@ namespace Emergy.Data.Configurations
             HasOptional(n => n.Sender)
                 .WithMany(n => n.SentMessages)
                 .HasForeignKey(n => n.SenderId)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(false);
             HasOptional(n => n.Target)
                 .WithMany(n => n.ReceievedMessages)
                 .HasForeignKey(n => n.TargetId)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(false);
         }
     }
 }

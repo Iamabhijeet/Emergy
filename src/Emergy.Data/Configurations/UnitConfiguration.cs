@@ -11,15 +11,15 @@ namespace Emergy.Data.Configurations
 
             HasMany(x => x.Categories)
               .WithOptional(x => x.Unit)
-              .WillCascadeOnDelete(true);
+              .WillCascadeOnDelete();
 
             HasMany(x => x.Locations)
              .WithOptional()
-             .WillCascadeOnDelete(true);
+             .WillCascadeOnDelete();
 
             HasMany(x => x.Reports)
               .WithOptional(x => x.Unit)
-              .WillCascadeOnDelete(true);
+              .WillCascadeOnDelete(false);
 
             HasMany(x => x.Clients)
               .WithMany(x => x.Units)

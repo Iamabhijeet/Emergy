@@ -12,12 +12,12 @@ namespace Emergy.Data.Configurations
             HasRequired(a => a.Admin)
                 .WithMany(a => a.CreatedAssignments)
                 .HasForeignKey(a => a.AdminId)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(false);
 
             HasRequired(a => a.Target)
                 .WithMany(a => a.ReceievedAssignments)
                 .HasForeignKey(a => a.TargetId)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(false);
 
             HasRequired(a => a.Report)
                 .WithMany(a => a.Assignments)

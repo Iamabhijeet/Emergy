@@ -12,23 +12,17 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class notification
+    public partial class Notification
     {
         public int Id { get; set; }
-        public string Content { get; set; }
-        public System.DateTime Timestamp { get; set; }
-        public string Sender_Id { get; set; }
-        public string Target_Id { get; set; }
-        public string ApplicationUser_Id { get; set; }
-        public int Type { get; set; }
-        public string ParameterId { get; set; }
         public string SenderId { get; set; }
         public string TargetId { get; set; }
+        public string Content { get; set; }
+        public int Type { get; set; }
+        public string ParameterId { get; set; }
+        public System.DateTime Timestamp { get; set; }
     
-        public virtual aspnetuser aspnetuser { get; set; }
-        public virtual aspnetuser aspnetuser1 { get; set; }
-        public virtual aspnetuser aspnetuser2 { get; set; }
-        public virtual aspnetuser aspnetuser3 { get; set; }
-        public virtual aspnetuser aspnetuser11 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

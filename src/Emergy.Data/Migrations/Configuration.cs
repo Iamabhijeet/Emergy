@@ -1,5 +1,6 @@
 using System;
 using System.Data.Entity.Migrations;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using Emergy.Data.Context;
 using Microsoft.AspNet.Identity;
@@ -12,8 +13,8 @@ namespace Emergy.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
-            SetHistoryContextFactory("MySql.Data.MySqlClient", (conn, schema) => new MySqlHistoryContext(conn, schema));
+            SetSqlGenerator("System.Data.SqlClient", new SqlServerMigrationSqlGenerator());
+            SetHistoryContextFactory("System.Data.SqlClient", (conn, schema) => new HistoryContext(conn, schema));
         }
 
         protected override void Seed(ApplicationDbContext context)
@@ -28,7 +29,7 @@ namespace Emergy.Data.Migrations
             if (!roleManager.Roles.Any())
             {
                 roleManager.Create(new IdentityRole { Name = "Administrators" });
-                roleManager.Create(new IdentityRole { Name = "Clients" });
+                roleManager.Create(new IdentityRole { Name = "Clients"        });
             }
         }
         private void AddDefaultProfilePhoto(ApplicationDbContext context)

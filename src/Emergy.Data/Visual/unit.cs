@@ -12,34 +12,34 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class unit
+    public partial class Unit
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public unit()
+        public Unit()
         {
-            this.categories = new HashSet<category>();
-            this.customproperties = new HashSet<customproperty>();
-            this.locations = new HashSet<location>();
-            this.reports = new HashSet<report>();
-            this.aspnetusers = new HashSet<aspnetuser>();
+            this.Categories = new HashSet<Category>();
+            this.CustomProperties = new HashSet<CustomProperty>();
+            this.Locations = new HashSet<Location>();
+            this.Reports = new HashSet<Report>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string AdministratorId { get; set; }
-        public System.DateTime DateCreated { get; set; }
         public bool IsPublic { get; set; }
+        public System.DateTime DateCreated { get; set; }
     
-        public virtual aspnetuser aspnetuser { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<category> categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<customproperty> customproperties { get; set; }
+        public virtual ICollection<CustomProperty> CustomProperties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<location> locations { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<report> reports { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetuser> aspnetusers { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

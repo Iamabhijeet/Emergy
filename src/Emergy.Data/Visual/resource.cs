@@ -12,12 +12,12 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class resource
+    public partial class Resource
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public resource()
+        public Resource()
         {
-            this.aspnetusers = new HashSet<aspnetuser>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public int Id { get; set; }
@@ -26,12 +26,12 @@ namespace Emergy.Data.Visual
         public System.DateTime DateUploaded { get; set; }
         public string MimeType { get; set; }
         public string Base64 { get; set; }
-        public Nullable<int> Report_Id { get; set; }
         public Nullable<int> Message_Id { get; set; }
+        public Nullable<int> Report_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetuser> aspnetusers { get; set; }
-        public virtual message message { get; set; }
-        public virtual report report { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual Message Message { get; set; }
+        public virtual Report Report { get; set; }
     }
 }

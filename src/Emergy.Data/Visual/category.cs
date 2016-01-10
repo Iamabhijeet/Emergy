@@ -12,20 +12,20 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class category
+    public partial class Category
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public category()
+        public Category()
         {
-            this.reports = new HashSet<report>();
+            this.Reports = new HashSet<Report>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Unit_Id { get; set; }
+        public Nullable<int> Unit_Id { get; set; }
     
-        public virtual unit unit { get; set; }
+        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<report> reports { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

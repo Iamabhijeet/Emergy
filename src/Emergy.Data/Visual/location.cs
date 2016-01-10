@@ -12,12 +12,12 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class location
+    public partial class Location
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public location()
+        public Location()
         {
-            this.reports = new HashSet<report>();
+            this.Reports = new HashSet<Report>();
         }
     
         public int Id { get; set; }
@@ -25,13 +25,13 @@ namespace Emergy.Data.Visual
         public double Longitude { get; set; }
         public string Name { get; set; }
         public int Type { get; set; }
-        public Nullable<int> Unit_Id { get; set; }
         public System.DateTime Timestamp { get; set; }
         public string ApplicationUser_Id { get; set; }
+        public Nullable<int> Unit_Id { get; set; }
     
-        public virtual unit unit { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<report> reports { get; set; }
-        public virtual aspnetuser aspnetuser { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

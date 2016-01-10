@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using System.Data.Entity;
 using Emergy.Data.Configurations;
 using Emergy.Data.Initializers;
 using Emergy.Data.Models;
@@ -13,19 +11,13 @@ namespace Emergy.Data.Context
         public ApplicationDbContext()
           : base("DefaultConnection")
         {
-            Database.SetInitializer(new MySqlInitializer());
+            Database.SetInitializer(new DbInitializer());
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // builder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            // table mappings
 
             builder.Entity<Resource>().ToTable("Resources");
-
-
-            //configurations
-
             builder.Entity<IdentityRole>()
                .Property(c => c.Name)
                .HasMaxLength(128)
@@ -51,19 +43,19 @@ namespace Emergy.Data.Context
             builder.Configurations.Add(new AssignmentConfiguration());
         }
 
-        public DbSet<Unit> Units { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Resource> Resources { get; set; }
-        public DbSet<CustomProperty> CustomProperties { get; set; }
+        public DbSet<Unit> Units                               { get; set; }
+        public DbSet<Report> Reports                           { get; set; }
+        public DbSet<Category> Categories                      { get; set; }
+        public DbSet<Resource> Resources                       { get; set; }
+        public DbSet<CustomProperty> CustomProperties          { get; set; }
         public DbSet<CustomPropertyValue> CustomPropertyValues { get; set; }
-        public DbSet<Location> Locations { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        public DbSet<Message> Messages { get; set; }
-        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Location> Locations                       { get; set; }
+        public DbSet<Notification> Notifications               { get; set; }
+        public DbSet<Message> Messages                         { get; set; }
+        public DbSet<Assignment> Assignments                   { get; set; }
         public static ApplicationDbContext Create()
         {
-            Database.SetInitializer(new MySqlInitializer());
+            Database.SetInitializer(new DbInitializer());
             return new ApplicationDbContext();
         }
     }

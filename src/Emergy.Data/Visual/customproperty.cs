@@ -12,12 +12,12 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class customproperty
+    public partial class CustomProperty
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public customproperty()
+        public CustomProperty()
         {
-            this.custompropertyvalues = new HashSet<custompropertyvalue>();
+            this.CustomPropertyValues = new HashSet<CustomPropertyValue>();
         }
     
         public int Id { get; set; }
@@ -25,8 +25,8 @@ namespace Emergy.Data.Visual
         public int CustomPropertyType { get; set; }
         public int Unit_Id { get; set; }
     
+        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<custompropertyvalue> custompropertyvalues { get; set; }
-        public virtual unit unit { get; set; }
+        public virtual ICollection<CustomPropertyValue> CustomPropertyValues { get; set; }
     }
 }

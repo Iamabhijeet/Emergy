@@ -4,1704 +4,1548 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EmergyDbVisualModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__migrationhistory">
+    <Schema Namespace="Emergy.Db.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
             <PropertyRef Name="ContextKey" />
           </Key>
-          <Property Name="MigrationId" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="ContextKey" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Model" Type="longblob" Nullable="false" />
-          <Property Name="ProductVersion" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
-        <EntityType Name="aspnetroles">
+        <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="aspnetuserclaims">
+        <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="ClaimType" Type="longtext" />
-          <Property Name="ClaimValue" Type="longtext" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="aspnetuserlogins">
+        <EntityType Name="AspNetUserLogins">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="ProviderKey" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="aspnetuserroles">
+        <EntityType Name="AspNetUserRoles">
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="UserId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="RoleId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="aspnetusers">
+        <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserKeyHash" Type="longtext" Nullable="false" />
-          <Property Name="Name" Type="longtext" />
-          <Property Name="Surname" Type="longtext" />
-          <Property Name="BirthDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserKeyHash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
           <Property Name="Gender" Type="int" Nullable="false" />
           <Property Name="ProfilePhotoId" Type="int" Nullable="false" />
           <Property Name="AccountType" Type="int" Nullable="false" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="256" />
-          <Property Name="EmailConfirmed" Type="bool" Nullable="false" />
-          <Property Name="PasswordHash" Type="longtext" />
-          <Property Name="SecurityStamp" Type="longtext" />
-          <Property Name="PhoneNumber" Type="longtext" />
-          <Property Name="PhoneNumberConfirmed" Type="bool" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="bool" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="datetime" Precision="0" />
-          <Property Name="LockoutEnabled" Type="bool" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <EntityType Name="assignments">
+        <EntityType Name="Assignments">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReportId" Type="int" Nullable="false" />
-          <Property Name="TargetId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="AdminId" Type="varchar" MaxLength="128" Nullable="false" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="TargetId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AdminId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="categories">
+        <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="longtext" />
+          <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Unit_Id" Type="int" />
         </EntityType>
-        <EntityType Name="customproperties">
+        <EntityType Name="CustomProperties">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="longtext" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CustomPropertyType" Type="int" Nullable="false" />
           <Property Name="Unit_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="custompropertyvalues">
+        <EntityType Name="CustomPropertyValues">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SerializedValue" Type="longtext" />
+          <Property Name="SerializedValue" Type="nvarchar(max)" />
           <Property Name="ReportDetails_Id" Type="int" />
           <Property Name="CustomProperty_Id" Type="int" />
         </EntityType>
-        <EntityType Name="locations">
+        <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Latitude" Type="double" Nullable="false" />
-          <Property Name="Longitude" Type="double" Nullable="false" />
-          <Property Name="Name" Type="longtext" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="ApplicationUser_Id" Type="varchar" MaxLength="128" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="ApplicationUser_Id" Type="nvarchar" MaxLength="128" />
           <Property Name="Unit_Id" Type="int" />
         </EntityType>
-        <EntityType Name="messages">
+        <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SenderId" Type="varchar" MaxLength="128" />
-          <Property Name="TargetId" Type="varchar" MaxLength="128" />
-          <Property Name="Content" Type="longtext" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="SenderId" Type="nvarchar" MaxLength="128" />
+          <Property Name="TargetId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="notifications">
+        <EntityType Name="Notifications">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SenderId" Type="varchar" MaxLength="128" />
-          <Property Name="TargetId" Type="varchar" MaxLength="128" />
-          <Property Name="Content" Type="longtext" />
+          <Property Name="SenderId" Type="nvarchar" MaxLength="128" />
+          <Property Name="TargetId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="ParameterId" Type="longtext" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="ParameterId" Type="nvarchar(max)" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="reportdetails">
+        <EntityType Name="ReportDetails">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <EntityType Name="reports">
+        <EntityType Name="Reports">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="200" />
-          <Property Name="CreatorId" Type="varchar" MaxLength="128" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatorId" Type="nvarchar" MaxLength="128" />
           <Property Name="LocationId" Type="int" />
           <Property Name="CategoryId" Type="int" />
           <Property Name="DetailsId" Type="int" Nullable="false" />
-          <Property Name="Timestamp" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="DateHappened" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="DateHappened" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Unit_Id" Type="int" />
         </EntityType>
-        <EntityType Name="resources">
+        <EntityType Name="Resources">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Url" Type="longtext" />
-          <Property Name="Name" Type="longtext" />
-          <Property Name="DateUploaded" Type="datetime" Precision="0" Nullable="false" />
-          <Property Name="MimeType" Type="longtext" />
-          <Property Name="Base64" Type="longtext" />
+          <Property Name="Url" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="DateUploaded" Type="datetime" Nullable="false" />
+          <Property Name="MimeType" Type="nvarchar(max)" />
+          <Property Name="Base64" Type="nvarchar(max)" />
           <Property Name="Message_Id" Type="int" />
           <Property Name="Report_Id" Type="int" />
         </EntityType>
-        <EntityType Name="units">
+        <EntityType Name="Units">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="AdministratorId" Type="varchar" MaxLength="128" />
-          <Property Name="IsPublic" Type="bool" Nullable="false" />
-          <Property Name="DateCreated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdministratorId" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsPublic" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="units2clients">
+        <EntityType Name="Units2Clients">
           <Key>
             <PropertyRef Name="UnitId" />
             <PropertyRef Name="ClientId" />
           </Key>
           <Property Name="UnitId" Type="int" Nullable="false" />
-          <Property Name="ClientId" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClientId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_8f944ceed80246c183bfed98e7c86aae">
-          <End Role="customproperties" Type="Self.customproperties" Multiplicity="0..1">
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="custompropertyvalues" Type="Self.custompropertyvalues" Multiplicity="*" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="customproperties">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="custompropertyvalues">
-              <PropertyRef Name="CustomProperty_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserClaims_AspNetUsers_UserId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="aspnetuserclaims" Type="Self.aspnetuserclaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="aspnetuserclaims">
+            <Dependent Role="AspNetUserClaims">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserLogins_AspNetUsers_UserId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="aspnetuserlogins" Type="Self.aspnetuserlogins" Multiplicity="*" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="aspnetuserlogins">
+            <Dependent Role="AspNetUserLogins">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetRoles_RoleId">
-          <End Role="aspnetroles" Type="Self.aspnetroles" Multiplicity="1">
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="aspnetuserroles" Type="Self.aspnetuserroles" Multiplicity="*" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetroles">
+            <Principal Role="AspNetRoles">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="aspnetuserroles">
+            <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUserRoles_AspNetUsers_UserId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="aspnetuserroles" Type="Self.aspnetuserroles" Multiplicity="*" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="aspnetuserroles">
+            <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AspNetUsers_Resources_ProfilePhotoId">
-          <End Role="resources" Type="Self.resources" Multiplicity="1">
+        <Association Name="FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId">
+          <End Role="Resources" Type="Self.Resources" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="resources">
+            <Principal Role="Resources">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="aspnetusers">
+            <Dependent Role="AspNetUsers">
               <PropertyRef Name="ProfilePhotoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Assignments_AspNetUsers_AdminId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+        <Association Name="FK_dbo_Assignments_dbo_AspNetUsers_AdminId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Assignments" Type="Self.Assignments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="assignments">
+            <Dependent Role="Assignments">
               <PropertyRef Name="AdminId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Assignments_AspNetUsers_TargetId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+        <Association Name="FK_dbo_Assignments_dbo_AspNetUsers_TargetId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Assignments" Type="Self.Assignments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="assignments">
+            <Dependent Role="Assignments">
               <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Assignments_Reports_ReportId">
-          <End Role="reports" Type="Self.reports" Multiplicity="1">
+        <Association Name="FK_dbo_Assignments_dbo_Reports_ReportId">
+          <End Role="Reports" Type="Self.Reports" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="assignments" Type="Self.assignments" Multiplicity="*" />
+          <End Role="Assignments" Type="Self.Assignments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="reports">
+            <Principal Role="Reports">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="assignments">
+            <Dependent Role="Assignments">
               <PropertyRef Name="ReportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Categories_Units_Unit_Id">
-          <End Role="units" Type="Self.units" Multiplicity="0..1">
+        <Association Name="FK_dbo_Categories_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="categories" Type="Self.categories" Multiplicity="*" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="units">
+            <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="categories">
+            <Dependent Role="Categories">
               <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CustomProperties_Units_Unit_Id">
-          <End Role="units" Type="Self.units" Multiplicity="1">
+        <Association Name="FK_dbo_CustomProperties_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="customproperties" Type="Self.customproperties" Multiplicity="*" />
+          <End Role="CustomProperties" Type="Self.CustomProperties" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="units">
+            <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="customproperties">
+            <Dependent Role="CustomProperties">
               <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CustomPropertyValues_ReportDetails_ReportDetails_Id">
-          <End Role="reportdetails" Type="Self.reportdetails" Multiplicity="0..1">
+        <Association Name="FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id">
+          <End Role="CustomProperties" Type="Self.CustomProperties" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="custompropertyvalues" Type="Self.custompropertyvalues" Multiplicity="*" />
+          <End Role="CustomPropertyValues" Type="Self.CustomPropertyValues" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="reportdetails">
+            <Principal Role="CustomProperties">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="custompropertyvalues">
+            <Dependent Role="CustomPropertyValues">
+              <PropertyRef Name="CustomProperty_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id">
+          <End Role="ReportDetails" Type="Self.ReportDetails" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CustomPropertyValues" Type="Self.CustomPropertyValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomPropertyValues">
               <PropertyRef Name="ReportDetails_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
+        <Association Name="FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="locations" Type="Self.locations" Multiplicity="*" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="locations">
+            <Dependent Role="Locations">
               <PropertyRef Name="ApplicationUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Locations_Units_Unit_Id">
-          <End Role="units" Type="Self.units" Multiplicity="0..1">
+        <Association Name="FK_dbo_Locations_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="locations" Type="Self.locations" Multiplicity="*" />
+          <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="units">
+            <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="locations">
+            <Dependent Role="Locations">
               <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_AspNetUsers_SenderId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="messages" Type="Self.messages" Multiplicity="*" />
+        <Association Name="FK_dbo_Messages_dbo_AspNetUsers_SenderId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="messages">
+            <Dependent Role="Messages">
               <PropertyRef Name="SenderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_AspNetUsers_TargetId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="messages" Type="Self.messages" Multiplicity="*" />
+        <Association Name="FK_dbo_Messages_dbo_AspNetUsers_TargetId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="messages">
+            <Dependent Role="Messages">
               <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Notifications_AspNetUsers_SenderId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+        <Association Name="FK_dbo_Notifications_dbo_AspNetUsers_SenderId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="notifications">
+            <Dependent Role="Notifications">
               <PropertyRef Name="SenderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Notifications_AspNetUsers_TargetId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+        <Association Name="FK_dbo_Notifications_dbo_AspNetUsers_TargetId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="notifications">
+            <Dependent Role="Notifications">
               <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reports_AspNetUsers_CreatorId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.reports" Multiplicity="*" />
+        <Association Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="reports">
+            <Dependent Role="Reports">
               <PropertyRef Name="CreatorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reports_Categories_CategoryId">
-          <End Role="categories" Type="Self.categories" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.reports" Multiplicity="*" />
+        <Association Name="FK_dbo_Reports_dbo_Categories_CategoryId">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="categories">
+            <Principal Role="Categories">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="reports">
+            <Dependent Role="Reports">
               <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reports_Locations_LocationId">
-          <End Role="locations" Type="Self.locations" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.reports" Multiplicity="*" />
+        <Association Name="FK_dbo_Reports_dbo_Locations_LocationId">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="locations">
+            <Principal Role="Locations">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="reports">
+            <Dependent Role="Reports">
               <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reports_ReportDetails_DetailsId">
-          <End Role="reportdetails" Type="Self.reportdetails" Multiplicity="1">
+        <Association Name="FK_dbo_Reports_dbo_ReportDetails_DetailsId">
+          <End Role="ReportDetails" Type="Self.ReportDetails" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="reports" Type="Self.reports" Multiplicity="*" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="reportdetails">
+            <Principal Role="ReportDetails">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="reports">
+            <Dependent Role="Reports">
               <PropertyRef Name="DetailsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Reports_Units_Unit_Id">
-          <End Role="units" Type="Self.units" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="reports" Type="Self.reports" Multiplicity="*" />
+        <Association Name="FK_dbo_Reports_dbo_Units_Unit_Id">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Reports" Type="Self.Reports" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="units">
+            <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="reports">
+            <Dependent Role="Reports">
               <PropertyRef Name="Unit_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Resources_Messages_Message_Id">
-          <End Role="messages" Type="Self.messages" Multiplicity="0..1" />
-          <End Role="resources" Type="Self.resources" Multiplicity="*" />
+        <Association Name="FK_dbo_Resources_dbo_Messages_Message_Id">
+          <End Role="Messages" Type="Self.Messages" Multiplicity="0..1" />
+          <End Role="Resources" Type="Self.Resources" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="messages">
+            <Principal Role="Messages">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="resources">
+            <Dependent Role="Resources">
               <PropertyRef Name="Message_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Resources_Reports_Report_Id">
-          <End Role="reports" Type="Self.reports" Multiplicity="0..1">
+        <Association Name="FK_dbo_Resources_dbo_Reports_Report_Id">
+          <End Role="Reports" Type="Self.Reports" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="resources" Type="Self.resources" Multiplicity="*" />
+          <End Role="Resources" Type="Self.Resources" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="reports">
+            <Principal Role="Reports">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="resources">
+            <Dependent Role="Resources">
               <PropertyRef Name="Report_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Units_AspNetUsers_AdministratorId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="0..1" />
-          <End Role="units" Type="Self.units" Multiplicity="*" />
+        <Association Name="FK_dbo_Units_dbo_AspNetUsers_AdministratorId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Units" Type="Self.Units" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="units">
+            <Dependent Role="Units">
               <PropertyRef Name="AdministratorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Units2Clients_AspNetUsers_ClientId">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
+        <Association Name="FK_dbo_Units2Clients_dbo_AspNetUsers_ClientId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="units2clients" Type="Self.units2clients" Multiplicity="*" />
+          <End Role="Units2Clients" Type="Self.Units2Clients" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetusers">
+            <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="units2clients">
+            <Dependent Role="Units2Clients">
               <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Units2Clients_Units_UnitId">
-          <End Role="units" Type="Self.units" Multiplicity="1">
+        <Association Name="FK_dbo_Units2Clients_dbo_Units_UnitId">
+          <End Role="Units" Type="Self.Units" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="units2clients" Type="Self.units2clients" Multiplicity="*" />
+          <End Role="Units2Clients" Type="Self.Units2Clients" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="units">
+            <Principal Role="Units">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="units2clients">
+            <Dependent Role="Units2Clients">
               <PropertyRef Name="UnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EmergyDbVisualModelStoreContainer">
-          <EntitySet Name="__migrationhistory" EntityType="Self.__migrationhistory" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="aspnetroles" EntityType="Self.aspnetroles" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="aspnetuserclaims" EntityType="Self.aspnetuserclaims" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogins" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="aspnetuserroles" EntityType="Self.aspnetuserroles" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="assignments" EntityType="Self.assignments" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="categories" EntityType="Self.categories" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="customproperties" EntityType="Self.customproperties" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="custompropertyvalues" EntityType="Self.custompropertyvalues" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="locations" EntityType="Self.locations" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="messages" EntityType="Self.messages" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="notifications" EntityType="Self.notifications" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="reportdetails" EntityType="Self.reportdetails" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="reports" EntityType="Self.reports" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="resources" EntityType="Self.resources" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="units" EntityType="Self.units" Schema="emergydb" store:Type="Tables" />
-          <EntitySet Name="units2clients" EntityType="Self.units2clients" Schema="emergydb" store:Type="Tables" />
-          <AssociationSet Name="FK_8f944ceed80246c183bfed98e7c86aae" Association="Self.FK_8f944ceed80246c183bfed98e7c86aae">
-            <End Role="customproperties" EntitySet="customproperties" />
-            <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
+        <EntityContainer Name="EmergyDbModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Assignments" EntityType="Self.Assignments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomProperties" EntityType="Self.CustomProperties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomPropertyValues" EntityType="Self.CustomPropertyValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDetails" EntityType="Self.ReportDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resources" EntityType="Self.Resources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Units2Clients" EntityType="Self.Units2Clients" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_UserId" Association="Self.FK_AspNetUserClaims_AspNetUsers_UserId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="aspnetuserclaims" EntitySet="aspnetuserclaims" />
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Self.FK_AspNetUserLogins_AspNetUsers_UserId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="aspnetuserlogins" EntitySet="aspnetuserlogins" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles_RoleId" Association="Self.FK_AspNetUserRoles_AspNetRoles_RoleId">
-            <End Role="aspnetroles" EntitySet="aspnetroles" />
-            <End Role="aspnetuserroles" EntitySet="aspnetuserroles" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserRoles_AspNetUsers_UserId" Association="Self.FK_AspNetUserRoles_AspNetUsers_UserId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="aspnetuserroles" EntitySet="aspnetuserroles" />
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId" Association="Self.FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId">
+            <End Role="Resources" EntitySet="Resources" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK_AspNetUsers_Resources_ProfilePhotoId" Association="Self.FK_AspNetUsers_Resources_ProfilePhotoId">
-            <End Role="resources" EntitySet="resources" />
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
+          <AssociationSet Name="FK_dbo_Assignments_dbo_AspNetUsers_AdminId" Association="Self.FK_dbo_Assignments_dbo_AspNetUsers_AdminId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Assignments" EntitySet="Assignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Assignments_AspNetUsers_AdminId" Association="Self.FK_Assignments_AspNetUsers_AdminId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="assignments" EntitySet="assignments" />
+          <AssociationSet Name="FK_dbo_Assignments_dbo_AspNetUsers_TargetId" Association="Self.FK_dbo_Assignments_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Assignments" EntitySet="Assignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Assignments_AspNetUsers_TargetId" Association="Self.FK_Assignments_AspNetUsers_TargetId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="assignments" EntitySet="assignments" />
+          <AssociationSet Name="FK_dbo_Assignments_dbo_Reports_ReportId" Association="Self.FK_dbo_Assignments_dbo_Reports_ReportId">
+            <End Role="Reports" EntitySet="Reports" />
+            <End Role="Assignments" EntitySet="Assignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Assignments_Reports_ReportId" Association="Self.FK_Assignments_Reports_ReportId">
-            <End Role="reports" EntitySet="reports" />
-            <End Role="assignments" EntitySet="assignments" />
+          <AssociationSet Name="FK_dbo_Categories_dbo_Units_Unit_Id" Association="Self.FK_dbo_Categories_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Categories" EntitySet="Categories" />
           </AssociationSet>
-          <AssociationSet Name="FK_Categories_Units_Unit_Id" Association="Self.FK_Categories_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="categories" EntitySet="categories" />
+          <AssociationSet Name="FK_dbo_CustomProperties_dbo_Units_Unit_Id" Association="Self.FK_dbo_CustomProperties_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="CustomProperties" EntitySet="CustomProperties" />
           </AssociationSet>
-          <AssociationSet Name="FK_CustomProperties_Units_Unit_Id" Association="Self.FK_CustomProperties_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="customproperties" EntitySet="customproperties" />
+          <AssociationSet Name="FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id" Association="Self.FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id">
+            <End Role="CustomProperties" EntitySet="CustomProperties" />
+            <End Role="CustomPropertyValues" EntitySet="CustomPropertyValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_CustomPropertyValues_ReportDetails_ReportDetails_Id" Association="Self.FK_CustomPropertyValues_ReportDetails_ReportDetails_Id">
-            <End Role="reportdetails" EntitySet="reportdetails" />
-            <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
+          <AssociationSet Name="FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id" Association="Self.FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id">
+            <End Role="ReportDetails" EntitySet="ReportDetails" />
+            <End Role="CustomPropertyValues" EntitySet="CustomPropertyValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_Locations_AspNetUsers_ApplicationUser_Id" Association="Self.FK_Locations_AspNetUsers_ApplicationUser_Id">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="locations" EntitySet="locations" />
+          <AssociationSet Name="FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id" Association="Self.FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Locations" EntitySet="Locations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Locations_Units_Unit_Id" Association="Self.FK_Locations_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="locations" EntitySet="locations" />
+          <AssociationSet Name="FK_dbo_Locations_dbo_Units_Unit_Id" Association="Self.FK_dbo_Locations_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Locations" EntitySet="Locations" />
           </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_SenderId" Association="Self.FK_Messages_AspNetUsers_SenderId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="messages" EntitySet="messages" />
+          <AssociationSet Name="FK_dbo_Messages_dbo_AspNetUsers_SenderId" Association="Self.FK_dbo_Messages_dbo_AspNetUsers_SenderId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_TargetId" Association="Self.FK_Messages_AspNetUsers_TargetId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="messages" EntitySet="messages" />
+          <AssociationSet Name="FK_dbo_Messages_dbo_AspNetUsers_TargetId" Association="Self.FK_dbo_Messages_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_SenderId" Association="Self.FK_Notifications_AspNetUsers_SenderId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="notifications" EntitySet="notifications" />
+          <AssociationSet Name="FK_dbo_Notifications_dbo_AspNetUsers_SenderId" Association="Self.FK_dbo_Notifications_dbo_AspNetUsers_SenderId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_TargetId" Association="Self.FK_Notifications_AspNetUsers_TargetId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="notifications" EntitySet="notifications" />
+          <AssociationSet Name="FK_dbo_Notifications_dbo_AspNetUsers_TargetId" Association="Self.FK_dbo_Notifications_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reports_AspNetUsers_CreatorId" Association="Self.FK_Reports_AspNetUsers_CreatorId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="reports" EntitySet="reports" />
+          <AssociationSet Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId" Association="Self.FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reports_Categories_CategoryId" Association="Self.FK_Reports_Categories_CategoryId">
-            <End Role="categories" EntitySet="categories" />
-            <End Role="reports" EntitySet="reports" />
+          <AssociationSet Name="FK_dbo_Reports_dbo_Categories_CategoryId" Association="Self.FK_dbo_Reports_dbo_Categories_CategoryId">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reports_Locations_LocationId" Association="Self.FK_Reports_Locations_LocationId">
-            <End Role="locations" EntitySet="locations" />
-            <End Role="reports" EntitySet="reports" />
+          <AssociationSet Name="FK_dbo_Reports_dbo_Locations_LocationId" Association="Self.FK_dbo_Reports_dbo_Locations_LocationId">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reports_ReportDetails_DetailsId" Association="Self.FK_Reports_ReportDetails_DetailsId">
-            <End Role="reportdetails" EntitySet="reportdetails" />
-            <End Role="reports" EntitySet="reports" />
+          <AssociationSet Name="FK_dbo_Reports_dbo_ReportDetails_DetailsId" Association="Self.FK_dbo_Reports_dbo_ReportDetails_DetailsId">
+            <End Role="ReportDetails" EntitySet="ReportDetails" />
+            <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_Reports_Units_Unit_Id" Association="Self.FK_Reports_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="reports" EntitySet="reports" />
+          <AssociationSet Name="FK_dbo_Reports_dbo_Units_Unit_Id" Association="Self.FK_dbo_Reports_dbo_Units_Unit_Id">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Reports" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK_Resources_Messages_Message_Id" Association="Self.FK_Resources_Messages_Message_Id">
-            <End Role="messages" EntitySet="messages" />
-            <End Role="resources" EntitySet="resources" />
+          <AssociationSet Name="FK_dbo_Resources_dbo_Messages_Message_Id" Association="Self.FK_dbo_Resources_dbo_Messages_Message_Id">
+            <End Role="Messages" EntitySet="Messages" />
+            <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
-          <AssociationSet Name="FK_Resources_Reports_Report_Id" Association="Self.FK_Resources_Reports_Report_Id">
-            <End Role="reports" EntitySet="reports" />
-            <End Role="resources" EntitySet="resources" />
+          <AssociationSet Name="FK_dbo_Resources_dbo_Reports_Report_Id" Association="Self.FK_dbo_Resources_dbo_Reports_Report_Id">
+            <End Role="Reports" EntitySet="Reports" />
+            <End Role="Resources" EntitySet="Resources" />
           </AssociationSet>
-          <AssociationSet Name="FK_Units_AspNetUsers_AdministratorId" Association="Self.FK_Units_AspNetUsers_AdministratorId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="units" EntitySet="units" />
+          <AssociationSet Name="FK_dbo_Units_dbo_AspNetUsers_AdministratorId" Association="Self.FK_dbo_Units_dbo_AspNetUsers_AdministratorId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Units" EntitySet="Units" />
           </AssociationSet>
-          <AssociationSet Name="FK_Units2Clients_AspNetUsers_ClientId" Association="Self.FK_Units2Clients_AspNetUsers_ClientId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="units2clients" EntitySet="units2clients" />
+          <AssociationSet Name="FK_dbo_Units2Clients_dbo_AspNetUsers_ClientId" Association="Self.FK_dbo_Units2Clients_dbo_AspNetUsers_ClientId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Units2Clients" EntitySet="Units2Clients" />
           </AssociationSet>
-          <AssociationSet Name="FK_Units2Clients_Units_UnitId" Association="Self.FK_Units2Clients_Units_UnitId">
-            <End Role="units" EntitySet="units" />
-            <End Role="units2clients" EntitySet="units2clients" />
+          <AssociationSet Name="FK_dbo_Units2Clients_dbo_Units_UnitId" Association="Self.FK_dbo_Units2Clients_dbo_Units_UnitId">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Units2Clients" EntitySet="Units2Clients" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="EmergyDbVisualModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="C__migrationhistory">
+      <Schema Namespace="Emergy.Db.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="EmergyDbVisualModelConnection" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="C__MigrationHistory" EntityType="Emergy.Db.Model.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Emergy.Db.Model.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Emergy.Db.Model.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Emergy.Db.Model.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Emergy.Db.Model.AspNetUser" />
+          <EntitySet Name="Assignments" EntityType="Emergy.Db.Model.Assignment" />
+          <EntitySet Name="Categories" EntityType="Emergy.Db.Model.Category" />
+          <EntitySet Name="CustomProperties" EntityType="Emergy.Db.Model.CustomProperty" />
+          <EntitySet Name="CustomPropertyValues" EntityType="Emergy.Db.Model.CustomPropertyValue" />
+          <EntitySet Name="Locations" EntityType="Emergy.Db.Model.Location" />
+          <EntitySet Name="Messages" EntityType="Emergy.Db.Model.Message" />
+          <EntitySet Name="Notifications" EntityType="Emergy.Db.Model.Notification" />
+          <EntitySet Name="ReportDetails" EntityType="Emergy.Db.Model.ReportDetail" />
+          <EntitySet Name="Reports" EntityType="Emergy.Db.Model.Report" />
+          <EntitySet Name="Resources" EntityType="Emergy.Db.Model.Resource" />
+          <EntitySet Name="Units" EntityType="Emergy.Db.Model.Unit" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Emergy.Db.Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Emergy.Db.Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId" Association="Emergy.Db.Model.FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId">
+            <End Role="Resource" EntitySet="Resources" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Assignments_dbo_AspNetUsers_AdminId" Association="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_AdminId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Assignment" EntitySet="Assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Assignments_dbo_AspNetUsers_TargetId" Association="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Assignment" EntitySet="Assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id" Association="Emergy.Db.Model.FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Messages_dbo_AspNetUsers_SenderId" Association="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_SenderId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Messages_dbo_AspNetUsers_TargetId" Association="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Notifications_dbo_AspNetUsers_SenderId" Association="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_SenderId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Notifications_dbo_AspNetUsers_TargetId" Association="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_TargetId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId" Association="Emergy.Db.Model.FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Units_dbo_AspNetUsers_AdministratorId" Association="Emergy.Db.Model.FK_dbo_Units_dbo_AspNetUsers_AdministratorId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Unit" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Assignments_dbo_Reports_ReportId" Association="Emergy.Db.Model.FK_dbo_Assignments_dbo_Reports_ReportId">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="Assignment" EntitySet="Assignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Categories_dbo_Units_Unit_Id" Association="Emergy.Db.Model.FK_dbo_Categories_dbo_Units_Unit_Id">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Category" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_Categories_CategoryId" Association="Emergy.Db.Model.FK_dbo_Reports_dbo_Categories_CategoryId">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CustomProperties_dbo_Units_Unit_Id" Association="Emergy.Db.Model.FK_dbo_CustomProperties_dbo_Units_Unit_Id">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="CustomProperty" EntitySet="CustomProperties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id" Association="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id">
+            <End Role="CustomProperty" EntitySet="CustomProperties" />
+            <End Role="CustomPropertyValue" EntitySet="CustomPropertyValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id" Association="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id">
+            <End Role="ReportDetail" EntitySet="ReportDetails" />
+            <End Role="CustomPropertyValue" EntitySet="CustomPropertyValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Locations_dbo_Units_Unit_Id" Association="Emergy.Db.Model.FK_dbo_Locations_dbo_Units_Unit_Id">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_Locations_LocationId" Association="Emergy.Db.Model.FK_dbo_Reports_dbo_Locations_LocationId">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Resources_dbo_Messages_Message_Id" Association="Emergy.Db.Model.FK_dbo_Resources_dbo_Messages_Message_Id">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="Resource" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_ReportDetails_DetailsId" Association="Emergy.Db.Model.FK_dbo_Reports_dbo_ReportDetails_DetailsId">
+            <End Role="ReportDetail" EntitySet="ReportDetails" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Reports_dbo_Units_Unit_Id" Association="Emergy.Db.Model.FK_dbo_Reports_dbo_Units_Unit_Id">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Resources_dbo_Reports_Report_Id" Association="Emergy.Db.Model.FK_dbo_Resources_dbo_Reports_Report_Id">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="Resource" EntitySet="Resources" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Emergy.Db.Model.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="Units2Clients" Association="Emergy.Db.Model.Units2Clients">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Unit" EntitySet="Units" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
             <PropertyRef Name="ContextKey" />
           </Key>
-          <Property Name="MigrationId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ContextKey" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="aspnetrole">
+        <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="aspnetusers" Relationship="Self.aspnetuserroles" FromRole="aspnetroles" ToRole="aspnetusers" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Emergy.Db.Model.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
         </EntityType>
-        <EntityType Name="aspnetuserclaim">
+        <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="ClaimValue" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="Self.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="aspnetuserclaims" ToRole="aspnetusers" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
         </EntityType>
-        <EntityType Name="aspnetuserlogin">
+        <EntityType Name="AspNetUserLogin">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="Self.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="aspnetuserlogins" ToRole="aspnetusers" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
         </EntityType>
-        <EntityType Name="aspnetuser">
+        <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="BirthDate" Type="DateTime" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserKeyHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Gender" Type="Int32" Nullable="false" />
           <Property Name="ProfilePhotoId" Type="Int32" Nullable="false" />
           <Property Name="AccountType" Type="Int32" Nullable="false" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="aspnetuserclaims" Relationship="Self.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="aspnetusers" ToRole="aspnetuserclaims" />
-          <NavigationProperty Name="aspnetuserlogins" Relationship="Self.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="aspnetusers" ToRole="aspnetuserlogins" />
-          <NavigationProperty Name="reports" Relationship="Self.FK_Reports_AspNetUsers_CreatorId" FromRole="aspnetusers" ToRole="reports" />
-          <NavigationProperty Name="units" Relationship="Self.FK_Units_AspNetUsers_AdministratorId" FromRole="aspnetusers" ToRole="units" />
-          <NavigationProperty Name="aspnetroles" Relationship="Self.aspnetuserroles" FromRole="aspnetusers" ToRole="aspnetroles" />
-          <NavigationProperty Name="units1" Relationship="Self.units2clients" FromRole="aspnetusers" ToRole="units" />
-          <NavigationProperty Name="locations" Relationship="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" FromRole="aspnetuser" ToRole="location" />
-          <Property Name="UserKeyHash" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="resource" Relationship="EmergyDbVisualModel.FK_AspNetUsers_Resources_ProfilePhotoId" FromRole="aspnetuser" ToRole="resource" />
-          <NavigationProperty Name="messages" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_ApplicationUser_Id" FromRole="aspnetuser" ToRole="message" />
-          <NavigationProperty Name="messages1" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Sender_Id" FromRole="aspnetuser" ToRole="message" />
-          <NavigationProperty Name="messages2" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Target_Id" FromRole="aspnetuser" ToRole="message" />
-          <NavigationProperty Name="notifications" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_ApplicationUser_Id" FromRole="aspnetuser" ToRole="notification" />
-          <NavigationProperty Name="notifications1" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Sender_Id" FromRole="aspnetuser" ToRole="notification" />
-          <NavigationProperty Name="notifications2" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" FromRole="aspnetuser" ToRole="notification" />
-          <NavigationProperty Name="messages3" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId" FromRole="aspnetuser" ToRole="message" />
-          <NavigationProperty Name="messages11" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="message" />
-          <NavigationProperty Name="notifications3" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" FromRole="aspnetuser" ToRole="notification" />
-          <NavigationProperty Name="notifications11" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="notification" />
-          <NavigationProperty Name="assignments" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId" FromRole="aspnetuser" ToRole="assignment" />
-          <NavigationProperty Name="assignments1" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId" FromRole="aspnetuser" ToRole="assignment" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Emergy.Db.Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Emergy.Db.Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="Resource" Relationship="Emergy.Db.Model.FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId" FromRole="AspNetUser" ToRole="Resource" />
+          <NavigationProperty Name="Assignments" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_AdminId" FromRole="AspNetUser" ToRole="Assignment" />
+          <NavigationProperty Name="Assignments1" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_TargetId" FromRole="AspNetUser" ToRole="Assignment" />
+          <NavigationProperty Name="Locations" Relationship="Emergy.Db.Model.FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id" FromRole="AspNetUser" ToRole="Location" />
+          <NavigationProperty Name="Messages" Relationship="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_SenderId" FromRole="AspNetUser" ToRole="Message" />
+          <NavigationProperty Name="Messages1" Relationship="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_TargetId" FromRole="AspNetUser" ToRole="Message" />
+          <NavigationProperty Name="Notifications" Relationship="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_SenderId" FromRole="AspNetUser" ToRole="Notification" />
+          <NavigationProperty Name="Notifications1" Relationship="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_TargetId" FromRole="AspNetUser" ToRole="Notification" />
+          <NavigationProperty Name="Reports" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="AspNetUser" ToRole="Report" />
+          <NavigationProperty Name="Units" Relationship="Emergy.Db.Model.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="AspNetUser" ToRole="Unit" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Emergy.Db.Model.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="Units1" Relationship="Emergy.Db.Model.Units2Clients" FromRole="AspNetUser" ToRole="Unit" />
         </EntityType>
-        <EntityType Name="category">
+        <EntityType Name="Assignment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Unit_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="unit" Relationship="Self.FK_Categories_Units_Unit_Id" FromRole="categories" ToRole="units" />
-          <NavigationProperty Name="reports" Relationship="Self.FK_Reports_Categories_CategoryId" FromRole="categories" ToRole="reports" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="TargetId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AdminId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_AdminId" FromRole="Assignment" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_AspNetUsers_TargetId" FromRole="Assignment" ToRole="AspNetUser" />
+          <NavigationProperty Name="Report" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_Reports_ReportId" FromRole="Assignment" ToRole="Report" />
         </EntityType>
-        <EntityType Name="customproperty">
+        <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Unit_Id" Type="Int32" />
+          <NavigationProperty Name="Unit" Relationship="Emergy.Db.Model.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Category" ToRole="Unit" />
+          <NavigationProperty Name="Reports" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Categories_CategoryId" FromRole="Category" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="CustomProperty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomPropertyType" Type="Int32" Nullable="false" />
           <Property Name="Unit_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="custompropertyvalues" Relationship="Self.FK_41248ebe63054e249715698df6b3bb7f" FromRole="customproperties" ToRole="custompropertyvalues" />
-          <NavigationProperty Name="unit" Relationship="Self.FK_CustomProperties_Units_Unit_Id" FromRole="customproperties" ToRole="units" />
+          <NavigationProperty Name="Unit" Relationship="Emergy.Db.Model.FK_dbo_CustomProperties_dbo_Units_Unit_Id" FromRole="CustomProperty" ToRole="Unit" />
+          <NavigationProperty Name="CustomPropertyValues" Relationship="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id" FromRole="CustomProperty" ToRole="CustomPropertyValue" />
         </EntityType>
-        <EntityType Name="custompropertyvalue">
+        <EntityType Name="CustomPropertyValue">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SerializedValue" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SerializedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportDetails_Id" Type="Int32" />
           <Property Name="CustomProperty_Id" Type="Int32" />
-          <Property Name="ReportDetails_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="customproperty" Relationship="Self.FK_41248ebe63054e249715698df6b3bb7f" FromRole="custompropertyvalues" ToRole="customproperties" />
-          <NavigationProperty Name="reportdetail" Relationship="Self.FK_CustomPropertyValues_ReportDetails_ReportDetails_Id" FromRole="custompropertyvalues" ToRole="reportdetails" />
+          <NavigationProperty Name="CustomProperty" Relationship="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id" FromRole="CustomPropertyValue" ToRole="CustomProperty" />
+          <NavigationProperty Name="ReportDetail" Relationship="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id" FromRole="CustomPropertyValue" ToRole="ReportDetail" />
         </EntityType>
-        <EntityType Name="location">
+        <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Latitude" Type="Double" Nullable="false" />
           <Property Name="Longitude" Type="Double" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ApplicationUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Unit_Id" Type="Int32" />
-          <NavigationProperty Name="unit" Relationship="Self.FK_Locations_Units_Unit_Id" FromRole="locations" ToRole="units" />
-          <NavigationProperty Name="reports" Relationship="Self.FK_Reports_Locations_LocationId" FromRole="locations" ToRole="reports" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="ApplicationUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id" FromRole="location" ToRole="aspnetuser" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id" FromRole="Location" ToRole="AspNetUser" />
+          <NavigationProperty Name="Unit" Relationship="Emergy.Db.Model.FK_dbo_Locations_dbo_Units_Unit_Id" FromRole="Location" ToRole="Unit" />
+          <NavigationProperty Name="Reports" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Location" ToRole="Report" />
         </EntityType>
-        <EntityType Name="reportdetail">
+        <EntityType Name="Message">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="custompropertyvalues" Relationship="Self.FK_CustomPropertyValues_ReportDetails_ReportDetails_Id" FromRole="reportdetails" ToRole="custompropertyvalues" />
-          <NavigationProperty Name="reports" Relationship="Self.FK_Reports_ReportDetails_DetailsId" FromRole="reportdetails" ToRole="reports" />
+          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_SenderId" FromRole="Message" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Emergy.Db.Model.FK_dbo_Messages_dbo_AspNetUsers_TargetId" FromRole="Message" ToRole="AspNetUser" />
+          <NavigationProperty Name="Resources" Relationship="Emergy.Db.Model.FK_dbo_Resources_dbo_Messages_Message_Id" FromRole="Message" ToRole="Resource" />
         </EntityType>
-        <EntityType Name="report">
+        <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreatorId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="ParameterId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_SenderId" FromRole="Notification" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUser1" Relationship="Emergy.Db.Model.FK_dbo_Notifications_dbo_AspNetUsers_TargetId" FromRole="Notification" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="ReportDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustomPropertyValues" Relationship="Emergy.Db.Model.FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id" FromRole="ReportDetail" ToRole="CustomPropertyValue" />
+          <NavigationProperty Name="Reports" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="ReportDetail" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="LocationId" Type="Int32" />
           <Property Name="CategoryId" Type="Int32" />
           <Property Name="DetailsId" Type="Int32" Nullable="false" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="DateHappened" Type="DateTime" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateHappened" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Unit_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="Self.FK_Reports_AspNetUsers_CreatorId" FromRole="reports" ToRole="aspnetusers" />
-          <NavigationProperty Name="category" Relationship="Self.FK_Reports_Categories_CategoryId" FromRole="reports" ToRole="categories" />
-          <NavigationProperty Name="location" Relationship="Self.FK_Reports_Locations_LocationId" FromRole="reports" ToRole="locations" />
-          <NavigationProperty Name="reportdetail" Relationship="Self.FK_Reports_ReportDetails_DetailsId" FromRole="reports" ToRole="reportdetails" />
-          <NavigationProperty Name="unit" Relationship="Self.FK_Reports_Units_Unit_Id" FromRole="reports" ToRole="units" />
-          <NavigationProperty Name="resources" Relationship="EmergyDbVisualModel.FK_Resources_Reports_Report_Id" FromRole="report" ToRole="resource" />
-          <NavigationProperty Name="assignments" Relationship="EmergyDbVisualModel.FK_Assignments_Reports_ReportId" FromRole="report" ToRole="assignment" />
+          <Property Name="Unit_Id" Type="Int32" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_AspNetUsers_CreatorId" FromRole="Report" ToRole="AspNetUser" />
+          <NavigationProperty Name="Assignments" Relationship="Emergy.Db.Model.FK_dbo_Assignments_dbo_Reports_ReportId" FromRole="Report" ToRole="Assignment" />
+          <NavigationProperty Name="Category" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Categories_CategoryId" FromRole="Report" ToRole="Category" />
+          <NavigationProperty Name="Location" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Locations_LocationId" FromRole="Report" ToRole="Location" />
+          <NavigationProperty Name="ReportDetail" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_ReportDetails_DetailsId" FromRole="Report" ToRole="ReportDetail" />
+          <NavigationProperty Name="Unit" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Report" ToRole="Unit" />
+          <NavigationProperty Name="Resources" Relationship="Emergy.Db.Model.FK_dbo_Resources_dbo_Reports_Report_Id" FromRole="Report" ToRole="Resource" />
         </EntityType>
-        <EntityType Name="unit">
+        <EntityType Name="Resource">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AdministratorId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="Self.FK_Units_AspNetUsers_AdministratorId" FromRole="units" ToRole="aspnetusers" />
-          <NavigationProperty Name="categories" Relationship="Self.FK_Categories_Units_Unit_Id" FromRole="units" ToRole="categories" />
-          <NavigationProperty Name="customproperties" Relationship="Self.FK_CustomProperties_Units_Unit_Id" FromRole="units" ToRole="customproperties" />
-          <NavigationProperty Name="locations" Relationship="Self.FK_Locations_Units_Unit_Id" FromRole="units" ToRole="locations" />
-          <NavigationProperty Name="reports" Relationship="Self.FK_Reports_Units_Unit_Id" FromRole="units" ToRole="reports" />
-          <NavigationProperty Name="aspnetusers" Relationship="Self.units2clients" FromRole="units" ToRole="aspnetusers" />
-          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_AspNetUserClaims_AspNetUsers_UserId">
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="aspnetuserclaims" Type="Self.aspnetuserclaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="aspnetuserclaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AspNetUserLogins_AspNetUsers_UserId">
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="aspnetuserlogins" Type="Self.aspnetuserlogin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="aspnetuserlogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reports_AspNetUsers_CreatorId">
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="reports">
-              <PropertyRef Name="CreatorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_AspNetUsers_AdministratorId">
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="0..1" />
-          <End Role="units" Type="Self.unit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="units">
-              <PropertyRef Name="AdministratorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Categories_Units_Unit_Id">
-          <End Role="units" Type="Self.unit" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="categories" Type="Self.category" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="units">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="categories">
-              <PropertyRef Name="Unit_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reports_Categories_CategoryId">
-          <End Role="categories" Type="Self.category" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="categories">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="reports">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_41248ebe63054e249715698df6b3bb7f">
-          <End Role="customproperties" Type="Self.customproperty" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="custompropertyvalues" Type="Self.custompropertyvalue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="customproperties">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="custompropertyvalues">
-              <PropertyRef Name="CustomProperty_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CustomProperties_Units_Unit_Id">
-          <End Role="units" Type="Self.unit" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="customproperties" Type="Self.customproperty" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="units">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="customproperties">
-              <PropertyRef Name="Unit_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CustomPropertyValues_ReportDetails_ReportDetails_Id">
-          <End Role="reportdetails" Type="Self.reportdetail" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="custompropertyvalues" Type="Self.custompropertyvalue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="reportdetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="custompropertyvalues">
-              <PropertyRef Name="ReportDetails_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Locations_Units_Unit_Id">
-          <End Role="units" Type="Self.unit" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="locations" Type="Self.location" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="units">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="locations">
-              <PropertyRef Name="Unit_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reports_Locations_LocationId">
-          <End Role="locations" Type="Self.location" Multiplicity="0..1" />
-          <End Role="reports" Type="Self.report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="locations">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="reports">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reports_ReportDetails_DetailsId">
-          <End Role="reportdetails" Type="Self.reportdetail" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="reports" Type="Self.report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="reportdetails">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="reports">
-              <PropertyRef Name="DetailsId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reports_Units_Unit_Id">
-          <End Role="units" Type="Self.unit" Multiplicity="1" />
-          <End Role="reports" Type="Self.report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="units">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="reports">
-              <PropertyRef Name="Unit_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="aspnetuserroles">
-          <End Role="aspnetroles" Type="Self.aspnetrole" Multiplicity="*" />
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="*" />
-        </Association>
-        <Association Name="units2clients">
-          <End Role="aspnetusers" Type="Self.aspnetuser" Multiplicity="*" />
-          <End Role="units" Type="Self.unit" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="EmergyDbVisualModelConnection" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__migrationhistory" EntityType="Self.C__migrationhistory" />
-          <EntitySet Name="aspnetroles" EntityType="Self.aspnetrole" />
-          <EntitySet Name="aspnetuserclaims" EntityType="Self.aspnetuserclaim" />
-          <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogin" />
-          <EntitySet Name="aspnetusers" EntityType="Self.aspnetuser" />
-          <EntitySet Name="categories" EntityType="Self.category" />
-          <EntitySet Name="customproperties" EntityType="Self.customproperty" />
-          <EntitySet Name="custompropertyvalues" EntityType="Self.custompropertyvalue" />
-          <EntitySet Name="locations" EntityType="Self.location" />
-          <EntitySet Name="reportdetails" EntityType="Self.reportdetail" />
-          <EntitySet Name="reports" EntityType="Self.report" />
-          <EntitySet Name="units" EntityType="Self.unit" />
-          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_UserId" Association="Self.FK_AspNetUserClaims_AspNetUsers_UserId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="aspnetuserclaims" EntitySet="aspnetuserclaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Self.FK_AspNetUserLogins_AspNetUsers_UserId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="aspnetuserlogins" EntitySet="aspnetuserlogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reports_AspNetUsers_CreatorId" Association="Self.FK_Reports_AspNetUsers_CreatorId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="reports" EntitySet="reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_AspNetUsers_AdministratorId" Association="Self.FK_Units_AspNetUsers_AdministratorId">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="units" EntitySet="units" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Categories_Units_Unit_Id" Association="Self.FK_Categories_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="categories" EntitySet="categories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reports_Categories_CategoryId" Association="Self.FK_Reports_Categories_CategoryId">
-            <End Role="categories" EntitySet="categories" />
-            <End Role="reports" EntitySet="reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_41248ebe63054e249715698df6b3bb7f" Association="Self.FK_41248ebe63054e249715698df6b3bb7f">
-            <End Role="customproperties" EntitySet="customproperties" />
-            <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomProperties_Units_Unit_Id" Association="Self.FK_CustomProperties_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="customproperties" EntitySet="customproperties" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CustomPropertyValues_ReportDetails_ReportDetails_Id" Association="Self.FK_CustomPropertyValues_ReportDetails_ReportDetails_Id">
-            <End Role="reportdetails" EntitySet="reportdetails" />
-            <End Role="custompropertyvalues" EntitySet="custompropertyvalues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Locations_Units_Unit_Id" Association="Self.FK_Locations_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="locations" EntitySet="locations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reports_Locations_LocationId" Association="Self.FK_Reports_Locations_LocationId">
-            <End Role="locations" EntitySet="locations" />
-            <End Role="reports" EntitySet="reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reports_ReportDetails_DetailsId" Association="Self.FK_Reports_ReportDetails_DetailsId">
-            <End Role="reportdetails" EntitySet="reportdetails" />
-            <End Role="reports" EntitySet="reports" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reports_Units_Unit_Id" Association="Self.FK_Reports_Units_Unit_Id">
-            <End Role="units" EntitySet="units" />
-            <End Role="reports" EntitySet="reports" />
-          </AssociationSet>
-          <AssociationSet Name="aspnetuserroles" Association="Self.aspnetuserroles">
-            <End Role="aspnetroles" EntitySet="aspnetroles" />
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-          </AssociationSet>
-          <AssociationSet Name="units2clients" Association="Self.units2clients">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="units" EntitySet="units" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Locations_AspNetUsers_ApplicationUser_Id" Association="EmergyDbVisualModel.FK_Locations_AspNetUsers_ApplicationUser_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="location" EntitySet="locations" />
-          </AssociationSet>
-          <EntitySet Name="messages" EntityType="EmergyDbVisualModel.message" />
-          <EntitySet Name="notifications" EntityType="EmergyDbVisualModel.notification" />
-          <EntitySet Name="resources" EntityType="EmergyDbVisualModel.resource" />
-          <AssociationSet Name="FK_AspNetUsers_Resources_ProfilePhotoId" Association="EmergyDbVisualModel.FK_AspNetUsers_Resources_ProfilePhotoId">
-            <End Role="resource" EntitySet="resources" />
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_ApplicationUser_Id" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_ApplicationUser_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="message" EntitySet="messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_Sender_Id" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_Sender_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="message" EntitySet="messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_Target_Id" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_Target_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="message" EntitySet="messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_ApplicationUser_Id" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_ApplicationUser_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="notification" EntitySet="notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_Sender_Id" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Sender_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="notification" EntitySet="notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_Target_Id" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="notification" EntitySet="notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Resources_Messages_Message_Id" Association="EmergyDbVisualModel.FK_Resources_Messages_Message_Id">
-            <End Role="message" EntitySet="messages" />
-            <End Role="resource" EntitySet="resources" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Resources_Reports_Report_Id" Association="EmergyDbVisualModel.FK_Resources_Reports_Report_Id">
-            <End Role="report" EntitySet="reports" />
-            <End Role="resource" EntitySet="resources" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_SenderId" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="message" EntitySet="messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Messages_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="message" EntitySet="messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_SenderId" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="notification" EntitySet="notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notifications_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="notification" EntitySet="notifications" />
-          </AssociationSet>
-          <EntitySet Name="assignments" EntityType="EmergyDbVisualModel.assignment" />
-          <AssociationSet Name="FK_Assignments_AspNetUsers_AdminId" Association="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="assignment" EntitySet="assignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Assignments_AspNetUsers_TargetId" Association="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId">
-            <End Role="aspnetuser" EntitySet="aspnetusers" />
-            <End Role="assignment" EntitySet="assignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Assignments_Reports_ReportId" Association="EmergyDbVisualModel.FK_Assignments_Reports_ReportId">
-            <End Role="report" EntitySet="reports" />
-            <End Role="assignment" EntitySet="assignments" />
-          </AssociationSet>
-        </EntityContainer>
-        <Association Name="FK_Locations_AspNetUsers_ApplicationUser_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.location" Role="location" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="location">
-              <PropertyRef Name="ApplicationUser_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="message">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="Sender_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Target_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ApplicationUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_ApplicationUser_Id" FromRole="message" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser1" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Sender_Id" FromRole="message" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser2" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_Target_Id" FromRole="message" ToRole="aspnetuser" />
-          <NavigationProperty Name="resources" Relationship="EmergyDbVisualModel.FK_Resources_Messages_Message_Id" FromRole="message" ToRole="resource" />
-          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser3" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_SenderId" FromRole="message" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser11" Relationship="EmergyDbVisualModel.FK_Messages_AspNetUsers_TargetId" FromRole="message" ToRole="aspnetuser" />
-        </EntityType>
-        <EntityType Name="notification">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="Sender_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Target_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="ApplicationUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_ApplicationUser_Id" FromRole="notification" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser1" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Sender_Id" FromRole="notification" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser2" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_Target_Id" FromRole="notification" ToRole="aspnetuser" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="ParameterId" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="SenderId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="TargetId" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetuser3" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_SenderId" FromRole="notification" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser11" Relationship="EmergyDbVisualModel.FK_Notifications_AspNetUsers_TargetId" FromRole="notification" ToRole="aspnetuser" />
-        </EntityType>
-        <EntityType Name="resource">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Url" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="DateUploaded" Type="DateTime" Nullable="false" />
-          <Property Name="MimeType" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Base64" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Name="Report_Id" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateUploaded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MimeType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Base64" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Message_Id" Type="Int32" />
-          <NavigationProperty Name="aspnetusers" Relationship="EmergyDbVisualModel.FK_AspNetUsers_Resources_ProfilePhotoId" FromRole="resource" ToRole="aspnetuser" />
-          <NavigationProperty Name="message" Relationship="EmergyDbVisualModel.FK_Resources_Messages_Message_Id" FromRole="resource" ToRole="message" />
-          <NavigationProperty Name="report" Relationship="EmergyDbVisualModel.FK_Resources_Reports_Report_Id" FromRole="resource" ToRole="report" />
+          <Property Name="Report_Id" Type="Int32" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Emergy.Db.Model.FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId" FromRole="Resource" ToRole="AspNetUser" />
+          <NavigationProperty Name="Message" Relationship="Emergy.Db.Model.FK_dbo_Resources_dbo_Messages_Message_Id" FromRole="Resource" ToRole="Message" />
+          <NavigationProperty Name="Report" Relationship="Emergy.Db.Model.FK_dbo_Resources_dbo_Reports_Report_Id" FromRole="Resource" ToRole="Report" />
         </EntityType>
-        <Association Name="FK_AspNetUsers_Resources_ProfilePhotoId">
-          <End Type="EmergyDbVisualModel.resource" Role="resource" Multiplicity="1">
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdministratorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="Emergy.Db.Model.FK_dbo_Units_dbo_AspNetUsers_AdministratorId" FromRole="Unit" ToRole="AspNetUser" />
+          <NavigationProperty Name="Categories" Relationship="Emergy.Db.Model.FK_dbo_Categories_dbo_Units_Unit_Id" FromRole="Unit" ToRole="Category" />
+          <NavigationProperty Name="CustomProperties" Relationship="Emergy.Db.Model.FK_dbo_CustomProperties_dbo_Units_Unit_Id" FromRole="Unit" ToRole="CustomProperty" />
+          <NavigationProperty Name="Locations" Relationship="Emergy.Db.Model.FK_dbo_Locations_dbo_Units_Unit_Id" FromRole="Unit" ToRole="Location" />
+          <NavigationProperty Name="Reports" Relationship="Emergy.Db.Model.FK_dbo_Reports_dbo_Units_Unit_Id" FromRole="Unit" ToRole="Report" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Emergy.Db.Model.Units2Clients" FromRole="Unit" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="*" />
+          <End Type="Emergy.Db.Model.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="resource">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="aspnetuser">
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUsers_dbo_Resources_ProfilePhotoId">
+          <End Type="Emergy.Db.Model.Resource" Role="Resource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUser">
               <PropertyRef Name="ProfilePhotoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Messages_AspNetUsers_ApplicationUser_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
+        <Association Name="FK_dbo_Assignments_dbo_AspNetUsers_AdminId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Emergy.Db.Model.Assignment" Role="Assignment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetuser">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="message">
-              <PropertyRef Name="ApplicationUser_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_AspNetUsers_Sender_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="message">
-              <PropertyRef Name="Sender_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_AspNetUsers_Target_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="message">
-              <PropertyRef Name="Target_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notifications_AspNetUsers_ApplicationUser_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="notification">
-              <PropertyRef Name="ApplicationUser_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notifications_AspNetUsers_Sender_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="notification">
-              <PropertyRef Name="Sender_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notifications_AspNetUsers_Target_Id">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="notification">
-              <PropertyRef Name="Target_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Resources_Messages_Message_Id">
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="0..1" />
-          <End Type="EmergyDbVisualModel.resource" Role="resource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="message">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="resource">
-              <PropertyRef Name="Message_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Resources_Reports_Report_Id">
-          <End Type="EmergyDbVisualModel.report" Role="report" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.resource" Role="resource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="report">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="resource">
-              <PropertyRef Name="Report_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_AspNetUsers_SenderId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="message">
-              <PropertyRef Name="SenderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Messages_AspNetUsers_TargetId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.message" Role="message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="message">
-              <PropertyRef Name="TargetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notifications_AspNetUsers_SenderId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="notification">
-              <PropertyRef Name="SenderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notifications_AspNetUsers_TargetId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.notification" Role="notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="notification">
-              <PropertyRef Name="TargetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="assignment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReportId" Type="Int32" Nullable="false" />
-          <Property Name="TargetId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="AdminId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="aspnetuser" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_AdminId" FromRole="assignment" ToRole="aspnetuser" />
-          <NavigationProperty Name="aspnetuser1" Relationship="EmergyDbVisualModel.FK_Assignments_AspNetUsers_TargetId" FromRole="assignment" ToRole="aspnetuser" />
-          <NavigationProperty Name="report" Relationship="EmergyDbVisualModel.FK_Assignments_Reports_ReportId" FromRole="assignment" ToRole="report" />
-        </EntityType>
-        <Association Name="FK_Assignments_AspNetUsers_AdminId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetuser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="assignment">
+            <Dependent Role="Assignment">
               <PropertyRef Name="AdminId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Assignments_AspNetUsers_TargetId">
-          <End Type="EmergyDbVisualModel.aspnetuser" Role="aspnetuser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
+        <Association Name="FK_dbo_Assignments_dbo_AspNetUsers_TargetId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Emergy.Db.Model.Assignment" Role="Assignment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="aspnetuser">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="assignment">
+            <Dependent Role="Assignment">
               <PropertyRef Name="TargetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Assignments_Reports_ReportId">
-          <End Type="EmergyDbVisualModel.report" Role="report" Multiplicity="1">
+        <Association Name="FK_dbo_Locations_dbo_AspNetUsers_ApplicationUser_Id">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="EmergyDbVisualModel.assignment" Role="assignment" Multiplicity="*" />
+          <End Type="Emergy.Db.Model.Location" Role="Location" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="report">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="assignment">
+            <Dependent Role="Location">
+              <PropertyRef Name="ApplicationUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Messages_dbo_AspNetUsers_SenderId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Messages_dbo_AspNetUsers_TargetId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Notifications_dbo_AspNetUsers_SenderId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Notifications_dbo_AspNetUsers_TargetId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reports_dbo_AspNetUsers_CreatorId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CreatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Units_dbo_AspNetUsers_AdministratorId">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Unit">
+              <PropertyRef Name="AdministratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Assignments_dbo_Reports_ReportId">
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.Assignment" Role="Assignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Assignment">
               <PropertyRef Name="ReportId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Categories_dbo_Units_Unit_Id">
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.Category" Role="Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reports_dbo_Categories_CategoryId">
+          <End Type="Emergy.Db.Model.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CustomProperties_dbo_Units_Unit_Id">
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.CustomProperty" Role="CustomProperty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomProperty">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CustomPropertyValues_dbo_CustomProperties_CustomProperty_Id">
+          <End Type="Emergy.Db.Model.CustomProperty" Role="CustomProperty" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.CustomPropertyValue" Role="CustomPropertyValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomProperty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomPropertyValue">
+              <PropertyRef Name="CustomProperty_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CustomPropertyValues_dbo_ReportDetails_ReportDetails_Id">
+          <End Type="Emergy.Db.Model.ReportDetail" Role="ReportDetail" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.CustomPropertyValue" Role="CustomPropertyValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomPropertyValue">
+              <PropertyRef Name="ReportDetails_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Locations_dbo_Units_Unit_Id">
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.Location" Role="Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reports_dbo_Locations_LocationId">
+          <End Type="Emergy.Db.Model.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Resources_dbo_Messages_Message_Id">
+          <End Type="Emergy.Db.Model.Message" Role="Message" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Resource" Role="Resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resource">
+              <PropertyRef Name="Message_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reports_dbo_ReportDetails_DetailsId">
+          <End Type="Emergy.Db.Model.ReportDetail" Role="ReportDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="DetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Reports_dbo_Units_Unit_Id">
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="0..1" />
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="Unit_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Resources_dbo_Reports_Report_Id">
+          <End Type="Emergy.Db.Model.Report" Role="Report" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Emergy.Db.Model.Resource" Role="Resource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resource">
+              <PropertyRef Name="Report_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="Emergy.Db.Model.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <Association Name="Units2Clients">
+          <End Type="Emergy.Db.Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="Emergy.Db.Model.Unit" Role="Unit" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="EmergyDbVisualModelStoreContainer" CdmEntityContainer="EmergyDbVisualModelConnection">
-          <EntitySetMapping Name="C__migrationhistory">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.C__migrationhistory">
-              <MappingFragment StoreEntitySet="__migrationhistory">
-                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
+        <EntityContainerMapping StorageEntityContainer="EmergyDbModelStoreContainer" CdmEntityContainer="EmergyDbVisualModelConnection" >
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
                 <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="aspnetroles">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.aspnetrole">
-              <MappingFragment StoreEntitySet="aspnetroles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="aspnetuserclaims">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.aspnetuserclaim">
-              <MappingFragment StoreEntitySet="aspnetuserclaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="aspnetuserlogins">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.aspnetuserlogin">
-              <MappingFragment StoreEntitySet="aspnetuserlogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="aspnetusers">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.aspnetuser">
-              <MappingFragment StoreEntitySet="aspnetusers">
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="ProfilePhotoId" ColumnName="ProfilePhotoId" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserKeyHash" ColumnName="UserKeyHash" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="ProfilePhotoId" ColumnName="ProfilePhotoId" />
-                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Assignments">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Assignment">
+              <MappingFragment StoreEntitySet="Assignments">
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="categories">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.category">
-              <MappingFragment StoreEntitySet="categories">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Category">
+              <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="customproperties">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.customproperty">
-              <MappingFragment StoreEntitySet="customproperties">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="CustomProperties">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.CustomProperty">
+              <MappingFragment StoreEntitySet="CustomProperties">
+                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
                 <ScalarProperty Name="CustomPropertyType" ColumnName="CustomPropertyType" />
-                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="custompropertyvalues">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.custompropertyvalue">
-              <MappingFragment StoreEntitySet="custompropertyvalues">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SerializedValue" ColumnName="SerializedValue" />
+          <EntitySetMapping Name="CustomPropertyValues">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.CustomPropertyValue">
+              <MappingFragment StoreEntitySet="CustomPropertyValues">
                 <ScalarProperty Name="CustomProperty_Id" ColumnName="CustomProperty_Id" />
                 <ScalarProperty Name="ReportDetails_Id" ColumnName="ReportDetails_Id" />
+                <ScalarProperty Name="SerializedValue" ColumnName="SerializedValue" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="locations">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.location">
-              <MappingFragment StoreEntitySet="locations">
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
                 <ScalarProperty Name="ApplicationUser_Id" ColumnName="ApplicationUser_Id" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="reportdetails">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.reportdetail">
-              <MappingFragment StoreEntitySet="reportdetails">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="reports">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.report">
-              <MappingFragment StoreEntitySet="reports">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="DetailsId" ColumnName="DetailsId" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="DateHappened" ColumnName="DateHappened" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="units">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.unit">
-              <MappingFragment StoreEntitySet="units">
-                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AdministratorId" ColumnName="AdministratorId" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="aspnetuserroles" TypeName="EmergyDbVisualModel.aspnetuserroles" StoreEntitySet="aspnetuserroles">
-            <EndProperty Name="aspnetroles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="aspnetusers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="units2clients" TypeName="EmergyDbVisualModel.units2clients" StoreEntitySet="units2clients">
-            <EndProperty Name="aspnetusers">
-              <ScalarProperty Name="Id" ColumnName="ClientId" />
-            </EndProperty>
-            <EndProperty Name="units">
-              <ScalarProperty Name="Id" ColumnName="UnitId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="messages">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.message">
-              <MappingFragment StoreEntitySet="messages">
-                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
-                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Message">
+              <MappingFragment StoreEntitySet="Messages">
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="notifications">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.notification">
-              <MappingFragment StoreEntitySet="notifications">
-                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
-                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Notification">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="ParameterId" ColumnName="ParameterId" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="resources">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.resource">
-              <MappingFragment StoreEntitySet="resources">
-                <ScalarProperty Name="Message_Id" ColumnName="Message_Id" />
+          <EntitySetMapping Name="ReportDetails">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.ReportDetail">
+              <MappingFragment StoreEntitySet="ReportDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Report">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="Unit_Id" ColumnName="Unit_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateHappened" ColumnName="DateHappened" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="DetailsId" ColumnName="DetailsId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resources">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Resource">
+              <MappingFragment StoreEntitySet="Resources">
                 <ScalarProperty Name="Report_Id" ColumnName="Report_Id" />
+                <ScalarProperty Name="Message_Id" ColumnName="Message_Id" />
                 <ScalarProperty Name="Base64" ColumnName="Base64" />
                 <ScalarProperty Name="MimeType" ColumnName="MimeType" />
                 <ScalarProperty Name="DateUploaded" ColumnName="DateUploaded" />
@@ -1711,17 +1555,33 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="assignments">
-            <EntityTypeMapping TypeName="EmergyDbVisualModel.assignment">
-              <MappingFragment StoreEntitySet="assignments">
-                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-                <ScalarProperty Name="AdminId" ColumnName="AdminId" />
-                <ScalarProperty Name="TargetId" ColumnName="TargetId" />
-                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="Emergy.Db.Model.Unit">
+              <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="AdministratorId" ColumnName="AdministratorId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Emergy.Db.Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Units2Clients" TypeName="Emergy.Db.Model.Units2Clients" StoreEntitySet="Units2Clients">
+            <EndProperty Name="Unit">
+              <ScalarProperty Name="Id" ColumnName="UnitId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="ClientId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

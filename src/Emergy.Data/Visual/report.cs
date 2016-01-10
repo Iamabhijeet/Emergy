@@ -12,13 +12,13 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class report
+    public partial class Report
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public report()
+        public Report()
         {
-            this.resources = new HashSet<resource>();
-            this.assignments = new HashSet<assignment>();
+            this.Assignments = new HashSet<Assignment>();
+            this.Resources = new HashSet<Resource>();
         }
     
         public int Id { get; set; }
@@ -30,16 +30,16 @@ namespace Emergy.Data.Visual
         public System.DateTime Timestamp { get; set; }
         public System.DateTime DateHappened { get; set; }
         public int Status { get; set; }
-        public int Unit_Id { get; set; }
+        public Nullable<int> Unit_Id { get; set; }
     
-        public virtual aspnetuser aspnetuser { get; set; }
-        public virtual category category { get; set; }
-        public virtual location location { get; set; }
-        public virtual reportdetail reportdetail { get; set; }
-        public virtual unit unit { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<resource> resources { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual ReportDetail ReportDetail { get; set; }
+        public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<assignment> assignments { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }
