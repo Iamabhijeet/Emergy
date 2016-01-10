@@ -12,33 +12,28 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class aspnetuser
+    public partial class AspNetUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public aspnetuser()
+        public AspNetUser()
         {
-            this.aspnetuserclaims = new HashSet<aspnetuserclaim>();
-            this.aspnetuserlogins = new HashSet<aspnetuserlogin>();
-            this.reports = new HashSet<report>();
-            this.units = new HashSet<unit>();
-            this.aspnetroles = new HashSet<aspnetrole>();
-            this.units1 = new HashSet<unit>();
-            this.locations = new HashSet<location>();
-            this.messages = new HashSet<message>();
-            this.messages1 = new HashSet<message>();
-            this.messages2 = new HashSet<message>();
-            this.notifications = new HashSet<notification>();
-            this.notifications1 = new HashSet<notification>();
-            this.notifications2 = new HashSet<notification>();
-            this.messages3 = new HashSet<message>();
-            this.messages11 = new HashSet<message>();
-            this.notifications3 = new HashSet<notification>();
-            this.notifications11 = new HashSet<notification>();
-            this.assignments = new HashSet<assignment>();
-            this.assignments1 = new HashSet<assignment>();
+            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
+            this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
+            this.Assignments = new HashSet<Assignment>();
+            this.Assignments1 = new HashSet<Assignment>();
+            this.Locations = new HashSet<Location>();
+            this.Messages = new HashSet<Message>();
+            this.Messages1 = new HashSet<Message>();
+            this.Notifications = new HashSet<Notification>();
+            this.Notifications1 = new HashSet<Notification>();
+            this.Reports = new HashSet<Report>();
+            this.Units = new HashSet<Unit>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
+            this.Units1 = new HashSet<Unit>();
         }
     
         public string Id { get; set; }
+        public string UserKeyHash { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public System.DateTime BirthDate { get; set; }
@@ -57,46 +52,33 @@ namespace Emergy.Data.Visual
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
-        public string UserKeyHash { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetuserclaim> aspnetuserclaims { get; set; }
+        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetuserlogin> aspnetuserlogins { get; set; }
+        public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual Resource Resource { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<report> reports { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<unit> units { get; set; }
+        public virtual ICollection<Assignment> Assignments1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<aspnetrole> aspnetroles { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<unit> units1 { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<location> locations { get; set; }
-        public virtual resource resource { get; set; }
+        public virtual ICollection<Message> Messages1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<message> messages { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<message> messages1 { get; set; }
+        public virtual ICollection<Notification> Notifications1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<message> messages2 { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notifications { get; set; }
+        public virtual ICollection<Unit> Units { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notifications1 { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notifications2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<message> messages3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<message> messages11 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notifications3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notification> notifications11 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<assignment> assignments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<assignment> assignments1 { get; set; }
+        public virtual ICollection<Unit> Units1 { get; set; }
     }
 }

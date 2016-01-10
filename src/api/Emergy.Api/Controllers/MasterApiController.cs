@@ -62,7 +62,7 @@ namespace Emergy.Api.Controllers
             }
         }
         private IAccountService _accountService;
-     
+
         protected IReCaptchaValidator ReCaptchaValidator
         {
             get
@@ -88,6 +88,25 @@ namespace Emergy.Api.Controllers
                 return BadRequest(ModelState);
             }
             return InternalServerError();
+        }
+
+        protected MasterApiController()
+        {
+            SetEmailTemplates();
+        }
+        protected MasterApiController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, IAccountService accountService, IReCaptchaValidator reCaptchaValidator)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _accountService = accountService;
+            _reCaptchaValidator = reCaptchaValidator;
+            SetEmailTemplates();
+        }
+
+        protected void SetEmailTemplates()
+        {
+            AccountService.EmailTemplates.Add("RegistrationSuccessfull", HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
+            AccountService.EmailTemplates.Add("Notification", HttpContext.Current.Server.MapPath("~/Content/Templates/Notification.cshtml"));
         }
         protected override void Dispose(bool disposing)
         {

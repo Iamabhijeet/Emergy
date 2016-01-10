@@ -32,9 +32,9 @@ namespace Emergy.Api.Controllers
             _unitsRepository = unitsRepository;
         }
         [Authorize(Roles = "Administrators,Clients")]
-        [HttpGet]
-        [Route("get/{lastHappened:datetime}")]
-        public async Task<IEnumerable<Report>> GetReports([FromUri] DateTime? lastHappened)
+        [HttpPost]
+        [Route("get")]
+        public async Task<IEnumerable<Report>> GetReports([FromBody]DateTime? lastHappened)
         {
             if (User.IsInRole("Administrators"))
             {

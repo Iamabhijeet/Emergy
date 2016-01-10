@@ -3,7 +3,7 @@ using Emergy.Data.Context;
 
 namespace Emergy.Data.Initializers
 {
-    public class MySqlInitializer : IDatabaseInitializer<ApplicationDbContext>
+    public class DbInitializer : IDatabaseInitializer<ApplicationDbContext>
     {
         public void InitializeDatabase(ApplicationDbContext context)
         {

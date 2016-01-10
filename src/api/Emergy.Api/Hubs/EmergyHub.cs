@@ -1,10 +1,13 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
+using Emergy.Api.Hubs.Mappings;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
 using Emergy.Data.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -12,92 +15,63 @@ using static Emergy.Core.Common.IEnumerableExtensions;
 using static Emergy.Core.Common.TaskExtensions;
 namespace Emergy.Api.Hubs
 {
-    [Authorize]
     [HubName("emergyHub")]
+    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
             IReportsRepository reportsRepository,
             IRepository<Notification> notificationsRepository,
-            IRepository<Message> messagesRepository)
+            IRepository<Message> messagesRepository,
+            IRepository<Location> locationsRepository)
         {
             _unitsRepository = unitsRepository;
             _reportsRepository = reportsRepository;
             _notificationsRepository = notificationsRepository;
             _messagesRepository = messagesRepository;
-            _userConnections = new ConcurrentDictionary<string, string>();
+            _locationsRepository = locationsRepository;
         }
 
-        public async override Task OnConnected()
+        public override Task OnConnected()
         {
-            await base.OnConnected();
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
-            _userConnections.TryAdd(currentUser.Id, Context.ConnectionId);
+            var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
+            Connections.Add(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
                 await Groups.Add(Context.ConnectionId, unit.Name);
             });
+            return base.OnConnected();
         }
-        public async override Task OnReconnected()
+        public override Task OnReconnected()
         {
-            await base.OnReconnected().ContinueWith(async (task) =>
-            {
-                await OnConnected();
-            });
+            OnConnected();
+            return base.OnReconnected();
         }
-        public async override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnected(bool stopCalled)
         {
-            await base.OnDisconnected(stopCalled);
-            var currentUser = await AccountService.GetUserByNameAsync(Context.User.Identity.Name);
-            string connection;
-            _userConnections.TryRemove(currentUser.Id, out connection);
+            var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
+            Connections.Remove(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
                 await Groups.Remove(Context.ConnectionId, unit.Name);
             });
-        }
-
-        [HubMethodName("pushReport")]
-        [Authorize(Roles = "Clients")]
-        public async Task PushReport(int unitId, int reportId)
-        {
-            Unit unit = await _unitsRepository.GetAsync(unitId).WithoutSync();
-            if (unit != null)
-            {
-                await Clients.OthersInGroup(unit.Name).notifyReportCreated(reportId);
-            }
-        }
-
-        [HubMethodName("changedReportStatus")]
-        public async Task ChangedReportStatus(int unitId, int reportId)
-        {
-            var unitTask = _unitsRepository.GetAsync(unitId);
-            var reportTask = _reportsRepository.GetAsync(reportId);
-            await Task.WhenAll(unitTask, reportTask).WithoutSync();
-            var unit = await unitTask;
-            var report = await reportTask;
-            if (unit != null && report != null)
-            {
-                string creatorConnection;
-                _userConnections.TryGetValue(report.CreatorId, out creatorConnection);
-                if (!string.IsNullOrEmpty(creatorConnection))
-                {
-                    await Clients.Client(creatorConnection).notifyReportStatusChanged(reportId);
-                }
-            }
+            return base.OnDisconnected(stopCalled);
         }
 
         [HubMethodName("updateUserLocation")]
-        public async Task UpdateUserLocation(int locationId, string userId, int reportId)
+        public async Task UpdateUserLocation(int locationId, int reportId)
         {
-            Report report = await _reportsRepository.GetAsync(reportId);
-            if (report != null)
+            Location location = await _locationsRepository.GetAsync(locationId);
+            if (location != null)
             {
-                string creatorConnection;
-                _userConnections.TryGetValue(report.CreatorId, out creatorConnection);
-                if (!string.IsNullOrEmpty(creatorConnection))
+                Report report = await _reportsRepository.GetAsync(reportId);
+                if (report != null)
                 {
-                    await Clients.Client(creatorConnection).updateUserLocation(locationId);
+                    var creatorConnections = Connections.GetConnections(report.CreatorId);
+                    creatorConnections.ForEach(async (connection) =>
+                    {
+                        await Clients.Client(connection).updateUserLocation(locationId);
+                    });
                 }
             }
         }
@@ -108,36 +82,27 @@ namespace Emergy.Api.Hubs
             Notification notification = await _notificationsRepository.GetAsync(notificationId);
             if (notification != null)
             {
-                string targetConnection;
-                _userConnections.TryGetValue(notification.Target.Id, out targetConnection);
-                if (!string.IsNullOrEmpty(targetConnection))
+                var targetConnections = Connections.GetConnections(notification.TargetId);
+                targetConnections.ForEach(async (connection) =>
                 {
-                    await Clients.Client(targetConnection).pushNotification(notificationId);
-                }
+                    await Clients.Client(connection).pushNotification(notificationId);
+                });
             }
         }
 
-        [HubMethodName("sendMessage")]
-        public async Task SendMessage(int messageId)
+        [HubMethodName("testPush")]
+        public void TestPush(string greeting)
         {
-            Message message = await _messagesRepository.GetAsync(messageId);
-            if (message != null)
-            {
-                string targetConnection;
-                _userConnections.TryGetValue(message.Target.Id, out targetConnection);
-                if (!string.IsNullOrEmpty(targetConnection))
-                {
-                    await Clients.Client(targetConnection).pushMessage(messageId);
-                }
-            }
+            Clients.Caller.testSuccess(greeting);
         }
 
-        private readonly ConcurrentDictionary<string, string> _userConnections;
+        private readonly static ConnectionMapping<string> Connections = new ConnectionMapping<string>();
+
         protected IAccountService AccountService
         {
             get
             {
-                return _accountService ?? HttpContext.Current.GetOwinContext().Get<IAccountService>();
+                return _accountService ?? Context.Request.GetHttpContext().GetOwinContext().Get<IAccountService>();
             }
             set
             {
@@ -149,6 +114,7 @@ namespace Emergy.Api.Hubs
         private readonly IRepository<Message> _messagesRepository;
         private readonly IUnitsRepository _unitsRepository;
         private readonly IReportsRepository _reportsRepository;
+        private readonly IRepository<Location> _locationsRepository;
 
         protected override void Dispose(bool disposing)
         {
@@ -156,6 +122,7 @@ namespace Emergy.Api.Hubs
             AccountService.Dispose();
             _unitsRepository.Dispose();
             _reportsRepository.Dispose();
+            _locationsRepository.Dispose();
         }
     }
 }

@@ -12,29 +12,23 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class message
+    public partial class Message
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public message()
+        public Message()
         {
-            this.resources = new HashSet<resource>();
+            this.Resources = new HashSet<Resource>();
         }
     
         public int Id { get; set; }
-        public string Content { get; set; }
-        public System.DateTime Timestamp { get; set; }
-        public string Sender_Id { get; set; }
-        public string Target_Id { get; set; }
-        public string ApplicationUser_Id { get; set; }
         public string SenderId { get; set; }
         public string TargetId { get; set; }
+        public string Content { get; set; }
+        public System.DateTime Timestamp { get; set; }
     
-        public virtual aspnetuser aspnetuser { get; set; }
-        public virtual aspnetuser aspnetuser1 { get; set; }
-        public virtual aspnetuser aspnetuser2 { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<resource> resources { get; set; }
-        public virtual aspnetuser aspnetuser3 { get; set; }
-        public virtual aspnetuser aspnetuser11 { get; set; }
+        public virtual ICollection<Resource> Resources { get; set; }
     }
 }

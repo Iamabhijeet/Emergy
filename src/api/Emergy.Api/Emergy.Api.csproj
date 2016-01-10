@@ -61,12 +61,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MySql.Data.6.9.7\lib\net45\MySql.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MySql.Data.Entity.6.9.7\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Cors, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Cors.3.0.1\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -101,6 +97,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -274,6 +274,7 @@
     </Compile>
     <Compile Include="Hubs\EmergyHub.cs" />
     <Compile Include="Hubs\HubActivator.cs" />
+    <Compile Include="Hubs\Mappings\ConnectionMapping.cs" />
     <Compile Include="Mappings\AutoMapperConfig.cs" />
     <Compile Include="Models\Account\BearerTokenModel.cs" />
     <Compile Include="Models\PerformanceModel.cs" />
@@ -288,7 +289,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bullet-flat.png" />
     <Content Include="Content\custom.css" />
-    <Content Include="Content\kisaMetaka-0.3.1.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -348,10 +348,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Logs\logs.json" />
-    <Content Include="Content\Konan.ogg" />
+    <Content Include="Content\Templates\Notification.cshtml" />
     <None Include="Properties\PublishProfiles\emergy-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\emergy-api - Web Deploy.pubxml" />
     <Content Include="Content\Templates\RegistrationSuccessful.cshtml" />
+    <None Include="Properties\PublishProfiles\emergy-api-production.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -20,6 +20,7 @@ namespace Emergy.Api.Controllers
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
         {
             _notificationsRepository = notificationsRepository;
+            SetEmailTemplates();
         }
 
         [HttpGet]
@@ -30,12 +31,27 @@ namespace Emergy.Api.Controllers
             return await GetNotifications(null).WithoutSync();
         }
 
-        [HttpGet]
-        [Route("get-latest/{lastHappened:datetime}")]
+        [HttpPost]
+        [Route("get-latest")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
-        public async Task<IEnumerable<db.Notification>> GetLatest([FromUri] DateTime? lastHappened)
+        public async Task<IEnumerable<db.Notification>> GetLatest([FromBody]DateTime? lastHappened)
         {
             return await GetNotifications(lastHappened).WithoutSync();
+        }
+
+        [HttpPost]
+        [Route("get/{id}")]
+        [ResponseType(typeof(db.Notification))]
+        public async Task<db.Notification> Get([FromUri] int id)
+        {
+            var notification = await _notificationsRepository.GetAsync(id);
+            if (notification != null &&
+                (notification.TargetId == User.Identity.GetUserId() ||
+                 notification.SenderId == User.Identity.GetUserId()))
+            {
+                return notification;
+            }
+            return null;
         }
 
         [HttpGet]
@@ -70,16 +86,20 @@ namespace Emergy.Api.Controllers
             }
             var notification = Mapper.Map<db.Notification>(model);
             var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            var targetTask = AccountService.GetUserByIdAsync(model.TargetId);
+            var accountService = AccountService.Create();
+            var targetTask = accountService.GetUserByIdAsync(model.TargetId);
             await Task.WhenAll(senderTask, targetTask).WithoutSync();
             var sender = await senderTask.WithoutSync();
             var target = await targetTask.WithoutSync();
             if (sender != null && target != null)
             {
+                accountService.Dispose();
                 notification.SenderId = sender.Id;
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
-                await _notificationsRepository.SaveAsync();
+                await _notificationsRepository.SaveAsync().WithoutSync();
+                var emailService = new Core.Services.EmailService();
+                await emailService.SendNotificationMailAsync(notification, AccountService.EmailTemplates["Notification"]).WithoutSync();
                 return Ok(notification.Id);
             }
             return BadRequest();

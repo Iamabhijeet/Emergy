@@ -68,22 +68,11 @@ namespace Emergy.Api.Controllers
         [Route("users/update/{id}")]
         public async Task<IHttpActionResult> UpdateUserLocation(int id)
         {
-            ApplicationUser user = null;
-            Location location = null;
-            Parallel.Invoke(new ParallelOptions
-            {
-                TaskScheduler = TaskScheduler.Default,
-                CancellationToken = CancellationToken.None
-            },
-                async () =>
-                {
-                    user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId()).WithoutSync();
-                },
-                async () =>
-                {
-                    location = await _locationsRepository.GetAsync(id).WithoutSync();
-                });
-
+            var userTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
+            var locationTask = _locationsRepository.GetAsync(id);
+            await Task.WhenAll(userTask, locationTask);
+            var user = await userTask;
+            var location = await locationTask;
             if (user != null && location != null)
             {
                 await AccountService.UpdateLocation(user, location);

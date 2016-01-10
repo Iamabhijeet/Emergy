@@ -25,21 +25,21 @@ namespace Emergy.Data.Visual
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__migrationhistory> C__migrationhistory { get; set; }
-        public virtual DbSet<aspnetrole> aspnetroles { get; set; }
-        public virtual DbSet<aspnetuserclaim> aspnetuserclaims { get; set; }
-        public virtual DbSet<aspnetuserlogin> aspnetuserlogins { get; set; }
-        public virtual DbSet<aspnetuser> aspnetusers { get; set; }
-        public virtual DbSet<category> categories { get; set; }
-        public virtual DbSet<customproperty> customproperties { get; set; }
-        public virtual DbSet<custompropertyvalue> custompropertyvalues { get; set; }
-        public virtual DbSet<location> locations { get; set; }
-        public virtual DbSet<reportdetail> reportdetails { get; set; }
-        public virtual DbSet<report> reports { get; set; }
-        public virtual DbSet<unit> units { get; set; }
-        public virtual DbSet<message> messages { get; set; }
-        public virtual DbSet<notification> notifications { get; set; }
-        public virtual DbSet<resource> resources { get; set; }
-        public virtual DbSet<assignment> assignments { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Assignment> Assignments { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<CustomProperty> CustomProperties { get; set; }
+        public virtual DbSet<CustomPropertyValue> CustomPropertyValues { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<ReportDetail> ReportDetails { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<Resource> Resources { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class C__migrationhistory
+    public partial class C__MigrationHistory
     {
         public string MigrationId { get; set; }
         public string ContextKey { get; set; }

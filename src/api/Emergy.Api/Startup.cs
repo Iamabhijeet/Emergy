@@ -1,6 +1,7 @@
 ﻿using Emergy.Api;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -11,12 +12,18 @@ namespace Emergy.Api
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            app.MapSignalR(new HubConfiguration()
+            app.Map("/signalr", map =>
             {
-                EnableDetailedErrors = true,
-                EnableJSONP = true,
-                EnableJavaScriptProxies = true
+                map.UseCors(CorsOptions.AllowAll);
+                var hubConfiguration = new HubConfiguration
+                {
+                    EnableDetailedErrors = true,
+                    EnableJSONP = true,
+                    EnableJavaScriptProxies = false
+                };
+                map.RunSignalR(hubConfiguration);
             });
+            app.UseCors(CorsOptions.AllowAll);
         }
     }
 }

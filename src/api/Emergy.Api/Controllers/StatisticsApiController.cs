@@ -26,13 +26,13 @@ namespace Emergy.Api.Controllers
             if (User.IsInRole("Clients"))
             {
                 reports = (await ReportsRepository.GetAsync(user))
-                .Where(report => report.DateHappened <= DateTime.Now - new TimeSpan(120, 0, 0, 0))
+                .Where(report => report.DateHappened >= DateTime.Now - TimeSpan.FromDays(120))
                 .ToList();
             }
             if (User.IsInRole("Administrators"))
             {
                 reports = (await UnitsRepository.GetReportsForUser(user, null))
-                           .Where(report => report.DateHappened <= DateTime.Now - new TimeSpan(120, 0, 0, 0))
+                           .Where(report => report.DateHappened <= DateTime.Now - TimeSpan.FromDays(120))
                            .ToList();
             }
             return (reports != null) ? (IHttpActionResult)Ok(StatsService.ComputeStats(reports.AsReadOnly())) : Ok();

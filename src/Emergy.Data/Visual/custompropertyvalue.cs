@@ -12,14 +12,14 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class custompropertyvalue
+    public partial class CustomPropertyValue
     {
         public int Id { get; set; }
         public string SerializedValue { get; set; }
+        public Nullable<int> ReportDetails_Id { get; set; }
         public Nullable<int> CustomProperty_Id { get; set; }
-        public int ReportDetails_Id { get; set; }
     
-        public virtual customproperty customproperty { get; set; }
-        public virtual reportdetail reportdetail { get; set; }
+        public virtual CustomProperty CustomProperty { get; set; }
+        public virtual ReportDetail ReportDetail { get; set; }
     }
 }

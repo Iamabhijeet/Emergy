@@ -12,7 +12,7 @@ namespace Emergy.Data.Visual
     using System;
     using System.Collections.Generic;
     
-    public partial class assignment
+    public partial class Assignment
     {
         public int Id { get; set; }
         public int ReportId { get; set; }
@@ -20,8 +20,8 @@ namespace Emergy.Data.Visual
         public string AdminId { get; set; }
         public System.DateTime Timestamp { get; set; }
     
-        public virtual aspnetuser aspnetuser { get; set; }
-        public virtual aspnetuser aspnetuser1 { get; set; }
-        public virtual report report { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
+        public virtual Report Report { get; set; }
     }
 }
