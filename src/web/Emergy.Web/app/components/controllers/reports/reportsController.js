@@ -4,19 +4,37 @@ var controllerId = 'reportsController';
 
 app.controller(controllerId,
 [
-    'vm', '$rootScope', '$stateParams', 'reportsService',
+    'vm', '$rootScope', '$stateParams', 'ngDialog', 'reportsService',
         'authService', 'notificationService', 'authData', 'hub', 'signalR', reportsController]);
 
-function reportsController($scope, $rootScope, $stateParams, reportsService, authService, notificationService, authData, hub, signalR) {
+function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsService, authService, notificationService, authData, hub, signalR) {
     $rootScope.title = 'Reports | Emergy';
     $scope.isBusy = false;
     $scope.reports = [];
+    $scope.arrivedReport = {};
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
 
+    
+
     $rootScope.$on(signalR.events.client.pushNotification, function(event, response) {
-        notificationService.pushSuccess("New report is here");
-        $scope.loadReports();
+        var promise = notificationService.getNotification(response);
+        promise.then(function(notification) {
+            if (notification.Type === "ReportCreated") {
+                $scope.reports = [];
+                $scope.lastReportDateTime = '';
+                $scope.loadReports();
+                
+                ngDialog.open({
+                    template: "reportCreatedModal",
+                    disableAnimation: true
+                });
+
+            }
+            else if (notification.Type === "MessageArrived") {
+
+            }
+        });
     });
 
     $scope.loadReports = function () {

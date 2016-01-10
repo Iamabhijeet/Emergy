@@ -1,7 +1,7 @@
 ﻿var app = angular.module('emergyWeb', ['ui.router', 'ui.materialize', 'ngSanitize',
     'ngAnimate', 'emergyWeb.services', 'emergyWeb.directives', 'angular-loading-bar',
     'ngFileUpload', 'ngImgCrop', 'vcRecaptcha', 'QuickList', 
-    'uiGmapgoogle-maps', 'ngMap', 'chart.js','luegg.directives']);
+    'uiGmapgoogle-maps', 'ngMap', 'chart.js','luegg.directives', 'ngDialog']);
 
 app.config(function ($httpProvider, uiGmapGoogleMapApiProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

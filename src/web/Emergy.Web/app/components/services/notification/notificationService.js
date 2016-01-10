@@ -29,6 +29,18 @@ function notificationService($http, $q, serviceBase) {
         return deffered.promise;
     };
 
+    var getNotification = function (notificationId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/get/' + notificationId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+         });
+        return deffered.promise;
+    };
+
     function pushError(error) {
         var errorString = 'Unknown error! :(';
         if (error !== null) {
@@ -47,7 +59,8 @@ function notificationService($http, $q, serviceBase) {
         pushError: pushError,
         pushSuccess: pushSuccess,
         notify: notify,
-        getNotifications: getNotifications
+        getNotifications: getNotifications,
+        getNotification: getNotification
     };
     return service;
 }
