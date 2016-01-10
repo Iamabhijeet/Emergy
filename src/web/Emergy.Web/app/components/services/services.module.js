@@ -13,9 +13,9 @@ services.value('authData', {
         return this.roles.indexOf('Clients') > -1;
     }
 });
-services.constant('serviceBase', 'http://emergy-api.azurewebsites.net/');
+services.constant('serviceBase', 'http://emergy-api.dump.hr/');
 services.constant('signalR', {
-    endpoint: 'http://emergy-api.azurewebsites.net/',
+    endpoint: 'http://emergy-api.dump.hr/',
     hub: {},
     connection: {},
     isConnected: false,
