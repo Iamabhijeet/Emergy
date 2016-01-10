@@ -20,9 +20,10 @@ namespace Emergy.Api.Controllers
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
         {
             _notificationsRepository = notificationsRepository;
+            SetEmailTemplates();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("get-latest")]
         [ResponseType(typeof(IEnumerable<db.Notification>))]
         public async Task<IEnumerable<db.Notification>> GetLatest()
@@ -85,7 +86,7 @@ namespace Emergy.Api.Controllers
             }
             var notification = Mapper.Map<db.Notification>(model);
             var senderTask = AccountService.GetUserByIdAsync(User.Identity.GetUserId());
-            var targetTask = AccountService.GetUserByIdAsync(model.TargetId);
+            var targetTask = AccountService.Create().GetUserByIdAsync(model.TargetId);
             await Task.WhenAll(senderTask, targetTask).WithoutSync();
             var sender = await senderTask.WithoutSync();
             var target = await targetTask.WithoutSync();
@@ -94,7 +95,9 @@ namespace Emergy.Api.Controllers
                 notification.SenderId = sender.Id;
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
-                await _notificationsRepository.SaveAsync();
+                await _notificationsRepository.SaveAsync().WithoutSync();
+                var emailService = new Core.Services.EmailService();
+                await emailService.SendNotificationMailAsync(notification, AccountService.EmailTemplates["Notification"]).WithoutSync();
                 return Ok(notification.Id);
             }
             return BadRequest();

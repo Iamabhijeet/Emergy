@@ -11,6 +11,13 @@ namespace Emergy.Core.Services
 
     public class EmailService : IEmailService
     {
+        public async Task SendNotificationMailAsync(Notification notification, string htmlTemplatePath)
+        {
+            _InitializeSmtpClient();
+            var emailToSend = NotificationMail.NotificationMailFactory.CreateMail(notification.Target, notification, htmlTemplatePath);
+            await _smtpClient.SendMailAsync(emailToSend)
+                .ContinueWith((task) => { _smtpClient.Dispose(); }).WithoutSync();
+        }
         public async Task SendRegisterMailAsync(ApplicationUser user, string userKey, string htmlTemplatePath)
         {
             _InitializeSmtpClient();

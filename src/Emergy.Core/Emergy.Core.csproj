@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ResourceMaxSizeAttribute.cs" />
     <Compile Include="Attributes\ResourceTypeAttribute.cs" />
+    <Compile Include="Common\ApplicationUserExtensions.cs" />
     <Compile Include="Common\ClientsListExtensions.cs" />
     <Compile Include="Common\ConstRelations.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Models\CustomProperty\CustomPropertyViewModels.cs" />
     <Compile Include="Models\Delete\ClientFromUnit.cs" />
     <Compile Include="Models\Email\LogMail.cs" />
+    <Compile Include="Models\Email\NotificationMail.cs" />
     <Compile Include="Models\Email\RegisterMail.cs" />
     <Compile Include="Models\File\UploadMultipleResourcesViewModel.cs" />
     <Compile Include="Models\File\UploadResourceModel.cs" />

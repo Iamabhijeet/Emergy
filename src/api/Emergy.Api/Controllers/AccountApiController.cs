@@ -2,14 +2,13 @@
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Api.Models.Account;
 using Emergy.Core.Common;
+using Emergy.Core.Services;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
 
@@ -160,14 +159,16 @@ namespace Emergy.Api.Controllers
         [HttpGet]
         public async Task<bool> IsValidKey(string id, string key)
         {
-            var userWithId = await UserManager.FindByIdAsync(id).WithoutSync();
-            var userWithKey = await AccountService.GetUserByKeyAsync(key).WithoutSync();
-            return (userWithId != null && userWithKey != null) && userWithId.Id == userWithKey.Id;
+            var user = await UserManager.FindByIdAsync(id).WithoutSync();
+            return user.UserKeyValid(key);
         }
+
         public AccountApiController()
         {
-            AccountService.EmailTemplates.Add("RegistrationSuccessfull",
-                HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
+            
+        }
+        public AccountApiController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, IAccountService accountService, IReCaptchaValidator reCaptchaValidator) : base(userManager, roleManager, accountService, reCaptchaValidator)
+        {
         }
     }
 }

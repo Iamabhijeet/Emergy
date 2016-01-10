@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Emergy.Core.Models.Account;
+using Emergy.Data.Context;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Emergy.Core.Services
@@ -113,6 +114,15 @@ namespace Emergy.Core.Services
             userKey = randomKey;
             user.UserKeyHash = _userKeyService.HashKey(randomKey);
         }
+
+        public AccountService Create()
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var emailService = new EmailService();
+            return new AccountService(userManager, roleManager, emailService);
+        }
+
         public Dictionary<string, string> EmailTemplates { get; set; } = new Dictionary<string, string>();
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1280,7 +1280,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                     
+
                     </td>
                 </tr>
             </tbody>
@@ -1325,7 +1325,16 @@
                                                 <tr>
                                                     <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
 
-                                                        <h1 class="font-roboto" style="font-style: normal;font-weight: 400;font-family: roboto,tahoma,sans-serif;Margin-bottom: 0;Margin-top: 0;font-size: 40px;line-height: 48px;color: #44a8c7;text-align: center;">Hello, @Model.UserName</h1><p class="font-roboto" style="font-style: normal;font-weight: 400;font-family: roboto,tahoma,sans-serif;Margin-bottom: 0;Margin-top: 20px;font-size: 15px;line-height: 24px;color: #60666d;text-align: center;">You have been registered successfully! Thank you for using <strong style="font-weight: bold;">Emergy</strong>!</p>
+                                                        <h1 class="font-roboto" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 0; font-size: 40px; line-height: 48px; color: #44a8c7; text-align: center;">
+                                                            Hello, @Model.Target.UserName
+                                                        </h1>
+                                                        <p class="font-roboto" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 20px; font-size: 15px; line-height: 24px; color: #60666d; text-align: center;">
+                                                            <a href="http://emergy.dump.hr/dashboard/report/@Model.ParameterId" class="collection-item">
+                                                                <span>@Model.Sender.UserName</span>
+                                                                @Model.Content at <span>@Model.Timestamp.ToShortDateString()</span>
+                                                                on
+                                                            </a>
+
 
                                                     </td>
                                                 </tr>
@@ -1350,85 +1359,6 @@
                     <td style="padding: 0;vertical-align: top;line-height: 1px;">&#8203;</td>
                     <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
                 </tr>
-            </tbody>
-        </table>
-
-        <table class="centered" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;">
-            <tbody>
-                <tr>
-                    <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
-                    <td style="padding: 0;vertical-align: top;">
-                        <table class="two-col" style="border-collapse: collapse;border-spacing: 0;Margin-left: auto;Margin-right: auto;width: 600px;background-color: #ffffff;table-layout: fixed;" emb-background-style>
-                            <tbody>
-                                <tr>
-                                    <td class="column first" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
-                                        <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
-                                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 16px;word-break: break-word;word-wrap: break-word;">
-                                                        <img src="http://emergy.dump.hr/assets/img/docs.png" style="border: 0;-ms-interpolation-mode: bicubic;display: block;max-width: 480px;" src="" alt="" width="252" height="252" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
-                                    </td>
-                                    <td class="column second" style="padding: 0;vertical-align: top;text-align: left;width: 300px;">
-                                        <div><div class="column-top" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div></div>
-                                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-
-                                                        <h2 class="font-roboto" style="font-style: normal; font-weight: 700; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 0; font-size: 24px; line-height: 32px; color: #44a8c7;">Account</h2>
-                                                        <p class="font-roboto" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 16px; font-size: 15px; line-height: 24px; color: #60666d;">
-                                                            Here are your account details.<br />
-                                                            @Model.UserName<br />
-                                                            @Model.Email<br />
-                                                            Your role : @Model.AccountType
-                                                        </p>
-                                                        <h3 class="font-roboto" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 21px; font-size: 18px; line-height: 24px; color: #3b3e42;"><span style="color: #00a2b7">Your unique key</span></h3>
-                                                        <p class="font-roboto size-14" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 12px; font-size: 14px; line-height: 21px; color: #60666d;">Remember to keep this email, because your key can't be retrieved again.&nbsp;</p>
-                                                        <p class="font-roboto size-14" style="font-style: normal; font-weight: 400; font-family: roboto, tahoma, sans-serif; Margin-bottom: 0; Margin-top: 21px; font-size: 14px; line-height: 21px; color: #60666d;">
-                                                            <h3 style="color: #00a2b7">@Model.UserKey</h3>
-                                                        </p>
-                                                        <p style='font-style: normal;font-weight: 400;Margin-bottom: 21px;Margin-top: 21px;font-size: 15px;line-height:24px;font-family: "Open Sans",sans-serif;color: #60666d;'>&nbsp;</p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%;">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="padded" style="padding: 0;vertical-align: top;padding-left: 16px;padding-right: 32px;word-break: break-word;word-wrap: break-word;">
-
-                                                        <div class="btn btn--left" style="Margin-bottom: 0;Margin-top: 0;text-align: left;">
-                                                            <![if !mso]><a style='border-radius: 3px;display: inline-block;font-size: 12px;font-weight: 700;line-height: 22px;padding: 10px 28px;text-align: center;text-decoration: none !important;transition: opacity 0.2s ease-in;color: #fff;font-family: "Open Sans",sans-serif;background-color: #00a2b7;' href="http://emergy.dump.hr/account/profile/@Model.UserName">Manage your account</a><![endif]>
-                                                            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="http://emergy.dump.hr/account/profile/vojko.v" style="width:185px" arcsize="8%" fillcolor="#00A2B7" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,9px,0px,9px"><center style="font-size:12px;line-height:22px;color:#FFFFFF;font-family:sans-serif;font-weight:700;mso-line-height-rule:exactly;mso-text-raise:4px">Manage your account</center></v:textbox></v:roundrect><![endif]-->
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <div class="column-bottom" style="font-size: 32px;line-height: 32px;transition-timing-function: cubic-bezier(0, 0, 0.2, 1);transition-duration: 150ms;transition-property: all;">&nbsp;</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td class="border" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #dddee1;width: 1px;">&#8203;</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="border" style="border-collapse: collapse;border-spacing: 0;font-size: 1px;line-height: 1px;background-color: #dddee1;Margin-left: auto;Margin-right: auto;" width="602">
-            <tbody>
-                <tr><td style="padding: 0;vertical-align: top;">&nbsp;</td></tr>
             </tbody>
         </table>
 
