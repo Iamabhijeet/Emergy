@@ -20,7 +20,6 @@ namespace Emergy.Api.Controllers
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
         {
             _notificationsRepository = notificationsRepository;
-            SetEmailTemplates();
         }
 
         [HttpGet]
