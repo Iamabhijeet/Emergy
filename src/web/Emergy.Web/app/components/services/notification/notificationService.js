@@ -8,7 +8,7 @@ function notificationService($http, $q, serviceBase) {
 
         if (lastDateTime) {
             deffered = $q.defer();
-            $http.get(serviceBase + 'api/notifications/get-latest/' + lastDateTime)
+            $http.post(serviceBase + 'api/notifications/get-latest/', JSON.stringify(lastDateTime))
             .success(function (response) {
                 deffered.resolve(response);
             })
@@ -19,7 +19,6 @@ function notificationService($http, $q, serviceBase) {
         }
 
         deffered = $q.defer();
-
         $http.get(serviceBase + 'api/notifications/get-latest/')
         .success(function (response) {
             deffered.resolve(response);

@@ -23,8 +23,8 @@ function reportsController($scope, $rootScope, $stateParams, reportsService, aut
         $scope.isBusy = true;
         var promise = reportsService.getReports($scope.lastReportDateTime); 
         promise.then(function (reports) {
-            angular.copy(reports, $scope.reports);
-            if (reports.length === 10) {
+            $scope.reports = $scope.reports.concat(reports);
+            if (reports.length % 10 === 0 && reports.length !== 0) {
                 $scope.lastReportDateTime = reports[reports.length - 1].Timestamp;
             }
         }, function () {

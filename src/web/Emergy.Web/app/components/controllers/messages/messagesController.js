@@ -10,7 +10,7 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
     $scope.messages = [];
 
     var loadMessages = function() {
-        var promise = messageService.getMessages(String($stateParams.targetId));
+        var promise = messageService.getMessages($stateParams.targetId);
         promise.then(function (messages) {
             $scope.messages = messages;
         }, function(error) {

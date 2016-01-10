@@ -6,16 +6,17 @@ reportsService.$inject = ['$http', '$q', 'serviceBase', 'authData'];
 function reportsService($http, $q, serviceBase, authData) {
     var getReports = function (lastDateTime) {
         var deffered = $q.defer();
+
         if (lastDateTime) {
-            $http.get(serviceBase + 'api/reports/get/' + encodeURIComponent(lastDateTime))
+            $http.post(serviceBase + 'api/reports/get/', JSON.stringify(lastDateTime))
                 .success(function (response) { deffered.resolve(response); })
                 .error(function (response) { deffered.reject(response); });
             return deffered.promise;
         }
+
         $http.get(serviceBase + 'api/reports/get/')
            .success(function (response) { deffered.resolve(response); })
            .error(function (response) { deffered.reject(response); });
-
         return deffered.promise;
     }
     var getReportsForUnit = function (unitId, lastDateTime) {
