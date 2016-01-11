@@ -11,8 +11,7 @@ namespace Emergy.Data.Configurations
 
             HasMany(x => x.CustomPropertyValues)
                 .WithOptional( x => x.ReportDetails)
-                .HasForeignKey(x => x.ReportDetailsId)
-                .WillCascadeOnDelete();
+                .WillCascadeOnDelete(true);
         }
     }
 }

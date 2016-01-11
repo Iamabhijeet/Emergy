@@ -127,14 +127,10 @@ namespace Emergy.Api.Controllers
                     var value = await _valuesRepository.GetAsync(valueId);
                     if (value != null)
                     {
-                        value.ReportDetailsId = report.DetailsId;
-                        _valuesRepository.Update(value);
+                        report.Details.CustomPropertyValues.Add(value);
                     }
                 });
-                _reportsRepository.Update(report);
-                await _valuesRepository.SaveAsync();
-                await _reportsRepository.SaveAsync();
-                return Ok();
+                _reportsRepository.Update(report); await _reportsRepository.SaveAsync(); return Ok();
             }
             return NotFound();
         }
@@ -149,15 +145,10 @@ namespace Emergy.Api.Controllers
                 {
                     var resource = await _resourcesRepository.GetAsync(resourceId);
                     if (resource != null)
-                    {
-                        resource.ReportId = report.Id;
-                        _resourcesRepository.Update(resource);
-                    }
+                    { report.Resources.Add(resource); }
                 });
                 _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync();
-                await _resourcesRepository.SaveAsync();
-                return Ok();
+                await _reportsRepository.SaveAsync(); return Ok();
             }
             return NotFound();
         }

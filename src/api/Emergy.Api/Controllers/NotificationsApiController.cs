@@ -20,6 +20,7 @@ namespace Emergy.Api.Controllers
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
         {
             _notificationsRepository = notificationsRepository;
+            SetEmailTemplates();
         }
 
         [HttpGet]
@@ -97,8 +98,8 @@ namespace Emergy.Api.Controllers
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
                 await _notificationsRepository.SaveAsync().WithoutSync();
-                //var emailService = new Core.Services.EmailService();
-                //await emailService.SendNotificationMailAsync(notification, AccountService.EmailTemplates["Notification"]).WithoutSync();
+                var emailService = new Core.Services.EmailService();
+                await emailService.SendNotificationMailAsync(notification, AccountService.EmailTemplates["Notification"]).WithoutSync();
                 return Ok(notification.Id);
             }
             return BadRequest();

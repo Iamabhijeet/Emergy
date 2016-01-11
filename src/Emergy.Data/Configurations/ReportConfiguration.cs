@@ -10,9 +10,8 @@ namespace Emergy.Data.Configurations
             ToTable("Reports");
 
             HasMany(x => x.Resources)
-              .WithOptional(r => r.Report)
-              .HasForeignKey(r => r.ReportId)
-              .WillCascadeOnDelete();
+              .WithOptional()
+              .WillCascadeOnDelete(true);
         }
     }
 }
