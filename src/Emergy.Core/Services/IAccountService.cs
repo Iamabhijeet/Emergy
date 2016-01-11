@@ -21,6 +21,5 @@ namespace Emergy.Core.Services
         Task<bool> UserNameTaken(string username);
         Task<bool> EmailTaken(string email);
         Task UpdateLocation(ApplicationUser user, Location location);
-        Dictionary<string,string> EmailTemplates{ get; set; } 
     }
 }

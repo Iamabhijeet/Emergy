@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using Emergy.Data.Configurations;
-using Emergy.Data.Initializers;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -11,7 +10,7 @@ namespace Emergy.Data.Context
         public ApplicationDbContext()
           : base("DefaultConnection")
         {
-            Database.SetInitializer(new DbInitializer());
+            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
@@ -43,19 +42,18 @@ namespace Emergy.Data.Context
             builder.Configurations.Add(new AssignmentConfiguration());
         }
 
-        public DbSet<Unit> Units                               { get; set; }
-        public DbSet<Report> Reports                           { get; set; }
-        public DbSet<Category> Categories                      { get; set; }
-        public DbSet<Resource> Resources                       { get; set; }
-        public DbSet<CustomProperty> CustomProperties          { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<CustomProperty> CustomProperties { get; set; }
         public DbSet<CustomPropertyValue> CustomPropertyValues { get; set; }
-        public DbSet<Location> Locations                       { get; set; }
-        public DbSet<Notification> Notifications               { get; set; }
-        public DbSet<Message> Messages                         { get; set; }
-        public DbSet<Assignment> Assignments                   { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
         public static ApplicationDbContext Create()
         {
-            Database.SetInitializer(new DbInitializer());
             return new ApplicationDbContext();
         }
     }

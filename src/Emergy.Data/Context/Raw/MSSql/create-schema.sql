@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[Assignments] (
     [ReportId] [int] NOT NULL,
     [TargetId] [nvarchar](128) NOT NULL,
     [AdminId] [nvarchar](128) NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
     CONSTRAINT [PK_dbo.Assignments] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[AspNetUsers] (
@@ -11,11 +11,11 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [UserKeyHash] [nvarchar](max) NOT NULL,
     [Name] [nvarchar](max),
     [Surname] [nvarchar](max),
-    [BirthDate] [datetime] NOT NULL,
+    [BirthDate] [datetime2] NOT NULL,
     [Gender] [int] NOT NULL,
     [ProfilePhotoId] [int] NOT NULL,
     [AccountType] [int] NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
     [Email] [nvarchar](256),
     [EmailConfirmed] [bit] NOT NULL,
     [PasswordHash] [nvarchar](max),
@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [PhoneNumber] [nvarchar](max),
     [PhoneNumberConfirmed] [bit] NOT NULL,
     [TwoFactorEnabled] [bit] NOT NULL,
-    [LockoutEndDateUtc] [datetime],
+    [LockoutEndDateUtc] [datetime2],
     [LockoutEnabled] [bit] NOT NULL,
     [AccessFailedCount] [int] NOT NULL,
     [UserName] [nvarchar](128) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE [dbo].[Locations] (
     [Longitude] [float] NOT NULL,
     [Name] [nvarchar](max),
     [Type] [int] NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
     [ApplicationUser_Id] [nvarchar](128),
     [Unit_Id] [int],
     CONSTRAINT [PK_dbo.Locations] PRIMARY KEY ([Id])
@@ -57,7 +57,7 @@ CREATE TABLE [dbo].[Resources] (
     [Id] [int] NOT NULL IDENTITY,
     [Url] [nvarchar](max),
     [Name] [nvarchar](max),
-    [DateUploaded] [datetime] NOT NULL,
+    [DateUploaded] [datetime2] NOT NULL,
     [MimeType] [nvarchar](max),
     [Base64] [nvarchar](max),
     [Message_Id] [int],
@@ -69,7 +69,7 @@ CREATE TABLE [dbo].[Messages] (
     [SenderId] [nvarchar](128),
     [TargetId] [nvarchar](128),
     [Content] [nvarchar](max),
-    [Timestamp] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
     CONSTRAINT [PK_dbo.Messages] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[Notifications] (
@@ -79,7 +79,7 @@ CREATE TABLE [dbo].[Notifications] (
     [Content] [nvarchar](max),
     [Type] [int] NOT NULL,
     [ParameterId] [nvarchar](max),
-    [Timestamp] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
     CONSTRAINT [PK_dbo.Notifications] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[Reports] (
@@ -89,8 +89,8 @@ CREATE TABLE [dbo].[Reports] (
     [LocationId] [int],
     [CategoryId] [int],
     [DetailsId] [int] NOT NULL,
-    [Timestamp] [datetime] NOT NULL,
-    [DateHappened] [datetime] NOT NULL,
+    [Timestamp] [datetime2] NOT NULL,
+    [DateHappened] [datetime2] NOT NULL,
     [Status] [int] NOT NULL,
     [Unit_Id] [int],
     CONSTRAINT [PK_dbo.Reports] PRIMARY KEY ([Id])
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[Units] (
     [Name] [nvarchar](50) NOT NULL,
     [AdministratorId] [nvarchar](128),
     [IsPublic] [bit] NOT NULL,
-    [DateCreated] [datetime] NOT NULL,
+    [DateCreated] [datetime2] NOT NULL,
     CONSTRAINT [PK_dbo.Units] PRIMARY KEY ([Id])
 )
 CREATE TABLE [dbo].[CustomProperties] (

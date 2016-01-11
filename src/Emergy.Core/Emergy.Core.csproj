@@ -125,6 +125,7 @@
     <Compile Include="Repositories\ReportsRepository.cs" />
     <Compile Include="Repositories\UnitsRepository.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\Configuration\EmailTemplateMappings.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IAccountService.cs" />
     <Compile Include="Services\IEmailService.cs" />

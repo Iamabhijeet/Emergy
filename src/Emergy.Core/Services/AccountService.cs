@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Emergy.Core.Models.Account;
+using Emergy.Core.Services.Configuration;
 using Emergy.Data.Context;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -56,6 +56,7 @@ namespace Emergy.Core.Services
                     case Data.Models.Enums.AccountType.Client:
                         {
                             await _userManager.AddToRoleAsync(newUser.Id, "Clients");
+                            await _emailService.SendRegisterMailAsync(newUser, userKey, EmailTemplateMappings.GetEmailTemplate("RegistrationSuccessfull")).WithoutSync();
                             break;
                         }
                     case Data.Models.Enums.AccountType.Administrator:
@@ -64,7 +65,6 @@ namespace Emergy.Core.Services
                             break;
                         }
                 }
-                await _emailService.SendRegisterMailAsync(newUser, userKey, EmailTemplates["RegistrationSuccessfull"]).WithoutSync();
             }
             return result;
         }
@@ -123,7 +123,6 @@ namespace Emergy.Core.Services
             return new AccountService(userManager, roleManager, emailService);
         }
 
-        public Dictionary<string, string> EmailTemplates { get; set; } = new Dictionary<string, string>();
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserKeyService _userKeyService;

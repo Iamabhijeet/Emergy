@@ -7,6 +7,8 @@ namespace Emergy.Core.Repositories
 {
     public interface IReportsRepository : IRepository<Report>
     {
+        Task SetResources(int reportId, IEnumerable<int> resourceIds);
+        Task SetCustomPropertyValues(int reportId, IEnumerable<int> valueIds);
         Task<IEnumerable<Report>> GetAsync(ApplicationUser user);
         Task<bool> PermissionsGranted(int reportId, string userId);
         void Insert(Report entity, string userId, Unit unit);
