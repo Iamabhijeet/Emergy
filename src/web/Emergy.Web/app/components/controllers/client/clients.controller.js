@@ -12,10 +12,21 @@
         vm.reports = [];
         vm.stats = [];
 
+        vm.chartLabels = [];
+        vm.chartSeries = ['This Month', 'Quartal'];
+        vm.chartData = [];
+
         function activate() {
-            //unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error) });
-            //reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
-            //statsService.getStats().then(function (stats) { vm.stats = stats; }, function (error) { notificationService.pushError(error); });
+            unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error.Message) });
+            reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error.Message); });
+            statsService.getStats().then(function (stats) {
+                vm.stats = stats;
+                vm.chartLabels.push(stats.ThisMonthStats.Rows[0].Month);
+                vm.chartLabels.push(stats.ThisMonthStats.Rows[1].Month);
+                vm.chartLabels.push(stats.ThisMonthStats.Rows[2].Month);
+                vm.chartLabels.push(stats.ThisMonthStats.Rows[3].Month);
+                console.log(vm.chartLabels);
+            }, function (error) { notificationService.pushError(error.Message); });
             $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
                 alert(response);
             });
@@ -26,11 +37,9 @@
                 }, 2000);
             });
         }
-
         vm.loadReports = function () {
             reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
         }
-
         vm.deleteReport = function (reportId) {
             var promise = reportsService.deleteReport(reportId);
             promise.then(function () {
@@ -40,7 +49,6 @@
                 notificationService.pushError("Error has happened while deleting the report.");
             });
         }
-
         vm.changeStatus = function (reportId, newStatus) {
             var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
             promise.then(function () {

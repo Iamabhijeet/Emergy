@@ -8,7 +8,7 @@ function notificationService($http, $q, serviceBase) {
 
         if (lastDateTime) {
             deffered = $q.defer();
-            $http.get(serviceBase + 'api/notifications/get-latest/' + lastDateTime)
+            $http.post(serviceBase + 'api/notifications/get-latest/', JSON.stringify(lastDateTime))
             .success(function (response) {
                 deffered.resolve(response);
             })
@@ -19,7 +19,6 @@ function notificationService($http, $q, serviceBase) {
         }
 
         deffered = $q.defer();
-
         $http.get(serviceBase + 'api/notifications/get-latest/')
         .success(function (response) {
             deffered.resolve(response);
@@ -30,12 +29,24 @@ function notificationService($http, $q, serviceBase) {
         return deffered.promise;
     };
 
+    var getNotification = function (notificationId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/get/' + notificationId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+         });
+        return deffered.promise;
+    };
+
     function pushError(error) {
         var errorString = 'Unknown error! :(';
         if (error !== null) {
             errorString = error;
         }
-        Materialize.toast(errorString, 5000);
+        Materialize.toast(errorString, 5000);    
     }
     function pushSuccess(message) {
         Materialize.toast(message, 5000);
@@ -48,7 +59,8 @@ function notificationService($http, $q, serviceBase) {
         pushError: pushError,
         pushSuccess: pushSuccess,
         notify: notify,
-        getNotifications: getNotifications
+        getNotifications: getNotifications,
+        getNotification: getNotification
     };
     return service;
 }

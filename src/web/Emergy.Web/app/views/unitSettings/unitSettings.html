@@ -2,7 +2,7 @@
 <div class="container main-container unit-details">
     <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
-            <h2>Details</h2>
+            <h2>Settings</h2>
         </div>
         <div class="col l1 m1 s1 offset-l8 offset-m7">
             <a ng-href="#" class="center">
@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div id="general" class="col s12">
-            <div class="unit-details-title-container z-depth-1">
+            <div class="report-details-title-container z-depth-1">
                 <h2 class="center center-align centered center">
                     {{ unit.Name }}
                 </h2>
@@ -117,7 +117,7 @@
         <div id="properties" class="col s12 row-no-margin">
             <ul class="collapsible" data-collapsible="accordion" watch>
                 <li>
-                    <div class="collapsible-header">Categories</div>
+                    <div class="collapsible-header"><span style="font-weight: 500; color: #1599AB;">Categories</span></div>
                     <div class="collapsible-body">
                         <ul class="collection properties">
                             <li class="collection-item" ng-repeat="category in categories">
@@ -145,7 +145,7 @@
                     </div>
                 </li>
                 <li ng-click="refreshMap()">
-                    <div class="collapsible-header">Locations</div>
+                    <div class="collapsible-header"><span style="font-weight: 500; color: #1599AB;">Locations</span></div>
                     <div class="collapsible-body row-no-margin">
                         <div class="row row-no-margin">
                             <div class="col s12">
@@ -227,7 +227,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="collapsible-header">Custom properties</div>
+                    <div class="collapsible-header"><span style="font-weight: 500; color: #1599AB;">Custom properties</span></div>
                     <div class="collapsible-body">
                         <ul class="collection properties">
                             <li class="collection-item" ng-repeat="customProperty in customProperties">
