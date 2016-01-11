@@ -3,6 +3,7 @@ using System.Web.Http;
 using Emergy.Api.Filters;
 using Emergy.Core.Common;
 using Emergy.Core.Services;
+using Emergy.Core.Services.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -105,8 +106,8 @@ namespace Emergy.Api.Controllers
 
         protected void SetEmailTemplates()
         {
-            AccountService.EmailTemplates.Add("RegistrationSuccessfull", HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
-            AccountService.EmailTemplates.Add("Notification", HttpContext.Current.Server.MapPath("~/Content/Templates/Notification.cshtml"));
+            EmailTemplateMappings.AddEmailTemplate("RegistrationSuccessfull", HttpContext.Current.Server.MapPath("~/Content/Templates/RegistrationSuccessful.cshtml"));
+            EmailTemplateMappings.AddEmailTemplate("Notification", HttpContext.Current.Server.MapPath("~/Content/Templates/Notification.cshtml"));
         }
         protected override void Dispose(bool disposing)
         {

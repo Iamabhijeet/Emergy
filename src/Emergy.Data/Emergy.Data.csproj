@@ -126,7 +126,6 @@
     <Compile Include="Configurations\UnitConfiguration.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Migrations\HistoryContext.cs" />
-    <Compile Include="Initializers\DbInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Base\ModelBase.cs" />

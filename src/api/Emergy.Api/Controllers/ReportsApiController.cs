@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,7 +12,6 @@ using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
-using static Emergy.Core.Common.IEnumerableExtensions;
 using dto = Emergy.Core.Models.Report;
 namespace Emergy.Api.Controllers
 {
@@ -119,38 +117,15 @@ namespace Emergy.Api.Controllers
         [Route("set-properties/{id}")]
         public async Task<IHttpActionResult> SetCustomProperties(int id, [FromBody]IEnumerable<int> model)
         {
-            Report report = await _reportsRepository.GetAsync(id);
-            if (report != null)
-            {
-                model.ForEach(async (valueId) =>
-                {
-                    var value = await _valuesRepository.GetAsync(valueId);
-                    if (value != null)
-                    {
-                        report.Details.CustomPropertyValues.Add(value);
-                    }
-                });
-                _reportsRepository.Update(report); await _reportsRepository.SaveAsync(); return Ok();
-            }
-            return NotFound();
+            await _reportsRepository.SetCustomPropertyValues(id, model);
+            return Ok();
         }
         [HttpPost]
         [Route("set-resources/{id}")]
         public async Task<IHttpActionResult> SetResources(int id, [FromBody]IEnumerable<int> model)
         {
-            Report report = await _reportsRepository.GetAsync(id);
-            if (report != null)
-            {
-                model.ForEach(async (resourceId) =>
-                {
-                    var resource = await _resourcesRepository.GetAsync(resourceId);
-                    if (resource != null)
-                    { report.Resources.Add(resource); }
-                });
-                _reportsRepository.Update(report);
-                await _reportsRepository.SaveAsync(); return Ok();
-            }
-            return NotFound();
+            await _reportsRepository.SetResources(id, model);
+            return Ok();
         }
         [HttpPost]
         [Route("change-status/{id}")]

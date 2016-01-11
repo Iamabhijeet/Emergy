@@ -7,6 +7,7 @@ using System.Web.Http.Description;
 using AutoMapper;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
+using Emergy.Core.Services.Configuration;
 using Microsoft.AspNet.Identity;
 using db = Emergy.Data.Models;
 using vm = Emergy.Core.Models.Notification;
@@ -20,7 +21,6 @@ namespace Emergy.Api.Controllers
         public NotificationsApiController(IRepository<db::Notification> notificationsRepository)
         {
             _notificationsRepository = notificationsRepository;
-            SetEmailTemplates();
         }
 
         [HttpGet]
@@ -44,14 +44,7 @@ namespace Emergy.Api.Controllers
         [ResponseType(typeof(db.Notification))]
         public async Task<db.Notification> Get([FromUri] int id)
         {
-            var notification = await _notificationsRepository.GetAsync(id);
-            if (notification != null &&
-                (notification.TargetId == User.Identity.GetUserId() ||
-                 notification.SenderId == User.Identity.GetUserId()))
-            {
-                return notification;
-            }
-            return null;
+            return await GetNotification(id);
         }
 
         [HttpGet]
@@ -98,8 +91,7 @@ namespace Emergy.Api.Controllers
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
                 await _notificationsRepository.SaveAsync().WithoutSync();
-                var emailService = new Core.Services.EmailService();
-                await emailService.SendNotificationMailAsync(notification, AccountService.EmailTemplates["Notification"]).WithoutSync();
+                await SendNotificationMail(notification.Id);
                 return Ok(notification.Id);
             }
             return BadRequest();
@@ -126,6 +118,25 @@ namespace Emergy.Api.Controllers
                 .ToArray();
         }
 
+        private async Task<db::Notification> GetNotification(int id)
+        {
+            var notification =
+                (await
+                    _notificationsRepository.GetAsync(n => n.Id == id, null, ConstRelations.LoadAllNotificationRelations))
+                    .SingleOrDefault();
+            if (notification != null &&
+                (notification.TargetId == User.Identity.GetUserId() ||
+                 notification.SenderId == User.Identity.GetUserId()))
+            {
+                return notification;
+            }
+            return null;
+        }
+        private async Task SendNotificationMail(int notificationId)
+        {
+            var emailService = new Core.Services.EmailService();
+            await emailService.SendNotificationMailAsync(await GetNotification(notificationId), EmailTemplateMappings.GetEmailTemplate("Notification")).WithoutSync();
+        }
         private readonly IRepository<db::Notification> _notificationsRepository;
         protected override void Dispose(bool disposing)
         {
