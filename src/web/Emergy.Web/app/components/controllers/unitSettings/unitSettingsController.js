@@ -1,13 +1,13 @@
 ﻿'use strict';
 
-var controllerId = 'unitDetailsController';
+var controllerId = 'unitSettingsController';
 
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', 'unitsService',
         'authService', 'accountService', 'notificationService', 'authData',
-        'mapService', unitDetailsController]);
+        'mapService', unitSettingsController]);
 
-function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
+function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
     $rootScope.title = "Unit | Details";
 
     var createMarker = function (latitude, longitude, title) {
@@ -24,7 +24,7 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
     $scope.map = {
         control: {},
         options: { draggable: true },
-        center: { latitude: 0, longitude: 0 },
+        center: { latitude: 49.088353, longitude: 7.112078 },
         events: {
             click: function (map, eventName, args) {
                 $scope.markers = [];
@@ -35,10 +35,9 @@ function unitDetailsController($scope, $state, $rootScope, $stateParams, unitsSe
                 };
                 $scope.location.Latitude = $scope.currentLocation.latitude;
                 $scope.location.Longitude = $scope.currentLocation.longitude;
-                $scope.map.center = $scope.currentLocation;
             }
         },
-        zoom: 8,
+        zoom: 4,
         styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
     };
     $scope.markers = [];

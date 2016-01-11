@@ -1,5 +1,5 @@
 ﻿<div ui-view="shell"></div>
-<div class="container main-container reports">
+<div class="container main-container reports" ng-controller="clientsController as vm">
     <div class="row header-row" style="border-bottom: none;">
         <div class="col l3 m4 s8 offset-s1">
             <h2>Dashboard</h2>
@@ -20,14 +20,6 @@
         </div>
     </div>
     <div id="units" class="col s12">
-        <div class="row">
-            <div class="col s12">
-                <div class="center center-align center-block centered gray-text">
-                    <h3 class="cyan-text">{{ ::vm.units.length }}</h3>
-                    <h4 class="gray-text">UNITS</h4>
-                </div>
-            </div>
-        </div>
         <ul class="collection units">
             <li class="collection-item avatar" ng-repeat="unit in vm.units | filter:searchTerm">
                 <img class="unit-icon" src="/assets/img/unit-icon.png">
@@ -39,29 +31,21 @@
         </div>
     </div>
     <div id="reports" class="col s12">
-        <div class="row">
-            <div class="col s12">
-                <div class="center center-align center-block centered gray-text">
-                    <h3 class="cyan-text">{{ ::vm.reports.length }}</h3>
-                    <h4 class="gray-text">REPORTS</h4>
-                </div>
-            </div>
-        </div>
         <div class="row report-grid-row">
-            <div class="col l3 m6 s12">
-                <div class="card report-card" quick-ng-repeat="report in vm.reports">
+            <div class="col l3 m6 s12" quick-ng-repeat="report in vm.reports">
+                <div class="card report-card">
                     <div class="card-content waves-effect waves-block waves-light white-text">
                         <p ng-if="!report.Description">Client has not provided a description for this report.</p>
-                        <p ng-if="report.Description">{{ report.Description }}</p>
+                        <p ng-if="report.Description">{{ ::report.Description }}</p>
                         <div class="row">
                             <div class="col l6 m6 s6">
                                 <p>
-                                    <i class="material-icons report-detail-icon">access_time</i> {{ report.Timestamp | date: 'HH:mma'}}
+                                    <i class="material-icons report-detail-icon">access_time</i> {{ ::report.Timestamp | date: 'HH:mma'}}
                                 </p>
                             </div>
                             <div class="col l6 m6 s6">
                                 <p>
-                                    <i class="material-icons report-detail-icon">list</i> {{ report.Category.Name }}
+                                    <i class="material-icons report-detail-icon">list</i> {{ ::report.Category.Name }}
                                 </p>
                             </div>
                         </div>
@@ -71,7 +55,6 @@
                     </div>
                     <div class="card-action">
                         <a class="change-status-button activator" href="#">Change status</a>
-                        <a class="delete-report-button" href="#" ng-click="vm.deleteReport(report.Id)">Delete</a>
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Change status<i class="material-icons right">close</i></span>
@@ -86,5 +69,18 @@
             </div>
         </div>
     </div>
-    <div id="stats" class="col s12">Stats</div>
+    <div id="stats" class="col s12">
+        <div class="row">
+            <canvas id="reportsChart" class="chart chart-line" chart-data="vm.chartData"
+                    chart-labels="vm.chartLabels" chart-legend="true" chart-series="vm.chartSeries"
+                    chart-click="onClick"></canvas>
+        </div>
+        <div class="row">
+            <div class="col m3 s12">
+                <h1 class="cyan-text">{{vm.stats}}</h1>
+            </div>
+            <div class="col m3 s12"></div>
+            <div class="col m3 s12"></div>
+        </div>
+    </div>
 </div>

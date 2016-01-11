@@ -224,14 +224,14 @@
             }]
         }
     });
-    $stateProvider.state("UnitDetails", {
-        url: "/dashboard/unit/:unitId/details",
+    $stateProvider.state("UnitSettings", {
+        url: "/dashboard/unit/:unitId/settings",
         views: {
             '': {
-                templateUrl: 'app/views/unitDetails/unitDetails.html',
-                controller: "unitDetailsController"
+                templateUrl: 'app/views/unitSettings/unitSettings.html',
+                controller: "unitSettingsController"
             },
-            'shell@UnitDetails': {
+            'shell@UnitSettings': {
                 templateUrl: 'app/views/shell/shell.html',
                 controller: 'shellController'
             }
@@ -255,8 +255,7 @@
         url: "/dashboard/client/:userId",
         views: {
             '': {
-                templateUrl: 'app/views/client/dashboard.html',
-                controller: "clientsController"
+                templateUrl: 'app/views/client/dashboard.html'
             },
             'shell@ClientDashboard': {
                 templateUrl: 'app/views/shell/shell.html',
