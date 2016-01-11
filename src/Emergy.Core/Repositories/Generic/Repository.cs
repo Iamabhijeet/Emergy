@@ -49,7 +49,7 @@ namespace Emergy.Core.Repositories.Generic
             return DbSet.Find(id);
         }
         public async virtual Task<T> GetAsync(object id)
-        {
+        { 
             return await DbSet.FindAsync(id).WithoutSync();
         }
         public virtual void Insert(T entity)
@@ -58,6 +58,10 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Update(T entityToUpdate)
         {
+            if (Context.Entry(entityToUpdate).State == EntityState.Detached)
+            {
+                DbSet.Attach(entityToUpdate);
+            }
             Context.Entry(entityToUpdate).State = EntityState.Modified;
         }
         public virtual void Delete(object id)
@@ -66,7 +70,11 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Delete(T entityToDelete)
         {
-            Context.Entry(entityToDelete).State = EntityState.Deleted;
+            if (Context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                DbSet.Attach(entityToDelete);
+            }
+            DbSet.Remove(entityToDelete);
         }
         public virtual bool Exists(int id)
         {

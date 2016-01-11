@@ -16,6 +16,10 @@ namespace Emergy.Data.Configurations
                 .WithMany(n => n.ReceievedMessages)
                 .HasForeignKey(n => n.TargetId)
                 .WillCascadeOnDelete(false);
+            HasMany(m => m.Multimedia)
+                .WithOptional(r => r.Message)
+                .HasForeignKey(r => r.MessageId)
+                .WillCascadeOnDelete();
         }
     }
 }

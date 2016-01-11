@@ -9,5 +9,6 @@ namespace Emergy.Data.Models
         public virtual CustomProperty CustomProperty { get; set; }
         [JsonIgnore]
         public virtual ReportDetails ReportDetails { get; set; }
+        public int? ReportDetailsId { get; set; }
     }
 }

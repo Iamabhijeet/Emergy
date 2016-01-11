@@ -7,10 +7,7 @@ namespace Emergy.Data.Initializers
     {
         public void InitializeDatabase(ApplicationDbContext context)
         {
-            if (!context.Database.Exists())
-            {
-                context.Database.Create();
-            }
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
     }
 
