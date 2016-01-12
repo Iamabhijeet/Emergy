@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -47,7 +48,9 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<UserProfile>> GetChats()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var messages = user.SentMessages.Concat(user.ReceievedMessages);
+            var messages = new Collection<Message>();
+            ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
+            ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             return messages.Where(message => message.SenderId == User.Identity.GetUserId() ||
                                   message.TargetId == User.Identity.GetUserId())
                                  .SelectMany(message =>
@@ -69,7 +72,9 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<Message>> GetChats([FromBody]string userId)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var messages = user.SentMessages.Concat(user.ReceievedMessages);
+            var messages = new Collection<Message>();
+            ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
+            ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             return messages.Where(message => message.SenderId == userId ||
                                   message.TargetId == userId)
                            .OrderBy(message => message.Timestamp);
