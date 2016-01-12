@@ -11,7 +11,7 @@ namespace Emergy.Data.Context
         public ApplicationDbContext()
           : base("DefaultConnection")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+       
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
