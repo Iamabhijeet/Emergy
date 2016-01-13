@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,7 +17,6 @@ using static Emergy.Core.Common.TaskExtensions;
 namespace Emergy.Api.Hubs
 {
     [HubName("emergyHub")]
-    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
@@ -53,7 +53,14 @@ namespace Emergy.Api.Hubs
             Connections.Remove(currentUser.Id, Context.ConnectionId);
             currentUser.Units.ForEach(async (unit) =>
             {
-                await Groups.Remove(Context.ConnectionId, unit.Name);
+                try
+                {
+                    await Groups.Remove(Context.ConnectionId, unit.Name);
+                }
+                catch (Exception)
+                {
+                   
+                }
             });
             return base.OnDisconnected(stopCalled);
         }
