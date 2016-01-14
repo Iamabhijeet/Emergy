@@ -19,20 +19,19 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "ReportCreated") {
-                $scope.reports = [];
-                $scope.lastReportDateTime = '';
-                $scope.loadReports();
-
                 var promise = reportsService.getReport(notification.ParameterId);
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
+                    $scope.arrivedReport = report;
                     ngDialog.close();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
                         scope: $scope
                     });
-                    $scope.arrivedReport = report;
+                    $scope.reports = [];
+                    $scope.lastReportDateTime = '';
+                    $scope.loadReports();
                 }, function (error) {
                     notificationService.pushError("Error has happened while loading notification.");
                 });
