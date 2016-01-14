@@ -18,8 +18,6 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
         if (!signalR.isConnected) {
             hub.connectionManager.startConnection();
-        } else {
-            notificationService.displayErrorPopup("Application hasn't been able to connect to the realtime service!", "Ok");
         }
     });
 
