@@ -123,12 +123,15 @@ namespace Emergy.Api.Controllers
                 accountService.Dispose();
                 message.SenderId = sender.Id;
                 message.TargetId = target.Id;
-                foreach (var resourceId in model.Multimedia)
+                if (model.Multimedia != null)
                 {
-                    var resource = await _resourcesRepository.GetAsync(resourceId);
-                    if (resource != null)
+                    foreach (var resourceId in model.Multimedia)
                     {
-                        message.Multimedia.Add(resource);
+                        var resource = await _resourcesRepository.GetAsync(resourceId);
+                        if (resource != null)
+                        {
+                            message.Multimedia.Add(resource);
+                        }
                     }
                 }
                 _messagesRepository.Insert(message);
