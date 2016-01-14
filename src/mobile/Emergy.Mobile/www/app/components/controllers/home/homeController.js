@@ -15,6 +15,14 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
 
+    $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
+        if (!signalR.isConnected) {
+            hub.connectionManager.startConnection();
+        } else {
+            notificationService.displayErrorPopup("Application hasn't been able to connect to the realtime service!", "Ok");
+        }
+    });
+
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
             .then(function (base64) { $scope.reportPicturesData.push("data:image/jpeg;base64," + base64); },
