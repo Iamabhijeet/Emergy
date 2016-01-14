@@ -22,12 +22,13 @@ namespace Emergy.Api.Controllers
         public ReportsApiController() { }
         public ReportsApiController(IReportsRepository reportsRepository,
             IUnitsRepository unitsRepository, IRepository<CustomPropertyValue> valuesRepository,
-            IRepository<Resource> resourcesRepository)
+            IRepository<Resource> resourcesRepository, IRepository<Notification> notificationsRepository)
         {
             _reportsRepository = reportsRepository;
             _valuesRepository = valuesRepository;
             _resourcesRepository = resourcesRepository;
             _unitsRepository = unitsRepository;
+            _notificationsRepository = notificationsRepository;
         }
         [Authorize(Roles = "Administrators,Clients")]
         [HttpPost]
@@ -159,8 +160,16 @@ namespace Emergy.Api.Controllers
             {
                 if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
                 {
+                    var reportNotifications = await _notificationsRepository.GetAsync(
+                        notification => notification.Type == NotificationType.ReportCreated &&
+                        notification.ParameterId == id.ToString());
                     _reportsRepository.Delete(report);
                     await _reportsRepository.SaveAsync();
+                    foreach (var notification in reportNotifications)
+                    {
+                        _notificationsRepository.Delete(notification.Id);
+                    }
+                    await _notificationsRepository.SaveAsync();
                     return Ok();
                 }
                 return Unauthorized();
@@ -171,6 +180,7 @@ namespace Emergy.Api.Controllers
         private readonly IUnitsRepository _unitsRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;
         private readonly IRepository<Resource> _resourcesRepository;
+        private readonly IRepository<Notification> _notificationsRepository;
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -178,6 +188,7 @@ namespace Emergy.Api.Controllers
             _reportsRepository.Dispose();
             _valuesRepository.Dispose();
             _resourcesRepository.Dispose();
+            _notificationsRepository.Dispose();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Emergy.Api.Controllers
                 return Error();
             }
             return Ok((await _categoriesRepository.GetAsync())
-                .OrderByDescending(c => c.Name).ToArray());
+                .OrderBy(c => c.Id).ToArray());
         }
         [HttpPost]
         [Route("create/{name}")]

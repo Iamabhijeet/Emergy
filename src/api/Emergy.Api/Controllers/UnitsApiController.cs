@@ -39,7 +39,35 @@ namespace Emergy.Api.Controllers
         public async Task<IHttpActionResult> GetUnit(int id)
         {
             var unit = await _unitsRepository.GetAsync(id);
-            return (unit != null) ? (IHttpActionResult) Ok(unit) : NotFound();
+            return (unit != null) ? (IHttpActionResult)Ok(unit) : NotFound();
+        }
+
+        [Authorize(Roles = "Administrators")]
+        [HttpPost]
+        [Route("make-public/{id}")]
+        public async Task<IHttpActionResult> MakePublic(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()) && !unit.IsPublic)
+                {
+                    unit.IsPublic = true;
+                    _unitsRepository.Update(unit);
+                    await _unitsRepository.SaveAsync();
+                    return Ok();
+                }
+                return Unauthorized();
+            }
+            return NotFound();
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("query-public")]
+        public async Task<IEnumerable<Unit>> Query(string query)
+        {
+            return await _unitsRepository.GetAsync(unit => unit.IsPublic && unit.Name.Contains(query), null, ConstRelations.LoadAllUnitRelations);
         }
 
         [Authorize(Roles = "Administrators")]
@@ -105,7 +133,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(unitId);
             if (unit != null)
             {
-                return Ok(unit.CustomProperties);
+                return Ok(unit.CustomProperties.OrderBy(property => property.Id));
             }
             return NotFound();
         }
@@ -133,8 +161,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                return Ok(unit.Locations.OrderByDescending(location => location.Timestamp)
-                    .ToArray());
+                return Ok(unit.Locations.OrderBy(location => location.Timestamp).ToArray());
             }
             return NotFound();
         }
@@ -206,7 +233,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                return Ok(unit.Categories.OrderByDescending(category => category.Id)
+                return Ok(unit.Categories.OrderBy(category => category.Id)
                                          .ToArray());
             }
             return NotFound();

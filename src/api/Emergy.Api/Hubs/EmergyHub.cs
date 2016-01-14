@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using Emergy.Api.Hubs.Mappings;
 using Emergy.Core.Repositories;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services;
+using Emergy.Data.Context;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using static Emergy.Core.Common.IEnumerableExtensions;
-using static Emergy.Core.Common.TaskExtensions;
 namespace Emergy.Api.Hubs
 {
     [HubName("emergyHub")]
+    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
@@ -51,17 +48,6 @@ namespace Emergy.Api.Hubs
         {
             var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
             Connections.Remove(currentUser.Id, Context.ConnectionId);
-            currentUser.Units.ForEach(async (unit) =>
-            {
-                try
-                {
-                    await Groups.Remove(Context.ConnectionId, unit.Name);
-                }
-                catch (Exception)
-                {
-                   
-                }
-            });
             return base.OnDisconnected(stopCalled);
         }
 
@@ -109,14 +95,13 @@ namespace Emergy.Api.Hubs
         {
             get
             {
-                return _accountService ?? Context.Request.GetHttpContext().GetOwinContext().Get<IAccountService>();
-            }
-            set
-            {
-                _accountService = value;
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                var emailService = new Core.Services.EmailService();
+                return new AccountService(userManager, roleManager, emailService);
             }
         }
-        private IAccountService _accountService;
+
         private readonly IRepository<Notification> _notificationsRepository;
         private readonly IRepository<Message> _messagesRepository;
         private readonly IUnitsRepository _unitsRepository;

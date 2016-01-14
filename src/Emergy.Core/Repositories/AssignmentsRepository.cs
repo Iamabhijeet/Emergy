@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -14,22 +13,22 @@ namespace Emergy.Core.Repositories
     {
         public async Task<IEnumerable<Assignment>> GetAssignments(ApplicationUser user)
         {
-            IOrderedQueryable<Assignment> assignments;
             if (user.AccountType == AccountType.Client)
             {
-                assignments = DbSet.Where(assigment => assigment.TargetId == user.Id)
-                    .OrderByDescending(assigment => assigment.Timestamp);
-                return await assignments.ToArrayAsync().WithoutSync();
+                return (await GetAsync(assigment => assigment.TargetId == user.Id,
+                    null, ConstRelations.LoadAllAssignmentRelations))
+                    .OrderByDescending(assignment => assignment.Timestamp);
+
             }
-            assignments = DbSet.Where(assigment => assigment.AdminId == user.Id)
-                .OrderByDescending(assigment => assigment.Timestamp);
-            return await assignments.ToArrayAsync().WithoutSync();
+            return (await GetAsync(assigment => assigment.AdminId == user.Id,
+                   null, ConstRelations.LoadAllAssignmentRelations))
+                   .OrderByDescending(assignment => assignment.Timestamp);
         }
         public async Task<IEnumerable<Assignment>> GetAssignments(Report report)
         {
-            var assignments = DbSet.Where(assigment => assigment.ReportId == report.Id)
-                .OrderByDescending(assigment => assigment.Timestamp);
-            return await assignments.ToArrayAsync().WithoutSync();
+            return (await GetAsync(assigment => assigment.ReportId == report.Id,
+                   null, ConstRelations.LoadAllAssignmentRelations))
+                   .OrderByDescending(assignment => assignment.Timestamp);
         }
 
         public AssignmentsRepository(ApplicationDbContext context) : base(context)

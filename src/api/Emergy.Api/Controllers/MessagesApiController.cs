@@ -9,8 +9,8 @@ using Emergy.Core.Common;
 using Emergy.Core.Models.Account;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using Ninject.Infrastructure.Language;
 using WebGrease.Css.Extensions;
 using vm = Emergy.Core.Models.Message;
 using model = Emergy.Data.Models;
@@ -20,9 +20,9 @@ namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Messages")]
     [Authorize]
-    public class MessagesController : MasterApiController
+    public class MessagesApiController : MasterApiController
     {
-        public MessagesController(IRepository<Message> messagesRepository,
+        public MessagesApiController(IRepository<Message> messagesRepository,
             IRepository<Resource> resourcesRepository)
         {
             _messagesRepository = messagesRepository;
@@ -51,19 +51,20 @@ namespace Emergy.Api.Controllers
             var messages = new Collection<Message>();
             ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
             ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
-            return messages.Where(message => message.SenderId == User.Identity.GetUserId() ||
-                                  message.TargetId == User.Identity.GetUserId())
-                                 .SelectMany(message =>
-                                 {
-                                     IEnumerable<UserProfile> users = new List<UserProfile>(2)
-                                      {
-                                               Mapper.Map<UserProfile>(message.Sender),
-                                               Mapper.Map<UserProfile>(message.Target)
-                                      };
-                                     return users;
-                                 })
-                                 .OrderBy(message => message.Timestamp)
-                                 .DistinctBy(profile => profile.Id);
+            var userIds = messages
+                           .OrderBy(message => message.Timestamp)
+                           .Select(message => message.TargetId)
+                           .Distinct();
+            var mappedUsers = new Collection<UserProfile>();
+            foreach (var id in userIds)
+            {
+                var target = await UserManager.FindByIdAsync(id);
+                if (target != null)
+                {
+                    mappedUsers.Add(Mapper.Map<UserProfile>(target));
+                }
+            }
+            return mappedUsers.ToEnumerable();
         }
 
         [HttpPost]
@@ -122,14 +123,14 @@ namespace Emergy.Api.Controllers
                 accountService.Dispose();
                 message.SenderId = sender.Id;
                 message.TargetId = target.Id;
-                ListExtensions.ForEach(model.Multimedia, async (resourceId) =>
+                foreach (var resourceId in model.Multimedia)
                 {
                     var resource = await _resourcesRepository.GetAsync(resourceId);
                     if (resource != null)
                     {
                         message.Multimedia.Add(resource);
                     }
-                });
+                }
                 _messagesRepository.Insert(message);
                 await _messagesRepository.SaveAsync();
                 return Ok(message.Id);

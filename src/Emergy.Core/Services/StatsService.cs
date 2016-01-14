@@ -23,27 +23,27 @@ namespace Emergy.Core.Services
             var currentMonthFails = monthQuery.Count(report => report.Status == ReportStatus.Failure);
             var currentMonthSummary = monthQuery.Count();
 
-            vm.ThisMonthStats = new StatsViewModel.Chart.ChartRow
+            vm.ChartLegend = new StatsViewModel.Chart.ChartRow
             {
-                Month = DateTime.Now.ToMonthName(),
-                ReportsCount = currentMonthSummary,
+                Month =                 DateTime.Now.ToMonthName(),
+                ReportsCount =          currentMonthSummary,
                 CompletedReportsCount = currentMonthCompleted
             };
             vm.ThisMonthNumbers = new StatsViewModel.Numbers
             {
-                ReportsCount = currentMonthSummary,
-                ReportsCompleted = currentMonthCompleted,
+                ReportsCount =      currentMonthSummary,
+                ReportsCompleted =  currentMonthCompleted,
                 ReportsProcessing = currentMonthProcessing,
-                ReportsFailed = currentMonthFails
+                ReportsFailed =     currentMonthFails
             };
             vm.ThisMonthPercentages = new StatsViewModel.Percentages
             {
-                AverageReportsCompleted = (double)currentMonthCompleted / currentMonthSummary * 100.0,
+                AverageReportsCompleted =  (double)currentMonthCompleted / currentMonthSummary * 100.0,
                 AverageReportsProcessing = (double)currentMonthProcessing / currentMonthSummary * 100.0,
-                AverageReportsFailure = (double)currentMonthFails / currentMonthSummary * 100.0
+                AverageReportsFailure =    (double)currentMonthFails / currentMonthSummary * 100.0
             };
 
-            chart.Add(vm.ThisMonthStats);
+            chart.Add(vm.ChartLegend);
 
             var offset = TimeSpan.FromDays(30);
             for (int i = 0; i < 3; i++)
@@ -55,8 +55,7 @@ namespace Emergy.Core.Services
             return vm;
         }
 
-        private StatsViewModel.Chart.ChartRow BuildChartRow(IReadOnlyCollection<Report> reportsForQuartal,
-            DateTime dateTime)
+        private StatsViewModel.Chart.ChartRow BuildChartRow(IReadOnlyCollection<Report> reportsForQuartal, DateTime dateTime)
         {
             var monthQuery = reportsForQuartal.Where(report => report.DateHappened.Month == dateTime.Month);
             var reports = monthQuery as Report[] ?? monthQuery.ToArray();
