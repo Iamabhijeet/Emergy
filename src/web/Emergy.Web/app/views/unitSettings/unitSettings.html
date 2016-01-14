@@ -237,7 +237,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="row create-property custom-property row-no-margin" style="margin-left: 0; margin-bottom: 15px;">
+                        <div class="row create-property custom-property row-no-margin" style="margin-left: 0;">
                             <form role="form" name="createCustomPropertyForm" novalidate>
                                 <div class="col l8 m8 s12">
                                     <input ng-class="{ 'valid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$valid, 'invalid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$invalid }" id="customPropertyName" name="customPropertyName" placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required />
