@@ -14,15 +14,15 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.arrivedReport = {};
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
-    
-    $rootScope.$on(signalR.events.client.pushNotification, function(event, response) {
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         var promise = notificationService.getNotification(response);
-        promise.then(function(notification) {
+        promise.then(function (notification) {
             if (notification.Type === "ReportCreated") {
                 $scope.reports = [];
                 $scope.lastReportDateTime = '';
                 $scope.loadReports();
-                $scope.arrivedReport = {};
+
                 var promise = reportsService.getReport(notification.ParameterId);
                 promise.then(function (report) {
                     ngDialog.close();
@@ -31,7 +31,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
                         template: "reportCreatedModal",
                         disableAnimation: true
                     });
-                }, function(error) {
+                }, function (error) {
                     notificationService.pushError("Error has happened while loading notification.");
                 });
             }
@@ -43,7 +43,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
 
     $scope.loadReports = function () {
         $scope.isBusy = true;
-        var promise = reportsService.getReports($scope.lastReportDateTime); 
+        var promise = reportsService.getReports($scope.lastReportDateTime);
         promise.then(function (reports) {
             $scope.reports = $scope.reports.concat(reports);
             if (reports.length % 10 === 0 && reports.length !== 0) {
