@@ -12,6 +12,7 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
+    $scope.reportVideoData = "";
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
 
@@ -29,6 +30,16 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                 });
     };
 
+    $scope.selectVideo = function() {
+        cameraService.selectVideo().then(function (videoURI) {
+            window.resolveLocalFileSystemURI(videoURI, function(fileEntry) {
+               
+            }, function(error) {
+            });
+        }, function(error) {
+        });
+    }
+
     var loadUnits = function () {
         notificationService.displayLoading("Loading reporting information...");
         $scope.isBusy = true;
@@ -37,7 +48,8 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
             $scope.units = units;
             $scope.selectedUnitId = units[0].Id;
             $scope.loadBasicProperties($scope.selectedUnitId);
-        }, function () {
+                
+            }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
         })
             .finally(function () {
@@ -248,6 +260,26 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                                 });
                             });
                         }
+
+                        if ($scope.reportVideoData) {
+                            var videoModel = {
+                                Name: $scope.reportId + "_" + key,
+                                Base64: $scope.reportVideoData,
+                                ContentType: "image/video"
+                            }
+
+                            var promise = resourceService.uploadBlob(videoModel);
+                            promise.then(function (resourceId) {
+                                var promise = reportsService.setResources($scope.reportId, [resourceId]);
+                                promise.then(function (response) {
+
+                                }, function (error) {
+
+                                });
+                            }, function (error) {
+
+                            });  
+                        }
                     }, function (error) {
                         notificationService.hideLoading();
                         $scope.modal.hide();
@@ -326,6 +358,25 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                             }, function (error) {
 
                             });
+                        });
+                    }
+                    if ($scope.reportVideoData) {
+                        var videoModel = {
+                            Name: $scope.reportId + "_" + key,
+                            Base64: $scope.reportVideoData,
+                            ContentType: "image/video"
+                        }
+
+                        var promise = resourceService.uploadBlob(videoModel);
+                        promise.then(function (resourceId) {
+                            var promise = reportsService.setResources($scope.reportId, [resourceId]);
+                            promise.then(function (response) {
+
+                            }, function (error) {
+
+                            });
+                        }, function (error) {
+
                         });
                     }
                 }, function (error) {
