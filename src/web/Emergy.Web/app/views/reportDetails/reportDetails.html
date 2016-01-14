@@ -84,10 +84,10 @@
     </div>
     <div class="row resources" ng-if="!isLoading">
         <h3>Multimedia</h3>
-        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
+        <div class="col l4 m4 s12" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
             <img materialboxed class="materialboxed responsive-img card" ng-src="{{ resource.Base64 }}">
         </div>
-        <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
+        <p style="margin-top: 0;" ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
     </div>
     <div class="row actions" ng-if="!isLoading">
         <h3 style="margin-top: 0;">Actions</h3>
