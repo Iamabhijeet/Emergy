@@ -15,7 +15,7 @@ function messagingController($scope, $state, $rootScope, $location, authService,
         promise.then(function (user) {
             $state.go("Messages", { targetId: String(user.data.Id) });
         }, function (error) {
-            notificationService.pushError("Error has happened while initiating messaging with user.");
+            notificationService.pushError("Specified username does not exist!");
         });
     }
 

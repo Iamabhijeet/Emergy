@@ -293,7 +293,7 @@ html, body {
     }
 
 .shell-navigation .spacer {
-    height: calc(100% - 550px);
+    height: calc(100% - 590px);
     background-color: inherit;
 }
 
@@ -304,6 +304,7 @@ html, body {
 
 .shell-navigation.side-nav .connection-indicator {
     position: relative;
+    top: 25px;
     left: 62px;
     font-size: 14px;
     font-weight: 500;
@@ -498,7 +499,7 @@ html, body {
             width: 45px;
             position: absolute;
             left: 15px;
-            top: 25px;
+            top: 30px;
         }
 
         .main-container .collection .collection-item .unit-name {
@@ -507,6 +508,8 @@ html, body {
             margin-top: 15px;
             color: #4A4A4A;
             width: 210px;
+            position: relative;
+            top: 16px;
         }
 
         .main-container .collection .collection-item .secondary-content {
@@ -622,6 +625,7 @@ html, body {
         width: 100px;
         margin-top: 25px;
         font-size: 14px;
+        margin-top: 15px;
     }
 
     .main-container .collection .collection-item .secondary-content {
@@ -638,7 +642,7 @@ html, body {
 
 @media only screen and (max-width: 880px) {
     .main-container .collection .collection-item .unit-name {
-        margin-top: 25px;
+        margin-top: 15px;
     }
 
     .main-container .collection .collection-item .unit-icon {
@@ -1209,6 +1213,23 @@ html, body {
         .main-container.messages .people-row .collection .collection-item {
             padding-left: 0;
             padding-right: 0;
+            padding-bottom: 20px;
+        }
+
+        .main-container.messages .people-row .collection .collection-item img {
+            position: relative;
+            top: 13px;
+            height: 40px;
+        }
+
+        .main-container.messages .people-row .collection .collection-item span {
+            font-size: 18px;
+        }
+
+        .main-container.messages .people-row .collection .collection-item a {
+            position: relative;
+            top: 21px;
+            font-size: 28px;
         }
 
     .main-container.messages .people-row h4 {
@@ -1257,3 +1278,11 @@ html, body {
                     margin-top: 5px;
                     margin-bottom: 0px;
                 }
+
+@media only screen and (max-width: 881px) {
+    .main-container.messages .people-row .collection .collection-item a {
+        position: relative;
+        top: 0;
+        font-size: 28px;
+    }
+}
