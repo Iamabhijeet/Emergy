@@ -13,7 +13,6 @@ using static Emergy.Core.Common.IEnumerableExtensions;
 namespace Emergy.Api.Hubs
 {
     [HubName("emergyHub")]
-    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
@@ -33,10 +32,11 @@ namespace Emergy.Api.Hubs
         {
             var currentUser = AccountService.GetUserByIdAsync(Context.User.Identity.GetUserId()).Result;
             Connections.Add(currentUser.Id, Context.ConnectionId);
-            currentUser.Units.ForEach(async (unit) =>
+            foreach (var unit in currentUser.Units)
             {
-                await Groups.Add(Context.ConnectionId, unit.Name);
-            });
+                Groups.Add(Context.ConnectionId, unit.Name);
+            }
+            Clients.Client(Context.ConnectionId).ping(Context.ConnectionId);
             return base.OnConnected();
         }
         public override Task OnReconnected()

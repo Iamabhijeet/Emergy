@@ -62,6 +62,26 @@ namespace Emergy.Api.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "Administrators")]
+        [HttpPost]
+        [Route("make-private/{id}")]
+        public async Task<IHttpActionResult> MakePrivate(int id)
+        {
+            var unit = await _unitsRepository.GetAsync(id);
+            if (unit != null)
+            {
+                if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()) && !unit.IsPublic)
+                {
+                    unit.IsPublic = false;
+                    _unitsRepository.Update(unit);
+                    await _unitsRepository.SaveAsync();
+                    return Ok();
+                }
+                return Unauthorized();
+            }
+            return NotFound();
+        }
+
         [Authorize]
         [HttpGet]
         [Route("query-public")]
