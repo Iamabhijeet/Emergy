@@ -15,6 +15,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.lastReportDateTime = '';
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
 
+    $rootScope.$on(signalR.events.client.ping, function (event, response) { console.log(response); });
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
@@ -29,16 +30,13 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
                         disableAnimation: true,
                         scope: $scope
                     });
-<<<<<<< HEAD
                 }, function (error) {
                     $scope.arrivedReport = report;
                 }, function (error) {
-=======
                     $scope.reports = [];
                     $scope.lastReportDateTime = '';
                     $scope.loadReports();
                 }, function (error) {
->>>>>>> a424dacebad9445edb5a2f90723ef87eef4eb208
                     notificationService.pushError("Error has happened while loading notification.");
                 });
             }
