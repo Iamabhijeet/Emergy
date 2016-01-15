@@ -49,14 +49,14 @@
                     <p style="text-align: center;" ng-if="reportVideoData.length != 0">{{ reportVideoData }}</p>
                     <p style="text-align: center;" ng-if="reportPicturesData.length != 0 && ionic.Platform.isAndroid()">{{ reportPicturesData.length }} pictures added</p>
 
-                    <div ng-if="ionic.Platform.isIOS()">
+                    <div ng-if="!ionic.Platform.isAndroid()">
                         <div class="row" ng-repeat="reportPictureData in reportPicturesData" ng-if="$index % 4 === 0">
                             <div class="col col-33" ng-if="$index < reportPicturesData.length"><img style="width: 100%;" ng-src="{{ reportPicturesData[$index] }}"></div>
                             <div class="col col-33" ng-if="$index + 1 < reportPicturesData.length"><img style="width: 100%;" ng-src="{{ reportPicturesData[$index + 1] }}"></div>
                             <div class="col col-33" ng-if="$index + 2 < reportPicturesData.length"><img style="width: 100%;" ng-src="{{ reportPicturesData[$index + 2] }}"></div>
                         </div>
                     </div>
-                    
+
                     <label class="item item-input item-stacked-label" style="margin-top: 0;">
                         <span class="input-label">Description</span>
                         <textarea ng-model="report.Description"></textarea>
