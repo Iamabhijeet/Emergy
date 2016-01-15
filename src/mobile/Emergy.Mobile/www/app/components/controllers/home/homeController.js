@@ -14,31 +14,8 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.reportPicturesData = [];
     $scope.reportVideoData = "";
     $scope.reportDetails = {};
-    $scope.isConnected = false;
-
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
 
-    $rootScope.$on(signalR.events.realTimeConnected, function () {
-        notificationService.displaySuccessPopup("Realtime connected!", "Ok");
-        console.log("connected");
-        $scope.$applyAsync(function () {
-            $scope.isConnected = true;
-        });
-    });
-    $rootScope.$on(signalR.events.client.ping, function (event, response) { console.log(response); });
-    $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
-        if (state === "disconnected") {
-            notificationService.displayErrorPopup("Disconnected!", "Ok");
-            console.log("disconnected");
-            $scope.$applyAsync(function () {
-                $scope.isConnected = false;
-            });
-        }
-    });
-
-    $scope.reconnect = function () {
-        hub.connectionManager.startConnection();
-    };
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
             .then(function (base64) { $scope.reportPicturesData.push("data:image/jpeg;base64," + base64); },

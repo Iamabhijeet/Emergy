@@ -270,9 +270,12 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .messaging-container li.item p{
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 400;
     color: #10B0C4;
+    overflow: visible;
+    position: relative;
+    top: 9px;
 }
 
 /*-----------end MESSAGING-----------*/

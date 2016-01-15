@@ -11,13 +11,14 @@ function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate
     $scope.messages = [];
 
     $scope.senderId = $stateParams.senderId;
+    console.log($scope.senderId);
 
     var loadMessages = function () {
-        var promise = messagesService.getMessages(String($scope.senderId));
+        var promise = messagesService.getMessages($scope.senderId);
         promise.then(function (messages) {
             $scope.messages = messages;
         }, function (error) {
-            notificationService.pushError("Error has happened while loading messages.");
+            notificationService.displayErrorPopup("Error has happened while loading messages.", "Ok");
         }).finally(function () {
             $ionicScrollDelegate.scrollBottom(true);
         });

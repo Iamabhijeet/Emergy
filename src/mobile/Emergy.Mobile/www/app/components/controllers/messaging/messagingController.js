@@ -9,16 +9,13 @@ function messagingController($scope, $state, $rootScope, authService, notificati
     $scope.messagedUsers = [];
 
     $scope.openMessages = function(username) {
-        /*
-         var promise = accountService.getProfileByUsername(username);
+        var promise = accountService.getProfileByUsername(username);
         promise.then(function(user) {
-            $state.go("tab.messages", { senderId: String(user.data.Id) });
+            $state.go("tab.messages", { senderId: user.data.Id });
         }, function() {
             notificationService.displayErrorPopup("There has been an error loading messages.", "Ok");
-        });
-         */
+        });  
 
-        $state.go("tab.messages");
     }
 
     var loadMessagedUsers = function() {
