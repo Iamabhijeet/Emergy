@@ -3,7 +3,7 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$q','$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
+    ['$scope', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
      'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', homeController]);
 
 function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR) {
@@ -12,16 +12,32 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
-    $scope.reportVideoData = "";
     $scope.reportDetails = {};
+    $scope.isConnected = false;
+
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
 
+    $rootScope.$on(signalR.events.realTimeConnected, function () {
+        notificationService.displaySuccessPopup("Realtime connected!", "Ok");
+        console.log("connected");
+        $scope.$applyAsync(function () {
+            $scope.isConnected = true;
+        });
+    });
+    $rootScope.$on(signalR.events.client.ping, function (event, response) { console.log(response); });
     $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
-        if (!signalR.isConnected) {
-            hub.connectionManager.startConnection();
+        if (state === "disconnected") {
+            notificationService.displayErrorPopup("Disconnected!", "Ok");
+            console.log("disconnected");
+            $scope.$applyAsync(function () {
+                $scope.isConnected = false;
+            });
         }
     });
 
+    $scope.reconnect = function () {
+        hub.connectionManager.startConnection();
+    };
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
             .then(function (base64) { $scope.reportPicturesData.push("data:image/jpeg;base64," + base64); },
@@ -29,16 +45,6 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                     notificationService.displayErrorPopup("There has been an error while processing the image!", "Ok");
                 });
     };
-
-    $scope.selectVideo = function() {
-        cameraService.selectVideo().then(function (videoURI) {
-            window.resolveLocalFileSystemURI(videoURI, function(fileEntry) {
-               
-            }, function(error) {
-            });
-        }, function(error) {
-        });
-    }
 
     var loadUnits = function () {
         notificationService.displayLoading("Loading reporting information...");
@@ -48,8 +54,7 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
             $scope.units = units;
             $scope.selectedUnitId = units[0].Id;
             $scope.loadBasicProperties($scope.selectedUnitId);
-                
-            }, function () {
+        }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
         })
             .finally(function () {
@@ -112,11 +117,14 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                             }
                             var promise = notificationService.pushNotification(notification);
                             promise.then(function (notificationId) {
-                                $q.when(signalR.events.realTimeConnected, function() {
-                                    hub.server.sendNotification(notificationId);
-                                });
                                 notificationService.hideLoading();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                                try {
+                                    hub.server.sendNotification(notificationId);
+                                }
+                                catch (err) {
+                                    notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                                }
 
                             }, function () {
                                 notificationService.hideLoading();
@@ -156,11 +164,14 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                     console.log(notification);
                     var promise = notificationService.pushNotification(notification);
                     promise.then(function (notificationId) {
-                        $q.when(signalR.events.realTimeConnected, function () {
-                            hub.server.sendNotification(notificationId);
-                        });
                         notificationService.hideLoading();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        try {
+                            hub.server.sendNotification(notificationId);
+                        }
+                        catch (err) {
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                        }
                     }, function () {
                         notificationService.hideLoading();
                         notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
@@ -260,26 +271,6 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                                 });
                             });
                         }
-
-                        if ($scope.reportVideoData) {
-                            var videoModel = {
-                                Name: $scope.reportId + "_" + key,
-                                Base64: $scope.reportVideoData,
-                                ContentType: "image/video"
-                            }
-
-                            var promise = resourceService.uploadBlob(videoModel);
-                            promise.then(function (resourceId) {
-                                var promise = reportsService.setResources($scope.reportId, [resourceId]);
-                                promise.then(function (response) {
-
-                                }, function (error) {
-
-                                });
-                            }, function (error) {
-
-                            });  
-                        }
                     }, function (error) {
                         notificationService.hideLoading();
                         $scope.modal.hide();
@@ -312,9 +303,12 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
 
                     var promise = notificationService.pushNotification(notification);
                     promise.then(function (notificationId) {
-                        $q.when(signalR.events.realTimeConnected, function () {
+                        try {
                             hub.server.sendNotification(notificationId);
-                        });
+                        }
+                        catch (err) {
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                        }
                         notificationService.hideLoading();
                         $scope.modal.hide();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
@@ -360,25 +354,6 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                             });
                         });
                     }
-                    if ($scope.reportVideoData) {
-                        var videoModel = {
-                            Name: $scope.reportId + "_" + key,
-                            Base64: $scope.reportVideoData,
-                            ContentType: "image/video"
-                        }
-
-                        var promise = resourceService.uploadBlob(videoModel);
-                        promise.then(function (resourceId) {
-                            var promise = reportsService.setResources($scope.reportId, [resourceId]);
-                            promise.then(function (response) {
-
-                            }, function (error) {
-
-                            });
-                        }, function (error) {
-
-                        });
-                    }
                 }, function (error) {
                     notificationService.hideLoading();
                     $scope.modal.hide();
@@ -410,7 +385,7 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
         }).then(function (modal) {
             $scope.modal = modal;
             $scope.modal.show();
-            loadCustomProperties($scope.report.UnitId);
+            loadCustomProperties(1);
         });
     };
     $scope.openSubmitDialog = function () {
