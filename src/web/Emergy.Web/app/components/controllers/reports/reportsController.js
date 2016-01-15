@@ -31,12 +31,9 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
                         disableAnimation: true,
                         scope: $scope
                     });
-<<<<<<< HEAD
                 }, function (error) {
-=======
                     $scope.arrivedReport = report;
-                }, function(error) {
->>>>>>> f9205d746625d269658fc1b05468e7d1b9edbbd4
+                }, function (error) {
                     notificationService.pushError("Error has happened while loading notification.");
                 });
             }

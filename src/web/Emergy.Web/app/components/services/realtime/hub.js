@@ -28,13 +28,6 @@
             });
         };
         var stopConnection = function () {
-            //if (signalR.connection) {
-            //    signalR.connection.stop();
-            //    signalR.isConnected = false;
-            //    signalR.connection = null;
-            //    signalR.hub = null;
-            //    $rootScope.unSubscribeAll();
-            //}
             signalR.connection.stop();
             signalR.isConnected = false;
             signalR.connection = null;
@@ -45,6 +38,11 @@
         var configureListeners = function () {
             signalR.connection.stateChanged(function (state) {
                 $rootScope.$broadcast(signalR.events.connectionStateChanged, state);
+            });
+            signalR.connection.disconnected(function () {
+                if (authData.loggedIn) {
+                    startConnection();
+                }
             });
             $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
                 var stateConversion = { 0: 'connecting', 1: 'connected', 2: 'reconnecting', 4: 'disconnected' };
@@ -66,6 +64,9 @@
             });
             signalR.hub.on(signalR.events.client.updateUserLocation, function (locationId) {
                 $rootScope.$broadcast(signalR.events.client.updateUserLocation, locationId);
+            });
+            signalR.hub.on(signalR.events.client.ping, function (connectionId) {
+                $rootScope.$broadcast(signalR.events.client.ping, connectionId);
             });
         };
         return {
