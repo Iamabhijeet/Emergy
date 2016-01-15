@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <span ng-if="reportVideoData" class="camera-button" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
-                    <p style="text-align: center;" ng-if="reportVideoData.length != 0">{{ reportVideoData }}</p>
+                    <p style="text-align: center;" ng-if="reportVideoData.length != 0">Video was selected</p>
                     <p style="text-align: center;" ng-if="reportPicturesData.length != 0 && ionic.Platform.isAndroid()">{{ reportPicturesData.length }} pictures added</p>
 
                     <div ng-if="!ionic.Platform.isAndroid()">

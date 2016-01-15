@@ -12,6 +12,7 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
+    $scope.reportVideoData = "";
     $scope.reportDetails = {};
     $scope.isConnected = false;
 
@@ -44,6 +45,14 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
                 function () {
                     notificationService.displayErrorPopup("There has been an error while processing the image!", "Ok");
                 });
+    };
+
+    $scope.selectVideo = function() {
+        cameraService.selectVideo().then(function (contentURI) {
+
+        }, function(error) {
+
+        });
     };
 
     var loadUnits = function () {
