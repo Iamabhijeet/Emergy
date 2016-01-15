@@ -58,7 +58,7 @@
 <script type="text/ng-template" id="reportCreatedModal">
     <div class="report-modal">
         <h1>New report received!</h1>
-        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
             <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
         </ng-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
@@ -67,7 +67,7 @@
                 <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
             </div>
             <div class="col l6 m6 s12">
-                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" class="waves-effect waves-light btn details-button">Details</a>
+                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
             </div>
         </div> 
     </div>

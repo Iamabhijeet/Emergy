@@ -65,7 +65,7 @@
                 DISCONNECTED
             </span>
         </div>
-        <div class="connection-button center-block" ng-show="!signalr.isConnecting && !signalr.isConnected && signalR.connectionState !== 'connected'">
+        <div class="connection-button center-block" style="margin-top: 0;" ng-show="!signalr.isConnecting && !signalr.isConnected && signalR.connectionState !== 'connected'">
             <a ng-click="reconnect()" class="waves-effect waves-block center-align">
                 <i class="material-icons">loop</i> Reconnect
             </a>

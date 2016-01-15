@@ -24,7 +24,7 @@
             </div>
         </li>
     </ul>
-    <div class="row create-unit">
+    <div class="row create-unit" ng-if="!isBusy">
         <form role="form" name="createUnitForm" novalidate>
             <div class="col l11 m11 s10">
                 <input ng-class="{ 'valid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$valid, 'invalid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$invalid }" id="unitName" name="unitName" placeholder="New unit name" type="text" ng-model="unitName" ng-minlength="5" ng-maxlength="50" required />
@@ -32,7 +32,7 @@
                 <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.minlength">Unit name has to contain atleast 5 characters.</small>
                 <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.maxlength">Unit name cannot be more than 50 characters long.</small>
             </div>
-            <div class="col l1 m1 s2">
+            <div class="col l1 m1 s2" style="text-align: center;">
                 <button href="#" class="btn-floating waves-effect waves-light" ng-click="createUnit(unitName)" ng-disabled="createUnitForm.$invalid || createUnitForm.$pristine">
                     <i class="material-icons">add</i>
                 </button>

@@ -18,8 +18,7 @@
     <div class="row initiate-messaging">
         <form role="form" name="initiateMessagingForm" novalidate>
             <div class="col l11 m11 s10">
-                <input ng-class="{ 'valid' : initiateMessagingForm.userName.$touched && initiateMessagingForm.userName.$valid, 'invalid' : initiateMessagingForm.userName.$touched && initiateMessagingForm.userName.$invalid }" id="userName" name="userName" placeholder="Username you want to send a message to" type="text" ng-model="userName" required />
-                <small class="validation" ng-show="initiateMessagingForm.userName.$touched && initiateMessagingForm.userName.$error.required">Username is required.</small>
+                <input id="userName" name="userName" placeholder="Username you want to send a message to" type="text" ng-model="userName" required />
             </div>
             <div class="col l1 m1 s2">
                 <button href="#" class="btn-floating waves-effect waves-light" ng-click="initiateMessaging(userName)" ng-disabled="initiateMessagingForm.$invalid || initiateMessagingForm.$pristine">
@@ -33,9 +32,8 @@
         <h4>Messaged users</h4>
         <ul class="collection">
             <li class="collection-item" ng-repeat="messagedUser in messagedUsers">
-                <div>
-                    {{ messagedUser.UserName }}<a ng-href="/dashboard/messages/{{ messagedUser.Id }}" class="secondary-content"><i class="material-icons">forum</i></a>
-                </div>
+                <img ng-src="{{ messagedUser.ProfilePhoto.Base64 }}" alt="" class="circle">
+                <span>{{ messagedUser.UserName }}</span><a ng-href="/dashboard/messages/{{ messagedUser.Id }}" class="secondary-content"><i class="material-icons">forum</i></a>
             </li>
         </ul>
     </div>

@@ -46,10 +46,10 @@
         </div>
         <div id="users" class="col s12">
             <ul class="collection user-collection">
-                <li class="collection-item avatar" quick-ng-repeat="client in clients" quick-ng-repeat-list="clients">
+                <li class="collection-item avatar" style="padding-left: 50px;" quick-ng-repeat="client in clients" quick-ng-repeat-list="clients">
                     <div class="user-details">
-                        <img ng-src="{{ client.ProfilePhoto.Base64 }}" class="circle">
-                        <span class="cyan-text">{{ client.UserName }}</span>
+                        <img ng-src="{{ client.ProfilePhoto.Base64 }}" style="left: 0; top: 25px;" class="circle">
+                        <span class="cyan-text" style="position: relative; top: 14px; left: 0;">{{ client.UserName }}</span>
                         <br />
                         <p class="grey-text">{{ client.Name }} {{ client.Surname }}</p>
                     </div>

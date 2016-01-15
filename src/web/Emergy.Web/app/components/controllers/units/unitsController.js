@@ -10,17 +10,18 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $rootScope.title = 'Units | Emergy';
     $scope.units = [];
     $scope.searchTerm = '';
+    $scope.isBusy = false;
 
     var loadUnits = function () {
+        $scope.isBusy = true; 
         var promise = unitsService.getUnits();
         promise.then(function (units) {
             angular.copy(units, $scope.units);
         }, function (error) {
             notificationService.pushError("Error has happened while loading units.");
-        })
-            .finally(function () {
-                sumClients();
-            });
+        }).finally(function() {
+            $scope.isBusy = false;
+        });
     };
 
     $scope.createUnit = function (unitName) {
