@@ -202,5 +202,16 @@ namespace Emergy.Core.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public override void Delete(Unit entityToDelete)
+        {
+            entityToDelete.Clients.Clear();
+            entityToDelete.Locations.Clear();
+            entityToDelete.Categories.Clear();
+            entityToDelete.Reports.Clear();
+            entityToDelete.CustomProperties.Clear();
+            entityToDelete.Administrator = null;
+            base.Delete(entityToDelete);
+        }
     }
 }
