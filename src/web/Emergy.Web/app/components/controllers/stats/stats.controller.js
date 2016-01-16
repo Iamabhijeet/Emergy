@@ -5,10 +5,8 @@
     stats.$inject = ['statsService'];
 
     function stats(statsService) {
-
         var vm = this;
-        vm.title = 'Stats';
-        document.title = 'Stats';
+        document.title = 'Statistics | Emergy'; 
 
         function buildChart() {
             var chartModel = vm.stats.ReportsChart;
@@ -24,12 +22,13 @@
                 vm.chartData[1].push(chartModel[i].CompletedReportsCount);
             }
         }
-
         function activate() {
             statsService.getStats().then(function (stats) {
                 vm.stats = stats;
                 buildChart();
             });
         }
+
+        activate();
     }
 })();
