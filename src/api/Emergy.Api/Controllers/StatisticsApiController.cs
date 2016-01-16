@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -25,21 +24,17 @@ namespace Emergy.Api.Controllers
             List<Report> reports = null;
             if (User.IsInRole("Clients"))
             {
-                reports = (await ReportsRepository.GetAsync(user))
-                .Where(report => report.DateHappened >= DateTime.Now - TimeSpan.FromDays(120))
-                .ToList();
+                reports = user.Reports.ToList();
             }
             if (User.IsInRole("Administrators"))
             {
-                reports = (await UnitsRepository.GetReportsForUser(user, null))
-                           .Where(report => report.DateHappened <= DateTime.Now - TimeSpan.FromDays(120))
-                           .ToList();
+                reports = (await UnitsRepository.GetAllReportsForAdmin(user)).ToList();
             }
             return (reports != null) ? (IHttpActionResult)Ok(StatsService.ComputeStats(reports.AsReadOnly())) : Ok();
         }
-        private IStatsService StatsService { get; set; }
-        private IReportsRepository ReportsRepository { get; set; }
-        private IUnitsRepository UnitsRepository { get; set; }
+        private IStatsService StatsService           { get; }
+        private IReportsRepository ReportsRepository { get; }
+        private IUnitsRepository UnitsRepository     { get; }
         public StatisticsApiController(IStatsService statsService,
             IReportsRepository reportsRepository,
             IUnitsRepository unitsRepository)

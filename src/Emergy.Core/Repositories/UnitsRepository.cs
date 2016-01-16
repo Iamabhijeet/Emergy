@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Emergy.Core.Common;
@@ -81,7 +82,7 @@ namespace Emergy.Core.Repositories
                             {
                                 return reports.Take(10);
                             }
-                            return reports.Where(report => report.DateHappened > lastHappened)
+                            return reports.Where(report => report.DateHappened < lastHappened)
                                 .OrderByDescending(report => report.DateHappened)
                                 .Take(10);
                         }
@@ -97,7 +98,7 @@ namespace Emergy.Core.Repositories
                                                 .ToArrayAsync()
                                                 .WithoutSync();
                         }
-                        return await reports.Where(report => report.DateHappened > lastHappened)
+                        return await reports.Where(report => report.DateHappened < lastHappened)
                                 .OrderByDescending(report => report.DateHappened)
                                 .Take(10)
                                 .ToArrayAsync()
@@ -198,9 +199,48 @@ namespace Emergy.Core.Repositories
             return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
         }
 
-        public Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser adminApplicationUser, DateTime? lastHappened)
+        public async Task<IEnumerable<Report>> GetAllReportsForAdmin(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            var adminUnits = await this.GetAsync(user);
+            var units = adminUnits as Unit[] ?? adminUnits.ToArray();
+
+            if (units
+                .Where(unit => unit.AdministratorId == user.Id)
+                .Select(unit => unit.Reports).Any())
+            {
+                return
+                     units.AsParallel()
+                         .Where(unit => unit.AdministratorId == user.Id)
+                         .Select(unit => unit.Reports)
+                         .Aggregate((current, next) =>
+                         {
+                             if (current != null && next != null)
+                             {
+                                 return next.Concat(current).ToList();
+                             }
+                             return null;
+                         })
+                         .OrderByDescending(report => report.DateHappened)
+                         .ToArray();
+            }
+            return Enumerable.Empty<Report>();
+        }
+
+        public override void Delete(Unit unit)
+        {
+            var reportIds = unit.Reports.Select(report => report.Id).ToArray();
+            var notifications =
+                Context.Notifications.Where(
+                    notification =>
+                        notification.Type == NotificationType.ReportCreated &&
+                        reportIds.Any(id => id.ToString() == notification.ParameterId))
+               .ToArray();
+            foreach (var notification in notifications)
+            {
+                Context.Notifications.Remove(notification);
+            }
+            Context.SaveChanges();
+            base.Delete(unit);
         }
     }
 }

@@ -11,48 +11,70 @@ namespace Emergy.Core.Services
 {
     public class StatsService : IStatsService
     {
-        public StatsViewModel ComputeStats(IReadOnlyCollection<Report> reportsForQuartal)
+        public void ComputeStatsForAllTime(IReadOnlyCollection<Report> allReports, StatsViewModel vm)
         {
-            StatsViewModel vm = new StatsViewModel();
+            var allCreated =    allReports.Count(report => report.Status == ReportStatus.Created);
+            var allCompleted  = allReports.Count(report => report.Status == ReportStatus.Completed);
+            var allProcessing = allReports.Count(report => report.Status == ReportStatus.Processing);
+            var allFailed     = allReports.Count(report => report.Status == ReportStatus.Failure);
+            var allSummary    = allReports.Count;
+
+            vm.AllTime = new StatsViewModel.AllTimeStats
+            {
+                Numbers      = new StatsViewModel.Numbers
+                {
+                    ReportsCount      = allSummary,
+                    ReportsCreated    = allCreated,
+                    ReportsCompleted  = allCompleted,
+                    ReportsProcessing = allProcessing,
+                    ReportsFailed     = allFailed
+                },
+                Percentages  = new StatsViewModel.Percentages
+                {
+                    AverageReportsCompleted  = (double)allCompleted  / (allSummary) * 100.0,
+                    AverageReportsProcessing = (double)allProcessing / (allSummary) * 100.0,
+                    AverageReportsFailure    = (double)allFailed     / (allSummary) * 100.0
+                }
+            };
+        }
+        public void ComputeStatsForQuartal(IReadOnlyCollection<Report> reportsForQuartal, StatsViewModel vm)
+        { 
             List<StatsViewModel.Chart.ChartRow> chart = new List<StatsViewModel.Chart.ChartRow>();
 
             var currentMonthQuery = reportsForQuartal.Where(report => report.DateHappened.Month == DateTime.Now.Month);
             var monthQuery = currentMonthQuery as Report[] ?? currentMonthQuery.ToArray();
-            var currentMonthCompleted = monthQuery.Count(report => report.Status == ReportStatus.Completed);
-            var currentMonthProcessing = monthQuery.Count(report => report.Status == ReportStatus.Processing);
-            var currentMonthFails = monthQuery.Count(report => report.Status == ReportStatus.Failure);
-            var currentMonthSummary = monthQuery.Count();
 
-            vm.ThisMonthStats = new StatsViewModel.Chart.ChartRow
-            {
-                Month = DateTime.Now.ToMonthName(),
-                ReportsCount = currentMonthSummary,
-                CompletedReportsCount = currentMonthCompleted
-            };
+            var currentMonthCompleted  = monthQuery.Count(report => report.Status == ReportStatus.Completed);
+            var currentMonthCreated    = monthQuery.Count(report => report.Status == ReportStatus.Created);
+            var currentMonthProcessing = monthQuery.Count(report => report.Status == ReportStatus.Processing);
+            var currentMonthFails      = monthQuery.Count(report => report.Status == ReportStatus.Failure);
+            var currentMonthSummary    = monthQuery.Count();
+
             vm.ThisMonthNumbers = new StatsViewModel.Numbers
             {
-                ReportsCount = currentMonthSummary,
-                ReportsCompleted = currentMonthCompleted,
+                ReportsCount      = currentMonthSummary,
+                ReportsCreated    = currentMonthCreated,
+                ReportsCompleted  = currentMonthCompleted,
                 ReportsProcessing = currentMonthProcessing,
-                ReportsFailed = currentMonthFails
+                ReportsFailed     = currentMonthFails
             };
             vm.ThisMonthPercentages = new StatsViewModel.Percentages
             {
-                AverageReportsCompleted = (double)currentMonthCompleted / currentMonthSummary * 100.0,
-                AverageReportsProcessing = (double)currentMonthProcessing / currentMonthSummary * 100.0,
-                AverageReportsFailure = (double)currentMonthFails / currentMonthSummary * 100.0
+                AverageReportsCompleted  = (double)currentMonthCompleted  / (currentMonthSummary) * 100.0,
+                AverageReportsProcessing = (double)currentMonthProcessing / (currentMonthSummary) * 100.0,
+                AverageReportsFailure    = (double)currentMonthFails      / (currentMonthSummary) * 100.0
             };
-
-            chart.Add(vm.ThisMonthStats);
-
+            
             var offset = TimeSpan.FromDays(30);
+
+            chart.Add(BuildChartRow(reportsForQuartal, DateTime.Now));
+
             for (int i = 0; i < 3; i++)
             {
                 chart.Add(BuildChartRow(reportsForQuartal, DateTime.Now - offset));
                 offset += TimeSpan.FromDays(30);
             }
             vm.ReportsChart = chart.AsReadOnly();
-            return vm;
         }
 
         private StatsViewModel.Chart.ChartRow BuildChartRow(IReadOnlyCollection<Report> reportsForQuartal,
@@ -64,10 +86,22 @@ namespace Emergy.Core.Services
             var monthQuerySummary = reports.Count();
             return new StatsViewModel.Chart.ChartRow
             {
-                Month = dateTime.ToMonthName(),
-                ReportsCount = monthQuerySummary,
+                Month                 = dateTime.ToMonthName(),
+                ReportsCount          = monthQuerySummary,
                 CompletedReportsCount = monthQueryCompleted
             };
+        }
+
+        public StatsViewModel ComputeStats(IReadOnlyCollection<Report> userReports)
+        {
+            var vm = new StatsViewModel();
+            var orderedReports = userReports
+                .OrderByDescending(report => report.Timestamp)
+                .ToList()
+                .AsReadOnly();
+            ComputeStatsForAllTime(orderedReports, vm);
+            ComputeStatsForQuartal(orderedReports, vm);
+            return vm;
         }
     }
 }

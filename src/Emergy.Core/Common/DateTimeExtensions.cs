@@ -7,11 +7,11 @@ namespace Emergy.Core.Common
     {
         public static string ToMonthName(this DateTime dateTime)
         {
-            return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(dateTime.Month);
+            return CultureInfo.GetCultureInfo("en-US").DateTimeFormat.GetMonthName(dateTime.Month);
         }
         public static string ToShortMonthName(this DateTime dateTime)
         {
-            return CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(dateTime.Month);
+            return CultureInfo.GetCultureInfo("en-US").DateTimeFormat.GetAbbreviatedMonthName(dateTime.Month);
         }
     }
 }

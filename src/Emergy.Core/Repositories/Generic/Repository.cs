@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
@@ -66,7 +67,7 @@ namespace Emergy.Core.Repositories.Generic
         }
         public virtual void Delete(T entityToDelete)
         {
-            Context.Entry(entityToDelete).State = EntityState.Deleted;
+            (this.Context as IObjectContextAdapter).ObjectContext.DeleteObject(entityToDelete);
         }
         public virtual bool Exists(int id)
         {

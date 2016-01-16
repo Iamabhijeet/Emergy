@@ -22,12 +22,15 @@ namespace Emergy.Api.Controllers
         public ReportsApiController() { }
         public ReportsApiController(IReportsRepository reportsRepository,
             IUnitsRepository unitsRepository, IRepository<CustomPropertyValue> valuesRepository,
-            IRepository<Resource> resourcesRepository)
+            IRepository<Resource> resourcesRepository, IRepository<Notification> notificationsRepository,
+            IAssignmentsRepository assignmentsRepository)
         {
-            _reportsRepository = reportsRepository;
-            _valuesRepository = valuesRepository;
-            _resourcesRepository = resourcesRepository;
-            _unitsRepository = unitsRepository;
+            _reportsRepository       = reportsRepository;
+            _valuesRepository        = valuesRepository;
+            _resourcesRepository     = resourcesRepository;
+            _unitsRepository         = unitsRepository;
+            _notificationsRepository = notificationsRepository;
+            _assignmentsRepository   = assignmentsRepository;
         }
         [Authorize(Roles = "Administrators,Clients")]
         [HttpPost]
@@ -141,6 +144,16 @@ namespace Emergy.Api.Controllers
                 report.Status = newStatus;
                 _reportsRepository.Update(report);
                 await _reportsRepository.SaveAsync();
+                if (report.Status == ReportStatus.Completed || report.Status == ReportStatus.Failure)
+                {
+                    foreach (var assignment in report.Assignments)
+                    {
+                        _assignmentsRepository.Delete(assignment);
+                    }
+                    report.Assignments.Clear();
+                    await _assignmentsRepository.SaveAsync();
+                    await _reportsRepository.SaveAsync();
+                }
                 return Ok();
             }
             return NotFound();
@@ -159,18 +172,29 @@ namespace Emergy.Api.Controllers
             {
                 if (await _reportsRepository.PermissionsGranted(id, User.Identity.GetUserId()))
                 {
+                    var reportNotifications = await _notificationsRepository.GetAsync(
+                        notification => notification.Type == NotificationType.ReportCreated &&
+                        notification.ParameterId == id.ToString());
                     _reportsRepository.Delete(report);
                     await _reportsRepository.SaveAsync();
+                    foreach (var notification in reportNotifications)
+                    {
+                        _notificationsRepository.Delete(notification.Id);
+                    }
+                    await _notificationsRepository.SaveAsync();
                     return Ok();
                 }
                 return Unauthorized();
             }
             return BadRequest();
         }
-        private readonly IReportsRepository _reportsRepository;
-        private readonly IUnitsRepository _unitsRepository;
+
+        private readonly IReportsRepository               _reportsRepository;
+        private readonly IUnitsRepository                 _unitsRepository;
         private readonly IRepository<CustomPropertyValue> _valuesRepository;
-        private readonly IRepository<Resource> _resourcesRepository;
+        private readonly IRepository<Resource>            _resourcesRepository;
+        private readonly IRepository<Notification>        _notificationsRepository;
+        private readonly IAssignmentsRepository           _assignmentsRepository;
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -178,6 +202,8 @@ namespace Emergy.Api.Controllers
             _reportsRepository.Dispose();
             _valuesRepository.Dispose();
             _resourcesRepository.Dispose();
+            _notificationsRepository.Dispose();
+            _assignmentsRepository.Dispose();
         }
     }
 }

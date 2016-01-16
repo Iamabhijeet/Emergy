@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -8,8 +9,8 @@ using Emergy.Core.Common;
 using Emergy.Core.Models.Account;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Data.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using Ninject.Infrastructure.Language;
 using WebGrease.Css.Extensions;
 using vm = Emergy.Core.Models.Message;
 using model = Emergy.Data.Models;
@@ -19,9 +20,9 @@ namespace Emergy.Api.Controllers
 {
     [RoutePrefix("api/Messages")]
     [Authorize]
-    public class MessagesController : MasterApiController
+    public class MessagesApiController : MasterApiController
     {
-        public MessagesController(IRepository<Message> messagesRepository,
+        public MessagesApiController(IRepository<Message> messagesRepository,
             IRepository<Resource> resourcesRepository)
         {
             _messagesRepository = messagesRepository;
@@ -47,20 +48,23 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<UserProfile>> GetChats()
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var messages = user.SentMessages.Concat(user.ReceievedMessages);
-            return messages.Where(message => message.SenderId == User.Identity.GetUserId() ||
-                                  message.TargetId == User.Identity.GetUserId())
-                                 .SelectMany(message =>
-                                 {
-                                     IEnumerable<UserProfile> users = new List<UserProfile>(2)
-                                      {
-                                               Mapper.Map<UserProfile>(message.Sender),
-                                               Mapper.Map<UserProfile>(message.Target)
-                                      };
-                                     return users;
-                                 })
-                                 .OrderBy(message => message.Timestamp)
-                                 .DistinctBy(profile => profile.Id);
+            var messages = new Collection<Message>();
+            ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
+            ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
+            var userIds = messages
+                           .OrderBy(message => message.Timestamp)
+                           .SelectMany(message => new[] { message.TargetId , message.SenderId})
+                           .Distinct();
+            var mappedUsers = new Collection<UserProfile>();
+            foreach (var id in userIds)
+            {
+                if (id != user.Id)
+                {
+                    var userWithId = await UserManager.FindByIdAsync(id);
+                    mappedUsers.Add(Mapper.Map<UserProfile>(userWithId));
+                }
+            }
+            return mappedUsers.ToEnumerable();
         }
 
         [HttpPost]
@@ -69,7 +73,9 @@ namespace Emergy.Api.Controllers
         public async Task<IEnumerable<Message>> GetChats([FromBody]string userId)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var messages = user.SentMessages.Concat(user.ReceievedMessages);
+            var messages = new Collection<Message>();
+            ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
+            ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             return messages.Where(message => message.SenderId == userId ||
                                   message.TargetId == userId)
                            .OrderBy(message => message.Timestamp);
@@ -117,14 +123,17 @@ namespace Emergy.Api.Controllers
                 accountService.Dispose();
                 message.SenderId = sender.Id;
                 message.TargetId = target.Id;
-                ListExtensions.ForEach(model.Multimedia, async (resourceId) =>
+                if (model.Multimedia != null)
                 {
-                    var resource = await _resourcesRepository.GetAsync(resourceId);
-                    if (resource != null)
+                    foreach (var resourceId in model.Multimedia)
                     {
-                        message.Multimedia.Add(resource);
+                        var resource = await _resourcesRepository.GetAsync(resourceId);
+                        if (resource != null)
+                        {
+                            message.Multimedia.Add(resource);
+                        }
                     }
-                });
+                }
                 _messagesRepository.Insert(message);
                 await _messagesRepository.SaveAsync();
                 return Ok(message.Id);

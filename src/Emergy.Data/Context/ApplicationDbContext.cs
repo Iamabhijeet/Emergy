@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using Emergy.Data.Configurations;
 using Emergy.Data.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -10,7 +11,7 @@ namespace Emergy.Data.Context
         public ApplicationDbContext()
           : base("DefaultConnection")
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+       
         }
         protected override void OnModelCreating(DbModelBuilder builder)
         {
@@ -40,6 +41,8 @@ namespace Emergy.Data.Context
             builder.Configurations.Add(new NotificationConfiguration());
             builder.Configurations.Add(new MessageConfiguration());
             builder.Configurations.Add(new AssignmentConfiguration());
+
+            builder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
         }
 
         public DbSet<Unit> Units { get; set; }

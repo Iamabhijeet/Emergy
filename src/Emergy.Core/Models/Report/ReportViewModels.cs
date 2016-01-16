@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Emergy.Data.Models;
 using Emergy.Data.Models.Enums;
 
@@ -9,7 +8,6 @@ namespace Emergy.Core.Models.Report
 {
     public class CreateReportViewModel
     {
-        [StringLength(200, MinimumLength = 5)]
         public string Description { get; set; }
         [Required]
         public int UnitId { get; set; }
