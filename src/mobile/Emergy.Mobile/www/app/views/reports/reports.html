@@ -1,4 +1,7 @@
 ﻿<ion-view name="tab-reports" view-title="Reports">
+    <ion-nav-buttons side="primary">
+        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()"></button>
+    </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="reports-container" ng-if="reports.length != 0">
             <div class="card" ng-repeat="report in reports">
@@ -19,5 +22,5 @@
         <div class="reports-container" ng-if="reports.length == 0 && !isLoading">
             <p class="empty-warning">You haven't submitted any reports.</p>
         </div>
-</ion-content>
+    </ion-content>
 </ion-view>

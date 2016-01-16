@@ -1,4 +1,8 @@
 ﻿<ion-view name="tab-home" view-title="Home">
+    <ion-nav-buttons side="primary">
+        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()">
+        </button>
+    </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="home-container" ng-if="units.length != 0">
             <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report"></button>

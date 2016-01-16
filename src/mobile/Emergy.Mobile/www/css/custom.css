@@ -9,6 +9,12 @@
     margin-top: 30px;
 }
 
+.platform-android .button.action-sheet-option {
+    text-align: center;
+    color: #00ACC1;
+    font-weight: 500;
+}
+
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {

@@ -3,18 +3,35 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
-     'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', homeController]);
+    ['$scope', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', '$ionicActionSheet', 'notificationService', 'unitsService',
+     'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', 'connectionStatusService', homeController]);
 
-function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR) {
+function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal, $ionicActionSheet, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR, connectionStatusService) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
     $scope.reportVideoData = "";
+    $scope.connectionStatus = "";
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
+
+    if (signalR.isConnecting) {
+        $scope.connectionStatus = "connecting";
+    }
+
+    $rootScope.$on(signalR.events.realTimeConnected, function () {
+        $scope.connectionStatus = "connected";
+    });
+
+    $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
+        $scope.connectionStatus = state;
+    });
+
+    $scope.openSettings = function() {
+        connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
+    };
 
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
