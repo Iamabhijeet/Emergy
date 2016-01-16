@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Emergy.Core.Common;
 using Emergy.Core.Models.Stats;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
@@ -31,7 +32,7 @@ namespace Emergy.Api.Controllers
             }
             if (User.IsInRole("Administrators"))
             {
-                reports = (await UnitsRepository.GetReportsForUser(user, null))
+                reports = (await ReportsRepository.GetAsync(report => report.Unit.AdministratorId == User.Identity.GetUserId(), null, ConstRelations.LoadAllReportRelations))
                            .Where(report => report.DateHappened <= DateTime.Now - TimeSpan.FromDays(120))
                            .ToList();
             }

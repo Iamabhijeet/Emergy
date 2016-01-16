@@ -4,11 +4,16 @@ namespace Emergy.Core.Models.Stats
 {
     public class StatsViewModel
     {
-        public Chart.ChartRow ChartLegend                       { get; set; }
+        public AllTime AllTimeStats                             { get; set; }
         public Percentages ThisMonthPercentages                 { get; set; }
         public Numbers ThisMonthNumbers                         { get; set; }
         public IReadOnlyCollection<Chart.ChartRow> ReportsChart { get; set; }
 
+        public class AllTime
+        {
+            public Numbers Numbers         { get; set; }
+            public Percentages Percentages { get; set; }
+        }
         public class Chart
         {
             public IReadOnlyCollection<string> Categories => new[] { "Month", "Reports", "Completed Reports" };
@@ -21,7 +26,6 @@ namespace Emergy.Core.Models.Stats
                 public int CompletedReportsCount { get; set; }
             }
         }
-
         public class Numbers
         {
             public int ReportsCount      { get; set; }

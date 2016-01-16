@@ -6,6 +6,6 @@ namespace Emergy.Core.Services
 {
     public interface IStatsService
     {
-        StatsViewModel ComputeStats(IReadOnlyCollection<db::Report> reportsForQuartal);
+        StatsViewModel ComputeStats(IReadOnlyCollection<db::Report> userReports);
     }
 }
