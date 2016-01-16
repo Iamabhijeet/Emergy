@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="reports-container" ng-if="reports.length == 0">
+        <div class="reports-container" ng-if="reports.length == 0 && !isLoading">
             <p class="empty-warning">You haven't submitted any reports.</p>
         </div>
 </ion-content>

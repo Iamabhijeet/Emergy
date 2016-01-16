@@ -8,7 +8,7 @@
                 </li>
             </ul>
         </div>
-        <div class="messaging-container" ng-if="messagedUsers.length == 0">
+        <div class="messaging-container" ng-if="messagedUsers.length == 0 && !isLoading">
             <p class="empty-warning">You haven't been messaged by any administrators.</p>
         </div>
     </ion-content>
