@@ -1,12 +1,13 @@
 ﻿<div ui-view="shell"></div>
-<div class="container main-container reports">
+<div class="container main-container reports" id="report-document">
     <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
             <h2>Details</h2>
         </div>
-        <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0">
-            <a ng-href="#" class="center">
-                <i class="material-icons notification-icon">notifications</i>
+        <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0" style="text-align: right;">
+            <a ng-href="/dashboard/notifications" class="center" style="text-align: right;">
+                <i ng-if="!notificationAvailable" class="material-icons notification-icon">notifications</i>
+                <i ng-if="notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
             </a>
         </div>
     </div>
@@ -26,7 +27,7 @@
                 </div>
             </info-window>
             <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                <img src="/assets/img/report-marker.png" />
+                <img src="/assets/img/report-marker.png"/>
             </custom-marker>
         </map>
     </div>
@@ -36,7 +37,7 @@
         </p>
         <form role="form" name="createAssignmentForm" novalidate>
             <div class="col l11 m11 s10" style="padding: 0;">
-                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required />
+                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
                 <small class="validation" ng-show="createAssignmentForm.userName.$touched && createAssignmentForm.userName.$error.required">Username is required.</small>
             </div>
             <div class="col l1 m1 s2">
@@ -76,7 +77,8 @@
                     <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
                         No
                     </p>
-                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong></p>
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong>
+                    </p>
                 </div>
             </div>
         </div>
@@ -84,13 +86,14 @@
     </div>
     <div class="row resources" ng-if="!isLoading">
         <h3>Multimedia</h3>
-        <div class="col l2 m4 s6" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
+        <div class="col l4 m4 s12" ng-if="report.Resources.length > 0" ng-repeat="resource in report.Resources">
             <img materialboxed class="materialboxed responsive-img card" ng-src="{{ resource.Base64 }}">
         </div>
-        <p ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
+        <p style="margin-top: 0;" ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
     </div>
-    <div class="row actions" ng-if="!isLoading">
+    <div class="row actions" ng-if="!isLoading || printMode">
         <h3 style="margin-top: 0;">Actions</h3>
+
         <div class="col l8 m6 s12" style="padding-left: 0;">
             <select name="reportStatus" class="" material-select watch ng-model="newStatus" ng-change="changeStatus(report.Id, newStatus)">
                 <option value="" disabled selected style="font-size: 10px;">Report Status</option>
@@ -103,5 +106,26 @@
         <div class="col l4 m6 s12" style="padding-left: 0;">
             <a style="margin-top: 10px;" class="waves-effect waves-light btn red white-text center-align" ng-click="deleteReport(report.Id)"><i class="material-icons left">delete</i>DELETE</a>
         </div>
+        <div class="col s12" style="padding-left: 0;">
+            <a class="waves-effect waves-light btn" ng-click="generatePdf(report)"><i class="material-icons right">description</i> GENERATE PDF</a>
+        </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="reportCreatedModal">
+    <div class="report-modal">
+        <h1>New report received!</h1>
+        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
+        </ng-map>
+        <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>

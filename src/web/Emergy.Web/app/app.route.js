@@ -249,6 +249,31 @@
             }]
         }
     });
+    $stateProvider.state("Statistics", {
+        url: "/dashboard/statistics",
+        views: {
+            '': {
+                templateUrl: 'app/views/stats/stats.html',
+            },
+            'shell@Statistics': {
+                templateUrl: 'app/views/shell/shell.html',
+                controller: 'shellController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn || !authData.isAdmin()) {
+                    deferred.reject("Not Authorized");
+                } else {
+                    deferred.resolve('Authorized');
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+
 
     //client routes
     $stateProvider.state("ClientDashboard", {

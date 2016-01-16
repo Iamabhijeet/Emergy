@@ -3,13 +3,41 @@
 var controllerId = 'reportDetailsController';
 
 app.controller(controllerId,
-    ['vm', '$state', '$rootScope', '$stateParams', 'unitsService', 'reportsService',
-        'authService', 'notificationService', 'assignmentService', 'accountService', reportDetailsController]);
+    ['vm', '$state', '$rootScope', '$stateParams', '$window', 'unitsService', 'reportsService',
+        'authService', 'notificationService', 'assignmentService', 'accountService', 'pdfService', 'signalR', 'ngDialog', 'NgMap', reportDetailsController]);
 
-function reportDetailsController($scope, $state, $rootScope, $stateParams, unitsService, reportsService, authService, notificationService, assignmentService, accountService) {
+function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, pdfService, signalR, ngDialog, NgMap) {
     $rootScope.title = "Report | Details";
     $scope.isBusy = false;
     $scope.isLoading = true;
+    $scope.notificationAvailable = false;
+
+    
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "ReportCreated") {
+                var promise = reportsService.getReport(notification.ParameterId);
+                promise.then(function (report) {
+                    $scope.arrivedReport = {};
+                    $scope.arrivedReport = report;
+                    ngDialog.close();
+                    ngDialog.open({
+                        template: "reportCreatedModal",
+                        disableAnimation: true,
+                        scope: $scope
+                    });                   
+                }, function (error) {
+                    notificationService.pushError("Error has happened while loading notification.");
+                });
+            }
+            else if (notification.Type === "MessageArrived") {
+
+            }
+        });
+    });
 
     $scope.$on('mapInitialized', function (event, map) {
         $scope.map = map;
@@ -65,6 +93,19 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, units
         }, function () {
             notificationService.pushError("Error has happened while changing the status.");
         });
+    }
+    $scope.generatePdf = function (report) {
+        $scope.printMode = true;
+        console.log('creating');
+        var table = document.getElementById('report-document').innerHTML;
+        var myWindow = $window.open('', '', 'width=800, height=600');
+        myWindow.document.write(table);
+        myWindow.print();
+        $scope.printMode = false;
+        //pdfService.generate(report).then(function () {
+        //    $scope.printMode = false;
+        //    notificationService.pushSuccess("Report documentation (pdf) has been generated!");
+        //});
     }
 
     var loadReport = function () {

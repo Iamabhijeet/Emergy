@@ -32,7 +32,8 @@ services.constant('signalR', {
         client: {
             testSuccess: 'testSuccess',
             pushNotification: 'pushNotification',
-            updateUserLocation: 'updateUserLocation'
+            updateUserLocation: 'updateUserLocation',
+            ping: 'ping'
         }
     }
 });

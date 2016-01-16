@@ -5,10 +5,36 @@ var controllerId = 'unitSettingsController';
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', 'unitsService',
         'authService', 'accountService', 'notificationService', 'authData',
-        'mapService', unitSettingsController]);
+        'mapService', 'hub', 'signalR', 'reportsService', 'ngDialog', unitSettingsController]);
 
-function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService) {
-    $rootScope.title = "Unit | Details";
+function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService, hub, signalR, reportsService, ngDialog) {
+    $rootScope.title = "Unit | Settings";
+    $scope.notificationAvailable = false;
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "ReportCreated") {
+                var promise = reportsService.getReport(notification.ParameterId);
+                promise.then(function (report) {
+                    $scope.arrivedReport = {};
+                    $scope.arrivedReport = report;
+                    ngDialog.close();
+                    ngDialog.open({
+                        template: "reportCreatedModal",
+                        disableAnimation: true,
+                        scope: $scope
+                    });
+                }, function (error) {
+                    notificationService.pushError("Error has happened while loading notification.");
+                });
+            }
+            else if (notification.Type === "MessageArrived") {
+
+            }
+        });
+    });
 
     var createMarker = function (latitude, longitude, title) {
         var marker = {
