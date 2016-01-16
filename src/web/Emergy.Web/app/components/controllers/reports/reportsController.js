@@ -13,10 +13,11 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.reports = [];
     $scope.arrivedReport = {};
     $scope.lastReportDateTime = '';
+    $scope.notificationAvailable = false;
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
 
-    $rootScope.$on(signalR.events.client.ping, function (event, response) { console.log(response); });
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "ReportCreated") {
@@ -24,18 +25,15 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
+                    $scope.reports = [];
+                    $scope.lastReportDateTime = '';
+                    $scope.loadReports();
                     ngDialog.close();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
                         scope: $scope
                     });
-                }, function (error) {
-                    $scope.arrivedReport = report;
-                }, function (error) {
-                    $scope.reports = [];
-                    $scope.lastReportDateTime = '';
-                    $scope.loadReports();
                 }, function (error) {
                     notificationService.pushError("Error has happened while loading notification.");
                 });

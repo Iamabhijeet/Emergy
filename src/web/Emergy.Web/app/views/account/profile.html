@@ -5,9 +5,10 @@
         <div class="col l3 m4 s8 offset-s1">
             <h2>{{::authData.userName}}</h2>
         </div>
-        <div class="col l1 m1 s1 offset-l8 offset-m7">
-            <a ng-href="#" class="center">
-                <i class="material-icons notification-icon">notifications</i>
+        <div class="col l1 m1 s1 offset-l8 offset-m7" style="text-align: right;">
+            <a ng-href="/dashboard/notifications" class="center">
+                <i ng-if="!notificationAvailable" class="material-icons notification-icon">notifications</i>
+                <i ng-if="notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
             </a>
         </div>
     </div>
@@ -26,7 +27,7 @@
                          Your profile
                         <i class="material-icons right">close</i>
                     </span>
-                    <div class="col l6 m12 s12">   
+                    <div class="col l6 m12 s12">
                         <div class="col m12 center center-block center-align centered">
                             <form name="profilePhotoForm">
                                 <div ngf-drop
@@ -41,7 +42,7 @@
                                               on-load-done="onImageLoaded()">
                                     </img-crop>
                                 </div>
-                                <br />
+                                <br/>
                                 <div class="center-block center-align center centered">
                                     <button class="waves-effect btn-flat text-accent"
                                             ngf-select
@@ -69,7 +70,7 @@
                                                    placeholder="Username"
                                                    type="text"
                                                    ng-model="profile.UserName"
-                                                   disabled />
+                                                   disabled/>
                                         </div>
                                         <div class="input-field col s12 email">
                                             <i class="material-icons prefix">mail</i>
@@ -78,7 +79,7 @@
                                                    placeholder="Email"
                                                    type="email"
                                                    ng-model="profile.Email"
-                                                   disabled />
+                                                   disabled/>
                                         </div>
                                         <div class="input-field col s12 username">
                                             <i class="material-icons prefix">event</i>
@@ -87,7 +88,7 @@
                                                    placeholder="Timestamp"
                                                    type="text"
                                                    ng-model="profile.Timestamp"
-                                                   disabled />
+                                                   disabled/>
                                         </div>
                                         <div class="input-field col s12">
                                             <i class="material-icons prefix">account_circle</i>
@@ -95,7 +96,7 @@
                                                    name="name"
                                                    placeholder="Name"
                                                    type="text"
-                                                   ng-model="profile.Name" />
+                                                   ng-model="profile.Name"/>
                                         </div>
                                         <div class="input-field col s12">
                                             <i class="material-icons prefix">account_circle</i>
@@ -103,7 +104,7 @@
                                                    name="surname"
                                                    placeholder="Surname"
                                                    type="text"
-                                                   ng-model="profile.Surname" />
+                                                   ng-model="profile.Surname"/>
                                         </div>
                                         <div class="input-field col s12 gender">
                                             <select name="gender" class="" material-select watch
@@ -139,7 +140,7 @@
                                            ng-model="changePasswordVm.OldPassword"
                                            ng-minlength=8
                                            ng-maxlength=64
-                                           password-verify="authData.password" />
+                                           password-verify="authData.password"/>
                                     <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.required">Old Password is required.</small>
                                     <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.minlength">Old Password has to contain atleast 8 characters.</small>
                                     <small class="validation" ng-show="changePasswordForm.oldPassword.$touched && changePasswordForm.oldPassword.$error.maxlength">Old Password cannot be more than 64 characters long.</small>
@@ -151,7 +152,7 @@
                                            name="newPassword" placeholder="New password" required type="password"
                                            ng-model="changePasswordVm.NewPassword"
                                            ng-minlength=8
-                                           ng-maxlength=64 />
+                                           ng-maxlength=64/>
                                     <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.required">New Password is required.</small>
                                     <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.minlength">New Password has to contain atleast 8 characters.</small>
                                     <small class="validation" ng-show="changePasswordForm.newPassword.$touched && changePasswordForm.newPassword.$error.maxlength">New Password cannot be more than 64 characters long.</small>
@@ -164,7 +165,7 @@
                                            ng-model="changePasswordVm.ConfirmPassword"
                                            ng-minlength=8
                                            ng-maxlength=64
-                                           password-verify="changePasswordVm.NewPassword" />
+                                           password-verify="changePasswordVm.NewPassword"/>
                                     <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.required">Confirm New Password is required.</small>
                                     <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.minlength">Confirm New Password has to contain atleast 8 characters.</small>
                                     <small class="validation" ng-show="changePasswordForm.confirmNewPassword.$touched && changePasswordForm.confirmNewPassword.$error.maxlength">Confirm New Password cannot be more than 64 characters long.</small>
@@ -191,7 +192,7 @@
         <div class="modal-content">
             <h4>Here is your photo</h4>
             <div class="center center-block centered center-align">
-                <img class="img responsive-img img-overlay img-circle" ng-src="{{ currentPhotoBase64 }}" />
+                <img class="img responsive-img img-overlay img-circle" ng-src="{{ currentPhotoBase64 }}"/>
             </div>
         </div>
         <div class="modal-footer">
@@ -199,3 +200,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="reportCreatedModal">
+    <div class="report-modal">
+        <h1>New report received!</h1>
+        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
+        </ng-map>
+        <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>

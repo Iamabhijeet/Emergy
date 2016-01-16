@@ -9,21 +9,23 @@ app.controller(controllerId,
 
 function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsService, authService, accountService, notificationService, authData, mapService, hub, signalR, reportsService, ngDialog) {
     $rootScope.title = "Unit | Settings";
+    $scope.notificationAvailable = false;
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "ReportCreated") {
                 var promise = reportsService.getReport(notification.ParameterId);
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
+                    $scope.arrivedReport = report;
                     ngDialog.close();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
                         scope: $scope
                     });
-                    $scope.arrivedReport = report;
                 }, function (error) {
                     notificationService.pushError("Error has happened while loading notification.");
                 });

@@ -3,11 +3,37 @@
 var controllerId = 'profileController';
 
 app.controller(controllerId,
-    ['$rootScope', 'vm', '$filter', 'accountService', 'authService', 'authData', 'notificationService', 'resourcesService', '$q', profileController]);
+    ['$rootScope', 'vm', '$filter', 'accountService', 'authService', 'authData', 'notificationService', 'resourcesService', '$q', 'reportsService', 'signalR', 'ngDialog', profileController]);
 
-function profileController($rootScope, $scope, $filter, accountService, authService, authData, notificationService, resourcesService, $q) {
+function profileController($rootScope, $scope, $filter, accountService, authService, authData, notificationService, resourcesService, $q, reportsService, signalR, ngDialog) {
     $rootScope.title = 'User ' + authData.userName;
     $scope.profile = {};
+    $scope.notificationAvailable = false;
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "ReportCreated") {
+                var promise = reportsService.getReport(notification.ParameterId);
+                promise.then(function (report) {
+                    $scope.arrivedReport = {};
+                    $scope.arrivedReport = report;
+                    ngDialog.close();
+                    ngDialog.open({
+                        template: "reportCreatedModal",
+                        disableAnimation: true,
+                        scope: $scope
+                    });
+                }, function (error) {
+                    notificationService.pushError("Error has happened while loading notification.");
+                });
+            }
+            else if (notification.Type === "MessageArrived") {
+
+            }
+        });
+    });
 
     $scope.newPhoto = {
         Name: authData.userName,

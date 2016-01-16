@@ -4,29 +4,30 @@
         <div class="col l3 m4 s8 offset-s2">
             <h2>Details</h2>
         </div>
-        <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0">
-            <a ng-href="#" class="center">
-                <i class="material-icons notification-icon">notifications</i>
+        <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0" style="text-align: right;">
+            <a ng-href="/dashboard/notifications" class="center" style="text-align: right;">
+                <i ng-if="!notificationAvailable" class="material-icons notification-icon">notifications</i>
+                <i ng-if="notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
             </a>
         </div>
     </div>
 
     <div class="row head-information" ng-if="!isLoading">
         <p class="lead">
-            <i style="position: relative; top: 5px;" class="material-icons">today</i>
-            Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
+        <i style="position: relative; top: 5px;" class="material-icons">today</i>
+        Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half" ng-if="!isLoading">
         <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
             <info-window>
                 <div ng-non-bindable="">
-                    <strong>{{ report.Location.Name }}</strong> <br />
-                    Lat: {{anchor.getPosition().lat()}}<br />
-                    Lng: {{anchor.getPosition().lng()}}<br />
+                    <strong>{{ report.Location.Name }}</strong> <br/>
+                    Lat: {{anchor.getPosition().lat()}}<br/>
+                    Lng: {{anchor.getPosition().lng()}}<br/>
                 </div>
             </info-window>
             <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                <img src="/assets/img/report-marker.png" />
+                <img src="/assets/img/report-marker.png"/>
             </custom-marker>
         </map>
     </div>
@@ -36,7 +37,7 @@
         </p>
         <form role="form" name="createAssignmentForm" novalidate>
             <div class="col l11 m11 s10" style="padding: 0;">
-                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required />
+                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
                 <small class="validation" ng-show="createAssignmentForm.userName.$touched && createAssignmentForm.userName.$error.required">Username is required.</small>
             </div>
             <div class="col l1 m1 s2">
@@ -76,7 +77,8 @@
                     <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'False'" class="red-text">
                         No
                     </p>
-                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong></p>
+                    <p style="font-weight: 500" ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="truncate"><strong>{{ detail.SerializedValue }}</strong>
+                    </p>
                 </div>
             </div>
         </div>
@@ -109,3 +111,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="reportCreatedModal">
+    <div class="report-modal">
+        <h1>New report received!</h1>
+        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
+        </ng-map>
+        <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>

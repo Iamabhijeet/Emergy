@@ -6,7 +6,8 @@
         </div>
         <div class="col l1 m1 s1 offset-l3 offset-m1">
             <a ng-href="/dashboard/notifications" class="center">
-                <i class="material-icons notification-icon">notifications</i>
+                <i ng-if="!notificationAvailable" class="material-icons notification-icon">notifications</i>
+                <i ng-if="notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
             </a>
         </div>
     </div>
@@ -21,7 +22,7 @@
     <div class="row send-message">
         <form role="form" name="sendMessageForm" novalidate>
             <div class="col l11 m11 s10">
-                <input id="messaage" name="message" placeholder="Type your message here" type="text" ng-model="message" required />
+                <input id="messaage" name="message" placeholder="Type your message here" type="text" ng-model="message" required/>
             </div>
             <div class="col l1 m1 s2">
                 <button href="#" class="btn-floating waves-effect waves-light" ng-click="sendMessage(message)" ng-disabled="sendMessageForm.$invalid || initiateMessagingForm.$pristine">
@@ -31,3 +32,21 @@
         </form>
     </div>
 </div>
+
+<script type="text/ng-template" id="reportCreatedModal">
+    <div class="report-modal">
+        <h1>New report received!</h1>
+        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
+        </ng-map>
+        <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>
