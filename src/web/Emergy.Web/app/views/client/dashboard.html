@@ -9,6 +9,7 @@
                 <i class="material-icons notification-icon">notifications</i>
             </a>
         </div>
+
         <div class="row">
             <div class="col s12">
                 <ul class="tabs" tabs>
@@ -70,17 +71,44 @@
         </div>
     </div>
     <div id="stats" class="col s12">
-        <div class="row">
-            <canvas id="reportsChart" class="chart chart-line" chart-data="vm.chartData"
-                    chart-labels="vm.chartLabels" chart-legend="true" chart-series="vm.chartSeries"
-                    chart-click="onClick"></canvas>
+        <div class="col s12">
+            <h3 class="cyan-text">Chart</h3>
+            <canvas id="reportsChart" class="chart chart-line" 
+                    chart-data="vm.chartData"
+                    chart-labels="vm.chartLabels"
+                    chart-legend="true" 
+                    chart-series="vm.chartSeries"></canvas>
         </div>
-        <div class="row">
-            <div class="col m3 s12">
-                <h1 class="cyan-text">{{vm.stats}}</h1>
+        <div class="col s12">
+            <h3 class="cyan-text">{{ vm.stats.ThisMonthNumbers.ReportsCount }} reports in {{ vm.stats.ChartLegend.Month }}</h3>
+            <div class="row">
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsProcessing }}</h2>
+                    <p class="lead grey-text center-align">REPORTS PROCESSING</p>
+                </div>
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsCompleted }}</h2>
+                    <p class="lead grey-text center-align">REPORTS COMPLETED</p>
+                </div>
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsFailed}}</h2>
+                    <p class="lead grey-text center-align">REPORTS FAILED</p>
+                </div>
             </div>
-            <div class="col m3 s12"></div>
-            <div class="col m3 s12"></div>
+            <div class="row">
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsCompleted.round(2) }}%</h1>
+                    <p class="lead grey-text center-align">REPORTS COMPLETED</p>
+                </div>
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsProcessing.round(2) }}%</h1>
+                    <p class="lead grey-text center-align">REPORTS PROCESSING</p>
+                </div>
+                <div class="col m3 s12 card small" style="margin: 1em">
+                    <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsFailure.round(2) }}%</h1>
+                    <p class="lead grey-text center-align">REPORTS FAILED</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

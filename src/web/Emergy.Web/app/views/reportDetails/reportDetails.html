@@ -1,5 +1,5 @@
 ﻿<div ui-view="shell"></div>
-<div class="container main-container reports">
+<div class="container main-container reports" id="report-document">
     <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
             <h2>Details</h2>
@@ -13,16 +13,16 @@
 
     <div class="row head-information" ng-if="!isLoading">
         <p class="lead">
-        <i style="position: relative; top: 5px;" class="material-icons">today</i>
-        Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
+            <i style="position: relative; top: 5px;" class="material-icons">today</i>
+            Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half" ng-if="!isLoading">
         <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
             <info-window>
                 <div ng-non-bindable="">
-                    <strong>{{ report.Location.Name }}</strong> <br/>
-                    Lat: {{anchor.getPosition().lat()}}<br/>
-                    Lng: {{anchor.getPosition().lng()}}<br/>
+                    <strong>{{ report.Location.Name }}</strong> <br />
+                    Lat: {{anchor.getPosition().lat()}}<br />
+                    Lng: {{anchor.getPosition().lng()}}<br />
                 </div>
             </info-window>
             <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
@@ -89,8 +89,9 @@
         </div>
         <p style="margin-top: 0;" ng-if="report.Resources.length == 0">Client has not provided any pictures for this report.</p>
     </div>
-    <div class="row actions" ng-if="!isLoading">
+    <div class="row actions" ng-if="!isLoading || printMode">
         <h3 style="margin-top: 0;">Actions</h3>
+
         <div class="col l8 m6 s12" style="padding-left: 0;">
             <select name="reportStatus" class="" material-select watch ng-model="newStatus" ng-change="changeStatus(report.Id, newStatus)">
                 <option value="" disabled selected style="font-size: 10px;">Report Status</option>
@@ -102,6 +103,9 @@
         </div>
         <div class="col l4 m6 s12" style="padding-left: 0;">
             <a style="margin-top: 10px;" class="waves-effect waves-light btn red white-text center-align" ng-click="deleteReport(report.Id)"><i class="material-icons left">delete</i>DELETE</a>
+        </div>
+        <div class="col s12">
+            <a class="waves-effect waves-light btn" ng-click="generatePdf(report)"><i class="material-icons right">description</i> GENERATE PDF</a>
         </div>
     </div>
 </div>

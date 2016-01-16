@@ -12,20 +12,26 @@
         vm.reports = [];
         vm.stats = [];
 
-        vm.chartLabels = [];
-        vm.chartSeries = ['This Month', 'Quartal'];
-        vm.chartData = [];
-
+        function buildChart() {
+            var chartModel = vm.stats.ReportsChart;
+            vm.chartSeries = ['Reports Count', 'Reports Completed'];
+            vm.chartLabels = [];
+            vm.chartData = [
+              [],
+              []
+            ];
+            for (var i = 3; i > -1; i--) {
+                vm.chartLabels.push(chartModel[i].Month);
+                vm.chartData[0].push(chartModel[i].ReportsCount);
+                vm.chartData[1].push(chartModel[i].CompletedReportsCount);
+            }
+        }
         function activate() {
             unitsService.getUnits().then(function (units) { vm.units = units; }, function (error) { notificationService.pushError(error.Message) });
             reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error.Message); });
             statsService.getStats().then(function (stats) {
                 vm.stats = stats;
-                vm.chartLabels.push(stats.ThisMonthStats.Rows[0].Month);
-                vm.chartLabels.push(stats.ThisMonthStats.Rows[1].Month);
-                vm.chartLabels.push(stats.ThisMonthStats.Rows[2].Month);
-                vm.chartLabels.push(stats.ThisMonthStats.Rows[3].Month);
-                console.log(vm.chartLabels);
+                buildChart();
             }, function (error) { notificationService.pushError(error.Message); });
             $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
                 alert(response);

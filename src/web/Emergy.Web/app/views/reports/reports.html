@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="row report-grid-row">
-        <div class="col l3 m6 s12" ng-repeat="report in reports | filter : searchTerm">
+        <div class="col l3 m6 s12"  ng-repeat="report in reports | filter : searchTerm">
             <div class="card report-card">
                 <a ng-href="/dashboard/report/{{ report.Id }}">
                     <div class="card-content waves-effect waves-block waves-light white-text">

@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app\app-numbers.js" />
     <Content Include="app\app.realtime.js" />
     <Content Include="app\app.module.js" />
     <Content Include="app\app.route.js" />
@@ -52,6 +53,7 @@
     <Content Include="app\components\controllers\notifications\notificationsController.js" />
     <Content Include="app\components\controllers\reportDetails\reportDetailsController.js" />
     <Content Include="app\components\controllers\reports\reportsController.js" />
+    <Content Include="app\components\controllers\stats\stats.controller.js" />
     <Content Include="app\components\controllers\unitSettings\unitSettingsController.js" />
     <Content Include="app\components\controllers\units\unitsController.js" />
     <Content Include="app\components\controllers\landing\landingController.js" />
@@ -68,6 +70,7 @@
     <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\message\messageService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
+    <Content Include="app\components\services\pdf\pdfService.js" />
     <Content Include="app\components\services\realtime\hub.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
@@ -82,6 +85,7 @@
     <Content Include="app\views\register\registerSuccess.html" />
     <Content Include="app\views\reportDetails\reportDetails.html" />
     <Content Include="app\views\reports\reports.html" />
+    <Content Include="app\views\stats\stats.html" />
     <Content Include="app\views\unitSettings\unitSettings.html" />
     <Content Include="app\views\units\units.html" />
     <Content Include="app\views\landing.html" />
@@ -109,6 +113,12 @@
     <Content Include="assets\img\units-icon.png" />
     <Content Include="assets\img\login-account-icon.png" />
     <Content Include="assets\img\login-background.jpg" />
+    <Content Include="libs\js\jquery\angular.min.js.map" />
+    <None Include="libs\js\jquery\jquery-2.1.4.intellisense.js" />
+    <Content Include="libs\js\jquery\jquery-2.1.4.js" />
+    <Content Include="libs\js\jquery\momentjs.js" />
+    <Content Include="libs\js\jquery\signalr.js" />
+    <Content Include="libs\js\pdf\html2canvas.js" />
     <Content Include="libs\css\angular-chart.css" />
     <Content Include="libs\css\ng-dialog\ngDialog-theme-default.css" />
     <Content Include="libs\css\ng-dialog\ngDialog.min.css" />
@@ -176,10 +186,14 @@
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.woff" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.ttf" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.eot" />
+    <Content Include="libs\js\pdf\html2canvas.svg.js" />
+    <Content Include="libs\js\pdf\pdfmake.min.js" />
+    <Content Include="libs\js\pdf\vfs_fonts.js" />
     <Content Include="libs\js\scroll-glue\scrollglue.js" />
     <Content Include="libs\js\jquery\jquery-1.6.4.js" />
     <Content Include="libs\js\jquery\jquery.signalR-2.2.0.js" />
     <Content Include="web.config" />
+    <Content Include="libs\js\jquery\jquery-2.1.4.min.map" />
     <None Include="Properties\PublishProfiles\emergy.pubxml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
