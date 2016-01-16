@@ -16,12 +16,24 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
         return deffered.promise;
     };
 
+    var getNotification = function (notificationId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/get/' + notificationId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
+        return deffered.promise;
+    };
+
     var displayMessage = function (title, content) {
         $cordovaDialogs.alert(content, title);
     };
 
     var displaySuccessPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Success", buttonText);
+        $cordovaDialogs.alert(message, "Notification", buttonText);
     };
 
     var displayErrorPopup = function (message, buttonText) {
@@ -59,6 +71,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
 
     var service = {
         pushNotification: pushNotification,
+        getNotification: getNotification, 
         displayMessage: displayMessage,
         displaySuccessPopup: displaySuccessPopup,
         displayErrorPopup: displayErrorPopup,

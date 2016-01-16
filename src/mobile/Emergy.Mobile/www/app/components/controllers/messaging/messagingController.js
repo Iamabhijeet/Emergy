@@ -10,6 +10,16 @@ function messagingController($scope, $state, $rootScope, authService, notificati
     $scope.isLoading = true;
     $scope.connectionStatus = "";
 
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "MessageArrived") {
+                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+            }
+        });
+    });
+
     if (signalR.isConnecting) {
         $scope.connectionStatus = "connecting";
     }
@@ -30,12 +40,15 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
     };
 
-    $scope.openMessages = function(username) {
+    $scope.openMessages = function (username) {
+        notificationService.displayLoading("Loading messages...");
         var promise = accountService.getProfileByUsername(username);
         promise.then(function(user) {
             $state.go("tab.messages", { senderId: user.data.Id });
-        }, function() {
+        }, function () {
             notificationService.displayErrorPopup("There has been an error loading messages.", "Ok");
+        }).finally(function() {
+            notificationService.hideLoading();
         });
 
     }

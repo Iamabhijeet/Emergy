@@ -3,12 +3,22 @@
 var controllerId = 'reportsController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', reportsController]);
+    ['$scope', '$state', '$rootScope', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', reportsController]);
 
-function reportsController($scope, $rootScope, authService, notificationService, reportsService, connectionStatusService, hub, signalR) {
+function reportsController($scope, $state, $rootScope, authService, notificationService, reportsService, connectionStatusService, hub, signalR) {
     $scope.reports = [];
     $scope.isLoading = true;
     $scope.connectionStatus = "";
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "MessageArrived") {
+                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+            }
+        });
+    });
 
     if (signalR.isConnecting) {
         $scope.connectionStatus = "connecting";

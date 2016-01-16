@@ -393,3 +393,71 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 /*-----------end MESSAGES-----------*/
+
+/*-----------begin ASSIGNMENTS-----------*/
+
+.assignments-container .warning-text {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.assignments-container .main-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.12em;
+    margin-bottom: 15px;
+}
+
+.assignments-container a.button {
+    line-height: 3;
+    margin-bottom: 35px;
+    background-color: #00ACC1;
+    border: none;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+}
+
+.assignments-container a.button.activated {
+    background-color: #0C95A6;
+}
+
+.assignments-container span {
+    font-weight: 500;
+    color: #00ACC1;
+}
+
+.assignments-container .information-title {
+    font-weight: 500;
+    color: #00ACC1;
+    margin-bottom: 0; 
+}
+
+/*-----------end ASSIGNMENTS-----------*/
+
+/*-----------begin DIRECTIONS-----------*/
+
+.directions-container .list.card .item {
+    text-overflow: clip;
+    white-space: initial;
+}
+
+.directions-container .list.card .item i {
+    color: #00ACC1;
+}
+
+.directions-container .list.card {
+    height: 200px; 
+    overflow-y: scroll;
+    position: fixed;
+    bottom: 30px;
+}
+
+.platform-android .directions-container .list.card {
+    height: 200px; 
+    overflow-y: scroll;
+    position: fixed;
+    bottom: -20px;
+}
+
+/*-----------end DIRECTIONS-----------*/

@@ -58,9 +58,31 @@
     $stateProvider.state('tab.assignments', {
         url: '/assignments',
         views: {
-            'tab-assignments': {
+            'tab-home': {
                 templateUrl: 'app/views/assignments/assignments.html',
                 controller: 'assignmentsController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not authorized");
+                } else {
+                    deferred.resolve("Authorized");
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+
+    $stateProvider.state('tab.directions', {
+        url: '/directions',
+        views: {
+            'tab-home': {
+                templateUrl: 'app/views/directions/directions.html',
+                controller: 'directionsController'
             }
         },
         resolve:

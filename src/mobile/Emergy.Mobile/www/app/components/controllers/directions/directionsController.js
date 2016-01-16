@@ -1,11 +1,11 @@
 ﻿'use strict';
 
-var controllerId = 'assignmentsController';
+var controllerId = 'directionsController';
 
 app.controller(controllerId,
-    ['$scope', '$state', '$rootScope', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', assignmentsController]);
+    ['$scope', '$state', '$rootScope', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', directionsController]);
 
-function assignmentsController($scope, $state, $rootScope, authService, notificationService, reportsService, connectionStatusService, hub, signalR) {
+function directionsController($scope, $state, $rootScope, authService, notificationService, reportsService, connectionStatusService, hub, signalR) {
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
@@ -15,8 +15,4 @@ function assignmentsController($scope, $state, $rootScope, authService, notifica
             }
         });
     });
-
-    $scope.viewDirections = function() {
-        $state.go("tab.directions");
-    };
 }

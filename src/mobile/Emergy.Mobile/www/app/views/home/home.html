@@ -1,7 +1,10 @@
 ﻿<ion-view name="tab-home" view-title="Home">
-    <ion-nav-buttons side="primary">
-        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-ios-flag" ng-click="openAssignments()">
         </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()"></button>
     </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="home-container" ng-if="units.length != 0">

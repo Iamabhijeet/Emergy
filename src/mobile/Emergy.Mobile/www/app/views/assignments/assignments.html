@@ -1,8 +1,21 @@
 ﻿<ion-view name="tab-assignments" view-title="Assignments">
-    <ion-nav-buttons side="primary">
-        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()"></button>
-    </ion-nav-buttons>
     <ion-content class="padding has-header">
+        <div class="assignments-container">
+            <p class="main-text">You have been assigned by <span>TestAdmin</span> to resolve the report submitted by <span>TestingUser</span></p>
+            <a class="button button-block button-positive" ng-click="viewDirections()">
+                View directions to location
+            </a>
+            <p class="information-title">Description</p>
+            <p class="information">This is a random description im just using to test this lorem ipsum dolor sit amet</p>
+            <p class="information-title">Category</p>
+            <p class="information">Injury</p>
+            <p class="information-title">Some random field?</p>
+            <p class="information">No, but just in case</p>
+            <p class="information-title">Anyone died?</p>
+            <p class="information">Yes</p>
 
+            <p class="warning-text"><span>Note</span>: Your current location is being sent to the administrator.</p>
+            
+        </div>
     </ion-content>
 </ion-view>

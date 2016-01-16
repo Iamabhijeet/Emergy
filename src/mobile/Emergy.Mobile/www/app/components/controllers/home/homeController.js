@@ -3,10 +3,10 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', '$ionicActionSheet', 'notificationService', 'unitsService',
+    ['$scope', '$state', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', '$ionicActionSheet', 'notificationService', 'unitsService',
      'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', 'connectionStatusService', homeController]);
 
-function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal, $ionicActionSheet, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR, connectionStatusService) {
+function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $ionicModal, $ionicActionSheet, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR, connectionStatusService) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
@@ -16,6 +16,16 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
     $scope.connectionStatus = "";
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: true };
+
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "MessageArrived") {
+                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+            }
+        });
+    });
 
     if (signalR.isConnecting) {
         $scope.connectionStatus = "connecting";
@@ -31,6 +41,10 @@ function homeController($scope, $q, $rootScope, $cordovaGeolocation, $ionicModal
 
     $scope.openSettings = function() {
         connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
+    };
+
+    $scope.openAssignments = function () {
+        $state.go("tab.assignments");
     };
 
     $scope.takePicture = function () {
