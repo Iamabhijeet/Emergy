@@ -53,15 +53,15 @@ namespace Emergy.Api.Controllers
             ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             var userIds = messages
                            .OrderBy(message => message.Timestamp)
-                           .Select(message => message.TargetId)
+                           .SelectMany(message => new[] { message.TargetId , message.SenderId})
                            .Distinct();
             var mappedUsers = new Collection<UserProfile>();
             foreach (var id in userIds)
             {
-                var target = await UserManager.FindByIdAsync(id);
-                if (target != null)
+                if (id != user.Id)
                 {
-                    mappedUsers.Add(Mapper.Map<UserProfile>(target));
+                    var userWithId = await UserManager.FindByIdAsync(id);
+                    mappedUsers.Add(Mapper.Map<UserProfile>(userWithId));
                 }
             }
             return mappedUsers.ToEnumerable();

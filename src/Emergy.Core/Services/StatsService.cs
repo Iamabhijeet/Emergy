@@ -13,6 +13,7 @@ namespace Emergy.Core.Services
     {
         public void ComputeStatsForAllTime(IReadOnlyCollection<Report> allReports, StatsViewModel vm)
         {
+            var allCreated =    allReports.Count(report => report.Status == ReportStatus.Created);
             var allCompleted  = allReports.Count(report => report.Status == ReportStatus.Completed);
             var allProcessing = allReports.Count(report => report.Status == ReportStatus.Processing);
             var allFailed     = allReports.Count(report => report.Status == ReportStatus.Failure);
@@ -20,18 +21,19 @@ namespace Emergy.Core.Services
 
             vm.AllTime = new StatsViewModel.AllTimeStats
             {
-                Numbers = new StatsViewModel.Numbers
+                Numbers      = new StatsViewModel.Numbers
                 {
                     ReportsCount      = allSummary,
+                    ReportsCreated    = allCreated,
                     ReportsCompleted  = allCompleted,
                     ReportsProcessing = allProcessing,
                     ReportsFailed     = allFailed
                 },
-                Percentages = new StatsViewModel.Percentages
+                Percentages  = new StatsViewModel.Percentages
                 {
-                    AverageReportsCompleted  = (double)allCompleted  / allSummary * 100.0,
-                    AverageReportsProcessing = (double)allProcessing / allSummary * 100.0,
-                    AverageReportsFailure    = (double)allFailed     / allSummary * 100.0
+                    AverageReportsCompleted  = (double)allCompleted  / (allSummary) * 100.0,
+                    AverageReportsProcessing = (double)allProcessing / (allSummary) * 100.0,
+                    AverageReportsFailure    = (double)allFailed     / (allSummary) * 100.0
                 }
             };
         }
@@ -41,23 +43,26 @@ namespace Emergy.Core.Services
 
             var currentMonthQuery = reportsForQuartal.Where(report => report.DateHappened.Month == DateTime.Now.Month);
             var monthQuery = currentMonthQuery as Report[] ?? currentMonthQuery.ToArray();
-            var currentMonthCompleted = monthQuery.Count(report => report.Status == ReportStatus.Completed);
+
+            var currentMonthCompleted  = monthQuery.Count(report => report.Status == ReportStatus.Completed);
+            var currentMonthCreated    = monthQuery.Count(report => report.Status == ReportStatus.Created);
             var currentMonthProcessing = monthQuery.Count(report => report.Status == ReportStatus.Processing);
-            var currentMonthFails = monthQuery.Count(report => report.Status == ReportStatus.Failure);
-            var currentMonthSummary = monthQuery.Count();
+            var currentMonthFails      = monthQuery.Count(report => report.Status == ReportStatus.Failure);
+            var currentMonthSummary    = monthQuery.Count();
 
             vm.ThisMonthNumbers = new StatsViewModel.Numbers
             {
                 ReportsCount      = currentMonthSummary,
+                ReportsCreated    = currentMonthCreated,
                 ReportsCompleted  = currentMonthCompleted,
                 ReportsProcessing = currentMonthProcessing,
                 ReportsFailed     = currentMonthFails
             };
             vm.ThisMonthPercentages = new StatsViewModel.Percentages
             {
-                AverageReportsCompleted  = (double)currentMonthCompleted  / currentMonthSummary * 100.0,
-                AverageReportsProcessing = (double)currentMonthProcessing / currentMonthSummary * 100.0,
-                AverageReportsFailure    = (double)currentMonthFails      / currentMonthSummary * 100.0
+                AverageReportsCompleted  = (double)currentMonthCompleted  / (currentMonthSummary) * 100.0,
+                AverageReportsProcessing = (double)currentMonthProcessing / (currentMonthSummary) * 100.0,
+                AverageReportsFailure    = (double)currentMonthFails      / (currentMonthSummary) * 100.0
             };
             
             var offset = TimeSpan.FromDays(30);

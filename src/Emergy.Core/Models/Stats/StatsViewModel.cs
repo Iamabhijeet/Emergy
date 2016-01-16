@@ -31,6 +31,7 @@ namespace Emergy.Core.Models.Stats
         public class Numbers
         {
             public int ReportsCount      { get; set; }
+            public int ReportsCreated    { get; set; }
             public int ReportsProcessing { get; set; }
             public int ReportsCompleted  { get; set; }
             public int ReportsFailed     { get; set; }
