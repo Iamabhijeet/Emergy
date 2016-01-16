@@ -55,6 +55,28 @@
         }
     });
 
+    $stateProvider.state('tab.assignments', {
+        url: '/assignments',
+        views: {
+            'tab-assignments': {
+                templateUrl: 'app/views/assignments/assignments.html',
+                controller: 'assignmentsController'
+            }
+        },
+        resolve:
+        {
+            authorize: ['$q', 'authData', function ($q, authData) {
+                var deferred = $q.defer();
+                if (!authData.loggedIn) {
+                    deferred.reject("Not authorized");
+                } else {
+                    deferred.resolve("Authorized");
+                }
+                return deferred.promise;
+            }]
+        }
+    });
+
     $stateProvider.state('tab.messaging', {
         url: '/messaging',
         views: {
