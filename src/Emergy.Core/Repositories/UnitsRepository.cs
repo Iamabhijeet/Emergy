@@ -198,9 +198,31 @@ namespace Emergy.Core.Repositories
             return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
         }
 
-        public Task<IEnumerable<Report>> GetReportsForAdmin(ApplicationUser adminApplicationUser, DateTime? lastHappened)
+        public async Task<IEnumerable<Report>> GetAllReportsForAdmin(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            var adminUnits = await this.GetAsync(user);
+            var units = adminUnits as Unit[] ?? adminUnits.ToArray();
+
+            if (units
+                .Where(unit => unit.AdministratorId == user.Id)
+                .Select(unit => unit.Reports).Any())
+            {
+               return 
+                    units.AsParallel()
+                        .Where(unit => unit.AdministratorId == user.Id)
+                        .Select(unit => unit.Reports)
+                        .Aggregate((current, next) =>
+                        {
+                            if (current != null && next != null)
+                            {
+                                return next.Concat(current).ToList();
+                            }
+                            return null;
+                        })
+                        .OrderByDescending(report => report.DateHappened)
+                        .ToArray();
+            }
+            return Enumerable.Empty<Report>();
         }
 
         public override void Delete(Unit entityToDelete)

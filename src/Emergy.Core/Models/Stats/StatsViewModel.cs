@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Emergy.Core.Models.Stats
 {
     public class StatsViewModel
     {
-        public AllTime AllTimeStats                             { get; set; }
+        public AllTimeStats AllTime                             { get; set; }
         public Percentages ThisMonthPercentages                 { get; set; }
         public Numbers ThisMonthNumbers                         { get; set; }
         public IReadOnlyCollection<Chart.ChartRow> ReportsChart { get; set; }
 
-        public class AllTime
+        public class AllTimeStats
         {
-            public Numbers Numbers         { get; set; }
-            public Percentages Percentages { get; set; }
+            public Numbers Numbers                                  { get; set; }
+            public Percentages Percentages                          { get; set; }
         }
+
         public class Chart
         {
             public IReadOnlyCollection<string> Categories => new[] { "Month", "Reports", "Completed Reports" };

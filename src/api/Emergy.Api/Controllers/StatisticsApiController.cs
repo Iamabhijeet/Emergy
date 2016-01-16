@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Emergy.Core.Common;
 using Emergy.Core.Models.Stats;
 using Emergy.Core.Repositories;
 using Emergy.Core.Services;
@@ -26,21 +25,17 @@ namespace Emergy.Api.Controllers
             List<Report> reports = null;
             if (User.IsInRole("Clients"))
             {
-                reports = (await ReportsRepository.GetAsync(user))
-                .Where(report => report.DateHappened >= DateTime.Now - TimeSpan.FromDays(120))
-                .ToList();
+                reports = user.Reports.ToList();
             }
             if (User.IsInRole("Administrators"))
             {
-                reports = (await ReportsRepository.GetAsync(report => report.Unit.AdministratorId == User.Identity.GetUserId(), null, ConstRelations.LoadAllReportRelations))
-                           .Where(report => report.DateHappened <= DateTime.Now - TimeSpan.FromDays(120))
-                           .ToList();
+                reports = (await UnitsRepository.GetAllReportsForAdmin(user)).ToList();
             }
             return (reports != null) ? (IHttpActionResult)Ok(StatsService.ComputeStats(reports.AsReadOnly())) : Ok();
         }
-        private IStatsService StatsService { get; set; }
-        private IReportsRepository ReportsRepository { get; set; }
-        private IUnitsRepository UnitsRepository { get; set; }
+        private IStatsService StatsService           { get; }
+        private IReportsRepository ReportsRepository { get; }
+        private IUnitsRepository UnitsRepository     { get; }
         public StatisticsApiController(IStatsService statsService,
             IReportsRepository reportsRepository,
             IUnitsRepository unitsRepository)

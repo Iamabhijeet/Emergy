@@ -13,6 +13,7 @@ using static Emergy.Core.Common.IEnumerableExtensions;
 namespace Emergy.Api.Hubs
 {
     [HubName("emergyHub")]
+    [Authorize]
     public class EmergyHub : Hub
     {
         public EmergyHub(IUnitsRepository unitsRepository,
