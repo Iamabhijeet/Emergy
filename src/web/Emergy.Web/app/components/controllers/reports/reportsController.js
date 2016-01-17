@@ -82,7 +82,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
             var promise = reportsService.getReport(reportId);
             promise.then(function(report) {
                 var notification = {
-                    Content: "has changed status on a report",
+                    Content: newStatus,
                     TargetId: report.CreatorId,
                     Type: "ReportUpdated",
                     ParameterId: reportId

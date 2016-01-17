@@ -4,9 +4,9 @@ var controllerId = 'reportDetailsController';
 
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', '$window', 'unitsService', 'reportsService',
-        'authService', 'notificationService', 'assignmentService', 'accountService', 'pdfService', 'signalR', 'ngDialog', 'NgMap', reportDetailsController]);
+        'authService', 'notificationService', 'assignmentService', 'accountService', 'pdfService', 'signalR', 'ngDialog', 'NgMap', 'hub', reportDetailsController]);
 
-function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, pdfService, signalR, ngDialog, NgMap) {
+function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, pdfService, signalR, ngDialog, NgMap, hub) {
     $rootScope.title = "Report | Details";
     $scope.isBusy = false;
     $scope.isLoading = true;
@@ -85,12 +85,32 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     }
 
     $scope.changeStatus = function (reportId, newStatus) {
-        console.log(reportId + " " + newStatus);
         var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
         promise.then(function () {
-            notificationService.pushSuccess("Status changed to " + newStatus);
-            $scope.loadReports();
-        }, function () {
+            var promise = reportsService.getReport(reportId);
+            promise.then(function (report) {
+                var notification = {
+                    Content: newStatus,
+                    TargetId: report.CreatorId,
+                    Type: "ReportUpdated",
+                    ParameterId: reportId
+                }
+
+                var promise = notificationService.createNotification(notification);
+                promise.then(function (notificationId) {
+                    try {
+                        hub.server.sendNotification(notificationId);
+                    } catch (err) {
+                        notificationService.pushError("Error has happened while pushing a notification.");
+                    }
+                    notificationService.pushSuccess("Status changed to " + newStatus);
+                }, function () {
+                    notificationService.pushError("Error has happened while changing the status.");
+                });
+            }, function () {
+                notificationService.pushError("Error has happened while changing the status.");
+            });
+        }, function (error) {
             notificationService.pushError("Error has happened while changing the status.");
         });
     }
