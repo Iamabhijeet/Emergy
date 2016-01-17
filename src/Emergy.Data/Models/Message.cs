@@ -7,7 +7,6 @@ namespace Emergy.Data.Models
 {
     public class Message : ModelBase
     {
-        [JsonIgnore]
         public ApplicationUser Sender { get; set; }
         public string SenderId { get; set; }
         [JsonIgnore]

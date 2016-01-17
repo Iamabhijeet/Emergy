@@ -43,6 +43,19 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
+        [Route("get/{id}")]
+        [ResponseType(typeof(Message))]
+        public async Task<IHttpActionResult> Get([FromUri] int id)
+        {
+            var message = await _messagesRepository.GetAsync(id);
+            if (message != null)
+            {
+                return Ok(message);
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
         [Route("get-chats/users")]
         [ResponseType(typeof(IEnumerable<UserProfile>))]
         public async Task<IEnumerable<UserProfile>> GetChats()
@@ -53,7 +66,7 @@ namespace Emergy.Api.Controllers
             ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             var userIds = messages
                            .OrderBy(message => message.Timestamp)
-                           .SelectMany(message => new[] { message.TargetId , message.SenderId})
+                           .SelectMany(message => new[] { message.TargetId, message.SenderId })
                            .Distinct();
             var mappedUsers = new Collection<UserProfile>();
             foreach (var id in userIds)
