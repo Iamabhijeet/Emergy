@@ -77,13 +77,34 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     }
 
     $scope.changeStatus = function (reportId, newStatus) {
-        console.log(reportId + " " + newStatus);
         var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
         promise.then(function () {
-            notificationService.pushSuccess("Status changed to " + newStatus);
-            $scope.reports = [];
-            $scope.lastReportDateTime = '';
-            $scope.loadReports();
+            var promise = reportsService.getReport(reportId);
+            promise.then(function(report) {
+                var notification = {
+                    Content: "has changed status on a report",
+                    TargetId: report.CreatorId,
+                    Type: "ReportUpdated",
+                    ParameterId: reportId
+                }
+
+                var promise = notificationService.createNotification(notification);
+                promise.then(function (notificationId) {
+                    try {
+                        hub.server.sendNotification(notificationId);
+                    } catch (err) {
+                        notificationService.pushError("Error has happened while pushing a notification.");
+                    }
+                    notificationService.pushSuccess("Status changed to " + newStatus);
+                    $scope.reports = [];
+                    $scope.lastReportDateTime = '';
+                    $scope.loadReports();
+                }, function() {
+                    notificationService.pushError("Error has happened while changing the status.");
+                });
+            }, function() {
+                notificationService.pushError("Error has happened while changing the status.");
+            });
         }, function (error) {
             notificationService.pushError("Error has happened while changing the status.");
         });
