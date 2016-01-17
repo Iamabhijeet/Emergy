@@ -115,13 +115,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         });
     }
     $scope.generatePdf = function (report) {
-        $scope.printMode = true;
-        console.log('creating');
-        var table = document.getElementById('report-document').innerHTML;
-        var myWindow = $window.open('', '', 'width=800, height=600');
-        myWindow.document.write(table);
-        myWindow.print();
-        $scope.printMode = false;
+        window.print();
         //pdfService.generate(report).then(function () {
         //    $scope.printMode = false;
         //    notificationService.pushSuccess("Report documentation (pdf) has been generated!");

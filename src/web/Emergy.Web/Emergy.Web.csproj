@@ -113,6 +113,7 @@
     <Content Include="assets\img\units-icon.png" />
     <Content Include="assets\img\login-account-icon.png" />
     <Content Include="assets\img\login-background.jpg" />
+    <Content Include="libs\css\print.css" />
     <Content Include="libs\js\jquery\angular.min.js.map" />
     <None Include="libs\js\jquery\jquery-2.1.4.intellisense.js" />
     <Content Include="libs\js\jquery\jquery-2.1.4.js" />
