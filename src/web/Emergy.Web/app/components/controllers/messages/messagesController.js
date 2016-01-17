@@ -3,12 +3,13 @@
 var controllerId = 'messagesController';
 
 app.controller(controllerId,
-    ['vm', '$state', '$stateParams', '$rootScope', '$location', 'authService', 'notificationService', 'messageService', 'reportsService', 'signalR', 'ngDialog', messagesController]);
+    ['vm', '$state', '$stateParams', '$rootScope', '$location', 'authService', 'notificationService', 'messageService', 'reportsService', 'signalR', 'ngDialog', 'hub', messagesController]);
 
-function messagesController($scope, $state, $stateParams, $rootScope, $location, authService, notificationService, messageService, reportsService, signalR, ngDialog) {
+function messagesController($scope, $state, $stateParams, $rootScope, $location, authService, notificationService, messageService, reportsService, signalR, ngDialog, hub) {
     $rootScope.title = 'Messages | Emergy';
     $scope.messages = [];
     $scope.notificationAvailable = false;
+    $scope.message = "";
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -30,7 +31,7 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                console.log("Evo");
             }
         });
     });
@@ -47,9 +48,28 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
     $scope.sendMessage = function (message) {
         var promise = messageService.createMessage(message, $stateParams.targetId);
         promise.then(function (messageId) {
+            var notification = {
+                Content: "has sent a message",
+                TargetId: $stateParams.targetId,
+                Type: "MessageArrived",
+                ParameterId: messageId
+            }
+            var promise = notificationService.createNotification(notification);
+            promise.then(function(notificationId) {
+                loadMessages();
+                try {
+                    hub.server.sendNotification(notificationId); 
+                } catch (err) {
+                    notificationService.pushError("Error has happened while pushing a notification.");
+                }
+            }, function() {
+                notificationService.pushError("Error has happened while creating a notification.");
+            });
             loadMessages();
         }, function (error) {
             notificationService.pushError("Error has happened while sending message.");
+        }).finally(function() {
+            delete $scope.message;
         });
     };
 

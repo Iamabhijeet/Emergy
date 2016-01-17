@@ -33,7 +33,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                console.log("Test");
             }
         });
     });

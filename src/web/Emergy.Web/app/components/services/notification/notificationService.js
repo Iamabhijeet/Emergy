@@ -3,6 +3,18 @@
 notificationService.$inject = ['$http', '$q', 'serviceBase'];
 
 function notificationService($http, $q, serviceBase) {
+    var createNotification = function (notification) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/create', notification)
+        .success(function (notification) {
+            deffered.resolve(notification);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var getNotifications = function (lastDateTime) {
         var deffered;
 
@@ -56,6 +68,7 @@ function notificationService($http, $q, serviceBase) {
     }
 
     var service = {
+        createNotification: createNotification, 
         pushError: pushError,
         pushSuccess: pushSuccess,
         notify: notify,
