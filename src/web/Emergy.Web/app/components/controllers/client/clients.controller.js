@@ -33,15 +33,6 @@
                 vm.stats = stats;
                 buildChart();
             }, function (error) { notificationService.pushError(error.Message); });
-            $rootScope.$on(signalR.events.client.testSuccess, function (event, response) {
-                alert(response);
-            });
-            $rootScope.$on(signalR.events.realTimeConnected, function () {
-                hub.server.testPush('working');
-                setTimeout(function () {
-                    hub.server.testPush('working#2');
-                }, 2000);
-            });
         }
         vm.loadReports = function () {
             reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });

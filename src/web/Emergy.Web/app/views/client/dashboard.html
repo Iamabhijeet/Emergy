@@ -1,5 +1,5 @@
 ﻿<div ui-view="shell"></div>
-<div class="container main-container reports" ng-controller="clientsController as vm">
+<div class="container main-container reports statistics" ng-controller="clientsController as vm">
     <div class="row header-row" style="border-bottom: none;">
         <div class="col l3 m4 s8 offset-s1">
             <h2>Dashboard</h2>
@@ -70,72 +70,99 @@
             </div>
         </div>
     </div>
-    <div id="stats" class="col s12">
-        <div id="quartal">
-            <div class="col s12">
-                <canvas id="reportsChart" class="chart chart-line"
-                        chart-data="vm.chartData"
-                        chart-labels="vm.chartLabels"
-                        chart-legend="true"
-                        chart-series="vm.chartSeries"></canvas>
-            </div>
-            <div class="col s12">
-                <h3 class="cyan-text">{{ vm.stats.ThisMonthNumbers.ReportsCount }} reports in {{ vm.chartLabels[3] }}</h3>
-                <div class="row">
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsProcessing }}</h2>
+    <div id="stats">
+        <canvas id="reportsChart" class="chart chart-line" chart-data="vm.chartData" chart-labels="vm.chartLabels" chart-legend="true" chart-series="vm.chartSeries"></canvas>
+        <div class="switch">
+            <label>
+                Past month
+                <input type="checkbox" ng-model="isPastMonth">
+                <span class="lever"></span>
+                All time
+            </label>
+        </div>
+        <div id="quartal" ng-if="!isPastMonth">
+            <h3 ng-if="vm.stats.ThisMonthNumbers.ReportsCount > 1"><span>{{ vm.stats.ThisMonthNumbers.ReportsCount }}</span> reports submitted in <span>{{ vm.chartLabels[3] }}</span></h3>
+            <h3 ng-if="vm.stats.ThisMonthNumbers.ReportsCount === 1"><span>{{ vm.stats.ThisMonthNumbers.ReportsCount }}</span> report submitted in <span>{{ vm.chartLabels[3] }}</span></h3>
+            <h3 ng-if="vm.stats.ThisMonthNumbers.ReportsCount === 0">Can't display statistics because no reports were submitted this month so far.</h3>
+            <div class="row" ng-if="vm.stats.ThisMonthNumbers.ReportsCount !== 0">
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthNumbers.ReportsProcessing }}</h2>
                         <p class="lead grey-text center-align">REPORTS PROCESSING</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsCompleted }}</h2>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthNumbers.ReportsCompleted }}</h2>
                         <p class="lead grey-text center-align">REPORTS COMPLETED</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthNumbers.ReportsFailed}}</h2>
-                        <p class="lead grey-text center-align">REPORTS FAILED</p>
-                    </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsProcessing.round(0) }}%</h1>
-                        <p class="lead grey-text center-align">REPORTS PROCESSING</p>
-                    </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsCompleted.round(0) }}%</h1>
-                        <p class="lead grey-text center-align">REPORTS COMPLETED</p>
-                    </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.ThisMonthPercentages.AverageReportsFailure.round(0) }}%</h1>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthNumbers.ReportsFailed}}</h2>
                         <p class="lead grey-text center-align">REPORTS FAILED</p>
                     </div>
                 </div>
-
-            </div>
-        </div>
-        <div id="allTime" style="display: none">
-            <div class="col s12">
-                <h3 class="cyan-text">{{ vm.stats.AllTime.Numbers.ReportsCount }} reports</h3>
-                <div class="row">
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Numbers.ReportsProcessing }}</h2>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthPercentages.AverageReportsProcessing.round(0) }}%</h2>
                         <p class="lead grey-text center-align">REPORTS PROCESSING</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Numbers.ReportsCompleted }}</h2>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthPercentages.AverageReportsCompleted.round(0) }}%</h2>
                         <p class="lead grey-text center-align">REPORTS COMPLETED</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h2 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Numbers.ReportsFailed }}</h2>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.ThisMonthPercentages.AverageReportsFailure.round(0) }}%</h2>
                         <p class="lead grey-text center-align">REPORTS FAILED</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Percentages.AverageReportsProcessing.round(0) }}%</h1>
+                </div>
+            </div>
+        </div>
+        <div id="allTime" ng-if="isPastMonth">
+            <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount > 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> reports submitted total
+            </h3>
+            <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount === 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> report submitted total
+            </h3>
+            <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount === 0">Can't display statistics because no reports were submitted total.</h3>
+            <div class="row" ng-if="vm.stats.AllTime.Numbers.ReportsCount !== 0">
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Numbers.ReportsProcessing }}</h2>
                         <p class="lead grey-text center-align">REPORTS PROCESSING</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Percentages.AverageReportsCompleted.round(0) }}%</h1>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Numbers.ReportsCompleted }}</h2>
                         <p class="lead grey-text center-align">REPORTS COMPLETED</p>
                     </div>
-                    <div class="col m3 s12 card small" style="margin: 1em">
-                        <h1 class="cyan-text center-align" style="font-size: 5em;">{{ vm.stats.AllTime.Percentages.AverageReportsFailure.round(0) }}%</h1>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Numbers.ReportsFailed}}</h2>
+                        <p class="lead grey-text center-align">REPORTS FAILED</p>
+                    </div>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Percentages.AverageReportsProcessing.round(0) }}%</h2>
+                        <p class="lead grey-text center-align">REPORTS PROCESSING</p>
+                    </div>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Percentages.AverageReportsCompleted.round(0) }}%</h2>
+                        <p class="lead grey-text center-align">REPORTS COMPLETED</p>
+                    </div>
+                </div>
+                <div class="col l4 m6 s12">
+                    <div class="card small">
+                        <h2 class="cyan-text center-align">{{ vm.stats.AllTime.Percentages.AverageReportsFailure.round(0) }}%</h2>
                         <p class="lead grey-text center-align">REPORTS FAILED</p>
                     </div>
                 </div>
