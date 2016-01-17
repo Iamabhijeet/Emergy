@@ -19,7 +19,7 @@ function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate
                 loadMessages();
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had it's status updated!", "Ok");
+                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
         });
     });

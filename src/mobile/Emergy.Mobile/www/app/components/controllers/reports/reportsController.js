@@ -19,7 +19,7 @@ function reportsController($scope, $state, $rootScope, authService, notification
             }
             else if (notification.Type === "ReportUpdated") {
                 loadReports(); 
-                notificationService.displaySuccessPopup("One of the reports that you submitted had it's status updated!", "Ok");
+                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
         });
     });

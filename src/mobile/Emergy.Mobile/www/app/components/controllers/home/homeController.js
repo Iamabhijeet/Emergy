@@ -25,7 +25,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 notificationService.displaySuccessPopup("You have received a new message!", "Ok");
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("Status has been changed on one of the reports you submitted!", "Ok");
+                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
         });
     });
