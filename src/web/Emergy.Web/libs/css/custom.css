@@ -1285,3 +1285,47 @@ html, body {
         font-size: 28px;
     }
 }
+
+/*-----------STATISTICS-----------*/
+
+.main-container.statistics #quartal h2 {
+    font-size: 5em;
+    margin-top: 90px;
+}
+
+.main-container.statistics #allTime h2 {
+    font-size: 5em;
+    margin-top: 90px;
+}
+
+.main-container.statistics h3 {
+    font-size: 28px;
+    font-weight: 400;
+    text-align: center; 
+    margin-top: 40px;
+    color: #3B3B3B;
+}
+
+.main-container.statistics h3 span {
+    font-weight: 500;
+    color: #18C0D6;
+}
+
+.main-container.statistics .card.small {
+    width: 100%;
+}
+
+.main-container.statistics .switch label input[type=checkbox]:checked + .lever {
+    background-color: #818181; 
+}
+
+.main-container.statistics .switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #F1F1F1;
+}
+
+.main-container.statistics .switch {
+    width: 180px;
+    margin-right: auto; 
+    margin-top: 80px;
+    margin-bottom: 0;
+}
