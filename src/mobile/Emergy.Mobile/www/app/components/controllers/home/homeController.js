@@ -69,8 +69,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         var promise = unitsService.getUnits();
         promise.then(function (units) {
             $scope.units = units;
-            $scope.selectedUnitId = units[0].Id;
-            $scope.loadBasicProperties($scope.selectedUnitId);
+            if (units.length > 0) {
+                $scope.selectedUnitId = units[0].Id;
+                $scope.loadBasicProperties($scope.selectedUnitId);
+            }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
         })

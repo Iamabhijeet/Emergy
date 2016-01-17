@@ -4,6 +4,7 @@
     $stateProvider.state('tab', {
             url: '/tab',
             abstract: true,
+            cache: false,
             templateUrl: function() {
                 if (ionic.Platform.isAndroid()) {
                     return "app/views/tabsAndroid/tabsAndroid.html";
@@ -14,6 +15,7 @@
 
     $stateProvider.state('tab.home', {
         url: '/home',
+        cache: false,
         views: {
             'tab-home': {
                 templateUrl: 'app/views/home/home.html',
@@ -35,6 +37,7 @@
     });
     $stateProvider.state('tab.reports', {
         url: '/reports',
+        cache: false,
         views: {
             'tab-reports': {
                 templateUrl: 'app/views/reports/reports.html',
@@ -57,6 +60,7 @@
 
     $stateProvider.state('tab.assignments', {
         url: '/assignments',
+        cache: false,
         views: {
             'tab-home': {
                 templateUrl: 'app/views/assignments/assignments.html',
@@ -79,6 +83,7 @@
 
     $stateProvider.state('tab.directions', {
         url: '/directions',
+        cache: false,
         views: {
             'tab-home': {
                 templateUrl: 'app/views/directions/directions.html',
@@ -101,6 +106,7 @@
 
     $stateProvider.state('tab.messaging', {
         url: '/messaging',
+        cache: false,
         views: {
             'tab-messaging': {
                 templateUrl: 'app/views/messaging/messaging.html',
@@ -123,6 +129,7 @@
 
     $stateProvider.state('tab.messages', {
         url: '/messaging/:senderId',
+        cache: false,
         views: {
             'tab-messaging': {
                 templateUrl: 'app/views/messages/messages.html',
@@ -145,6 +152,7 @@
     
     $stateProvider.state('login', {
         url: '/login',
+        cache: false,
         templateUrl: 'app/views/login/login.html',
         controller: 'loginController'
     });
