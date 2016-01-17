@@ -592,6 +592,8 @@ html, body {
     .main-container h2 {
         text-align: center;
         margin-bottom: 0;
+        font-size: 30px;
+        line-height: 1;
     }
 
     .main-container .row {
@@ -622,7 +624,8 @@ html, body {
     .main-container .collection .collection-item p.unit-name {
         width: 100px;
         font-size: 14px;
-        margin-top: 10px;
+        margin-top: 15px;
+        line-height: 1;
     }
 
     .main-container .collection .collection-item .secondary-content {
