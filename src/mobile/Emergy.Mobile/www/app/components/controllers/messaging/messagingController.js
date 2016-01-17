@@ -17,6 +17,9 @@ function messagingController($scope, $state, $rootScope, authService, notificati
             if (notification.Type === "MessageArrived") {
                 notificationService.displaySuccessPopup("You have received a new message!", "Ok");
             }
+            else if (notification.Type === "ReportUpdated") {
+                notificationService.displaySuccessPopup("One of the reports that you submitted had it's status updated!", "Ok");
+            }
         });
     });
 

@@ -18,6 +18,9 @@ function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate
             if (notification.Type === "MessageArrived") {
                 loadMessages();
             }
+            else if (notification.Type === "ReportUpdated") {
+                notificationService.displaySuccessPopup("One of the reports that you submitted had it's status updated!", "Ok");
+            }
         });
     });
 
