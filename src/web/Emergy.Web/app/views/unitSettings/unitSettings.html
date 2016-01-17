@@ -29,15 +29,16 @@
     <div class="row">
         <div class="col s12">
             <form name="editUnitForm" role="form" novalidate>
-                <div class="row">
-                    <div class="input-field col m6 s12">
-                        <input id="unitName" name="unitName" type="text" ng-model="unit.Name" placeholder="New unit name" required ng-required/>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="input-field col l3 m3 s6">
+                        <input id="unitName" name="unitName" type="text" ng-model="unitName" placeholder="Type a new name here" required ng-required/>
                         <small class="validation" ng-show="editUnitForm.unitName.$touched && editUnitForm.unitName.$error.required">Unit name is required.</small>
                     </div>
-                    <div class="input-field col m6 s12">
-                        <a class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
-                        <a class="waves-effect waves-light btn red white-text center-align" ng-click="deleteUnit(unit.Id)"><i class="material-icons left">delete</i>DELETE</a>
-                        <a ng-href="/statistics/{{unit.Id}}" class="waves-effect waves-light btn center-align" ng-click="editUnit(unit.Id)"><i class="material-icons left">equalizer</i> STATS</a>
+                    <div class="input-field col l3 m3 s6">
+                        <a style="margin-top: 5px;" class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
+                    </div>
+                    <div class="input-field col l6 m6 s12 delete-button">
+                        <a style="margin-top: 5px;" class="waves-effect waves-light btn red white-text center-align" ng-click="openUnitDeleteDialog()"><i class="material-icons left">delete</i>DELETE</a>
                     </div>
                 </div>
             </form>
@@ -282,6 +283,21 @@
             </div>
             <div class="col l6 m6 s12">
                 <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="confirmDeleteModal">
+    <div class="report-modal">
+        <h1>Delete unit</h1>
+        <p>By deleting this unit, all of its reports will be removed as well. Are you sure you want to delete this unit?</p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Cancel</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-click="deleteUnit(); closeThisDialog(0)" class="waves-effect waves-light btn red white-text">Yes</a>
             </div>
         </div>
     </div>

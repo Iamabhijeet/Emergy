@@ -506,7 +506,6 @@ html, body {
             display: inline-block;
             margin-top: 15px;
             color: #4A4A4A;
-            width: 210px;
             position: relative;
             top: 16px;
         }
@@ -622,9 +621,8 @@ html, body {
 
     .main-container .collection .collection-item p.unit-name {
         width: 100px;
-        margin-top: 25px;
         font-size: 14px;
-        margin-top: 15px;
+        margin-top: 10px;
     }
 
     .main-container .collection .collection-item .secondary-content {
@@ -1035,6 +1033,10 @@ html, body {
     font-weight: 500;
 }
 
+.main-container.unit-details .delete-button {
+    text-align: right;
+}
+
 @media only screen and (max-width: 780px) {
     .main-container.reports .report-map {
         height: 350px;
@@ -1046,6 +1048,9 @@ html, body {
 }
 
 @media only screen and (max-width: 601px) {
+    .main-container.unit-details .delete-button {
+        text-align: left;
+    }
     .main-container.reports .report-map {
         height: 250px;
     }

@@ -196,11 +196,12 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
 
         var unitEdit = {
             Id: unitId,
-            Name: $scope.unit.Name
+            Name: $scope.unitName
         };
         var promise = unitsService.editUnit(unitEdit);
         promise.then(function () {
             notificationService.pushSuccess("Successfully changed name!");
+            delete $scope.unitName; 
             loadUnit();
         }, function (error) {
             notificationService.pushError("Error has happened while changing unit name.");
@@ -210,10 +211,19 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         });
     };
 
-    $scope.deleteUnit = function (unitId) {
+    $scope.openUnitDeleteDialog = function () {
+        ngDialog.close();
+        ngDialog.open({
+            template: "confirmDeleteModal",
+            disableAnimation: true,
+            scope: $scope
+        });
+    };
+
+    $scope.deleteUnit = function () {
         $scope.isBusy = true;
 
-        var promise = unitsService.deleteUnit(unitId);
+        var promise = unitsService.deleteUnit($scope.unit.Id);
         promise.then(function () {
             notificationService.pushSuccess("Unit has been deleted!");
             $state.go("Units");
