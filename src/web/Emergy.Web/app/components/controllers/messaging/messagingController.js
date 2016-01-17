@@ -31,7 +31,8 @@ function messagingController($scope, $state, $rootScope, $location, authService,
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                loadMessagedUsers();
+                //Implement rest of message notification
             }
         });
     });

@@ -30,7 +30,7 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                //Implement message notification
             }
         });
     });

@@ -31,7 +31,7 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
                 });
             }
             else if (notification.Type === "MessageArrived") {
-                console.log("Test");
+                //Implement message notification
             }
         });
     });

@@ -34,7 +34,10 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                $scope.notifications = [];
+                $scope.lastNotificationDateTime = "";
+                $scope.loadNotifications();
+                //Implement rest of the message notification logic
             }
         });
     });

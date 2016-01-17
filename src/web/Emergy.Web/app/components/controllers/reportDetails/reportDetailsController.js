@@ -34,7 +34,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                //Implement message notification
             }
         });
     });

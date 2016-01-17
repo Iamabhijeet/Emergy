@@ -31,7 +31,7 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
                 });
             }
             else if (notification.Type === "MessageArrived") {
-                console.log("Evo");
+                loadMessages(); 
             }
         });
     });
