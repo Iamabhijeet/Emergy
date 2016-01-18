@@ -10,6 +10,7 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
     $scope.messages = [];
     $scope.notificationAvailable = false;
     $scope.message = "";
+    $scope.targetId = $stateParams.targetId;
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
