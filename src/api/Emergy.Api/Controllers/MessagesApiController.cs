@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get-latest")]
-        [ResponseType(typeof(IEnumerable<Message>))]
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
         public async Task<IHttpActionResult> GetLatest()
         {
             return Ok((await _messagesRepository
@@ -39,18 +40,19 @@ namespace Emergy.Api.Controllers
                                m.Sender.Id == User.Identity.GetUserId(), null, ConstRelations.LoadAllMessageRelations))
                 .OrderByDescending(m => m.Timestamp)
                 .Take(50)
+                .Select(Mapper.Map<vm::MessageVm>)
                 .ToArray());
         }
 
         [HttpGet]
         [Route("get/{id}")]
-        [ResponseType(typeof(Message))]
+        [ResponseType(typeof(vm::MessageVm))]
         public async Task<IHttpActionResult> Get([FromUri] int id)
         {
             var message = await _messagesRepository.GetAsync(id);
             if (message != null)
             {
-                return Ok(message);
+                return Ok(Mapper.Map<vm::MessageVm>(message));
             }
             return NotFound();
         }
@@ -82,8 +84,8 @@ namespace Emergy.Api.Controllers
 
         [HttpPost]
         [Route("get-chats/messages")]
-        [ResponseType(typeof(IEnumerable<Message>))]
-        public async Task<IEnumerable<Message>> GetChats([FromBody]string userId)
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
+        public async Task<IEnumerable<vm::MessageVm>> GetChats([FromBody]string userId)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var messages = new Collection<Message>();
@@ -91,12 +93,13 @@ namespace Emergy.Api.Controllers
             ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
             return messages.Where(message => message.SenderId == userId ||
                                   message.TargetId == userId)
-                           .OrderBy(message => message.Timestamp);
+                           .OrderBy(message => message.Timestamp)
+                           .Select(Mapper.Map<vm::MessageVm>);
         }
 
         [HttpGet]
         [Route("search")]
-        [ResponseType(typeof(IEnumerable<Message>))]
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
         public async Task<IHttpActionResult> SearchByTerm(string searchTerm = null)
         {
             if (!string.IsNullOrEmpty(searchTerm))
@@ -110,6 +113,7 @@ namespace Emergy.Api.Controllers
                                m.Target.Surname.Contains(searchTerm),
                                null, ConstRelations.LoadAllMessageRelations))
               .OrderByDescending(m => m.Timestamp)
+              .Select(Mapper.Map<vm::MessageVm>)
               .ToArray());
             }
             return await GetLatest();

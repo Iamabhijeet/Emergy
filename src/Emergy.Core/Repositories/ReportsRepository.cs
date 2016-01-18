@@ -34,7 +34,7 @@ namespace Emergy.Core.Repositories
         public async Task<bool> PermissionsGranted(int reportId, string userId)
         {
             Report report = await this.GetAsync(reportId).WithoutSync();
-            return (report.CreatorId == userId || report.Unit.AdministratorId == userId);
+            return (report.CreatorId == userId || report.Unit.AdministratorId == userId || report.Unit.Clients.ContainsUser(userId));
         }
 
         public async Task SetResources(int reportId, IEnumerable<int> resourceIds)

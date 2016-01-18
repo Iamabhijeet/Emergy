@@ -48,6 +48,9 @@ namespace Emergy.Api.Mappings
             Mapper.CreateMap<Report, ReportDetailsViewModel>().IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateMessageVm, Message>().IgnoreUnmappedProperties();
+            Mapper.CreateMap<Message, MessageVm>()
+                .ForMember(dest => dest.SenderUserName, options => options.MapFrom(src => src.Sender.UserName))
+                .IgnoreUnmappedProperties();
 
             Mapper.CreateMap<CreateNotificationVm, Notification>().IgnoreUnmappedProperties();
 
