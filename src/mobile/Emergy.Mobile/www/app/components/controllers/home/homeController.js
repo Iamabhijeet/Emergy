@@ -407,7 +407,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         }).then(function (modal) {
             $scope.modal = modal;
             $scope.modal.show();
-            loadCustomProperties(1);
+            loadCustomProperties($scope.selectedUnitId);
         });
     };
     $scope.openSubmitDialog = function () {
