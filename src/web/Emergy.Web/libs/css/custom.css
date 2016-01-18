@@ -954,6 +954,16 @@ html, body {
     margin-bottom: 10px;
 }
 
+.main-container.reports .report-assignment p {
+    margin-bottom: 0;
+}
+
+.main-container.reports .report-assignment p span {
+    color: #1599AB;
+    font-weight: 500;
+}
+
+
 .main-container.reports .resources .col {
     padding: 5px;
 }

@@ -11,8 +11,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     $scope.isBusy = false;
     $scope.isLoading = true;
     $scope.notificationAvailable = false;
-
-    
+    $scope.assignedUser = {}; 
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -134,8 +133,8 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
 
     var loadAssignments = function () {
         var promise = assignmentService.getAssignments($scope.report.Id);
-        promise.then(function (assignment) {
-            $scope.assignedUser = assignment.Target;
+        promise.then(function (assignments) {
+            $scope.assignedUser = assignments[0].TargetId; 
         }, function (error) {
             notificationService.pushError("Error has happened while loading report assignments!");
         }).finally(function () {

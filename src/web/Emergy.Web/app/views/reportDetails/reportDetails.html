@@ -33,9 +33,9 @@
     </div>
     <div class="row report-assignment" ng-if="!isLoading">
         <p ng-if="assignedUser">
-            <span>{{ assignedUser.UserName}}</span> is currently assigned to resolve this report.
+            <span>{{ assignedUser }}</span> is currently assigned to resolve this report.
         </p>
-        <form role="form" name="createAssignmentForm" novalidate>
+        <form ng-if="!assignedUser" role="form" name="createAssignmentForm" novalidate>
             <div class="col l11 m11 s10" style="padding: 0;">
                 <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
                 <small class="validation" ng-show="createAssignmentForm.userName.$touched && createAssignmentForm.userName.$error.required">Username is required.</small>
