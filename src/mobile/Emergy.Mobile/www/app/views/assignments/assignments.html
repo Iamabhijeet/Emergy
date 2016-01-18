@@ -1,21 +1,40 @@
 ﻿<ion-view name="tab-assignments" view-title="Assignments">
     <ion-content class="padding has-header">
-        <div class="assignments-container">
-            <p class="main-text">You have been assigned by <span>TestAdmin</span> to resolve the report submitted by <span>TestingUser</span></p>
+        <div ng-if="report && !isLoading" class="assignments-container">
+            <p class="main-text">You have been assigned by <span>{{ assignment.AdminUserName }}</span> to resolve the report submitted by <span>{{ report.Creator.UserName }}</span></p>
             <a class="button button-block button-positive" ng-click="viewDirections()">
                 View directions to location
             </a>
             <p class="information-title">Description</p>
-            <p class="information">This is a random description im just using to test this lorem ipsum dolor sit amet</p>
+            <p ng-if="!report.Description" class="information">User has not provided a description for this report.</p>
+            <p ng-if="report.Description" class="information">{{ report.Description }}</p>
             <p class="information-title">Category</p>
-            <p class="information">Injury</p>
-            <p class="information-title">Some random field?</p>
-            <p class="information">No, but just in case</p>
-            <p class="information-title">Anyone died?</p>
-            <p class="information">Yes</p>
+            <p class="information">{{ report.Category.Name }}</p>
+            <div ng-if="report.Details.CustomPropertyValues.length > 0" ng-repeat="detail in report.Details.CustomPropertyValues">
+                <p class="information-title">{{ detail.CustomProperty.Name }}</p>
+                <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="information">Yes</p>
+                <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="information">No</p>
+                <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="information">{{ detail.SerializedValue }}</p>
+            </div>
+
+            
+            <p class="information-title">Current status</p>
+            <p class="information">{{ report.Status }}</p>
+            <label class="item item-input item-select">
+                <div class="input-label">Change status</div>
+                <select ng-model="report.Status" ng-change="changeStatus(report.Status)">
+                    <option value="Created">Created</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Failure">Failure</option>
+                </select>
+            </label>
 
             <p class="warning-text"><span>Note</span>: Your current location is being sent to the administrator.</p>
             
+        </div>
+        <div class="assignments-container" ng-if="!report">
+            <p class="empty-warning">You aren't assigned to resolve any report currently.</p>
         </div>
     </ion-content>
 </ion-view>

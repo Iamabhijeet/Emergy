@@ -433,6 +433,20 @@ ion-tabs.tabs-color-active-positive .tab-item {
     margin-bottom: 0; 
 }
 
+.assignments-container label {
+    margin-top: 20px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    margin-bottom: 30px;
+    padding-left: 2px;
+}
+
+.assignments-container .input-label {
+    color: #00ACC1;
+    font-weight: 500;
+}
+
 /*-----------end ASSIGNMENTS-----------*/
 
 /*-----------begin DIRECTIONS-----------*/

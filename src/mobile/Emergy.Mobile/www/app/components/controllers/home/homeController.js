@@ -15,7 +15,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.reportVideoData = "";
     $scope.connectionStatus = "";
     $scope.reportDetails = {};
-    var posOptions = { timeout: 10000, enableHighAccuracy: true };
+    var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -26,6 +26,9 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             }
             else if (notification.Type === "ReportUpdated") {
                 notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+            }
+            else if (notification.Type === "AssignedForReport") {
+                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
             }
         });
     });

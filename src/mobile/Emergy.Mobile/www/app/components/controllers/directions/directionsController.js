@@ -16,6 +16,9 @@ function directionsController($scope, $state, $rootScope, authService, notificat
             else if (notification.Type === "ReportUpdated") {
                 notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
+            else if (notification.Type === "AssignedForReport") {
+                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+            }
         });
     });
 }
