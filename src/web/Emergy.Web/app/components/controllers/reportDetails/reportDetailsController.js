@@ -11,7 +11,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     $scope.isBusy = false;
     $scope.isLoading = true;
     $scope.notificationAvailable = false;
-    $scope.assignedUser = {}; 
+    $scope.assignedUser = ""; 
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -55,8 +55,25 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         promise.then(function (user) {
             var promise = assignmentService.createAssignment($scope.report.Id, user.data.Id);
             promise.then(function (assignmentId) {
-                notificationService.pushError("Successfully assigned user to report!");
-                loadAssignments();
+                var notification = {
+                    Content: "Administrator has assigned you to resolve a report!",
+                    TargetId: user.data.Id,
+                    Type: "AssignedForReport",
+                    ParameterId: $scope.report.Id
+                }
+
+                var promise = notificationService.createNotification(notification);
+                promise.then(function(notificationId) {
+                    loadAssignments();
+                    notificationService.pushError("Successfully assigned user to report!");
+                    try {
+                        hub.server.sendNotification(notificationId);
+                    } catch (err) {
+                        notificationService.pushError("Error has happened while pushing a notification.");
+                    }
+                }, function() {
+                    notificationService.pushError("Error has happened while creating a notification.");
+                });  
             }, function (error) {
                 notificationService.pushError("Error has happened while assigning user to the report!");
             }).finally(function () {
@@ -134,7 +151,9 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     var loadAssignments = function () {
         var promise = assignmentService.getAssignments($scope.report.Id);
         promise.then(function (assignments) {
-            $scope.assignedUser = assignments[0].TargetId; 
+            if (assignments.length != 0) {
+                $scope.assignedUser = assignments[0].TargetId;
+            }
         }, function (error) {
             notificationService.pushError("Error has happened while loading report assignments!");
         }).finally(function () {
