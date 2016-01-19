@@ -122,7 +122,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 $scope.report = null;
             }
         }, function() {
-            notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "Ok");
+             $scope.report = null;
         }).finally(function() {
             notificationService.hideLoading();
             $scope.isLoading = false; 

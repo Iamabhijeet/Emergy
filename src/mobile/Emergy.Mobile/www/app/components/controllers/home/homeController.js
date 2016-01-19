@@ -37,6 +37,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         $scope.connectionStatus = "connecting";
     }
 
+    if (signalR.isConnected) {
+        $scope.connectionStatus = "connected";
+    }
+
     $rootScope.$on(signalR.events.realTimeConnected, function () {
         $scope.connectionStatus = "connected";
     });
