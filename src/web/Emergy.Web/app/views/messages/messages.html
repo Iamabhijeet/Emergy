@@ -15,7 +15,7 @@
         <ul class="collection">
             <li class="collection-item" ng-repeat="message in messages">
                 <div ng-if="targetId === message.SenderId">
-                    <span class="title">{{ message.Sender.UserName }}</span> - <span class="message-tim">{{ message.Timestamp | date: "h:mma" }}</span>
+                    <span class="title">{{ message.SenderUserName }}</span> - <span class="message-tim">{{ message.Timestamp | date: "h:mma" }}</span>
                     <p>{{ message.Content }}</p>
                 </div>
                 <div ng-if="targetId !== message.SenderId">

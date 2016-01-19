@@ -33,7 +33,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 });
             }
             else if (notification.Type === "MessageArrived") {
-                //Implement message notification
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
         });
     });
@@ -130,12 +130,8 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
             notificationService.pushError("Error has happened while changing the status.");
         });
     }
-    $scope.generatePdf = function (report) {
+    $scope.generatePdf = function () {
         window.print();
-        //pdfService.generate(report).then(function () {
-        //    $scope.printMode = false;
-        //    notificationService.pushSuccess("Report documentation (pdf) has been generated!");
-        //});
     }
 
     var loadReport = function () {
@@ -152,7 +148,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         var promise = assignmentService.getAssignments($scope.report.Id);
         promise.then(function (assignments) {
             if (assignments.length != 0) {
-                $scope.assignedUser = assignments[0].TargetId;
+                $scope.assignedUserName = assignments[0].TargetUserName;
             }
         }, function (error) {
             notificationService.pushError("Error has happened while loading report assignments!");

@@ -4,6 +4,25 @@
 
 
 /*-----------GENERAL STYLING-----------*/
+
+.toast a {
+    display: block;
+    margin-left: 25px;
+    color: #57C8FF;
+    font-weight: 500; 
+}
+
+.toast {
+    background-color: #37474f;
+    border: 1px solid #18C0D6;
+    top: 5px;
+    border-radius: 4px;
+}
+
+.toast span {
+    font-weight: 500;
+}
+
 html, body {
     height: 100%;
 }

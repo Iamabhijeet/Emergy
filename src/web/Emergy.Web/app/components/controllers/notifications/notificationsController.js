@@ -37,7 +37,7 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
                 $scope.notifications = [];
                 $scope.lastNotificationDateTime = "";
                 $scope.loadNotifications();
-                //Implement rest of the message notification logic
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
         });
     });

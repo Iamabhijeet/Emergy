@@ -33,7 +33,7 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 });
             }
             else if (notification.Type === "MessageArrived") {
-                //Implement message notification
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
         });
     });

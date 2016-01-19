@@ -32,7 +32,10 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
                 });
             }
             else if (notification.Type === "MessageArrived") {
-                loadMessages(); 
+                loadMessages();
+            }
+            else if (notification.Type === "MessageArrived" && notification.SenderId !== $stateParams.targetId) {
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
         });
     });

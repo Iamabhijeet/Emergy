@@ -11,6 +11,8 @@
             <div ng-repeat="notification in notifications">
                 <a ng-if="notification.Type == 'ReportCreated'" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender.UserName }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp | date: "h:mma" }}</span> on <span>{{ notification.Timestamp | date: "MM-dd-yyyy" }}</span></a>
                 <a ng-if="notification.Type == 'MessageArrived'" ng-href="/dashboard/messages/{{ notification.TargetId }}" class="collection-item"><span>{{ notification.Sender.UserName }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp | date: "h:mma" }}</span> on <span>{{ notification.Timestamp | date: "MM-dd-yyyy" }}</span></a>
+                <a ng-if="notification.Type == 'ReportUpdated' && notification.Content.length > 11" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender.UserName }}</span> {{ notification.Content }} at <span>{{ notification.Timestamp | date: "h:mma" }}</span> on <span>{{ notification.Timestamp | date: "MM-dd-yyyy" }}</span></a>
+                <a ng-if="notification.Type == 'ReportUpdated' && notification.Content.length < 11" ng-href="/dashboard/report/{{ notification.ParameterId }}" class="collection-item"><span>{{ notification.Sender.UserName }}</span> has changed the report status to {{ notification.Content }} at <span>{{ notification.Timestamp | date: "h:mma" }}</span> on <span>{{ notification.Timestamp | date: "MM-dd-yyyy" }}</span></a>
             </div>
         </div>
 

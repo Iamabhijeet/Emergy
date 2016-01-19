@@ -4,7 +4,7 @@
     app.controller('statsController', stats);
     stats.$inject = ['statsService', '$rootScope'];
 
-    function stats(statsService, $rootscope) {
+    function stats(statsService, $rootScope) {
         var vm = this;
         $rootScope.title = 'Statistics | Emergy';
 

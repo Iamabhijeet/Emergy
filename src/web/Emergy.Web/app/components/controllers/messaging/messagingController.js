@@ -32,7 +32,7 @@ function messagingController($scope, $state, $rootScope, $location, authService,
             }
             else if (notification.Type === "MessageArrived") {
                 loadMessagedUsers();
-                //Implement rest of message notification
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
         });
     });
