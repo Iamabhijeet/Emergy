@@ -58,7 +58,7 @@ function notificationService($http, $q, serviceBase) {
         if (error !== null) {
             errorString = error;
         }
-        Materialize.toast(errorString, 1500);    
+        Materialize.toast(errorString, 2500);    
     }
     function pushSuccess(message) {
         Materialize.toast(message, 10000);

@@ -17,7 +17,7 @@ function messageService($http, $q, serviceBase) {
 
     var getMessages = function (userId) {
         var deffered = $q.defer();
-        $http.post(serviceBase + 'api/messages/get-chats/messages/', JSON.stringify(userId))
+        $http.post(serviceBase + 'api/messages/get-chats/messages/', userId)
         .success(function (response) {
             deffered.resolve(response);
         })

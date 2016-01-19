@@ -63,31 +63,41 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         $scope.isBusy = true;
         var promise = accountService.getProfileByUsername(userName);
         promise.then(function (user) {
-            var promise = assignmentService.createAssignment($scope.report.Id, user.data.Id);
-            promise.then(function (assignmentId) {
-                var notification = {
-                    Content: "Administrator has assigned you to resolve a report!",
-                    TargetId: user.data.Id,
-                    Type: "AssignedForReport",
-                    ParameterId: $scope.report.Id
+            var promise = assignmentService.isAssigned(user.data.Id);
+            promise.then(function(isAssigned) {
+                if (isAssigned) {
+                    notificationService.pushError("This user already has an assignment!");
                 }
+                else {
+                    var promise = assignmentService.createAssignment($scope.report.Id, user.data.Id);
+                    promise.then(function (assignmentId) {
+                        var notification = {
+                            Content: "Administrator has assigned you to resolve a report!",
+                            TargetId: user.data.Id,
+                            Type: "AssignedForReport",
+                            ParameterId: $scope.report.Id
+                        }
 
-                var promise = notificationService.createNotification(notification);
-                promise.then(function(notificationId) {
-                    loadAssignments();
-                    notificationService.pushError("Successfully assigned user to report!");
-                    try {
-                        hub.server.sendNotification(notificationId);
-                    } catch (err) {
-                        notificationService.pushError("Error has happened while pushing a notification.");
-                    }
-                }, function() {
-                    notificationService.pushError("Error has happened while creating a notification.");
-                });  
-            }, function (error) {
+                        var promise = notificationService.createNotification(notification);
+                        promise.then(function (notificationId) {
+                            loadAssignments();
+                            notificationService.pushError("Successfully assigned user to report!");
+                            try {
+                                hub.server.sendNotification(notificationId);
+                            } catch (err) {
+                                notificationService.pushError("Error has happened while pushing a notification.");
+                            }
+                        }, function () {
+                            notificationService.pushError("Error has happened while creating a notification.");
+                        });
+                    }, function (error) {
+                        notificationService.pushError("Error has happened while assigning user to the report!");
+                    }).finally(function () {
+                        $scope.isBusy = false;
+                    });
+                }
+            }, function() {
                 notificationService.pushError("Error has happened while assigning user to the report!");
-            }).finally(function () {
-                $scope.isBusy = false;
             });
         }, function (error) {
             notificationService.pushError("User with the specified username does not exist!");
@@ -129,7 +139,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                     } catch (err) {
                         notificationService.pushError("Error has happened while pushing a notification.");
                     }
-                    notificationService.pushSuccess("Status changed to " + newStatus);
+                    notificationService.pushSuccess("Status changed to " + newStatus);            
                 }, function () {
                     notificationService.pushError("Error has happened while changing the status.");
                 });

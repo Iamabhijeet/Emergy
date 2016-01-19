@@ -34,9 +34,23 @@ function assignmentService($http, $q, serviceBase) {
         return deffered.promise;
     };
 
+    var isAssigned = function (userId) {
+        var deffered = $q.defer();
+
+        $http.post(serviceBase + 'api/assignments/is-assigned/' + userId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var service = {
         createAssignment: createAssignment,
-        getAssignments: getAssignments
+        getAssignments: getAssignments,
+        isAssigned: isAssigned
     };
 
     return service;
