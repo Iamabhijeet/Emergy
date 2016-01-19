@@ -22,6 +22,7 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
                     ngDialog.close();
+                    document.getElementById("notificationSound").play();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
@@ -32,10 +33,20 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
                 });
             }
             else if (notification.Type === "MessageArrived") {
+                document.getElementById("notificationSound").play();
                 loadMessages();
             }
             else if (notification.Type === "MessageArrived" && notification.SenderId !== $stateParams.targetId) {
+                document.getElementById("notificationSound").play();
                 notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });

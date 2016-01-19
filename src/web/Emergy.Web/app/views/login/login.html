@@ -2,16 +2,16 @@
     <div class="row">
         <div class="col s12">
             <div class="register-card">
-                <img src="/assets/img/login-account-icon.png" class="login-icon" />
+                <img src="/assets/img/login-account-icon.png" class="login-icon"/>
                 <form role="form" name="loginForm" class="col s12" novalidate>
                     <div class="input-field col s10 email">
                         <i class="material-icons prefix">account_circle</i>
-                        <input ng-class="{ 'valid' : loginForm.userName.$touched && loginForm.userName.$valid, 'invalid' : loginForm.userName.$touched && loginForm.userName.$invalid }" name="userName" id="userName" placeholder="Your username" required type="text" ng-model="user.userName" />
+                        <input ng-class="{ 'valid' : loginForm.userName.$touched && loginForm.userName.$valid, 'invalid' : loginForm.userName.$touched && loginForm.userName.$invalid }" name="userName" id="userName" placeholder="Your username" required type="text" ng-model="user.userName"/>
                         <small class="validation" ng-show="loginForm.userName.$touched && loginForm.userName.$error.required">Username is required.</small>
                     </div>
                     <div class="input-field col s10 password">
                         <i class="material-icons prefix">vpn_key</i>
-                        <input ng-class="{ 'valid' : loginForm.password.$touched && loginForm.password.$valid, 'invalid' : loginForm.password.$touched && loginForm.password.$invalid }" id="password" name="password" placeholder="Your password" required type="password" ng-model="user.password" />
+                        <input ng-class="{ 'valid' : loginForm.password.$touched && loginForm.password.$valid, 'invalid' : loginForm.password.$touched && loginForm.password.$invalid }" id="password" name="password" placeholder="Your password" required type="password" ng-model="user.password"/>
                         <small class="validation" ng-show="loginForm.password.$touched && loginForm.password.$error.required">Password is required.</small>
                     </div>
                     <div class="col s12">
@@ -23,7 +23,8 @@
         <div class="col s12">
             <div class="card small">
                 <h5 class="left-align col s10 register-question-heading">Don't have an account?</h5>
-                <p class="col s10">Click <a ng-href="/account/register">here</a> to sign up</p>
+                <p class="col s10">Click <a ng-href="/account/register">here</a> to sign up
+                </p>
             </div>
         </div>
     </div>
