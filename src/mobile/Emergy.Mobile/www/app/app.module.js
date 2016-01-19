@@ -1,4 +1,4 @@
-﻿var app = angular.module('emergy', ['ionic', 'ngCordova', 'ionMdInput', 'emergy.controllers', 'emergy.services', 'emergy.directives']);
+﻿var app = angular.module('emergy', ['ionic', 'ngCordova', 'ionMdInput', 'ngMap', 'emergy.controllers', 'emergy.services', 'emergy.directives']);
 
 app.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

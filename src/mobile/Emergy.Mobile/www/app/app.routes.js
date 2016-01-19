@@ -82,7 +82,7 @@
     });
 
     $stateProvider.state('tab.directions', {
-        url: '/directions',
+        url: '/directions/:reportId',
         cache: false,
         views: {
             'tab-home': {

@@ -461,17 +461,79 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .directions-container .list.card {
-    height: 200px; 
+    height: 200px;
+    width: calc(100% - 20px); 
     overflow-y: scroll;
     position: fixed;
     bottom: 30px;
 }
 
+.map-wrapper {
+    position: relative;
+    padding-bottom: 95%;
+    height: 0;
+    overflow: hidden; 
+}
+
+.map-wrapper ng-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .platform-android .directions-container .list.card {
-    height: 200px; 
+    height: 25%; 
     overflow-y: scroll;
     position: fixed;
     bottom: -20px;
+}
+
+#directions-panel {
+    padding-right: 10px;
+}
+
+.platform-ios #directions-panel {
+    position: fixed;
+    bottom: 0;
+    height: 42%;    
+    overflow-y: scroll;
+}
+
+.platform-android #directions-panel {
+    position: fixed;
+    bottom: 0;
+    height: 35%;    
+    overflow-y: scroll;
+}
+
+#directions-panel td.adp-substep {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#directions-panel b {
+    font-weight: 500;
+    color: #00ACC1;
+}
+
+#directions-panel .adp-placemark tbody tr {
+    display: none;    
+}
+
+#directions-panel .adp-legal {
+    display: none;    
+}
+
+#directions-panel .adp-summary {
+    display: none;    
+}
+
+#directions-panel .adp-maneuver {
+    display: none;   
 }
 
 /*-----------end DIRECTIONS-----------*/

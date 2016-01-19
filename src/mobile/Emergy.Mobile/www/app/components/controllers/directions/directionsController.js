@@ -3,9 +3,15 @@
 var controllerId = 'directionsController';
 
 app.controller(controllerId,
-    ['$scope', '$state', '$rootScope', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', directionsController]);
+    ['$scope', '$state', '$rootScope', '$stateParams', 'authService', 'notificationService', 'reportsService', 'connectionStatusService', 'hub', 'signalR', 'locationService', directionsController]);
 
-function directionsController($scope, $state, $rootScope, authService, notificationService, reportsService, connectionStatusService, hub, signalR) {
+function directionsController($scope, $state, $rootScope, $stateParams, authService, notificationService, reportsService, connectionStatusService, hub, signalR, locationService) {
+    $scope.isLoading = true;
+    $scope.destinationLatitude = {};
+    $scope.destinationLatitude = {};
+    $scope.originLatitude = {};
+    $scope.originLongitude = {};
+    
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
@@ -21,4 +27,20 @@ function directionsController($scope, $state, $rootScope, authService, notificat
             }
         });
     });
+
+    var loadDestination = function () {
+        notificationService.displayLoading("Loading directions information...");
+        var promise = locationService.getLocationForReport($stateParams.reportId);
+        promise.then(function (location) {
+            $scope.destinationLatitude = location.Latitude;
+            $scope.destinationLongitude = location.Longitude;
+        }, function() {
+
+        }).finally(function() {
+            notificationService.hideLoading();
+            $scope.isLoading = false;
+        });
+    }
+
+    loadDestination();
 }

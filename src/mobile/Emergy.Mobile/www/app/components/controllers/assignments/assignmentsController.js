@@ -26,6 +26,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
         });
     });
 
+    $scope.viewDirections = function () {
+        $state.go("tab.directions", { reportId: $scope.report.Id });
+    };
+
     $scope.changeStatus = function(newStatus) {
         var promise = reportsService.changeStatus($scope.report.Id, JSON.stringify(newStatus));
         promise.then(function () {
@@ -124,10 +128,6 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
             $scope.isLoading = false; 
         });
     }
-
-    $scope.viewDirections = function() {
-        $state.go("tab.directions");
-    };
 
     loadAssignment(); 
 }

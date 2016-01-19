@@ -1,27 +1,18 @@
 ﻿<ion-view name="tab-directions" view-title="Directions">
-    <ion-content class="padding has-header">
-        <div class="map-container">
-            Ovde gore ide mapa
+    <ion-content class="padding has-header" has-bouncing="false">
+        <div ng-if="!isLoading" class="map-wrapper">
+            <ng-map zoom="14" center="37.7699298, -122.4469157" on-click="logLatLng()" styles="[{'featureType':'landscape.natural','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'color':'#e0efef'}]},{'featureType':'poi','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'hue':'#1900ff'},{'color':'#c0e8e8'}]},{'featureType':'road','elementType':'geometry','stylers':[{'lightness':100},{'visibility':'simplified'}]},{'featureType':'road','elementType':'labels','stylers':[{'visibility':'off'}]},{'featureType':'transit.line','elementType':'geometry','stylers':[{'visibility':'on'},{'lightness':700}]},{'featureType':'water','elementType':'all','stylers':[{'color':'#00ACC1'}]}]">
+                <directions draggable="false"
+                            travel-mode="DRIVING"
+                            panel="directions-panel"
+                            origin="43.511549, 16.458399"
+                            destination="{{ destinationLatitude }}, {{ destinationLongitude }}" >
+                </directions>
+            </ng-map>
         </div>
+
     </ion-content>
-    <div class="directions-container">
-        <div class="list card">
-            <p class="item item-icon-left">
-                <i class="icon ion-ios-navigate-outline"></i>
-                Turn right on Krležina 22
-            </p>
-            <p class="item item-icon-left">
-                <i class="icon ion-ios-navigate-outline"></i>
-                Continue and change to another lane on highway
-            </p>
-            <p class="item item-icon-left">
-                <i class="icon ion-ios-navigate-outline"></i>
-                Test
-            </p>
-            <p class="item item-icon-left">
-                <i class="icon ion-ios-navigate-outline"></i>
-                Test
-            </p>
-        </div>
+    <div ng-if="!isLoading" id="directions-panel">
+
     </div> 
 </ion-view>
