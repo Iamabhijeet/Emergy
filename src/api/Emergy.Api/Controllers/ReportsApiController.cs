@@ -97,6 +97,7 @@ namespace Emergy.Api.Controllers
                 Unit unit = await _unitsRepository.GetAsync(model.UnitId).WithoutSync();
                 if (unit != null)
                 {
+                    report.Status = ReportStatus.Processing;
                     _reportsRepository.Insert(report, User.Identity.GetUserId(), unit);
                     await _reportsRepository.SaveAsync().Sync();
                     return Ok(report.Id);
