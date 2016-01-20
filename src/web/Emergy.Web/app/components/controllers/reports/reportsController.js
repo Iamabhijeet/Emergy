@@ -16,6 +16,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.lastReportDateTime = '';
     $scope.notificationAvailable = false;
     $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
+    $scope.showMore = false; 
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -70,9 +71,12 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
         $scope.isBusy = true;
         var promise = reportsService.getReports($scope.lastReportDateTime);
         promise.then(function (reports) {
-            $scope.reports = $scope.reports.concat(reports);
             if (reports.length % 10 === 0 && reports.length !== 0) {
+                $scope.showMore = true;
+            }
+            if (reports.length && reports[0].Timestamp !== $scope.lastReportDateTime) {
                 $scope.lastReportDateTime = reports[reports.length - 1].Timestamp;
+                $scope.reports = $scope.reports.concat(reports);
             }
         }, function () {
             notificationService.pushError("Error has happened while loading reports.");

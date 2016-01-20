@@ -1075,6 +1075,7 @@ html, body {
     .main-container.unit-details .delete-button {
         text-align: left;
     }
+
     .main-container.reports .report-map {
         height: 200px;
         margin-top: 30px;
@@ -1091,7 +1092,7 @@ html, body {
     .main-container.reports .head-information p {
         text-align: center;
     }
-
+}
 
 @media only screen and (max-width: 471px) {
     .main-container.reports .row.report-assignment {

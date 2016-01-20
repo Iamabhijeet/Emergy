@@ -10,6 +10,7 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
     $scope.isBusy = true;
     $scope.notifications = [];
     $scope.lastNotificationDateTime = '';
+    $scope.showMore = false; 
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         var promise = notificationService.getNotification(response);
@@ -73,9 +74,12 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
         $scope.isBusy = true;
         var promise = notificationService.getNotifications($scope.lastNotificationDateTime);
         promise.then(function (notifications) {
-            $scope.notifications = $scope.notifications.concat(notifications);
             if (notifications.length % 20 === 0 && notifications.length !== 0) {
+                $scope.showMore = true;
+            }
+            if (notifications.length && notifications[0].Timestamp !== $scope.lastNotificationDateTime) {
                 $scope.lastNotificationDateTime = notifications[notifications.length - 1].Timestamp;
+                $scope.notifications = $scope.notifications.concat(notifications);
             }
         }, function (error) {
             notificationService.pushError("Error has happened while loading notifications.");
