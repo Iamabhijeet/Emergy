@@ -33,7 +33,13 @@
         <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
             <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
             </ui-gmap-marker>
-            <ui-gmap-marker coords="userLocationMarker" idkey="1">
+            <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+        <ui-gmap-google-map ng-if="userLocationAvailable" control="map.control" center="userLocationMarker" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
+            </ui-gmap-marker>
+            <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
             </ui-gmap-marker>
         </ui-gmap-google-map>
     </div>

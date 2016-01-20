@@ -67,6 +67,7 @@
     <Content Include="app\components\services\auth\authInterceptorService.js" />
     <Content Include="app\components\services\auth\authService.js" />
     <Content Include="app\components\services\clients\clientsDashboardService.js" />
+    <Content Include="app\components\services\location\locationService.js" />
     <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\message\messageService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />

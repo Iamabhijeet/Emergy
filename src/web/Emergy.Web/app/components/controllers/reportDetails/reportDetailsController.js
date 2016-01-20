@@ -4,14 +4,15 @@ var controllerId = 'reportDetailsController';
 
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', '$window', 'unitsService', 'reportsService',
-        'authService', 'notificationService', 'assignmentService', 'accountService', 'signalR', 'ngDialog', 'NgMap', 'hub', reportDetailsController]);
+        'authService', 'notificationService', 'assignmentService', 'accountService', 'signalR', 'ngDialog', 'NgMap', 'hub', 'locationService', reportDetailsController]);
 
-function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, signalR, ngDialog, NgMap, hub) {
+function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, signalR, ngDialog, NgMap, hub, locationService) {
     $rootScope.title = "Report | Details";
     $scope.isBusy = false;
     $scope.isLoading = true;
     $scope.notificationAvailable = false;
-    $scope.assignedUser = ""; 
+    $scope.assignedUser = "";
+    $scope.userLocationAvailable = false;
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -189,8 +190,20 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     var loadAssignments = function () {
         var promise = assignmentService.getAssignments($scope.report.Id);
         promise.then(function (assignments) {
-            if (assignments.length != 0) {
+            if (assignments.length !== 0) {
                 $scope.assignedUserName = assignments[0].TargetUserName;
+                var promise = locationService.getLatestUserLocation(assignments[0].TargetId);
+                promise.then(function (location) {
+                    if (location) {
+                        $scope.userLocationMarker = {
+                            latitude: location.Latitude,
+                            longitude: location.Longitude
+                        }
+                        $scope.userLocationAvailable = true; 
+                    }
+                }, function() {
+
+                });
             }
         }, function (error) {
             notificationService.pushError("Error has happened while loading report assignments!");
