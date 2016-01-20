@@ -18,8 +18,7 @@
         };
 
         var factory = {
-            takePhotoFromCamera: takePhotoFromCamera, 
-            selectVideo: selectVideo
+            takePhotoFromCamera: takePhotoFromCamera
         };
         return factory;
     };
