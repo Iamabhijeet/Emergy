@@ -20,19 +20,20 @@ namespace Emergy.Api.Controllers
     {
         [HttpGet]
         [Route("get")]
-        public async Task<Assignment> GetAssignment()
+        public async Task<dto::AssigmentVm> GetAssignment()
         {
             var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId()).WithoutSync();
-            return (await _assignmentsRepository.GetAssignments(user).WithoutSync())
-                .OrderByDescending(assignment => assignment.Timestamp)
+            var assignment = (await _assignmentsRepository.GetAssignments(user).WithoutSync())
+                .OrderByDescending(a => a.Timestamp)
                 .ElementAt(0);
+            return (assignment != null) ? dto::AssigmentVm.Create(assignment) : null;
         }
         [HttpGet]
         [Route("get/{reportId}")]
-        public async Task<IEnumerable<Assignment>> GetAssignments([FromUri] int reportId)
+        public async Task<IEnumerable<dto::AssigmentVm>> GetAssignments([FromUri] int reportId)
         {
             var report = await _reportsRepository.GetAsync(reportId).WithoutSync();
-            return await _assignmentsRepository.GetAssignments(report).WithoutSync();
+            return (await _assignmentsRepository.GetAssignments(report).WithoutSync()).Select(dto::AssigmentVm.Create);
         }
 
         [HttpPost]

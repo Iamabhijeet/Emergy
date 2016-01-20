@@ -10,5 +10,9 @@ namespace Emergy.Core.Common
         {
             return clients.Any(client => client.Id == user.Id);
         }
+        public static bool ContainsUser(this IEnumerable<ApplicationUser> clients, string userId)
+        {
+            return clients.Any(client => client.Id == userId);
+        }
     }
 }

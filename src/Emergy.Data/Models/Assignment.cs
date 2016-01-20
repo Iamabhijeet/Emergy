@@ -7,16 +7,16 @@ namespace Emergy.Data.Models
 {
     public class Assignment : ModelBase
     {
-        [Required]
         public virtual Report Report { get; set; }
-        public int ReportId { get; set; }
         [Required]
+        public int ReportId { get; set; }
         [JsonIgnore]
         public virtual ApplicationUser Target { get; set; }
-        public string TargetId { get; set; }
         [Required]
+        public string TargetId { get; set; }
         [JsonIgnore]
         public virtual ApplicationUser Admin { get; set; }
+        [Required]
         public string AdminId { get; set; }
         [Required]
         public DateTime Timestamp { get; set; } = DateTime.Now;

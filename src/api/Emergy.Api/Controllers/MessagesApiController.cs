@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,15 +32,30 @@ namespace Emergy.Api.Controllers
 
         [HttpGet]
         [Route("get-latest")]
-        [ResponseType(typeof(IEnumerable<Message>))]
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
         public async Task<IHttpActionResult> GetLatest()
         {
+            var userId = User.Identity.GetUserId();
             return Ok((await _messagesRepository
-                .GetAsync(m => m.Target.Id == User.Identity.GetUserId() ||
-                               m.Sender.Id == User.Identity.GetUserId(), null, ConstRelations.LoadAllMessageRelations))
+                .GetAsync(m => m.TargetId == userId ||
+                               m.TargetId == userId, null, ConstRelations.LoadAllMessageRelations))
                 .OrderByDescending(m => m.Timestamp)
                 .Take(50)
+                .Select(Mapper.Map<vm::MessageVm>)
                 .ToArray());
+        }
+
+        [HttpGet]
+        [Route("get/{id}")]
+        [ResponseType(typeof(vm::MessageVm))]
+        public async Task<IHttpActionResult> Get([FromUri] int id)
+        {
+            var message = await _messagesRepository.GetAsync(id);
+            if (message != null)
+            {
+                return Ok(Mapper.Map<vm::MessageVm>(message));
+            }
+            return NotFound();
         }
 
         [HttpGet]
@@ -47,18 +63,18 @@ namespace Emergy.Api.Controllers
         [ResponseType(typeof(IEnumerable<UserProfile>))]
         public async Task<IEnumerable<UserProfile>> GetChats()
         {
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var messages = new Collection<Message>();
-            ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
-            ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
+            var userId = User.Identity.GetUserId();
+            var messages = await _messagesRepository
+                    .GetAsync(m => m.TargetId == userId ||
+                                   m.SenderId == userId, null, ConstRelations.LoadAllMessageRelations);
             var userIds = messages
                            .OrderBy(message => message.Timestamp)
-                           .SelectMany(message => new[] { message.TargetId , message.SenderId})
+                           .SelectMany(message => new[] { message.TargetId, message.SenderId })
                            .Distinct();
             var mappedUsers = new Collection<UserProfile>();
             foreach (var id in userIds)
             {
-                if (id != user.Id)
+                if (id != User.Identity.GetUserId())
                 {
                     var userWithId = await UserManager.FindByIdAsync(id);
                     mappedUsers.Add(Mapper.Map<UserProfile>(userWithId));
@@ -69,34 +85,45 @@ namespace Emergy.Api.Controllers
 
         [HttpPost]
         [Route("get-chats/messages")]
-        [ResponseType(typeof(IEnumerable<Message>))]
-        public async Task<IEnumerable<Message>> GetChats([FromBody]string userId)
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
+        public async Task<IEnumerable<vm::MessageVm>> GetChats([FromBody]string userId)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var messages = new Collection<Message>();
             ListExtensions.ForEach(user.ReceievedMessages, (m) => messages.Add(m));
             ListExtensions.ForEach(user.SentMessages, (m) => messages.Add(m));
-            return messages.Where(message => message.SenderId == userId ||
-                                  message.TargetId == userId)
-                           .OrderBy(message => message.Timestamp);
+            var messageIds = messages
+                .Where(message => message.SenderId == userId || message.TargetId == userId)
+                .OrderBy(message => message.Timestamp)
+                .Select(message => message.Id)
+                .ToArray();
+            messages.Clear();
+            foreach (var messageId in messageIds)
+            {
+                var message = (await _messagesRepository.GetAsync(m => m.Id == messageId, null, ConstRelations.LoadAllMessageRelations)).SingleOrDefault();
+                messages.Add(message);
+            }
+            return messages.Select(Mapper.Map<vm::MessageVm>).ToEnumerable();
         }
 
         [HttpGet]
         [Route("search")]
-        [ResponseType(typeof(IEnumerable<Message>))]
+        [ResponseType(typeof(IEnumerable<vm::MessageVm>))]
         public async Task<IHttpActionResult> SearchByTerm(string searchTerm = null)
         {
             if (!string.IsNullOrEmpty(searchTerm))
             {
+                var currentUserId = User.Identity.GetUserId();
                 return Ok((await _messagesRepository
-                .GetAsync(m => (m.Target.Id == User.Identity.GetUserId() ||
-                               m.Sender.Id == User.Identity.GetUserId()) &&
+                .GetAsync(m => (m.Target.Id == currentUserId ||
+                               m.Sender.Id == currentUserId) &&
                                m.Content.Contains(searchTerm) ||
                                m.Target.UserName.Contains(searchTerm) ||
                                m.Target.Name.Contains(searchTerm) ||
                                m.Target.Surname.Contains(searchTerm),
                                null, ConstRelations.LoadAllMessageRelations))
               .OrderByDescending(m => m.Timestamp)
+              .Select(Mapper.Map<vm::MessageVm>)
               .ToArray());
             }
             return await GetLatest();

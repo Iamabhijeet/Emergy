@@ -38,6 +38,17 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Clients")]
+        [Route("get-user/latest/{userId}")]
+        public async Task<Location> GetLatestUserLocation(string userId)
+        {
+            return (await AccountService.GetUserByIdAsync(userId))
+                .Locations
+                .OrderByDescending(location => location.Timestamp)
+                .FirstOrDefault();
+        }
+
+        [HttpGet]
         [Authorize(Roles = "Administrators")]
         [Route("get-unit/{id}")]
         public async Task<IHttpActionResult> GetLocations(int id)

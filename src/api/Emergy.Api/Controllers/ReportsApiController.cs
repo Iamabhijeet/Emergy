@@ -146,9 +146,9 @@ namespace Emergy.Api.Controllers
                 await _reportsRepository.SaveAsync();
                 if (report.Status == ReportStatus.Completed || report.Status == ReportStatus.Failure)
                 {
-                    foreach (var assignment in report.Assignments)
+                    foreach (var assignment in report.Assignments.ToArray())
                     {
-                        _assignmentsRepository.Delete(assignment);
+                        _assignmentsRepository.Delete(assignment.Id);
                     }
                     report.Assignments.Clear();
                     await _assignmentsRepository.SaveAsync();
