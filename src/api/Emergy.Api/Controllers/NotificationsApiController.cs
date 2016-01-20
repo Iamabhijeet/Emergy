@@ -100,9 +100,9 @@ namespace Emergy.Api.Controllers
         private async Task<IEnumerable<db::Notification>> GetNotifications(DateTime? lastHappened)
         {
             var notifications = (await _notificationsRepository
-                .GetAsync(null, null, ConstRelations.LoadAllNotificationRelations)).ToList();
+                .GetAsync(null, null, ConstRelations.LoadAllNotificationRelations));
 
-            notifications = notifications.Where(notification => notification.TargetId == User.Identity.GetUserId()).ToList();
+            notifications = notifications.Where(notification => notification.TargetId == User.Identity.GetUserId());
             if (lastHappened == null)
             {
                 return notifications
@@ -114,8 +114,7 @@ namespace Emergy.Api.Controllers
                 .AsParallel()
                 .Where(notifaction => notifaction.Timestamp < lastHappened.Value)
                 .OrderByDescending(notification => notification.Timestamp)
-                .Take(20)
-                .ToArray();
+                .Take(20);
         }
 
         private async Task<db::Notification> GetNotification(int id)
