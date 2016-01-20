@@ -12,7 +12,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
-    $scope.reportVideoData = "";
     $scope.connectionStatus = "";
     $scope.reportDetails = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
@@ -63,14 +62,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 function () {
                     notificationService.displayErrorPopup("There has been an error while processing the image!", "Ok");
                 });
-    };
-
-    $scope.selectVideo = function() {
-        cameraService.selectVideo().then(function (contentURI) {
-
-        }, function(error) {
-
-        });
     };
 
     var loadUnits = function () {

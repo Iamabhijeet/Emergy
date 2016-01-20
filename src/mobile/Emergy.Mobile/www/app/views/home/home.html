@@ -40,22 +40,8 @@
         <ion-content class="padding">
             <div class="home-container modal">
                 <div class="report-inputs">
-                    <div class="row" ng-if="!reportVideoData">
-                        <div class="col">
-                        </div>
-                        <div class="col">
-                            <span class="camera-button" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
-                        </div>
-                        <div class="col">
-                            <span class="camera-button" ng-click="selectVideo()"><i class="material-icons">video_library</i></span>
-                        </div>
-                        <div class="col">
-                        </div>
-                    </div>
-                    <span ng-if="reportVideoData" class="camera-button" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
-                    <p style="text-align: center;" ng-if="reportVideoData.length != 0">Video was selected</p>
+                    <span class="camera-button" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
                     <p style="text-align: center;" ng-if="reportPicturesData.length != 0 && ionic.Platform.isAndroid()">{{ reportPicturesData.length }} pictures added</p>
-
                     <div ng-if="!ionic.Platform.isAndroid()">
                         <div class="row" ng-repeat="reportPictureData in reportPicturesData" ng-if="$index % 4 === 0">
                             <div class="col col-33" ng-if="$index < reportPicturesData.length"><img style="width: 100%;" ng-src="{{ reportPicturesData[$index] }}"></div>

@@ -2,7 +2,7 @@
     'use strict';
 
     function cameraService($cordovaCamera) { 
-         /*var photoOptions = {
+         var photoOptions = {
             quality: 75,
             destinationType: Camera.DestinationType.DATA_URL,
             sourceType: Camera.PictureSourceType.CAMERA,
@@ -13,18 +13,8 @@
             correctOrientation: true
          };
 
-        var videoOptions = {
-            destinationType: 1,
-            sourceType: 0,
-            mediaType: 1
-        };*/
-
         var takePhotoFromCamera = function () {
-            return $cordovaCamera.getPicture(/*photoOptions*/);
-        };
-
-        var selectVideo = function () {
-            return $cordovaCamera.getPicture(/*videoOptions*/);
+            return $cordovaCamera.getPicture(photoOptions);
         };
 
         var factory = {
