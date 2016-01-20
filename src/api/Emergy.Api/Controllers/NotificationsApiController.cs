@@ -8,6 +8,7 @@ using AutoMapper;
 using Emergy.Core.Common;
 using Emergy.Core.Repositories.Generic;
 using Emergy.Core.Services.Configuration;
+using Emergy.Data.Models.Enums;
 using Microsoft.AspNet.Identity;
 using db = Emergy.Data.Models;
 using vm = Emergy.Core.Models.Notification;
@@ -91,7 +92,7 @@ namespace Emergy.Api.Controllers
                 notification.TargetId = target.Id;
                 _notificationsRepository.Insert(notification);
                 await _notificationsRepository.SaveAsync().WithoutSync();
-                await SendNotificationMail(notification.Id);
+                await SendNotificationMail(notification.Id, notification.Type);
                 return Ok(notification.Id);
             }
             return BadRequest();
@@ -131,10 +132,14 @@ namespace Emergy.Api.Controllers
             }
             return null;
         }
-        private async Task SendNotificationMail(int notificationId)
+        private async Task SendNotificationMail(int notificationId, NotificationType notificationType)
         {
-            var emailService = new Core.Services.EmailService();
-            await emailService.SendNotificationMailAsync(await GetNotification(notificationId), EmailTemplateMappings.GetEmailTemplate("Notification")).WithoutSync();
+            if (notificationType == NotificationType.ReportCreated ||
+                notificationType == NotificationType.AssignedForReport)
+            {
+                var emailService = new Core.Services.EmailService();
+                await emailService.SendNotificationMailAsync(await GetNotification(notificationId), EmailTemplateMappings.GetEmailTemplate("Notification")).WithoutSync();
+            }
         }
         private readonly IRepository<db::Notification> _notificationsRepository;
         protected override void Dispose(bool disposing)
