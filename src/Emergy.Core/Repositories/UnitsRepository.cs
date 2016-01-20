@@ -196,7 +196,7 @@ namespace Emergy.Core.Repositories
         }
         public async Task<bool> IsInUnit(int unitId, string userId)
         {
-            return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId);
+            return (await GetUsers(unitId).WithoutSync()).Any(u => u.Id == userId) || (await this.GetAsync(unitId)).IsPublic;
         }
 
         public async Task<IEnumerable<Report>> GetAllReportsForAdmin(ApplicationUser user)
