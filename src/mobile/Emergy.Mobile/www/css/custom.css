@@ -346,7 +346,11 @@ ion-tabs.tabs-color-active-positive .tab-item {
   -webkit-align-items: center !important;
   -ms-flex-align: center !important;
   align-items: center !important;
-  margin-bottom: 60px !important;
+  margin-bottom: 0 !important;
+}
+
+.messages-container:last-child {
+    margin-bottom: 60px !important;
 }
 
 .messages-container .messages .message {
@@ -355,7 +359,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
   -webkit-flex: 1 1 auto !important;
   -ms-flex: 1 1 auto !important;
   flex: 1 1 auto !important;
-  padding: 10px !important;
+  padding: 5px 10px 5px 10px !important;
   -webkit-transition: all 250ms ease-in-out !important;
   transition: all 250ms ease-in-out !important;
   overflow: hidden !important;
