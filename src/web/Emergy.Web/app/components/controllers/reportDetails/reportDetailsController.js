@@ -4,9 +4,9 @@ var controllerId = 'reportDetailsController';
 
 app.controller(controllerId,
     ['vm', '$state', '$rootScope', '$stateParams', '$window', 'unitsService', 'reportsService',
-        'authService', 'notificationService', 'assignmentService', 'accountService', 'pdfService', 'signalR', 'ngDialog', 'NgMap', 'hub', reportDetailsController]);
+        'authService', 'notificationService', 'assignmentService', 'accountService', 'signalR', 'ngDialog', 'NgMap', 'hub', reportDetailsController]);
 
-function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, pdfService, signalR, ngDialog, NgMap, hub) {
+function reportDetailsController($scope, $state, $rootScope, $stateParams, $window, unitsService, reportsService, authService, notificationService, assignmentService, accountService, signalR, ngDialog, NgMap, hub) {
     $rootScope.title = "Report | Details";
     $scope.isBusy = false;
     $scope.isLoading = true;
@@ -22,6 +22,17 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
+                    $scope.reportMarker = {
+                        latitude: report.Location.Latitude,
+                        longitude: report.Location.Longitude
+                    }
+                    $scope.map = {
+                        control: {},
+                        options: { draggable: false, scrollwheel: false },
+                        center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
+                        zoom: 10,
+                        styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
+                    };
                     ngDialog.close();
                     document.getElementById("notificationSound").play();
                     ngDialog.open({

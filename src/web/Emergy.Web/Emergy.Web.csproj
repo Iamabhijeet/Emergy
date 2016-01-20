@@ -70,7 +70,6 @@
     <Content Include="app\components\services\map\mapService.js" />
     <Content Include="app\components\services\message\messageService.js" />
     <Content Include="app\components\services\notification\notificationService.js" />
-    <Content Include="app\components\services\pdf\pdfService.js" />
     <Content Include="app\components\services\realtime\hub.js" />
     <Content Include="app\components\services\reports\reportsService.js" />
     <Content Include="app\components\services\resource\resourcesService.js" />
@@ -120,7 +119,6 @@
     <Content Include="libs\js\jquery\jquery-2.1.4.js" />
     <Content Include="libs\js\jquery\momentjs.js" />
     <Content Include="libs\js\jquery\signalr.js" />
-    <Content Include="libs\js\pdf\html2canvas.js" />
     <Content Include="libs\css\angular-chart.css" />
     <Content Include="libs\css\ng-dialog\ngDialog-theme-default.css" />
     <Content Include="libs\css\ng-dialog\ngDialog.min.css" />
@@ -188,9 +186,6 @@
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.woff" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.ttf" />
     <Content Include="libs\css\materialize\font\material-design-icons\Material-Design-Icons.eot" />
-    <Content Include="libs\js\pdf\html2canvas.svg.js" />
-    <Content Include="libs\js\pdf\pdfmake.min.js" />
-    <Content Include="libs\js\pdf\vfs_fonts.js" />
     <Content Include="libs\js\scroll-glue\scrollglue.js" />
     <Content Include="libs\js\jquery\jquery-1.6.4.js" />
     <Content Include="libs\js\jquery\jquery.signalR-2.2.0.js" />

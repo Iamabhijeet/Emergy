@@ -21,7 +21,18 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
                     $scope.arrivedReport = report;
                     $scope.notifications = [];
                     $scope.lastNotificationDateTime = "";
-                    $scope.loadNotifications(); 
+                    $scope.loadNotifications();
+                    $scope.reportMarker = {
+                        latitude: report.Location.Latitude,
+                        longitude: report.Location.Longitude
+                    }
+                    $scope.map = {
+                        control: {},
+                        options: { draggable: false, scrollwheel: false },
+                        center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
+                        zoom: 10,
+                        styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
+                    };
                     ngDialog.close();
                     document.getElementById("notificationSound").play();
                     ngDialog.open({
