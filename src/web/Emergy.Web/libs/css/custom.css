@@ -916,7 +916,7 @@ html, body {
 }
 
 .main-container.reports .report-map {
-    height: 450px;
+    height: 400px;
 }
 
     .main-container.reports .report-map map {
@@ -1065,6 +1065,10 @@ html, body {
         .main-container.reports .report-map map {
             height: 350px;
         }
+
+    .main-container.reports .row.report-assignment {
+        margin-top: 70px;
+    }
 }
 
 @media only screen and (max-width: 601px) {
@@ -1072,19 +1076,26 @@ html, body {
         text-align: left;
     }
     .main-container.reports .report-map {
-        height: 250px;
+        height: 200px;
+        margin-top: 30px;
     }
 
         .main-container.reports .report-map map {
             height: 250px;
         }
 
-    .main-container.reports .report-map {
-        margin-top: 30px;
+    .main-container.reports .row.report-assignment {
+        margin-top: 230px;
     }
 
     .main-container.reports .head-information p {
         text-align: center;
+    }
+
+
+@media only screen and (max-width: 471px) {
+    .main-container.reports .row.report-assignment {
+        margin-top: 20px;
     }
 }
 

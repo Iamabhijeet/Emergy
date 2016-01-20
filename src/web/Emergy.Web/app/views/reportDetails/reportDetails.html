@@ -18,7 +18,7 @@
         Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half" ng-if="!isLoading">
-        <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
+        <!--<map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
             <info-window>
                 <div ng-non-bindable="">
                     <strong>{{ report.Location.Name }}</strong> <br/>
@@ -29,7 +29,13 @@
             <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
                 <img src="/assets/img/report-marker.png"/>
             </custom-marker>
-        </map>
+        </map>-->
+        <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
+            </ui-gmap-marker>
+            <ui-gmap-marker coords="userLocationMarker" idkey="1">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
     </div>
     <div class="row report-assignment" ng-if="!isLoading">
         <p ng-if="assignedUserName">
@@ -114,8 +120,8 @@
 <script type="text/ng-template" id="reportCreatedModal">
     <div class="report-modal">
         <h1>New report received!</h1>
-        <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
-            <ui-gmap-marker coords="reportMarker" idkey="0">
+        <ui-gmap-google-map control="notificationMap.control" center="notificationMap.center" zoom="notificationMap.zoom" styles="notificationMap.styles" options="notificationMap.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportNotificationMarker" idkey="0">
             </ui-gmap-marker>
         </ui-gmap-google-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
