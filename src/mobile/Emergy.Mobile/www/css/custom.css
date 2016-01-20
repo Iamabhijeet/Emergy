@@ -469,10 +469,14 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .map-wrapper {
+    border-radius: 4px;
     position: relative;
     padding-bottom: 95%;
     height: 0;
-    overflow: hidden; 
+    overflow: hidden;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12); 
 }
 
 .map-wrapper ng-map {
