@@ -70,7 +70,7 @@ namespace Emergy.Api.Controllers
             var unit = await _unitsRepository.GetAsync(id);
             if (unit != null)
             {
-                if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()) && !unit.IsPublic)
+                if (await _unitsRepository.IsAdministrator(id, User.Identity.GetUserId()) && unit.IsPublic)
                 {
                     unit.IsPublic = false;
                     _unitsRepository.Update(unit);

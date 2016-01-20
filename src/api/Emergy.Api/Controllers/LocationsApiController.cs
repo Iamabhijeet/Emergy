@@ -38,7 +38,7 @@ namespace Emergy.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Clients")]
+        [Authorize]
         [Route("get-user/latest/{userId}")]
         public async Task<Location> GetLatestUserLocation(string userId)
         {
