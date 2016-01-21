@@ -16,6 +16,16 @@ function locationService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var getLatestUserLocation = function (userId) {
+            return $http.get(serviceBase + 'api/locations/get-user/latest/' + userId)
+                .success(function (response) {
+                    return response.data;
+                })
+                .error(function (response) {
+                    return response.data;
+                });
+        };
+
     var getLocationForReport = function(reportId) {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/locations/get-report/' + reportId)
@@ -30,7 +40,8 @@ function locationService($http, $q, serviceBase, authData) {
 
     var service = {
         updateUserLocation: updateUserLocation,
-        getLocationForReport: getLocationForReport
+        getLocationForReport: getLocationForReport, 
+        getLatestUserLocation: getLatestUserLocation
     };
 
     return service;
