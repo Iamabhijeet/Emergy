@@ -13,10 +13,14 @@
 </div>
 <div class="row">
 <div class="col s12">
-    <ul class="tabs" tabs>
+    <ul class="tabs" tabs ng-if="!unit.IsPublic">
         <li class="tab col s3"><a class="active" href="#general">General</a></li>
         <li class="tab col s3"><a href="#users">Users</a></li>
         <li class="tab col s3"><a href="#properties">Properties</a></li>
+    </ul>
+    <ul class="tabs" tabs ng-if="unit.IsPublic">
+        <li class="tab col s6"><a class="active" href="#general">General</a></li>
+        <li class="tab col s6"><a href="#properties">Properties</a></li>
     </ul>
 </div>
 <div id="general" class="col s12">

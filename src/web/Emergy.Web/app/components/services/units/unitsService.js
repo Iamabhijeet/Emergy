@@ -28,6 +28,18 @@ function unitsService($http, $q, serviceBase, authData) {
         return deffered.promise;
     };
 
+    var makePublic = function (unitId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/units/make-public/' + unitId)
+        .success(function (units) {
+            deffered.resolve(units);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    }
+
     var getUnit = function (unitId) {
         var deffered = $q.defer();
         $http.get(serviceBase + 'api/units/get/' + unitId)
@@ -257,6 +269,7 @@ function unitsService($http, $q, serviceBase, authData) {
     };
 
     var service = {
+        makePublic: makePublic, 
         createUnit: createUnit,
         getUnits: getUnits,
         getUnit: getUnit,

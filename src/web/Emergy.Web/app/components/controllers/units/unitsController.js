@@ -12,6 +12,8 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $scope.searchTerm = '';
     $scope.isBusy = false;
     $scope.notificationAvailable = false;
+    $scope.checkboxModel = {};
+    $scope.checkboxModel.isUnitPublic = "";
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -75,13 +77,14 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         var promise = unitsService.createUnit({
             Name: unitName
         });
-        promise.then(function () {
-            loadUnits();
-        },
-        function (error) {
+        promise.then(function (unitId) {
+            if ($scope.checkboxModel.isUnitPublic === true) {
+                unitsService.makePublic(unitId);
+                loadUnits(); 
+            }
+        },function (error) {
             notificationService.pushError("Error has happened while creating a new unit.");
-        })
-        .finally(function () {
+        }).finally(function () {
             $scope.unitName = '';
         });
     }
