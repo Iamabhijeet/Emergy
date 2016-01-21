@@ -50,10 +50,11 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
             });
         }).finally(function() {
             notificationService.hideLoading();
-            $scope.isLoading = false; 
+            $scope.isLoading = false;
+            console.log(originLatitude);
         });
     };
 
     loadDestination();
-    loadOrigin(); 
+    loadOrigin();
 }

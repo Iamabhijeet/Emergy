@@ -15,6 +15,11 @@
     font-weight: 500;
 }
 
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
@@ -475,7 +480,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .map-wrapper {
     border-radius: 4px;
     position: relative;
-    padding-bottom: 95%;
+    padding-bottom: 90%;
     height: 0;
     overflow: hidden;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
@@ -496,10 +501,6 @@ ion-tabs.tabs-color-active-positive .tab-item {
     overflow-y: scroll;
     position: fixed;
     bottom: -20px;
-}
-
-#directions-panel {
-    padding-right: 10px;
 }
 
 .platform-ios #directions-panel {
@@ -523,6 +524,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
     padding-bottom: 10px;
 }
 
+#directions-panel:last-child {
+    padding-bottom: 30px;
+}
+
 #directions-panel b {
     font-weight: 500;
     color: #00ACC1;
@@ -542,6 +547,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 #directions-panel .adp-maneuver {
     display: none;   
+}
+
+#directions-panel .adp-distance {
+    margin-right: 15px;
 }
 
 /*-----------end DIRECTIONS-----------*/
