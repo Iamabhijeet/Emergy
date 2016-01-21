@@ -62,7 +62,8 @@ function messagesController($scope, $state, $stateParams, $rootScope, $location,
         });
     });
 
-    var loadMessages = function() {
+    var loadMessages = function () {
+        console.log($stateParams.targetId);
         var promise = messageService.getMessages($stateParams.targetId);
         promise.then(function (messages) {
             $scope.messages = messages;

@@ -148,6 +148,14 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 promise.then(function (notificationId) {
                     try {
                         hub.server.sendNotification(notificationId);
+                        if (newStatus === "Completed" || newStatus === "Failure") {
+                            $scope.report = {};
+                            $scope.assignedUserName = "";
+                            $scope.map = {};
+                            $scope.userLocationMarker = {};
+                            $scope.userLocationAvailable = false; 
+                            loadReport(); 
+                        }
                     } catch (err) {
                         notificationService.pushError("Error has happened while pushing a notification.");
                     }
@@ -178,7 +186,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 control: {},
                 options: { draggable: true },
                 center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
-                zoom: 14,
+                zoom: 15,
                 styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
             };
             loadAssignments();
@@ -194,11 +202,18 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 $scope.assignedUserName = assignments[0].TargetUserName;
                 var promise = locationService.getLatestUserLocation(assignments[0].TargetId);
                 promise.then(function (location) {
-                    if (location) {
+                    if (location.data.Latitude) {
                         $scope.userLocationMarker = {
-                            latitude: location.Latitude,
-                            longitude: location.Longitude
+                            latitude: location.data.Latitude,
+                            longitude: location.data.Longitude
                         }
+                        $scope.map = {
+                            control: {},
+                            options: { draggable: true },
+                            center: { latitude: location.data.Latitude, longitude: location.data.Longitude },
+                            zoom: 13,
+                            styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
+                        };
                         $scope.userLocationAvailable = true; 
                     }
                 }, function() {

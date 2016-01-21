@@ -18,25 +18,13 @@
         Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half" ng-if="!isLoading">
-        <!--<map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <info-window>
-                <div ng-non-bindable="">
-                    <strong>{{ report.Location.Name }}</strong> <br/>
-                    Lat: {{anchor.getPosition().lat()}}<br/>
-                    Lng: {{anchor.getPosition().lng()}}<br/>
-                </div>
-            </info-window>
-            <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                <img src="/assets/img/report-marker.png"/>
-            </custom-marker>
-        </map>-->
-        <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+        <ui-gmap-google-map ng-if="!userLocationAvailable" control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
             <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
             </ui-gmap-marker>
             <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
             </ui-gmap-marker>
         </ui-gmap-google-map>
-        <ui-gmap-google-map ng-if="userLocationAvailable" control="map.control" center="userLocationMarker" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+        <ui-gmap-google-map ng-if="userLocationAvailable" control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
             <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
             </ui-gmap-marker>
             <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
@@ -47,7 +35,7 @@
         <p ng-if="assignedUserName">
             <span>{{ assignedUserName }}</span> is currently assigned to resolve this report.
         </p>
-        <form ng-if="!assignedUserName" role="form" name="createAssignmentForm" novalidate>
+        <form ng-if="!assignedUserName && report.Status !== 'Failure' && report.Status !== 'Completed'" role="form" name="createAssignmentForm" novalidate>
             <div class="col l11 m11 s10" style="padding: 0;">
                 <input style="margin-bottom: 0;" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
             </div>
