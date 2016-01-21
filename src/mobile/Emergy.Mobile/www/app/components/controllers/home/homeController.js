@@ -76,11 +76,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
-        })
-            .finally(function () {
-                notificationService.hideLoading();
-                $scope.isBusy = false;
-            });
+        });
     };
     $scope.loadBasicProperties = function (unitId) {
         notificationService.displayLoading("Loading reporting information...");

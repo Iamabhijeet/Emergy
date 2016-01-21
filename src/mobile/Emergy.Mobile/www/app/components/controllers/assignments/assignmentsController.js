@@ -125,7 +125,6 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
              $scope.report = null;
         }).finally(function() {
             notificationService.hideLoading();
-            $scope.isLoading = false; 
         });
     }
 
