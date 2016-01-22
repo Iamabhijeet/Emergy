@@ -122,6 +122,53 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 /*-----------begin HOME-----------*/
 
+.home-container.modal-public ul {
+    margin-top: 15px; 
+}
+
+.home-container.modal-public ul li {
+    color: #14B1C4;
+    font-weight: 500;
+    border: none;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    margin-bottom: 15px;
+}
+
+.home-container .public-switch {
+    list-style: none;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.home-container .public-switch p {
+    width: 80px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.home-container .public-switch label.toggle {
+    top: 5px;
+}
+
+.home-container .public-switch .track {
+    height: 20px;
+    width: 43px;
+}
+
+.toggle.toggle-assertive input:checked+.track {
+    border-color: #D4D4D4;
+    background-color: #D4D4D4;
+}
+
+.home-container .public-switch .track .handle {
+    height: 20px;
+    width: 20px;
+    top: 5px;
+}
+
 .home-container .button-new-report {
     background-color: #14B1C4;
     color: #ffffff;
