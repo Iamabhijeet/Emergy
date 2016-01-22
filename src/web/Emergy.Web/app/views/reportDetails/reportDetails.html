@@ -115,7 +115,7 @@
     <div class="report-modal">
         <h1>New report received!</h1>
         <ui-gmap-google-map control="notificationMap.control" center="notificationMap.center" zoom="notificationMap.zoom" styles="notificationMap.styles" options="notificationMap.options" refresh="true">
-            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportNotificationMarker" idkey="0">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportNotificationMarker" idkey="2">
             </ui-gmap-marker>
         </ui-gmap-google-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>

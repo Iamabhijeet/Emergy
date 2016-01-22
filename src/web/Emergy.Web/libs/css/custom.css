@@ -1366,3 +1366,7 @@ html, body {
     margin-top: 80px;
     margin-bottom: 0;
 }
+
+.report-modal .angular-google-map-container {
+    height: 250px;
+}
