@@ -18,10 +18,13 @@
     <script src="cordova.js"></script>
     <script src="libs/js/ion-md-input/ion-md-input.min.js"></script>
     <script src="libs/js/local-storage/angular-local-storage.js"></script>
+    <script src="https://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
+    <script src="libs/js/ng-map/ng-map.min.js"></script>
 
     <!-- modules -->
     <script src="app/app.module.js"></script>
     <script src="app/app.routes.js"></script>
+    <script src="app/app.realtime.js"></script>
     <script src="app/components/controllers/controllers.module.js"></script>
     <script src="app/components/directives/directives.module.js"></script>
     <script src="app/components/services/services.module.js"></script>
@@ -33,16 +36,22 @@
     <script src="app/components/services/reports/reportsService.js"></script>
     <script src="app/components/services/notification/notificationService.js"></script>
     <script src="app/components/services/resource/resourceService.js"></script>
-    <script src="app/components/services/realtime/realTimeService.js"></script>
-    <script src="app/components/services/realtime/emergyHub.js"></script>
     <script src="app/components/services/device/cameraService.js"></script>
+    <script src="app/components/services/messages/messagesService.js"></script>
+    <script src="app/components/services/realtime/hub.js"></script>
+    <script src="app/components/services/account/accountService.js"></script>
+    <script src="app/components/services/connectionStatus/connectionStatusService.js"></script>
+    <script src="app/components/services/assignment/assignmentService.js"></script>
+    <script src="app/components/services/location/locationService.js"></script>
+
     <!-- controllers -->
     <script src="app/components/controllers/home/homeController.js"></script>
     <script src="app/components/controllers/login/loginController.js"></script>
-    <script src="app/components/controllers/profile/profileController.js"></script>
     <script src="app/components/controllers/reports/reportsController.js"></script>
-    <script src="app/components/controllers/report/reportController.js"></script>
-    <script src="app/components/controllers/settings/settingsController.js"></script>
+    <script src="app/components/controllers/messaging/messagingController.js"></script>
+    <script src="app/components/controllers/messages/messagesController.js"></script>
+    <script src="app/components/controllers/assignments/assignmentsController.js"></script>
+    <script src="app/components/controllers/directions/directionsController.js"></script>
 
 </head>
 <body ng-app="emergy">

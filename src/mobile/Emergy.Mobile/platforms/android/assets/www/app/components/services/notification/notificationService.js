@@ -7,12 +7,24 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     var pushNotification = function (notification) {
         var deffered = $q.defer();
         $http.post(serviceBase + 'api/notifications/create', notification)
-        .success(function (units) {
-            deffered.resolve(units);
+        .success(function (notification) {
+            deffered.resolve(notification);
         })
             .error(function (response) {
                 deffered.reject(response);
             });
+        return deffered.promise;
+    };
+
+    var getNotification = function (notificationId) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/get/' + notificationId)
+        .success(function (response) {
+            deffered.resolve(response);
+        })
+        .error(function (response) {
+            deffered.reject(response);
+        });
         return deffered.promise;
     };
 
@@ -21,14 +33,11 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displaySuccessPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Success", buttonText);
+        $cordovaDialogs.alert(message, "Notification", buttonText);
     };
 
     var displayErrorPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Error", buttonText)
-            .then(function () {
-
-            });
+        $cordovaDialogs.alert(message, "Error", buttonText);
     };
 
     var displayChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction) {
@@ -37,7 +46,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
                 if (buttonIndex === 1) {
                     secondaryFunction();
                 }
-                else if (buttonIndex === 2) {
+                else if (buttonIndex === 3) {
                     primaryFunction();
                 }
             });
@@ -62,6 +71,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
 
     var service = {
         pushNotification: pushNotification,
+        getNotification: getNotification, 
         displayMessage: displayMessage,
         displaySuccessPopup: displaySuccessPopup,
         displayErrorPopup: displayErrorPopup,

@@ -3,20 +3,58 @@
 var controllerId = 'homeController';
 
 app.controller(controllerId,
-    ['$scope', '$cordovaGeolocation', '$ionicModal', 'notificationService', 'unitsService',
-     'cameraService', 'reportsService', 'resourceService', 'emergyHub', 'authData', homeController]);
+    ['$scope', '$state', '$q', '$rootScope', '$cordovaGeolocation', '$ionicModal', '$ionicActionSheet', 'notificationService', 'unitsService',
+     'cameraService', 'reportsService', 'resourceService', 'authData', 'hub', 'signalR', 'connectionStatusService', homeController]);
 
-function homeController($scope, $cordovaGeolocation, $ionicModal, notificationService, unitsService, cameraService, reportsService, resourceService, emergyHub, authData) {
+function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $ionicModal, $ionicActionSheet, notificationService, unitsService, cameraService, reportsService, resourceService, authData, hub, signalR, connectionStatusService) {
     $scope.isBusy = false;
     $scope.report = {};
     $scope.customPropertyValues = [];
     $scope.customPropertyValueIds = [];
     $scope.reportPicturesData = [];
+    $scope.connectionStatus = "";
     $scope.reportDetails = {};
-    var posOptions = { timeout: 10000, enableHighAccuracy: true };
+    var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
-    emergyHub.ensureConnected();
+    $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
+        $scope.notificationAvailable = true;
+        var promise = notificationService.getNotification(response);
+        promise.then(function (notification) {
+            if (notification.Type === "MessageArrived") {
+                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+            }
+            else if (notification.Type === "ReportUpdated") {
+                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+            }
+            else if (notification.Type === "AssignedForReport") {
+                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+            }
+        });
+    });
 
+    if (signalR.isConnecting) {
+        $scope.connectionStatus = "connecting";
+    }
+
+    if (signalR.isConnected) {
+        $scope.connectionStatus = "connected";
+    }
+
+    $rootScope.$on(signalR.events.realTimeConnected, function () {
+        $scope.connectionStatus = "connected";
+    });
+
+    $rootScope.$on(signalR.events.connectionStateChanged, function (event, state) {
+        $scope.connectionStatus = state;
+    });
+
+    $scope.openSettings = function() {
+        connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
+    };
+
+    $scope.openAssignments = function () {
+        $state.go("tab.assignments");
+    };
 
     $scope.takePicture = function () {
         cameraService.takePhotoFromCamera()
@@ -32,8 +70,10 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
         var promise = unitsService.getUnits();
         promise.then(function (units) {
             $scope.units = units;
-            $scope.selectedUnitId = units[0].Id;
-            $scope.loadBasicProperties($scope.selectedUnitId);
+            if (units.length > 0) {
+                $scope.selectedUnitId = units[0].Id;
+                $scope.loadBasicProperties($scope.selectedUnitId);
+            }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
         })
@@ -66,6 +106,7 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                 $scope.isBusy = false;
             });
     };
+
     var submitReportWithBasicInformation = function () {
         if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
@@ -79,11 +120,9 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                     Name: "Captured location",
                     Type: "Captured"
                 }
-
                 var promise = unitsService.createLocation(location);
                 promise.then(function (locationId) {
                     $scope.report.LocationId = locationId;
-
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
                         $scope.reportId = reportId;
@@ -97,9 +136,15 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                                 ParameterId: $scope.reportId
                             }
                             var promise = notificationService.pushNotification(notification);
-                            promise.then(function () {
+                            promise.then(function (notificationId) {
                                 notificationService.hideLoading();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                                try {
+                                    hub.server.sendNotification(notificationId);
+                                }
+                                catch (err) {
+                                    notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                                }
 
                             }, function () {
                                 notificationService.hideLoading();
@@ -138,9 +183,15 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                     }
                     console.log(notification);
                     var promise = notificationService.pushNotification(notification);
-                    promise.then(function () {
+                    promise.then(function (notificationId) {
                         notificationService.hideLoading();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        try {
+                            hub.server.sendNotification(notificationId);
+                        }
+                        catch (err) {
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                        }
                     }, function () {
                         notificationService.hideLoading();
                         notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
@@ -188,7 +239,10 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                             }
 
                             var promise = notificationService.pushNotification(notification);
-                            promise.then(function () {
+                            promise.then(function (notificationId) {
+                                $q.when(signalR.events.realTimeConnected, function () {
+                                    hub.server.sendNotification(notificationId);
+                                });
                                 notificationService.hideLoading();
                                 $scope.modal.hide();
                                 notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
@@ -268,7 +322,13 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
                     };
 
                     var promise = notificationService.pushNotification(notification);
-                    promise.then(function () {
+                    promise.then(function (notificationId) {
+                        try {
+                            hub.server.sendNotification(notificationId);
+                        }
+                        catch (err) {
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                        }
                         notificationService.hideLoading();
                         $scope.modal.hide();
                         notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
@@ -345,11 +405,11 @@ function homeController($scope, $cordovaGeolocation, $ionicModal, notificationSe
         }).then(function (modal) {
             $scope.modal = modal;
             $scope.modal.show();
-            loadCustomProperties($scope.report.UnitId);
+            loadCustomProperties($scope.selectedUnitId);
         });
     };
     $scope.openSubmitDialog = function () {
-        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Yes", "Cancel", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
+        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Cancel", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
 
     loadUnits();

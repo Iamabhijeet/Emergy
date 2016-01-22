@@ -6,6 +6,20 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {},
-    "dependent_plugins": {}
+    "installed_plugins": {
+        "cordova-plugin-touchid": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-touchid/www/touchid.js",
+            "id": "cordova-plugin-touchid.TouchID",
+            "pluginId": "cordova-plugin-touchid",
+            "clobbers": [
+                "touchid"
+            ]
+        }
+    ]
 }

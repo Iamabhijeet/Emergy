@@ -174,7 +174,7 @@ app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
     };
 }]);
 
-app.run(['$rootScope', '$state', 'authService', 'signalR', function ($rootScope, $state, authService, signalR) {
+app.run(['$rootScope', '$state', 'authService', 'authData', function ($rootScope, $state, authService, authData) {
     authService.fillAuthData();
     $rootScope.authData = authService.getAuthData();
     authService.logout();
@@ -182,6 +182,11 @@ app.run(['$rootScope', '$state', 'authService', 'signalR', function ($rootScope,
 
     $rootScope.$on('$stateChangeStart', function (e, toState) {
         $rootScope.currentState = toState;
+        if (toState === 'login') {
+            if (authData.token && authData.loggedIn) {
+                $rootScope.$broadcast('userAuthenticated');
+            }
+        }
         $rootScope.unSubscribeAll();
     });
 
