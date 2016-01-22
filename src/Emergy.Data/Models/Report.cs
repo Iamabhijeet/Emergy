@@ -11,8 +11,6 @@ namespace Emergy.Data.Models
     public class Report : ModelBase
     {
         public string Description { get; set; }
-
-        [JsonIgnore]
         public Unit Unit { get; set; }
 
         [ForeignKey("CreatorId")]
