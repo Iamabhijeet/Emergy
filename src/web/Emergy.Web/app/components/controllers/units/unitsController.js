@@ -80,12 +80,12 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         promise.then(function (unitId) {
             if ($scope.checkboxModel.isUnitPublic === true) {
                 unitsService.makePublic(unitId);
-                loadUnits(); 
             }
         },function (error) {
             notificationService.pushError("Error has happened while creating a new unit.");
         }).finally(function () {
             $scope.unitName = '';
+            loadUnits();
         });
     }
 
