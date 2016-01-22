@@ -37,7 +37,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displaySuccessWithActionPopup = function(message, buttonText, action) {
-        $cordovaDialogs.confirm(message, "Notification", ['Dismiss', buttonText]).then(function(buttonIndex) {
+        $cordovaDialogs.confirm(message, "Notification", [buttonText, 'Dismiss']).then(function(buttonIndex) {
             if (buttonIndex === 1) {
                 action();
             }
