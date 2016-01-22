@@ -16,6 +16,11 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.lastReportDateTime = '';
     $scope.notificationAvailable = false;
     $scope.showMore = false;
+    $scope.unitId = $stateParams.unitId; 
+    
+    $scope.unitFilter = function (report) {
+        return report.Unit.Id == $stateParams.unitId; 
+    }
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
