@@ -94,7 +94,6 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
         $scope.isBusy = true;
         var promise = reportsService.deleteReport(reportId);
         promise.then(function () {
-            notificationService.pushSuccess("Report has been deleted!");
             $scope.reports = [];
             $scope.lastReportDateTime = '';
             $scope.loadReports();

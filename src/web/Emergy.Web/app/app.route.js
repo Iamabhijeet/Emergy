@@ -25,7 +25,7 @@
     });
 
     $stateProvider.state("UserProfile", {
-        url: "/account/profile/:userName",
+        url: "/dashboard/profile/:userName",
         views: {
             '': {
                 templateUrl: 'app/views/account/profile.html',

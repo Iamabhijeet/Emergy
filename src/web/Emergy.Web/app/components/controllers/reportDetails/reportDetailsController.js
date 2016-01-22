@@ -122,7 +122,6 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         $scope.isBusy = true;
         var promise = reportsService.deleteReport(reportId);
         promise.then(function () {
-            notificationService.pushSuccess("Report has been deleted!");
             $state.go('Reports');
         }, function () {
             notificationService.pushError("Error has happened while deleting the report.");

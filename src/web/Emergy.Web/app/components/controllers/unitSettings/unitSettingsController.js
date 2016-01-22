@@ -221,7 +221,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         };
         var promise = unitsService.editUnit(unitEdit);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully changed name!");
             delete $scope.unitName; 
             loadUnit();
         }, function (error) {
@@ -246,7 +245,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
 
         var promise = unitsService.deleteUnit($scope.unit.Id);
         promise.then(function () {
-            notificationService.pushSuccess("Unit has been deleted!");
             $state.go("Units");
         }, function (error) {
             notificationService.pushError("Error has happened while deleting the unit.");
@@ -262,7 +260,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (categoryId) {
             promise = unitsService.addCategoryToUnit(unitId, categoryId);
             promise.then(function () {
-                notificationService.pushSuccess("Category has been successfully added!");
                 loadCategories();
             }), function (error) {
                 notificationService.pushError("Error has happened while adding category to unit.");
@@ -280,7 +277,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeCategory(categoryId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed category!");
             loadCategories();
         }, function (error) {
             notificationService.pushError("Error has happened while ¸removing category.");
@@ -303,7 +299,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (locationId) {
             promise = unitsService.addLocationToUnit(unitId, locationId);
             promise.then(function () {
-                notificationService.pushSuccess("Location has been successfully added!");
                 loadLocations();
             }), function (error) {
                 notificationService.pushError("Error has happened adding location to unit.");
@@ -320,7 +315,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeLocation(locationId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed location!");
             loadLocations();
         }, function (error) {
             notificationService.pushError("Error has happened while removing location from unit.");
@@ -341,7 +335,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (customPropertyId) {
             promise = unitsService.addCustomPropertyToUnit(unitId, customPropertyId);
             promise.then(function () {
-                notificationService.pushSuccess("Custom property has been successfully added!");
                 loadCustomProperties();
             }), function (error) {
                 notificationService.pushError("Error has happened while adding custom property to unit.");
@@ -360,7 +353,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeCustomProperty(customPropertyId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed custom property!");
             loadCustomProperties();
         }, function (error) {
             notificationService.pushError("Error has happened while removing the custom property.");
@@ -394,7 +386,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         unitsService.addClient(unitId, JSON.stringify($scope.userFromUserName.Id))
             .then(function () {
-                notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
             })
             .finally(function () { $scope.isBusy = false; });
@@ -409,7 +400,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         };
         var promise = unitsService.removeClient(client);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed client!");
             loadClients();
         }, function (error) {
             notificationService.pushError("Error has happened while removing client from unit.");
