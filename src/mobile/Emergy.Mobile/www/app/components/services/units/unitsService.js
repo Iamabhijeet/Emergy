@@ -15,6 +15,18 @@ function unitsService($http, $q, serviceBase, authData) {
             });
         return deffered.promise;
     };
+
+    var queryPublicUnits = function(queryString) {
+        var deffered = $q.defer();
+        $http.get(serviceBase + 'api/units/query-public?query=' + encodeURIComponent(queryString))
+        .success(function (units) {
+            deffered.resolve(units);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    }
 	
 	var getUnits = function () {
         var deffered = $q.defer();
@@ -78,7 +90,8 @@ function unitsService($http, $q, serviceBase, authData) {
 
 
     var service = {
-		getUnit: getUnit,
+        getUnit: getUnit,
+        queryPublicUnits: queryPublicUnits, 
         getUnits: getUnits,
         getCustomProperties: getCustomProperties,
         getLocations: getLocations,

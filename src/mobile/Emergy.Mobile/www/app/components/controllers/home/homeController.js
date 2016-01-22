@@ -14,7 +14,96 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.reportPicturesData = [];
     $scope.connectionStatus = "";
     $scope.reportDetails = {};
+    $scope.report = {}; 
+
+    $scope.unitAccess = {};
+    $scope.unitAccess.Checkbox = "";
+    $scope.publicUnitName = "";
+    $scope.publicUnits = [];
+    $scope.publicUnitId = "";
+    $scope.publicUnitInformationReady = false; 
+
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
+
+    $scope.queryPublicUnits = function(queryString) {
+        var promise = unitsService.queryPublicUnits(queryString);
+        promise.then(function (publicUnits) {
+            console.log("Test");
+            $scope.publicUnits = publicUnits;
+        });
+    };
+
+    $scope.selectPublicUnit = function (unitId) {
+        notificationService.displayLoading("Loading unit information...");
+        $scope.publicUnitId = unitId;
+        $scope.selectedUnitId = unitId; 
+        var promise = unitsService.getUnit(unitId);
+        promise.then(function(unit) {
+            $scope.publicUnitName = unit.Name;
+            var promise = unitsService.getLocations(unitId);
+            promise.then(function (locations) {
+                $scope.locations = locations;
+                $scope.report.LocationId = $scope.locations[0].Id;
+                var promise = unitsService.getCategories(unitId);
+                promise.then(function (categories) {
+                    $scope.categories = categories;
+                    $scope.report.CategoryId = $scope.categories[0].Id;
+                    $scope.modalPublic.hide();
+                    notificationService.hideLoading();
+                    $scope.publicUnitInformationReady = true;
+                }, function () {
+                    notificationService.hideLoading();
+                    modalPublic.hide();
+                    unitAccess.Checkbox = false;
+                    notificationService.displayErrorPopup("There has been an error fetching category information.", "Ok");
+                });
+            }, function () {
+                notificationService.hideLoading();
+                modalPublic.hide();
+                unitAccess.Checkbox = false;
+                notificationService.displayErrorPopup("There has been an error fetching location information.", "Ok");
+            });
+        }, function () {
+            notificationService.hideLoading();
+            modalPublic.hide();
+            unitAccess.Checkbox = false;
+            notificationService.displayErrorPopup("There has been an error selecting public unit.", "Ok");
+        });
+    };
+
+    $scope.changeAccess = function() {
+        if ($scope.unitAccess.Checkbox === true) {
+            $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.publicUnits = [];
+                $scope.publicUnitId = "";
+                $scope.locations = [];
+                $scope.categories = [];
+                $scope.modalPublic = modal;
+                $scope.modalPublic.show();
+            });
+        } else {
+            $scope.publicUnitInformationReady = false; 
+            $scope.loadUnits();
+        }
+    }
+
+    $scope.openQueryUnitsDialog = function () {
+        $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            $scope.publicUnitInformationReady = false;
+            $scope.publicUnits = [];
+            $scope.publicUnitId = "";
+            $scope.locations = [];
+            $scope.categories = [];
+            $scope.modalPublic = modal;
+            $scope.modalPublic.show();
+        });
+    }
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -27,7 +116,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function() { $scope.go("tab.assignments"); });
             }
         });
     });
@@ -64,7 +153,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 });
     };
 
-    var loadUnits = function () {
+    $scope.loadUnits = function () {
         notificationService.displayLoading("Loading reporting information...");
         $scope.isBusy = true;
         var promise = unitsService.getUnits();
@@ -76,11 +165,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
-        })
-            .finally(function () {
-                notificationService.hideLoading();
-                $scope.isBusy = false;
-            });
+        });
     };
     $scope.loadBasicProperties = function (unitId) {
         notificationService.displayLoading("Loading reporting information...");
@@ -108,6 +193,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     };
 
     var submitReportWithBasicInformation = function () {
+        console.log($scope.report); 
         if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
@@ -403,6 +489,9 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             scope: $scope,
             animation: 'slide-in-up'
         }).then(function (modal) {
+            $scope.report.Description = "";
+            $scope.reportPicturesData = [];
+            $scope.customProperties = []; 
             $scope.modal = modal;
             $scope.modal.show();
             loadCustomProperties($scope.selectedUnitId);
@@ -412,5 +501,5 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Cancel", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
 
-    loadUnits();
+    $scope.loadUnits();
 }
