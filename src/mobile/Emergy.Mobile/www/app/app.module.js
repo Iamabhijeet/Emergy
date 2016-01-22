@@ -7,7 +7,7 @@ app.run(function ($ionicPlatform, $cordovaStatusbar) {
             cordova.plugins.Keyboard.disableScroll(true);
         }
         if (window.StatusBar) {
-            $cordovaStatusbar.styleHex('#00838F');
+            $cordovaStatusbar.styleHex('#006064');
         }
     });
 });

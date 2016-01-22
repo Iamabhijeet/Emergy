@@ -15,6 +15,11 @@
     font-weight: 500;
 }
 
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
@@ -116,6 +121,53 @@ ion-tabs.tabs-color-active-positive .tab-item {
 /*-----------end LOGIN-----------*/
 
 /*-----------begin HOME-----------*/
+
+.home-container.modal-public ul {
+    margin-top: 15px; 
+}
+
+.home-container.modal-public ul li {
+    color: #14B1C4;
+    font-weight: 500;
+    border: none;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    margin-bottom: 15px;
+}
+
+.home-container .public-switch {
+    list-style: none;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.home-container .public-switch p {
+    width: 80px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.home-container .public-switch label.toggle {
+    top: 5px;
+}
+
+.home-container .public-switch .track {
+    height: 20px;
+    width: 43px;
+}
+
+.toggle.toggle-assertive input:checked+.track {
+    border-color: #D4D4D4;
+    background-color: #D4D4D4;
+}
+
+.home-container .public-switch .track .handle {
+    height: 20px;
+    width: 20px;
+    top: 5px;
+}
 
 .home-container .button-new-report {
     background-color: #14B1C4;
@@ -346,7 +398,11 @@ ion-tabs.tabs-color-active-positive .tab-item {
   -webkit-align-items: center !important;
   -ms-flex-align: center !important;
   align-items: center !important;
-  margin-bottom: 60px !important;
+  margin-bottom: 0 !important;
+}
+
+.messages-container:last-child {
+    margin-bottom: 80px !important;
 }
 
 .messages-container .messages .message {
@@ -355,7 +411,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
   -webkit-flex: 1 1 auto !important;
   -ms-flex: 1 1 auto !important;
   flex: 1 1 auto !important;
-  padding: 10px !important;
+  padding: 5px 10px 5px 10px !important;
   -webkit-transition: all 250ms ease-in-out !important;
   transition: all 250ms ease-in-out !important;
   overflow: hidden !important;
@@ -471,7 +527,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .map-wrapper {
     border-radius: 4px;
     position: relative;
-    padding-bottom: 95%;
+    padding-bottom: 90%;
     height: 0;
     overflow: hidden;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
@@ -492,10 +548,6 @@ ion-tabs.tabs-color-active-positive .tab-item {
     overflow-y: scroll;
     position: fixed;
     bottom: -20px;
-}
-
-#directions-panel {
-    padding-right: 10px;
 }
 
 .platform-ios #directions-panel {
@@ -519,6 +571,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
     padding-bottom: 10px;
 }
 
+#directions-panel:last-child {
+    padding-bottom: 30px;
+}
+
 #directions-panel b {
     font-weight: 500;
     color: #00ACC1;
@@ -538,6 +594,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 #directions-panel .adp-maneuver {
     display: none;   
+}
+
+#directions-panel .adp-distance {
+    margin-right: 15px;
 }
 
 /*-----------end DIRECTIONS-----------*/

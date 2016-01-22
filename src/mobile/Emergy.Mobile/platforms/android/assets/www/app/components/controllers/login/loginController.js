@@ -3,41 +3,14 @@
 var controllerId = 'loginController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', '$ionicHistory', '$cordovaTouchID', 'authService', 'notificationService', 'authData', loginController]);
+    ['$scope', '$rootScope', '$state', '$ionicHistory', 'authService', 'notificationService', 'authData', loginController]);
 
-function loginController($scope, $rootScope, $ionicHistory, $cordovaTouchId, authService, notificationService, authData) {
+function loginController($scope, $rootScope, $state, $ionicHistory, authService, notificationService, authData) {
     $ionicHistory.nextViewOptions({
         disableAnimate: false,
         disableBack: true,
         historyRoot: true
     });
-    var tryAuthorize = function() {
-        if (authData.token && authData.loggedIn) {
-            $rootScope.$broadcast('userAuthenticated');
-        }
-    };
-    var tryTouchId = function () {
-        $cordovaTouchId.checkSupport().then(function () {
-            alert('ok');
-            $cordovaTouchId.authenticate('Authorize!').then(function () {
-                tryAuthorize();
-            }, function () {
-                notificationService.displayErrorPopup('Touch ID authorization failed!', 'DONE');
-            });
-        });
-    };
-    var checkAuthorized = function () {
-        notificationService.displayLoading('Logging in...');
-        if (ionic.Platform.isAndroid()) {
-            tryAuthorize();
-        }
-        else {
-            tryTouchId();
-        }
-        notificationService.hideLoading();
-    };
-
-  
 
     $scope.isBusy = false;
     $scope.user = {
@@ -54,13 +27,9 @@ function loginController($scope, $rootScope, $ionicHistory, $cordovaTouchId, aut
             notificationService.hideLoading();
         });
     };
-    $cordovaTouchId.checkSupport().then(function () {
-        alert('ok');
-        $cordovaTouchId.authenticate('Authorize!').then(function () {
-            tryAuthorize();
-        }, function () {
-            notificationService.displayErrorPopup('Touch ID authorization failed!', 'DONE');
-        });
-    });
-    checkAuthorized();
+
+    if (authData.loggedIn) {
+        $rootScope.$broadcast('userAuthenticated');
+        $state.go('tab.home');
+    }
 }

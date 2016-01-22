@@ -1,5 +1,5 @@
 ﻿app.config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/home');
 
     $stateProvider.state('tab', {
             url: '/tab',
@@ -164,7 +164,6 @@ app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
             this.$$listeners[eventName] = [];
         }
     };
-
     $rootScope.unSubscribeAll = function () {
         $rootScope.$off(signalR.events.connectionStateChanged);
         $rootScope.$off(signalR.events.realTimeConnected);
@@ -179,14 +178,13 @@ app.run(['$rootScope', '$state', 'authService', 'authData', function ($rootScope
     $rootScope.authData = authService.getAuthData();
     authService.logout();
     $rootScope.currentState = '';
+    if (authData.loggedIn) {
+        $rootScope.$broadcast('userAuthenticated');
+        $state.go("Login");
+    }
 
     $rootScope.$on('$stateChangeStart', function (e, toState) {
         $rootScope.currentState = toState;
-        if (toState === 'login') {
-            if (authData.token && authData.loggedIn) {
-                $rootScope.$broadcast('userAuthenticated');
-            }
-        }
         $rootScope.unSubscribeAll();
     });
 

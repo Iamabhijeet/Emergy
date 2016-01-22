@@ -7,7 +7,34 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
         "cordova-plugin-touchid": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
+        },
+        "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.ionicframework.emergymobile545841"
         }
     },

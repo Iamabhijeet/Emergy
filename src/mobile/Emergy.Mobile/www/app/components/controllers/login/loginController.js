@@ -3,9 +3,9 @@
 var controllerId = 'loginController';
 
 app.controller(controllerId,
-    ['$scope', '$rootScope', '$ionicHistory','$ionicPlatform', '$cordovaTouchID', 'authService', 'notificationService', 'authData', loginController]);
+    ['$scope', '$rootScope', '$state', '$ionicHistory', 'authService', 'notificationService', 'authData', loginController]);
 
-function loginController($scope, $rootScope, $ionicHistory, $ionicPlatform, $cordovaTouchID, authService, notificationService, authData) {
+function loginController($scope, $rootScope, $state, $ionicHistory, authService, notificationService, authData) {
     $ionicHistory.nextViewOptions({
         disableAnimate: false,
         disableBack: true,
@@ -27,16 +27,9 @@ function loginController($scope, $rootScope, $ionicHistory, $ionicPlatform, $cor
             notificationService.hideLoading();
         });
     };
-  
-    //$ionicPlatform.ready(function () {
-    //    $cordovaTouchID.checkSupport().then(function () {
-    //        $cordovaTouchID.authenticate("You must authenticate").then(function () {
-    //            alert("The authentication was successful");
-    //        }, function (error) {
-    //            console.log(JSON.stringify(error));
-    //        });
-    //    }, function (error) {
-    //        console.log(JSON.stringify(error));
-    //    });
-    //});
+
+    if (authData.loggedIn) {
+        $rootScope.$broadcast('userAuthenticated');
+        $state.go('tab.home');
+    }
 }

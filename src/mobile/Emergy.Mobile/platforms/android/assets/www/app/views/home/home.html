@@ -10,19 +10,45 @@
         <div class="home-container" ng-if="units.length != 0">
             <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report"></button>
             <div class="report-inputs" ng-if="!isBusy">
-                <label class="item item-input item-select">
-                    <div class="input-label">Unit</div>
-                    <select ng-change="loadBasicProperties(report.UnitId)" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="unit.Id as unit.Name for unit in units"></select>
-                </label>
-                <label class="item item-input item-select">
-                    <div class="input-label">Category</div>
-                    <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
-                </label>
-                <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
-                <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
-                    <div class="input-label">Location</div>
-                    <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
-                </label>
+                <div ng-if="!unitAccess.Checkbox">
+                    <label class="item item-input item-select">
+                        <div class="input-label">Unit</div>
+                        <select ng-change="loadBasicProperties(report.UnitId)" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="unit.Id as unit.Name for unit in units"></select>
+                    </label>
+                    <label class="item item-input item-select">
+                        <div class="input-label">Category</div>
+                        <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
+                    </label>
+                    <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
+                    <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
+                        <div class="input-label">Location</div>
+                        <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
+                    </label>
+                </div>
+                <div ng-if="unitAccess.Checkbox && publicUnitInformationReady">
+                    <label class="item item-input item-select">
+                        <div class="input-label">Unit</div>
+                        <select ng-disabled="true" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="publicUnit.Id as publicUnit.Name for publicUnit in publicUnits"></select>
+                    </label>
+                    <label class="item item-input item-select">
+                        <div class="input-label">Category</div>
+                        <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
+                    </label>
+                    <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
+                    <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
+                        <div class="input-label">Location</div>
+                        <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
+                    </label>
+                </div>
+                <li class="public-switch">
+                    <p>Public unit</p>
+                    <label class="toggle toggle-assertive">
+                        <input type="checkbox" ng-model="unitAccess.Checkbox" ng-change="changeAccess()">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </li>
             </div>
         </div>
         <div class="home-container" ng-if="units.length === 0">
@@ -63,6 +89,26 @@
                     </div>
                 </div>
                 <button class="button button-create-report" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="searchPublicUnits.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-positive">
+            <div class="title header-item">Search public units</div>
+            <span ng-click="modalPublic.hide(); unitAccess.Checkbox = false; loadUnits()"><i style="position: absolute; right:7px; top:10px; font-weight: 500;" class="material-icons">clear</i></span>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="home-container modal-public">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-ios-search placeholder-icon"></i>
+                    <input type="search" placeholder="Type a unit name" ng-model="queryString" ng-change="queryPublicUnits(queryString)" style="background: transparent;">
+                </label>
+                <ul class="list">
+                    <li ng-repeat="publicUnit in publicUnits" class="item" ng-click="selectPublicUnit(publicUnit.Id)">{{ publicUnit.Name }}</li>
+                </ul>
             </div>
         </ion-content>
     </ion-modal-view>

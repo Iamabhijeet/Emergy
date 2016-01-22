@@ -70,7 +70,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
     };
 
     var loadAssignment = function () {
-        notificationService.displayLoading("Loading reporting information...");
+        notificationService.displayLoading("Loading assignments...");
         var promise = assignmentService.getAssignment();
         promise.then(function (assignment) {
             if (assignment) {
