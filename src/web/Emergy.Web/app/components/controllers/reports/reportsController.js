@@ -15,8 +15,7 @@ function reportsController($scope, $rootScope, $stateParams, ngDialog, reportsSe
     $scope.reportMarker = {};
     $scope.lastReportDateTime = '';
     $scope.notificationAvailable = false;
-    $scope.isUnitMode = $stateParams.unitId !== null && $stateParams.unitId !== undefined;
-    $scope.showMore = false; 
+    $scope.showMore = false;
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;

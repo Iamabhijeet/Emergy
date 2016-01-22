@@ -5,6 +5,11 @@
 
 /*-----------GENERAL STYLING-----------*/
 
+.row.create-unit [type="checkbox"].filled-in:checked + label:after {
+    background-color: #18C0D6;
+    border-color: #18C0D6;
+}
+
 .toast a {
     display: block;
     margin-left: 25px;
