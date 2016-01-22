@@ -116,7 +116,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function() { $scope.go("tab.assignments"); });
             }
         });
     });

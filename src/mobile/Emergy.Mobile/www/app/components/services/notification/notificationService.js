@@ -36,6 +36,14 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
         $cordovaDialogs.alert(message, "Notification", buttonText);
     };
 
+    var displaySuccessWithActionPopup = function(message, buttonText, action) {
+        $cordovaDialogs.confirm(message, "Notification", ['Dismiss', buttonText]).then(function(buttonIndex) {
+            if (buttonIndex === 1) {
+                action();
+            }
+        });
+    };
+
     var displayErrorPopup = function (message, buttonText) {
         $cordovaDialogs.alert(message, "Error", buttonText);
     };
@@ -74,6 +82,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
         getNotification: getNotification, 
         displayMessage: displayMessage,
         displaySuccessPopup: displaySuccessPopup,
+        displaySuccessWithActionPopup: displaySuccessWithActionPopup, 
         displayErrorPopup: displayErrorPopup,
         displayChoicePopup: displayChoicePopup,
         displayLoading: displayLoading,
