@@ -43,7 +43,7 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
             $scope.originLatitude = position.coords.latitude;
             $scope.originLongitude = position.coords.longitude;
         }, function() {
-            var promise = locationService.getLatestUserLocation(authData.UserId);
+            var promise = locationService.getLatestUserLocation(authData.userId);
             promise.then(function(location) {
                 $scope.originLatitude = location.data.Latitude;
                 $scope.originLongitude = location.data.Longitude; 
@@ -51,7 +51,7 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
         }).finally(function() {
             notificationService.hideLoading();
             $scope.isLoading = false;
-            console.log(originLatitude);
+            console.log($scope.originLatitude);
         });
     };
 

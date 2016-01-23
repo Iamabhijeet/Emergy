@@ -37,11 +37,13 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 Content: newStatus,
                 TargetId: $scope.assignment.AdminId,
                 Type: "ReportUpdated",
-                Parameter: $scope.report.Id
+                ParameterId: $scope.report.Id
             }
-
             console.log(notification);
             notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "Ok");
+            if (newStatus === 'Completed' || newStatus === 'Failure') {
+                $state.go('tab.home');
+            }
             var promise = notificationService.pushNotification(notification);
             promise.then(function(notificationId) {
                 try {

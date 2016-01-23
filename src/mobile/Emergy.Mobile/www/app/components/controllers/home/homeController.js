@@ -14,18 +14,36 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.reportPicturesData = [];
     $scope.connectionStatus = "";
     $scope.reportDetails = {};
-    $scope.report = {}; 
+    $scope.report = {};
 
     $scope.unitAccess = {};
     $scope.unitAccess.Checkbox = "";
     $scope.publicUnitName = "";
     $scope.publicUnits = [];
     $scope.publicUnitId = "";
-    $scope.publicUnitInformationReady = false; 
+    $scope.publicUnitInformationReady = false;
 
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
+    $scope.changeAccess = function () {
+        if ($scope.unitAccess.Checkbox === true) {
+            $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.publicUnits = [];
+                $scope.publicUnitId = "";
+                $scope.locations = [];
+                $scope.categories = [];
+                $scope.modalPublic = modal;
+                $scope.modalPublic.show();
+            });
+        } else {
+            $scope.publicUnitInformationReady = false;
+            $scope.loadUnits();
+        }
+    }
 
-    $scope.queryPublicUnits = function(queryString) {
+    $scope.queryPublicUnits = function (queryString) {
         var promise = unitsService.queryPublicUnits(queryString);
         promise.then(function (publicUnits) {
             console.log("Test");
@@ -36,18 +54,24 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.selectPublicUnit = function (unitId) {
         notificationService.displayLoading("Loading unit information...");
         $scope.publicUnitId = unitId;
-        $scope.selectedUnitId = unitId; 
+        $scope.selectedUnitId = unitId;
         var promise = unitsService.getUnit(unitId);
-        promise.then(function(unit) {
+        promise.then(function (unit) {
             $scope.publicUnitName = unit.Name;
             var promise = unitsService.getLocations(unitId);
             promise.then(function (locations) {
-                $scope.locations = locations;
-                $scope.report.LocationId = $scope.locations[0].Id;
+                if (locations.length) {
+                    $scope.locations = locations;
+                    $scope.report.LocationId = $scope.locations[0].Id;
+                } else {
+                    $scope.reportDetails.useCurrentLocation = true;
+                }
                 var promise = unitsService.getCategories(unitId);
                 promise.then(function (categories) {
-                    $scope.categories = categories;
-                    $scope.report.CategoryId = $scope.categories[0].Id;
+                    if (categories.length) {
+                        $scope.categories = categories;
+                        $scope.report.CategoryId = $scope.categories[0].Id;
+                    }
                     $scope.modalPublic.hide();
                     notificationService.hideLoading();
                     $scope.publicUnitInformationReady = true;
@@ -71,24 +95,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         });
     };
 
-    $scope.changeAccess = function() {
-        if ($scope.unitAccess.Checkbox === true) {
-            $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function(modal) {
-                $scope.publicUnits = [];
-                $scope.publicUnitId = "";
-                $scope.locations = [];
-                $scope.categories = [];
-                $scope.modalPublic = modal;
-                $scope.modalPublic.show();
-            });
-        } else {
-            $scope.publicUnitInformationReady = false; 
-            $scope.loadUnits();
-        }
-    }
 
     $scope.openQueryUnitsDialog = function () {
         $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
@@ -97,7 +103,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         }).then(function (modal) {
             $scope.publicUnitInformationReady = false;
             $scope.publicUnits = [];
-            $scope.publicUnitId = "";
+            $scope.publicUnitId = '';
             $scope.locations = [];
             $scope.categories = [];
             $scope.modalPublic = modal;
@@ -116,7 +122,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function() { $scope.go("tab.assignments"); });
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -137,7 +143,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         $scope.connectionStatus = state;
     });
 
-    $scope.openSettings = function() {
+    $scope.openSettings = function () {
         connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
     };
 
@@ -173,16 +179,22 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         $scope.selectedUnitId = unitId;
         var promise = unitsService.getLocations(unitId);
         promise.then(function (locations) {
-            $scope.locations = locations;
-            $scope.report.LocationId = $scope.locations[0].Id;
+            if (locations.length) {
+                $scope.locations = locations;
+                $scope.report.LocationId = $scope.locations[0].Id;
+            } else {
+                $scope.reportDetails.useCurrentLocation = true;
+            }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching location information.", "Ok");
         });
 
         promise = unitsService.getCategories(unitId);
         promise.then(function (categories) {
-            $scope.categories = categories;
-            $scope.report.CategoryId = $scope.categories[0].Id;
+            if (categories.length) {
+                $scope.categories = categories;
+                $scope.report.CategoryId = $scope.categories[0].Id;
+            }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching category information.", "Ok");
         })
@@ -193,7 +205,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     };
 
     var submitReportWithBasicInformation = function () {
-        console.log($scope.report); 
+        console.log($scope.report);
         if ($scope.reportDetails.useCurrentLocation) {
             notificationService.displayLoading("Submitting report...");
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
@@ -212,7 +224,9 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
                         $scope.reportId = reportId;
-                        $scope.report.LocationId = $scope.locations[0].Id;
+                        if ($scope.locations.length) {
+                            $scope.report.LocationId = $scope.locations[0].Id;
+                        } 
                         var promise = unitsService.getUnit($scope.selectedUnitId);
                         promise.then(function (unit) {
                             var notification = {
@@ -323,7 +337,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 Type: "ReportCreated",
                                 ParameterId: $scope.reportId
                             }
-
                             var promise = notificationService.pushNotification(notification);
                             promise.then(function (notificationId) {
                                 $q.when(signalR.events.realTimeConnected, function () {
@@ -491,7 +504,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         }).then(function (modal) {
             $scope.report.Description = "";
             $scope.reportPicturesData = [];
-            $scope.customProperties = []; 
+            $scope.customProperties = [];
             $scope.modal = modal;
             $scope.modal.show();
             loadCustomProperties($scope.selectedUnitId);

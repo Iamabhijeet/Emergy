@@ -34,7 +34,7 @@
                         <div class="input-label">Category</div>
                         <select ng-model="report.CategoryId" ng-options="category.Id as category.Name for category in categories"></select>
                     </label>
-                    <ion-checkbox ng-model="reportDetails.useCurrentLocation" style="border-bottom: none;">Use current location</ion-checkbox>
+                    <ion-checkbox ng-model="reportDetails.useCurrentLocation" ng-disabled="!locations.length" style="border-bottom: none;">Use current location</ion-checkbox>
                     <label ng-if="!reportDetails.useCurrentLocation" class="item item-input item-select">
                         <div class="input-label">Location</div>
                         <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
@@ -107,7 +107,7 @@
                     <input type="search" placeholder="Type a unit name" ng-model="queryString" ng-change="queryPublicUnits(queryString)" style="background: transparent;">
                 </label>
                 <ul class="list">
-                    <li ng-repeat="publicUnit in publicUnits" class="item" ng-click="selectPublicUnit(publicUnit.Id)">{{ publicUnit.Name }}</li>
+                    <li ng-repeat="publicUnit in publicUnits" class="item" ng-click="selectPublicUnit(publicUnit.Id)"> {{ publicUnit.Name }}</li>
                 </ul>
             </div>
         </ion-content>
