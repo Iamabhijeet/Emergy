@@ -27,9 +27,6 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
             else if (notification.Type === "ReportUpdated") {
                 notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
-            else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
-            }
         });
     });
 
@@ -52,10 +49,9 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
                 $scope.originLatitude = location.data.Latitude;
                 $scope.originLongitude = location.data.Longitude; 
             });
-        }).finally(function() {
-            notificationService.hideLoading();
+        }).finally(function () {
             $scope.isLoading = false;
-            console.log($scope.originLatitude);
+            notificationService.hideLoading();
         });
     };
 

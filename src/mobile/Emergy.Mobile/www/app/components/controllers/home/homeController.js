@@ -359,7 +359,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 promise.then(function (customPropertyId) {
                                     var promise = reportsService.setCustomProperties($scope.reportId, [customPropertyId]);
                                     promise.then(function () {
-
                                     }, function (eror) {
 
                                     });
@@ -381,7 +380,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 promise.then(function (resourceId) {
                                     var promise = reportsService.setResources($scope.reportId, [resourceId]);
                                     promise.then(function (response) {
-
+                                        
                                     }, function (error) {
 
                                     });
@@ -505,6 +504,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             $scope.report.Description = "";
             $scope.reportPicturesData = [];
             $scope.customProperties = [];
+            $scope.customPropertyValues = [];
             $scope.modal = modal;
             $scope.modal.show();
             loadCustomProperties($scope.selectedUnitId);

@@ -7,7 +7,7 @@ app.controller(controllerId,
 
 function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, authService, notificationService, reportsService, connectionStatusService, hub, signalR, assignmentService, unitsService, locationService) {
     $scope.report = {};
-    var posOptions = { timeout: 10000, enableHighAccuracy: false };
+    var posOptions = { frequency: 30000, timeout: 5000, enableHighAccuracy: false };
     $scope.isLoading = true;
 
     $scope.goBack = function() {
@@ -25,6 +25,8 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
+                $scope.isLoading = true;
+                $scope.report = {};
                 loadAssignment(); 
             }
         });
@@ -71,7 +73,8 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
         }, function(error) {
             notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "Ok");
         }).finally(function() {
-            $scope.isLoading = false; 
+            $scope.isLoading = false;
+            notificationService.hideLoading();
         }); 
     };
 
@@ -126,10 +129,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 });
             } else {
                 $scope.report = null;
+                notificationService.hideLoading();
             }
         }, function() {
-             $scope.report = null;
-        }).finally(function() {
+            $scope.report = null;
             notificationService.hideLoading();
         });
     }

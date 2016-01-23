@@ -14,9 +14,9 @@
                     <div class="item item-divider">
                         STATUS : <b>{{ report.Status }}</b>
                     </div>
-                    <div class="item item-text-wrap">
+                    <div class="item item-text-wrap" style="padding-top: 0; padding-bottom: 0;">
                         <label class="item item-input item-select" style="margin-top: 0px;">
-                            <div class="input-label">Change status</div>
+                            <div style="width: 200px;" class="input-label">Change status</div>
                             <select ng-model="report.Status" ng-change="changeStatus(report.Status)">
                                 <option value="Created">Created</option>
                                 <option value="Processing">Processing</option>
