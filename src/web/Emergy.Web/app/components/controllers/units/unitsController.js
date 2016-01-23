@@ -81,6 +81,16 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
             if ($scope.checkboxModel.isUnitPublic === true) {
                 unitsService.makePublic(unitId);
             }
+            var promise = unitsService.createCategory("Uncategorized");
+            promise.then(function (categoryId) {
+                promise = unitsService.addCategoryToUnit(unitId, categoryId);
+            }, function (error) {
+                notificationService.pushError("Error has happened while creating category.");
+            })
+            .finally(function () {
+                $scope.categoryName = '';
+                $scope.isBusy = false;
+            });
         },function (error) {
             notificationService.pushError("Error has happened while creating a new unit.");
         }).finally(function () {

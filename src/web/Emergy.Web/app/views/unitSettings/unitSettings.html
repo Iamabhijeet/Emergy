@@ -118,7 +118,7 @@
             <div class="collapsible-header"><span style="font-weight: 500; color: #1599AB;">Categories</span></div>
             <div class="collapsible-body">
                 <ul class="collection properties">
-                    <li class="collection-item" ng-repeat="category in categories">
+                    <li class="collection-item" ng-repeat="category in categories" ng-if="category.Name != 'Uncategorized'">
                         <div>
                             <span class="property-title">{{ category.Name }}</span>
                             <a href="#!" ng-click="removeCategory(category.Id)" class="secondary-content"><i class="material-icons">delete</i></a>
