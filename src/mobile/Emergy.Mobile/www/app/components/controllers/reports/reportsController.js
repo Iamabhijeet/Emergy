@@ -45,7 +45,7 @@ function reportsController($scope, $state, $rootScope, authService, notification
 
     $scope.openSettings = function () {
         connectionStatusService.displayConnectionStatusMenu($scope.connectionStatus);
-    };  
+    };
 
     var loadReports = function () {
         notificationService.displayLoading("Loading reports...");
