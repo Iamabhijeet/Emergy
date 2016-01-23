@@ -12,6 +12,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
     $scope.isLoading = true;
     $scope.notificationAvailable = false;
     $scope.assignedUser = "";
+    $scope.assignment = {};
     $scope.userLocationAvailable = false;
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
@@ -49,7 +50,15 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 document.getElementById("notificationSound").play();
                 notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
             }
-            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11 && notification.SenderId === $scope.assignment.TargetId) {
+                $scope.isLoading = true;
+                $scope.isBusy = false;
+                $scope.assignment = [];
+                $scope.assignedUser = {};
+                $scope.userLocationAvailable = false;
+                loadReport(); 
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11 && notification.SenderId !== $scope.assignment.TargetId) {
                 document.getElementById("notificationSound").play();
                 notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
             }
@@ -198,6 +207,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
         var promise = assignmentService.getAssignments($scope.report.Id);
         promise.then(function (assignments) {
             if (assignments.length !== 0) {
+                $scope.assignment = assignments[0];
                 $scope.assignedUserName = assignments[0].TargetUserName;
                 var promise = locationService.getLatestUserLocation(assignments[0].TargetId);
                 promise.then(function (location) {
@@ -210,7 +220,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                             control: {},
                             options: { draggable: true },
                             center: { latitude: location.data.Latitude, longitude: location.data.Longitude },
-                            zoom: 13,
+                            zoom: 16, 
                             styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
                         };
                         $scope.userLocationAvailable = true; 

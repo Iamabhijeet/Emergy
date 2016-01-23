@@ -36,7 +36,6 @@
                 <div class="row" style="margin-top: 30px;">
                     <div class="input-field col l3 m3 s6">
                         <input id="unitName" name="unitName" type="text" ng-model="unitName" placeholder="Type a new name here" required ng-required/>
-                        <small class="validation" ng-show="editUnitForm.unitName.$touched && editUnitForm.unitName.$error.required">Unit name is required.</small>
                     </div>
                     <div class="input-field col l3 m3 s6">
                         <a style="margin-top: 5px;" class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
@@ -70,8 +69,7 @@
             <div class="row">
                 <form role="form" name="addUserForm" novalidate>
                     <div class="col l6 m6 s12">
-                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
-                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                        <input 
                                id="userName" name="userName"
                                placeholder="User Name"
                                type="text"
@@ -79,11 +77,8 @@
                                ng-maxlength="50"
                                ng-change="getUserByUsername(clientName)"
                                required/>
-                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.required">User Name is required.</small>
-                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.maxlength">User Name must not have more than 50 characters.</small>
 
-                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
-                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                        <input 
                                id="clientKey" name="clientKey"
                                placeholder="User Key"
                                type="number"
@@ -93,9 +88,6 @@
                                ng-disabled="!userFromUserName.Id"
                                ng-change="verifyUserIdAndKey(clientKey)"
                                required/>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.required">User key is required.</small>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.minlength">User key must be a 6 digit number.</small>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.maxlength">User key must be a 6 digit number.</small>
 
                         <button class="waves-effect waves-light btn center-align white-text" ng-click="addClient(unit.Id)" ng-disabled="addUserForm.$invalid || addUserForm.$pristine || !clientValid">
                             <i class="material-icons center-align">add</i>
@@ -136,10 +128,7 @@
                 <div class="row create-property" style="margin-left: 0;">
                     <form role="form" name="createCategoryForm" novalidate>
                         <div class="col l11 m11 s12">
-                            <input ng-class="{ 'valid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$valid, 'invalid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$invalid }" id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.required">Category name is required.</small>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.minlength">Category name has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.maxlength">Category name cannot be more than 25 characters long.</small>
+                            <input id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required/>    
                         </div>
                         <div class="col l1 m1 s12 center">
                             <button href="#" class="btn-floating waves-effect waves-light" ng-click="addCategory(unit.Id, categoryName)" ng-disabled="createCategoryForm.$invalid || createCategoryForm.$pristine || isBusy">
@@ -168,16 +157,11 @@
                 <div class="row create-property" style="margin-left: 0; margin-bottom: 0;">
                     <form role="form" name="createLocationForm" novalidate>
                         <div class="col l12 m12 s12">
-                            <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
+                            <input id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required/> 
 
-                            <input ng-class="{ 'valid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$valid, 'invalid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$invalid }" id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="text" ng-model="location.Latitude" required/>
-                            <small class="validation" ng-show="createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$error.required">Latitude is required.</small>
+                            <input id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="text" ng-model="location.Latitude" required/>
 
-                            <input ng-class="{ 'valid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$valid, 'invalid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$invalid }" id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="text" ng-model="location.Longitude" required/>
-                            <small class="validation" ng-show="createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$error.required">Location longitude is required.</small>
+                            <input id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="text" ng-model="location.Longitude" required/>
                         </div>
                         <br/>
                         <div class="col s12" style="padding: 1em;">
@@ -246,10 +230,7 @@
                 <div class="row create-property custom-property row-no-margin" style="margin-left: 0;">
                     <form role="form" name="createCustomPropertyForm" novalidate>
                         <div class="col l8 m8 s12">
-                            <input ng-class="{ 'valid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$valid, 'invalid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$invalid }" id="customPropertyName" name="customPropertyName" placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.required">Custom property title is required.</small>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.minlength">Custom property title has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.maxlength">Custom property title cannot be more than 25 characters long.</small>
+                            <input placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required/> 
                         </div>
                         <div class="col l3 m3 s12">
                             <div class="input-field custom-property-type">

@@ -28,10 +28,7 @@
     <div class="row create-unit" ng-if="!isBusy">
         <form role="form" name="createUnitForm" novalidate>
             <div class="col l9 m9 s9" style="margin-bottom: 15px;">
-                <input ng-class="{ 'valid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$valid, 'invalid' : createUnitForm.unitName.$touched && createUnitForm.unitName.$invalid }" id="unitName" name="unitName" placeholder="New unit name" type="text" ng-model="unitName" ng-minlength="5" ng-maxlength="50" required />
-                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.required">Unit name is required.</small>
-                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.minlength">Unit name has to contain atleast 5 characters.</small>
-                <small class="validation" ng-show="createUnitForm.unitName.$touched && createUnitForm.unitName.$error.maxlength">Unit name cannot be more than 50 characters long.</small>
+                <input id="unitName" name="unitName" placeholder="New unit name" type="text" ng-model="unitName" ng-minlength="5" ng-maxlength="50" required />
             </div>
             <div class="col l2 m2 s3" style="position: relative; top: 10px;">
                 <input type="checkbox" class="filled-in" id="filled-in-box" ng-model="checkboxModel.isUnitPublic"/>
