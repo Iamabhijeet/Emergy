@@ -23,9 +23,8 @@
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
-    border-color: #00ACC1;
-    background-color: #00ACC1;
-    background-image: linear-gradient(0deg, #00ACC1, #00ACC1 50%, transparent 50%);
+    border-color: #546e7a;
+    background-color: #546e7a;
     color: #fff;
 }
 
@@ -41,7 +40,7 @@
 /*-----------begin TABS-----------*/
 
 .tabs-striped.tabs-positive .tabs {
-    background-color: #00ACC1;
+    background-color: #66808C;
 }
 
 .tabs-positive > .tabs,
@@ -123,7 +122,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 /*-----------begin HOME-----------*/
 
 .home-container.modal-public ul {
-    margin-top: 15px; 
+    margin-top: 15px;
 }
 
 .home-container.modal-public ul li {
@@ -140,7 +139,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     list-style: none;
     width: 150px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
 }
 
 .home-container .public-switch p {
@@ -486,7 +485,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .assignments-container .information-title {
     font-weight: 500;
     color: #00ACC1;
-    margin-bottom: 0; 
+    margin-bottom: 0;
 }
 
 .assignments-container label {
@@ -518,7 +517,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .directions-container .list.card {
     height: 200px;
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px);
     overflow-y: scroll;
     position: fixed;
     bottom: 30px;
@@ -532,7 +531,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     overflow: hidden;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12); 
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .map-wrapper ng-map {
@@ -544,7 +543,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .platform-android .directions-container .list.card {
-    height: 25%; 
+    height: 25%;
     overflow-y: scroll;
     position: fixed;
     bottom: -20px;
@@ -553,14 +552,14 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .platform-ios #directions-panel {
     position: fixed;
     bottom: 0;
-    height: 42%;    
+    height: 42%;
     overflow-y: scroll;
 }
 
 .platform-android #directions-panel {
     position: fixed;
     bottom: 0;
-    height: 35%;    
+    height: 35%;
     overflow-y: scroll;
 }
 
@@ -581,19 +580,19 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 #directions-panel .adp-placemark tbody tr {
-    display: none;    
+    display: none;
 }
 
 #directions-panel .adp-legal {
-    display: none;    
+    display: none;
 }
 
 #directions-panel .adp-summary {
-    display: none;    
+    display: none;
 }
 
 #directions-panel .adp-maneuver {
-    display: none;   
+    display: none;
 }
 
 #directions-panel .adp-distance {
