@@ -1,0 +1,1 @@
+﻿var controllers = angular.module('emergy.controllers', []);
