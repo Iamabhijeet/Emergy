@@ -13,18 +13,22 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
     $scope.originLongitude = {};
     var posOptions = { timeout: 10000, enableHighAccuracy: false };
 
+    $scope.goBack = function() {
+        $state.go("tab.assignments");
+    };
+
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "MessageArrived") {
-                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
             }
         });
     });

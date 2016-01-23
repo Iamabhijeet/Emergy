@@ -116,10 +116,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "MessageArrived") {
-                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
                 notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });

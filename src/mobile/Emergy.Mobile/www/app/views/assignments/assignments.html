@@ -1,4 +1,7 @@
 ﻿<ion-view name="tab-assignments" view-title="Assignments">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-ios-arrow-back" ng-click="goBack()"></button>
+    </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div ng-if="report && !isLoading" class="assignments-container">
             <p class="main-text">You have been assigned by <span>{{ assignment.AdminUserName }}</span> to resolve the report submitted by <span>{{ report.Creator.UserName }}</span></p>
@@ -51,7 +54,7 @@
                             <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="information">No</p>
                             <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="information">{{ detail.SerializedValue }}</p>
                         </div>
-                        <br />
+                        <br/>
                     </div>
                 </div>
                 <div class="card" ng-repeat="resource in report.Resources">
