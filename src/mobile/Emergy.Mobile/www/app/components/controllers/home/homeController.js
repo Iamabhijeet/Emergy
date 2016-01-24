@@ -329,8 +329,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
                         $scope.reportId = reportId;
-                        $scope.report.LocationId = $scope.locations[0].Id;
-
+                        if ($scope.locations.length) {
+                            $scope.report.LocationId = $scope.locations[0].Id;
+                        }
+                        
                         var promise = unitsService.getUnit($scope.selectedUnitId);
                         promise.then(function (unit) {
                             var notification = {
