@@ -9,8 +9,14 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
     $scope.report = {};
     var posOptions = { frequency: 30000, timeout: 5000, enableHighAccuracy: false };
     $scope.isLoading = true;
+    var watch = {};
 
-    $scope.goBack = function() {
+    $scope.goBack = function () {
+        try {
+            watch.clearWatch();
+        } catch (err) {
+            $state.go("tab.home");
+        }
         $state.go("tab.home");
     };
 
@@ -48,6 +54,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
             console.log(notification);
             notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "Ok");
             if (newStatus === 'Completed' || newStatus === 'Failure') {
+                watch.clearWatch();
                 $state.go('tab.home');
             }
             var promise = notificationService.pushNotification(notification);
@@ -86,7 +93,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 $scope.assignment = assignment;
                 loadReport($scope.assignment.ReportId);
                 
-                var watch = $cordovaGeolocation.watchPosition(posOptions);
+                watch = $cordovaGeolocation.watchPosition(posOptions);
                 watch.then(null, function (err) {
                 }, function (position) {
                     $scope.latitude = position.coords.latitude;
