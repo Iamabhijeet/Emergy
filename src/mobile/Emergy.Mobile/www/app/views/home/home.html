@@ -108,7 +108,7 @@
                     <input type="search" placeholder="Type a unit name..." ng-model="queryString" ng-change="queryPublicUnits(queryString)" style="background: transparent;">
                 </label>
                 <ul class="list">
-                    <li class="item item-icon-left" ng-repeat="publicUnit in publicUnits" class="item" ng-click="selectPublicUnit(publicUnit.Id)">
+                    <li ng-repeat="publicUnit in publicUnits" class="item item-icon-left waves-effect waves-light waves-block" ng-click="selectPublicUnit(publicUnit.Id)">
                         <i class="icon ion-android-apps"></i>
                      {{ publicUnit.Name }}
                     </li>

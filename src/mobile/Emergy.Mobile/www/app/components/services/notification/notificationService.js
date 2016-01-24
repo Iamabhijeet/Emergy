@@ -63,11 +63,11 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     var displayLoading = function (message) {
         if (ionic.Platform.isAndroid()) {
             $ionicLoading.show({
-                template: '<ion-spinner icon="android"></ion-spinner> <br/>' + message
+                template: '<ion-spinner class="spinner-calm" icon="ripple"></ion-spinner> <br/>' + message
             });
         } else {
             $ionicLoading.show({
-                template: '<ion-spinner icon="ios"></ion-spinner> <br/>' + message
+                template: '<ion-spinner class="spinner-calm" icon="ripple"></ion-spinner> <br/>' + message
             });
         }
 

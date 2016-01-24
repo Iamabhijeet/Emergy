@@ -355,7 +355,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .platform-ios .bar.bar-footer.send-message-bar {
     border: none;
-    margin-bottom: 50px;
+    margin-bottom: 48px;
 }
 
 .platform-android .bar.bar-footer.send-message-bar {
@@ -411,7 +411,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .messages-container:last-child {
-    margin-bottom: 70px !important;
+    margin-bottom: 85px !important;
 }
 
 .messages-container .messages .message {
@@ -618,6 +618,11 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 /*-----------end DIRECTIONS-----------*/
+
+.spinner-calm
+{
+	 color: #00ACC1;
+}
 
 /*!
  * Waves v0.6.0
