@@ -19,7 +19,19 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
+                    $scope.reportMarker = {
+                        latitude: report.Location.Latitude,
+                        longitude: report.Location.Longitude
+                    }
+                    $scope.map = {
+                        control: {},
+                        options: { draggable: false, scrollwheel: false },
+                        center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
+                        zoom: 12,
+                        styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
+                    };
                     ngDialog.close();
+                    document.getElementById("notificationSound").play();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
@@ -30,7 +42,16 @@ function profileController($rootScope, $scope, $filter, accountService, authServ
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });

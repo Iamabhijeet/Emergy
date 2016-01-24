@@ -3,6 +3,18 @@
 notificationService.$inject = ['$http', '$q', 'serviceBase'];
 
 function notificationService($http, $q, serviceBase) {
+    var createNotification = function (notification) {
+        var deffered = $q.defer();
+        $http.post(serviceBase + 'api/notifications/create', notification)
+        .success(function (notification) {
+            deffered.resolve(notification);
+        })
+            .error(function (response) {
+                deffered.reject(response);
+            });
+        return deffered.promise;
+    };
+
     var getNotifications = function (lastDateTime) {
         var deffered;
 
@@ -46,16 +58,17 @@ function notificationService($http, $q, serviceBase) {
         if (error !== null) {
             errorString = error;
         }
-        Materialize.toast(errorString, 5000);    
+        Materialize.toast(errorString, 2500);    
     }
     function pushSuccess(message) {
-        Materialize.toast(message, 5000);
+        Materialize.toast(message, 10000);
     }
     function notify(message) {
         // will be implemented
     }
 
     var service = {
+        createNotification: createNotification, 
         pushError: pushError,
         pushSuccess: pushSuccess,
         notify: notify,

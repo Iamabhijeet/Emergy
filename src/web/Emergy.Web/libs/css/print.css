@@ -1,0 +1,30 @@
+﻿#shell {
+    display: none;
+}
+
+.main-container {
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.row.header-row {
+    display: none; 
+}
+
+.row.report-assignment {
+    display: none; 
+}
+
+.row.report-map {
+    display: none; 
+}
+
+.row.actions {
+    display: none; 
+}
+
+.row.head-information {
+    text-align: center; 
+}
+
+html, body { height: auto; }

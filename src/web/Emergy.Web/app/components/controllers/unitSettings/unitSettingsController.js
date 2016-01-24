@@ -20,7 +20,19 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
+                    $scope.reportMarker = {
+                        latitude: report.Location.Latitude,
+                        longitude: report.Location.Longitude
+                    }
+                    $scope.notificationMap = {
+                        control: {},
+                        options: { draggable: false, scrollwheel: false },
+                        center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
+                        zoom: 12,
+                        styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
+                    };
                     ngDialog.close();
+                    document.getElementById("notificationSound").play();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
@@ -31,7 +43,16 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });
@@ -42,7 +63,7 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
             longitude: longitude,
             title: title,
             id: title,
-            icon: 'assets/img/location.png'
+            icon: 'assets/img/location-marker.png'
         };
         return marker;
     };
@@ -64,7 +85,7 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
             }
         },
         zoom: 4,
-        styles: [{ stylers: [{ hue: '#18C0D6' }, { visibility: 'simplified' }, { gamma: 0.5 }, { weight: 0.5 }] }, { featureType: 'water', stylers: [{ color: '#37474f' }] }]
+        styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
     };
     $scope.markers = [];
     $scope.refreshMap = function () {
@@ -196,11 +217,11 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
 
         var unitEdit = {
             Id: unitId,
-            Name: $scope.unit.Name
+            Name: $scope.unitName
         };
         var promise = unitsService.editUnit(unitEdit);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully changed name!");
+            delete $scope.unitName; 
             loadUnit();
         }, function (error) {
             notificationService.pushError("Error has happened while changing unit name.");
@@ -210,12 +231,20 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         });
     };
 
-    $scope.deleteUnit = function (unitId) {
+    $scope.openUnitDeleteDialog = function () {
+        ngDialog.close();
+        ngDialog.open({
+            template: "confirmDeleteModal",
+            disableAnimation: true,
+            scope: $scope
+        });
+    };
+
+    $scope.deleteUnit = function () {
         $scope.isBusy = true;
 
-        var promise = unitsService.deleteUnit(unitId);
+        var promise = unitsService.deleteUnit($scope.unit.Id);
         promise.then(function () {
-            notificationService.pushSuccess("Unit has been deleted!");
             $state.go("Units");
         }, function (error) {
             notificationService.pushError("Error has happened while deleting the unit.");
@@ -231,7 +260,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (categoryId) {
             promise = unitsService.addCategoryToUnit(unitId, categoryId);
             promise.then(function () {
-                notificationService.pushSuccess("Category has been successfully added!");
                 loadCategories();
             }), function (error) {
                 notificationService.pushError("Error has happened while adding category to unit.");
@@ -249,7 +277,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeCategory(categoryId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed category!");
             loadCategories();
         }, function (error) {
             notificationService.pushError("Error has happened while ¸removing category.");
@@ -272,7 +299,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (locationId) {
             promise = unitsService.addLocationToUnit(unitId, locationId);
             promise.then(function () {
-                notificationService.pushSuccess("Location has been successfully added!");
                 loadLocations();
             }), function (error) {
                 notificationService.pushError("Error has happened adding location to unit.");
@@ -289,7 +315,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeLocation(locationId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed location!");
             loadLocations();
         }, function (error) {
             notificationService.pushError("Error has happened while removing location from unit.");
@@ -310,7 +335,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         promise.then(function (customPropertyId) {
             promise = unitsService.addCustomPropertyToUnit(unitId, customPropertyId);
             promise.then(function () {
-                notificationService.pushSuccess("Custom property has been successfully added!");
                 loadCustomProperties();
             }), function (error) {
                 notificationService.pushError("Error has happened while adding custom property to unit.");
@@ -329,7 +353,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         var promise = unitsService.removeCustomProperty(customPropertyId);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed custom property!");
             loadCustomProperties();
         }, function (error) {
             notificationService.pushError("Error has happened while removing the custom property.");
@@ -363,7 +386,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         $scope.isBusy = true;
         unitsService.addClient(unitId, JSON.stringify($scope.userFromUserName.Id))
             .then(function () {
-                notificationService.pushSuccess("Client has been successfully added!");
                 loadClients();
             })
             .finally(function () { $scope.isBusy = false; });
@@ -378,7 +400,6 @@ function unitSettingsController($scope, $state, $rootScope, $stateParams, unitsS
         };
         var promise = unitsService.removeClient(client);
         promise.then(function () {
-            notificationService.pushSuccess("Successfully removed client!");
             loadClients();
         }, function (error) {
             notificationService.pushError("Error has happened while removing client from unit.");

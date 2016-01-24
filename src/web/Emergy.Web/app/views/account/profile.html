@@ -1,4 +1,4 @@
-﻿<div ui-view="shell"></div>
+﻿<div id="shell" ui-view="shell"></div>
 
 <div class="container main-container profile">
     <div class="row header-row">
@@ -204,9 +204,10 @@
 <script type="text/ng-template" id="reportCreatedModal">
     <div class="report-modal">
         <h1>New report received!</h1>
-        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
-        </ng-map>
+        <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportMarker" idkey="0">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
         <div class="row">
             <div class="col l6 m6 s12">
@@ -218,3 +219,7 @@
         </div>
     </div>
 </script>
+
+<audio id="notificationSound">
+    <source src="/assets/sound/notification.mp3" type="audio/mpeg">
+</audio>

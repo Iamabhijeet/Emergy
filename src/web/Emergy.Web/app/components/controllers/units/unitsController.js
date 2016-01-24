@@ -12,6 +12,8 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
     $scope.searchTerm = '';
     $scope.isBusy = false;
     $scope.notificationAvailable = false;
+    $scope.checkboxModel = {};
+    $scope.checkboxModel.isUnitPublic = "";
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
@@ -22,7 +24,19 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 promise.then(function (report) {
                     $scope.arrivedReport = {};
                     $scope.arrivedReport = report;
+                    $scope.reportMarker = {
+                        latitude: report.Location.Latitude,
+                        longitude: report.Location.Longitude
+                    }
+                    $scope.map = {
+                        control: {},
+                        options: { draggable: false, scrollwheel: false },
+                        center: { latitude: report.Location.Latitude, longitude: report.Location.Longitude },
+                        zoom: 12,
+                        styles: [{ 'featureType': 'landscape.natural', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'on' }, { 'color': '#e0efef' }] }, { 'featureType': 'poi', 'elementType': 'geometry.fill', 'stylers': [{ 'visibility': 'off' }, { 'hue': '#1900ff' }, { 'color': '#c0e8e8' }] }, { 'featureType': 'road', 'elementType': 'geometry', 'stylers': [{ 'lightness': 100 }, { 'visibility': 'simplified' }] }, { 'featureType': 'road', 'elementType': 'labels', 'stylers': [{ 'visibility': 'on' }] }, { 'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{ 'visibility': 'on' }, { 'lightness': 700 }] }, { 'featureType': 'water', 'elementType': 'all', 'stylers': [{ 'color': '#00ACC1' }] }]
+                    };
                     ngDialog.close();
+                    document.getElementById("notificationSound").play();
                     ngDialog.open({
                         template: "reportCreatedModal",
                         disableAnimation: true,
@@ -33,7 +47,16 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
                 });
             }
             else if (notification.Type === "MessageArrived") {
-
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+            }
+            else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
+                document.getElementById("notificationSound").play();
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });
@@ -54,14 +77,25 @@ function unitsController($scope, $rootScope, unitsService, authService, notifica
         var promise = unitsService.createUnit({
             Name: unitName
         });
-        promise.then(function () {
-            loadUnits();
-        },
-        function (error) {
+        promise.then(function (unitId) {
+            if ($scope.checkboxModel.isUnitPublic === true) {
+                unitsService.makePublic(unitId);
+            }
+            var promise = unitsService.createCategory("Uncategorized");
+            promise.then(function (categoryId) {
+                promise = unitsService.addCategoryToUnit(unitId, categoryId);
+            }, function (error) {
+                notificationService.pushError("Error has happened while creating category.");
+            })
+            .finally(function () {
+                $scope.categoryName = '';
+                $scope.isBusy = false;
+            });
+        },function (error) {
             notificationService.pushError("Error has happened while creating a new unit.");
-        })
-        .finally(function () {
+        }).finally(function () {
             $scope.unitName = '';
+            loadUnits();
         });
     }
 

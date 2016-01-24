@@ -1,4 +1,4 @@
-﻿<div ui-view="shell"></div>
+﻿<div id="shell" ui-view="shell"></div>
 <div class="container main-container unit-details">
 <div class="row header-row">
     <div class="col l3 m4 s8 offset-s2">
@@ -13,10 +13,14 @@
 </div>
 <div class="row">
 <div class="col s12">
-    <ul class="tabs" tabs>
+    <ul class="tabs" tabs ng-if="!unit.IsPublic">
         <li class="tab col s3"><a class="active" href="#general">General</a></li>
         <li class="tab col s3"><a href="#users">Users</a></li>
         <li class="tab col s3"><a href="#properties">Properties</a></li>
+    </ul>
+    <ul class="tabs" tabs ng-if="unit.IsPublic">
+        <li class="tab col s6"><a class="active" href="#general">General</a></li>
+        <li class="tab col s6"><a href="#properties">Properties</a></li>
     </ul>
 </div>
 <div id="general" class="col s12">
@@ -29,15 +33,15 @@
     <div class="row">
         <div class="col s12">
             <form name="editUnitForm" role="form" novalidate>
-                <div class="row">
-                    <div class="input-field col m6 s12">
-                        <input id="unitName" name="unitName" type="text" ng-model="unit.Name" placeholder="New unit name" required ng-required/>
-                        <small class="validation" ng-show="editUnitForm.unitName.$touched && editUnitForm.unitName.$error.required">Unit name is required.</small>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="input-field col l3 m3 s6">
+                        <input id="unitName" name="unitName" type="text" ng-model="unitName" placeholder="Type a new name here" required ng-required/>
                     </div>
-                    <div class="input-field col m6 s12">
-                        <a class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
-                        <a class="waves-effect waves-light btn red white-text center-align" ng-click="deleteUnit(unit.Id)"><i class="material-icons left">delete</i>DELETE</a>
-                        <a ng-href="/statistics/{{unit.Id}}" class="waves-effect waves-light btn center-align" ng-click="editUnit(unit.Id)"><i class="material-icons left">equalizer</i> STATS</a>
+                    <div class="input-field col l3 m3 s6">
+                        <a style="margin-top: 5px;" class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
+                    </div>
+                    <div class="input-field col l6 m6 s12 delete-button">
+                        <a style="margin-top: 5px;" class="waves-effect waves-light btn red white-text center-align" ng-click="openUnitDeleteDialog()"><i class="material-icons left">delete</i>DELETE</a>
                     </div>
                 </div>
             </form>
@@ -65,8 +69,7 @@
             <div class="row">
                 <form role="form" name="addUserForm" novalidate>
                     <div class="col l6 m6 s12">
-                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
-                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                        <input 
                                id="userName" name="userName"
                                placeholder="User Name"
                                type="text"
@@ -74,11 +77,8 @@
                                ng-maxlength="50"
                                ng-change="getUserByUsername(clientName)"
                                required/>
-                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.required">User Name is required.</small>
-                        <small class="validation" ng-show="addUserForm.userName.$touched && addUserForm.userName.$error.maxlength">User Name must not have more than 50 characters.</small>
 
-                        <input ng-class="{ 'valid' : addUserForm.clientKey.$touched && addUserForm.clientKey.$valid,
-                                           'invalid': addUserForm.clientKey.$touched && addUserForm.clientKey.$invalid }"
+                        <input 
                                id="clientKey" name="clientKey"
                                placeholder="User Key"
                                type="number"
@@ -88,9 +88,6 @@
                                ng-disabled="!userFromUserName.Id"
                                ng-change="verifyUserIdAndKey(clientKey)"
                                required/>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.required">User key is required.</small>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.minlength">User key must be a 6 digit number.</small>
-                        <small class="validation" ng-show="addUserForm.clientKey.$touched && addUserForm.clientKey.$error.maxlength">User key must be a 6 digit number.</small>
 
                         <button class="waves-effect waves-light btn center-align white-text" ng-click="addClient(unit.Id)" ng-disabled="addUserForm.$invalid || addUserForm.$pristine || !clientValid">
                             <i class="material-icons center-align">add</i>
@@ -121,7 +118,7 @@
             <div class="collapsible-header"><span style="font-weight: 500; color: #1599AB;">Categories</span></div>
             <div class="collapsible-body">
                 <ul class="collection properties">
-                    <li class="collection-item" ng-repeat="category in categories">
+                    <li class="collection-item" ng-repeat="category in categories" ng-if="category.Name != 'Uncategorized'">
                         <div>
                             <span class="property-title">{{ category.Name }}</span>
                             <a href="#!" ng-click="removeCategory(category.Id)" class="secondary-content"><i class="material-icons">delete</i></a>
@@ -131,10 +128,7 @@
                 <div class="row create-property" style="margin-left: 0;">
                     <form role="form" name="createCategoryForm" novalidate>
                         <div class="col l11 m11 s12">
-                            <input ng-class="{ 'valid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$valid, 'invalid' : createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$invalid }" id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.required">Category name is required.</small>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.minlength">Category name has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createCategoryForm.categoryName.$touched && createCategoryForm.categoryName.$error.maxlength">Category name cannot be more than 25 characters long.</small>
+                            <input id="categoryName" name="categoryName" placeholder="New category name" type="text" ng-model="categoryName" ng-minlength="3" ng-maxlength="25" required/>    
                         </div>
                         <div class="col l1 m1 s12 center">
                             <button href="#" class="btn-floating waves-effect waves-light" ng-click="addCategory(unit.Id, categoryName)" ng-disabled="createCategoryForm.$invalid || createCategoryForm.$pristine || isBusy">
@@ -163,16 +157,11 @@
                 <div class="row create-property" style="margin-left: 0; margin-bottom: 0;">
                     <form role="form" name="createLocationForm" novalidate>
                         <div class="col l12 m12 s12">
-                            <input ng-class="{ 'valid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$valid, 'invalid' : createLocationForm.locationName.$touched && createLocationForm.locationName.$invalid }" id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.required">Location name is required.</small>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.minlength">Location name has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createLocationForm.locationName.$touched && createLocationForm.locationName.$error.maxlength">Location name cannot be more than 25 characters long.</small>
+                            <input id="locationName" name="locationName" placeholder="New location name" type="text" ng-model="location.Name" ng-minlength="3" ng-maxlength="25" required/> 
 
-                            <input ng-class="{ 'valid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$valid, 'invalid' : createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$invalid }" id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="text" ng-model="location.Latitude" required/>
-                            <small class="validation" ng-show="createLocationForm.locationLatitude.$touched && createLocationForm.locationLatitude.$error.required">Latitude is required.</small>
+                            <input id="locationLatitude" name="locationLatitude" placeholder="Latitude" type="text" ng-model="location.Latitude" required/>
 
-                            <input ng-class="{ 'valid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$valid, 'invalid' : createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$invalid }" id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="text" ng-model="location.Longitude" required/>
-                            <small class="validation" ng-show="createLocationForm.locationLongitude.$touched && createLocationForm.locationLongitude.$error.required">Location longitude is required.</small>
+                            <input id="locationLongitude" name="locationLongitude" placeholder="Longitude" type="text" ng-model="location.Longitude" required/>
                         </div>
                         <br/>
                         <div class="col s12" style="padding: 1em;">
@@ -241,10 +230,7 @@
                 <div class="row create-property custom-property row-no-margin" style="margin-left: 0;">
                     <form role="form" name="createCustomPropertyForm" novalidate>
                         <div class="col l8 m8 s12">
-                            <input ng-class="{ 'valid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$valid, 'invalid' : createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$invalid }" id="customPropertyName" name="customPropertyName" placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required/>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.required">Custom property title is required.</small>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.minlength">Custom property title has to contain atleast 3 characters.</small>
-                            <small class="validation" ng-show="createCustomPropertyForm.customPropertyName.$touched && createCustomPropertyForm.customPropertyName.$error.maxlength">Custom property title cannot be more than 25 characters long.</small>
+                            <input placeholder="New custom property title" type="text" ng-model="customPropertyName" ng-minlength="3" ng-maxlength="25" required/> 
                         </div>
                         <div class="col l3 m3 s12">
                             <div class="input-field custom-property-type">
@@ -272,9 +258,10 @@
 <script type="text/ng-template" id="reportCreatedModal">
     <div class="report-modal">
         <h1>New report received!</h1>
-        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
-        </ng-map>
+        <ui-gmap-google-map control="notificationMap.control" center="notificationMap.center" zoom="notificationMap.zoom" styles="notificationMap.styles" options="notificationMap.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportMarker" idkey="0">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
         <div class="row">
             <div class="col l6 m6 s12">
@@ -286,3 +273,22 @@
         </div>
     </div>
 </script>
+
+<script type="text/ng-template" id="confirmDeleteModal">
+    <div class="report-modal">
+        <h1>Delete unit</h1>
+        <p>By deleting this unit, all of its reports will be removed as well. Are you sure you want to delete this unit?</p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Cancel</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-click="deleteUnit(); closeThisDialog(0)" class="waves-effect waves-light btn red white-text">Yes</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<audio id="notificationSound">
+    <source src="/assets/sound/notification.mp3" type="audio/mpeg">
+</audio>

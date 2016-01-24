@@ -2,11 +2,11 @@
     'use strict';
 
     app.controller('statsController', stats);
-    stats.$inject = ['statsService'];
+    stats.$inject = ['statsService', '$rootScope'];
 
-    function stats(statsService) {
+    function stats(statsService, $rootScope) {
         var vm = this;
-        document.title = 'Statistics | Emergy'; 
+        $rootScope.title = 'Statistics | Emergy';
 
         function buildChart() {
             var chartModel = vm.stats.ReportsChart;

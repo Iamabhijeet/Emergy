@@ -4,6 +4,30 @@
 
 
 /*-----------GENERAL STYLING-----------*/
+
+.row.create-unit [type="checkbox"].filled-in:checked + label:after {
+    background-color: #18C0D6;
+    border-color: #18C0D6;
+}
+
+.toast a {
+    display: block;
+    margin-left: 25px;
+    color: #57C8FF;
+    font-weight: 500; 
+}
+
+.toast {
+    background-color: #37474f;
+    border: 1px solid #18C0D6;
+    top: 5px;
+    border-radius: 4px;
+}
+
+.toast span {
+    font-weight: 500;
+}
+
 html, body {
     height: 100%;
 }
@@ -387,18 +411,6 @@ html, body {
     background-color: transparent;
 }
 
-    .shell-wrapper .button-collapse .menu-icon-white {
-        font-size: 35px;
-        position: absolute;
-        top: 25px;
-        left: 15px;
-        color: #1599AB;
-        background-color: transparent;
-    }
-
-
-
-
 /*-----------LANDING PAGE-----------*/
 
 .landing-container .landing-title {
@@ -506,7 +518,6 @@ html, body {
             display: inline-block;
             margin-top: 15px;
             color: #4A4A4A;
-            width: 210px;
             position: relative;
             top: 16px;
         }
@@ -593,6 +604,8 @@ html, body {
     .main-container h2 {
         text-align: center;
         margin-bottom: 0;
+        font-size: 30px;
+        line-height: 1;
     }
 
     .main-container .row {
@@ -622,9 +635,9 @@ html, body {
 
     .main-container .collection .collection-item p.unit-name {
         width: 100px;
-        margin-top: 25px;
         font-size: 14px;
         margin-top: 15px;
+        line-height: 1;
     }
 
     .main-container .collection .collection-item .secondary-content {
@@ -908,7 +921,7 @@ html, body {
 }
 
 .main-container.reports .report-map {
-    height: 450px;
+    height: 400px;
 }
 
     .main-container.reports .report-map map {
@@ -964,6 +977,16 @@ html, body {
 .main-container.reports .resources h4 {
     margin-bottom: 10px;
 }
+
+.main-container.reports .report-assignment p {
+    margin-bottom: 0;
+}
+
+.main-container.reports .report-assignment p span {
+    color: #1599AB;
+    font-weight: 500;
+}
+
 
 .main-container.reports .resources .col {
     padding: 5px;
@@ -1035,6 +1058,10 @@ html, body {
     font-weight: 500;
 }
 
+.main-container.unit-details .delete-button {
+    text-align: right;
+}
+
 @media only screen and (max-width: 780px) {
     .main-container.reports .report-map {
         height: 350px;
@@ -1043,23 +1070,38 @@ html, body {
         .main-container.reports .report-map map {
             height: 350px;
         }
+
+    .main-container.reports .row.report-assignment {
+        margin-top: 70px;
+    }
 }
 
 @media only screen and (max-width: 601px) {
+    .main-container.unit-details .delete-button {
+        text-align: left;
+    }
+
     .main-container.reports .report-map {
-        height: 250px;
+        height: 200px;
+        margin-top: 30px;
     }
 
         .main-container.reports .report-map map {
             height: 250px;
         }
 
-    .main-container.reports .report-map {
-        margin-top: 30px;
+    .main-container.reports .row.report-assignment {
+        margin-top: 230px;
     }
 
     .main-container.reports .head-information p {
         text-align: center;
+    }
+}
+
+@media only screen and (max-width: 471px) {
+    .main-container.reports .row.report-assignment {
+        margin-top: 20px;
     }
 }
 
@@ -1284,4 +1326,52 @@ html, body {
         top: 0;
         font-size: 28px;
     }
+}
+
+/*-----------STATISTICS-----------*/
+
+.main-container.statistics #quartal h2 {
+    font-size: 5em;
+    margin-top: 90px;
+}
+
+.main-container.statistics #allTime h2 {
+    font-size: 5em;
+    margin-top: 90px;
+}
+
+.main-container.statistics h3 {
+    font-size: 28px;
+    font-weight: 400;
+    text-align: center; 
+    margin-top: 40px;
+    color: #3B3B3B;
+}
+
+.main-container.statistics h3 span {
+    font-weight: 500;
+    color: #18C0D6;
+}
+
+.main-container.statistics .card.small {
+    width: 100%;
+}
+
+.main-container.statistics .switch label input[type=checkbox]:checked + .lever {
+    background-color: #818181; 
+}
+
+.main-container.statistics .switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #F1F1F1;
+}
+
+.main-container.statistics .switch {
+    width: 180px;
+    margin-right: auto; 
+    margin-top: 80px;
+    margin-bottom: 0;
+}
+
+.report-modal .angular-google-map-container {
+    height: 250px;
 }

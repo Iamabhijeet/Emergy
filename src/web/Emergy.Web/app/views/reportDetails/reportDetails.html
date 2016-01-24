@@ -1,4 +1,4 @@
-﻿<div ui-view="shell"></div>
+﻿<div id="shell" ui-view="shell"></div>
 <div class="container main-container reports" id="report-document">
     <div class="row header-row">
         <div class="col l3 m4 s8 offset-s2">
@@ -18,27 +18,26 @@
         Submitted by <span>{{ report.Creator.UserName }}</span> at <span>{{ report.Timestamp | date: "h:mma" }}</span> on <span>{{ report.Timestamp | date: "MM-dd-yyyy" }}</span>
     </div>
     <div class="row report-map z-depth-1-half" ng-if="!isLoading">
-        <map center="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" zoom="19" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <info-window>
-                <div ng-non-bindable="">
-                    <strong>{{ report.Location.Name }}</strong> <br/>
-                    Lat: {{anchor.getPosition().lat()}}<br/>
-                    Lng: {{anchor.getPosition().lng()}}<br/>
-                </div>
-            </info-window>
-            <custom-marker position="{{ report.Location.Latitude }}, {{ report.Location.Longitude }}" on-click="showTitle()">
-                <img src="/assets/img/report-marker.png"/>
-            </custom-marker>
-        </map>
+        <ui-gmap-google-map ng-if="!userLocationAvailable" control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
+            </ui-gmap-marker>
+            <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+        <ui-gmap-google-map ng-if="userLocationAvailable" control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/map-marker.png'}" coords="reportLocationMarker" idkey="0">
+            </ui-gmap-marker>
+            <ui-gmap-marker options="{icon:'assets/img/user-location.png'}" coords="userLocationMarker" idkey="1">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
     </div>
     <div class="row report-assignment" ng-if="!isLoading">
-        <p ng-if="assignedUser">
-            <span>{{ assignedUser.UserName}}</span> is currently assigned to resolve this report.
+        <p ng-if="assignedUserName">
+            <span>{{ assignedUserName }}</span> is currently assigned to resolve this report.
         </p>
-        <form role="form" name="createAssignmentForm" novalidate>
+        <form ng-if="!assignedUserName && report.Status !== 'Failure' && report.Status !== 'Completed'" role="form" name="createAssignmentForm" novalidate>
             <div class="col l11 m11 s10" style="padding: 0;">
-                <input style="margin-bottom: 0;" ng-class="{ 'valid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$valid, 'invalid' : createAssignmentForm.userName.$touched && createAssignmentForm.userName.$invalid }" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
-                <small class="validation" ng-show="createAssignmentForm.userName.$touched && createAssignmentForm.userName.$error.required">Username is required.</small>
+                <input style="margin-bottom: 0;" id="userName" name="userName" placeholder="Type username to assign for resolving" type="text" ng-model="userName" required/>
             </div>
             <div class="col l1 m1 s2">
                 <button href="#" class="btn-floating waves-effect waves-light" ng-click="assignUser(userName)" ng-disabled="createAssignmentForm.$invalid || createAssignmentForm.$pristine || isBusy">
@@ -115,9 +114,10 @@
 <script type="text/ng-template" id="reportCreatedModal">
     <div class="report-modal">
         <h1>New report received!</h1>
-        <ng-map disable-default-u-i="true" style="height: 200px;" center="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}" zoom="16" styles="[{stylers:[{hue:'#18C0D6'},{visibility:'simplified'},{gamma:0.5},{weight:0.5}]},{featureType:'water',stylers:[{color:'#37474f'}]}]">
-            <marker position="{{ arrivedReport.Location.Latitude }}, {{ arrivedReport.Location.Longitude }}">
-        </ng-map>
+        <ui-gmap-google-map control="notificationMap.control" center="notificationMap.center" zoom="notificationMap.zoom" styles="notificationMap.styles" options="notificationMap.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportNotificationMarker" idkey="2">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
         <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
         <div class="row">
             <div class="col l6 m6 s12">
@@ -129,3 +129,7 @@
         </div>
     </div>
 </script>
+
+<audio id="notificationSound">
+    <source src="/assets/sound/notification.mp3" type="audio/mpeg">
+</audio>
