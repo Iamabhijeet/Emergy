@@ -40,7 +40,7 @@ function messagesController($scope, $state, $stateParams, $timeout, $ionicScroll
         promise.then(function (messages) {
             $scope.messages = messages;
         }, function (error) {
-            notificationService.displayErrorPopup("Error has happened while loading messages.", "Ok");
+            notificationService.displayErrorPopup("Error has happened while loading messages.", "OK");
         }).finally(function () {
             $ionicScrollDelegate.scrollBottom(true);
         });
@@ -65,13 +65,13 @@ function messagesController($scope, $state, $stateParams, $timeout, $ionicScroll
                     hub.server.sendNotification(notificationId);
                 }
                 catch (err) {
-                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "OK");
                 }
             }, function() {
-                notificationService.displayErrorPopup("There has been an error creating a notification!", "Ok");
+                notificationService.displayErrorPopup("There has been an error creating a notification!", "OK");
             });
         }, function(error) {
-            notificationService.displayErrorPopup("There has been an error sending a message.", "Ok");
+            notificationService.displayErrorPopup("There has been an error sending a message.", "OK");
         }).finally(function () {
             notificationService.hideLoading();
             delete $scope.message;

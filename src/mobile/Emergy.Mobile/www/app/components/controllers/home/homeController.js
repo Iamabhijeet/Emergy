@@ -80,19 +80,19 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     notificationService.hideLoading();
                     modalPublic.hide();
                     unitAccess.Checkbox = false;
-                    notificationService.displayErrorPopup("There has been an error fetching category information.", "Ok");
+                    notificationService.displayErrorPopup("There has been an error fetching category information.", "OK");
                 });
             }, function () {
                 notificationService.hideLoading();
                 modalPublic.hide();
                 unitAccess.Checkbox = false;
-                notificationService.displayErrorPopup("There has been an error fetching location information.", "Ok");
+                notificationService.displayErrorPopup("There has been an error fetching location information.", "OK");
             });
         }, function () {
             notificationService.hideLoading();
             modalPublic.hide();
             unitAccess.Checkbox = false;
-            notificationService.displayErrorPopup("There has been an error selecting public unit.", "Ok");
+            notificationService.displayErrorPopup("There has been an error selecting public unit.", "OK");
         });
     };
 
@@ -123,7 +123,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -156,7 +156,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         cameraService.takePhotoFromCamera()
             .then(function (base64) { $scope.reportPicturesData.push("data:image/jpeg;base64," + base64); },
                 function () {
-                    notificationService.displayErrorPopup("There has been an error while processing the image!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error while processing the image!", "OK");
                 });
     };
 
@@ -171,7 +171,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 $scope.loadBasicProperties($scope.selectedUnitId);
             }
         }, function () {
-            notificationService.displayErrorPopup("There has been an error fetching unit information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching unit information.", "OK");
         });
     };
     $scope.loadBasicProperties = function (unitId) {
@@ -187,7 +187,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 $scope.reportDetails.useCurrentLocation = true;
             }
         }, function () {
-            notificationService.displayErrorPopup("There has been an error fetching location information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching location information.", "OK");
         });
 
         promise = unitsService.getCategories(unitId);
@@ -198,7 +198,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 $scope.report.CategoryId = $scope.categories[0].Id;
             }
         }, function () {
-            notificationService.displayErrorPopup("There has been an error fetching category information.", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching category information.", "OK");
         })
             .finally(function () {
                 notificationService.hideLoading();
@@ -240,34 +240,34 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                             var promise = notificationService.pushNotification(notification);
                             promise.then(function (notificationId) {
                                 notificationService.hideLoading();
-                                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                                notificationService.displaySuccessPopup("Report has been successfully submitted!", "OK");
                                 try {
                                     hub.server.sendNotification(notificationId);
                                 }
                                 catch (err) {
-                                    notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                                    notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "OK");
                                 }
 
                             }, function () {
                                 notificationService.hideLoading();
-                                notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                                notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                             });
                         }, function () {
                             notificationService.hideLoading();
-                            notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                            notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                         });
 
                     }, function () {
                         notificationService.hideLoading();
-                        notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error submitting a report!", "OK");
                     });
                 }, function () {
                     notificationService.hideLoading();
-                    notificationService.displayErrorPopup("There has been an error creating your location!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error creating your location!", "OK");
                 });
             }, function () {
                 notificationService.hideLoading();
-                notificationService.displayErrorPopup("There has been an error acquiring your location!", "Ok");
+                notificationService.displayErrorPopup("There has been an error acquiring your location!", "OK");
             });
         }
         else {
@@ -287,24 +287,24 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     var promise = notificationService.pushNotification(notification);
                     promise.then(function (notificationId) {
                         notificationService.hideLoading();
-                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "OK");
                         try {
                             hub.server.sendNotification(notificationId);
                         }
                         catch (err) {
-                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "OK");
                         }
                     }, function () {
                         notificationService.hideLoading();
-                        notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                     });
                 }, function () {
                     notificationService.hideLoading();
-                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                 });
             }, function () {
                 notificationService.hideLoading();
-                notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                notificationService.displayErrorPopup("There has been an error submitting a report!", "OK");
             });
         }
     };
@@ -348,12 +348,12 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 });
                                 notificationService.hideLoading();
                                 $scope.modal.hide();
-                                notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                                notificationService.displaySuccessPopup("Report has been successfully submitted!", "OK");
                             }, function () {
                                 notificationService.hideLoading();
                                 $scope.modal.hide();
                                 $scope.report.LocationId = $scope.locations[0].Id;
-                                notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                                notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                             });
                         });
 
@@ -396,17 +396,17 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     }, function (error) {
                         notificationService.hideLoading();
                         $scope.modal.hide();
-                        notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error submitting a report!", "OK");
                     });
                 }, function (error) {
                     notificationService.hideLoading();
                     $scope.modal.hide();
-                    notificationService.displayErrorPopup("There has been an error creating your location!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error creating your location!", "OK");
                 });
             }, function (error) {
                 notificationService.hideLoading();
                 $scope.modal.hide();
-                notificationService.displayErrorPopup("There has been an error acquiring your location!", "Ok");
+                notificationService.displayErrorPopup("There has been an error acquiring your location!", "OK");
             });
         } else {
             notificationService.displayLoading("Submitting report...");
@@ -429,15 +429,15 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                             hub.server.sendNotification(notificationId);
                         }
                         catch (err) {
-                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "Ok");
+                            notificationService.displayErrorPopup("There has been an error pushing a notification!" + err, "OK");
                         }
                         notificationService.hideLoading();
                         $scope.modal.hide();
-                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "Ok");
+                        notificationService.displaySuccessPopup("Report has been successfully submitted!", "OK");
                     }, function () {
                         notificationService.hideLoading();
                         $scope.modal.hide();
-                        notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                        notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                     });
 
                     if ($scope.customPropertyValues.length > 0) {
@@ -479,12 +479,12 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 }, function (error) {
                     notificationService.hideLoading();
                     $scope.modal.hide();
-                    notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error submitting a report!", "OK");
                 });
             }, function (error) {
                 notificationService.hideLoading();
                 $scope.modal.hide();
-                notificationService.displayErrorPopup("There has been an error submitting a report!", "Ok");
+                notificationService.displayErrorPopup("There has been an error submitting a report!", "OK");
             });
         }
     };
@@ -494,7 +494,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         promise.then(function (customProperties) {
             $scope.customProperties = customProperties;
         }, function (error) {
-            notificationService.displayErrorPopup("There has been an error fetching details!", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching details!", "OK");
         })
             .finally(function () {
                 notificationService.hideLoading();
@@ -515,7 +515,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         });
     };
     $scope.openSubmitDialog = function () {
-        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "No, submit", "Cancel", "Yes", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
+        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "NO, SUBMIT", "DISMISS", "YES", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
 
     $scope.loadUnits();

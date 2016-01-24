@@ -19,10 +19,10 @@ function reportsController($scope, $state, $rootScope, authService, notification
             }
             else if (notification.Type === "ReportUpdated") {
                 loadReports(); 
-                notificationService.displaySuccessPopup("Report that you submitted had its status changed to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessPopup("Report that you submitted had its status changed to " + notification.Content + "!", "OK");
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -53,7 +53,7 @@ function reportsController($scope, $state, $rootScope, authService, notification
         promise.then(function(reports) {
             $scope.reports = reports;
         }, function() {
-            notificationService.displayErrorPopup("There has been an error loading reports.", "Ok");
+            notificationService.displayErrorPopup("There has been an error loading reports.", "OK");
         }).finally(function () {
             notificationService.hideLoading();
             $scope.isLoading = false;

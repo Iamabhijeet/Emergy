@@ -22,7 +22,7 @@ function messagingController($scope, $state, $rootScope, authService, notificati
                 notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -53,7 +53,7 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         promise.then(function(user) {
             $state.go("tab.messages", { senderId: user.data.Id });
         }, function () {
-            notificationService.displayErrorPopup("There has been an error loading messages.", "Ok");
+            notificationService.displayErrorPopup("There has been an error loading messages.", "OK");
         }).finally(function() {
             notificationService.hideLoading();
         });
@@ -66,7 +66,7 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         promise.then(function (messagedUsers) {
             $scope.messagedUsers = messagedUsers;
         }, function (error) {
-            notificationService.displayErrorPopup("There has been an error loading messaged users.", "Ok");
+            notificationService.displayErrorPopup("There has been an error loading messaged users.", "OK");
         }).finally(function() {
             notificationService.hideLoading();
             $scope.isLoading = false;

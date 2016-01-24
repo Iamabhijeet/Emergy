@@ -31,7 +31,7 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
     });
 
     var loadDestination = function() {
-        notificationService.displayLoading("Loading directions information...");
+        notificationService.displayLoading("Loading directions...");
         var promise = locationService.getLocationForReport($stateParams.reportId);
         promise.then(function(location) {
             $scope.destinationLatitude = location.Latitude;
