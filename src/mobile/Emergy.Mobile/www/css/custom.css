@@ -137,6 +137,9 @@ ion-tabs.tabs-color-active-positive .tab-item {
     font-weight: 500;
     border: none;
     margin-bottom: 15px;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-container .public-switch {
@@ -183,6 +186,9 @@ ion-tabs.tabs-color-active-positive .tab-item {
     margin-left: auto;
     margin-right: auto;
     margin-top: 5px;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-container .button-create-report {
@@ -196,6 +202,9 @@ ion-tabs.tabs-color-active-positive .tab-item {
     margin-right: auto;
     margin-top: 15px;
     margin-bottom: 40px;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-container .button-new-report:before {
@@ -324,6 +333,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     margin-top: 15px;
+    width: 100%; 
 }
 
 .messaging-container li.item p{
@@ -472,9 +482,13 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .assignments-container a.button.button-positive {
     margin-bottom: 15px;
+    width: 100%;
     line-height: 3;
     background-color: #00ACC1;
     border: none;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .assignments-container a.button.activated {
