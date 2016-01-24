@@ -69,6 +69,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 var promise = unitsService.getCategories(unitId);
                 promise.then(function (categories) {
                     if (categories.length) {
+                        categories.reverse();
                         $scope.categories = categories;
                         $scope.report.CategoryId = $scope.categories[0].Id;
                     }
@@ -192,6 +193,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         promise = unitsService.getCategories(unitId);
         promise.then(function (categories) {
             if (categories.length) {
+                categories.reverse();
                 $scope.categories = categories;
                 $scope.report.CategoryId = $scope.categories[0].Id;
             }

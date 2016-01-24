@@ -20,6 +20,13 @@
     background: transparent;  /* optional: just make scrollbar invisible */
 }
 
+.platform-ios .android-navbutton {
+    display: none; 
+}
+
+.platform-android .ios-navbutton {
+    display: none; 
+}
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
@@ -400,7 +407,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .messages-container:last-child {
-    margin-bottom: 80px !important;
+    margin-bottom: 70px !important;
 }
 
 .messages-container .messages .message {
