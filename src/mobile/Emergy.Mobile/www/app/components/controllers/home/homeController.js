@@ -69,6 +69,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                 var promise = unitsService.getCategories(unitId);
                 promise.then(function (categories) {
                     if (categories.length) {
+                        categories.reverse();
                         $scope.categories = categories;
                         $scope.report.CategoryId = $scope.categories[0].Id;
                     }
@@ -116,10 +117,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "MessageArrived") {
-                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
                 notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
@@ -192,6 +193,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         promise = unitsService.getCategories(unitId);
         promise.then(function (categories) {
             if (categories.length) {
+                categories.reverse();
                 $scope.categories = categories;
                 $scope.report.CategoryId = $scope.categories[0].Id;
             }
@@ -327,8 +329,10 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                     var promise = reportsService.createReport($scope.report);
                     promise.then(function (reportId) {
                         $scope.reportId = reportId;
-                        $scope.report.LocationId = $scope.locations[0].Id;
-
+                        if ($scope.locations.length) {
+                            $scope.report.LocationId = $scope.locations[0].Id;
+                        }
+                        
                         var promise = unitsService.getUnit($scope.selectedUnitId);
                         promise.then(function (unit) {
                             var notification = {
@@ -359,7 +363,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 promise.then(function (customPropertyId) {
                                     var promise = reportsService.setCustomProperties($scope.reportId, [customPropertyId]);
                                     promise.then(function () {
-
                                     }, function (eror) {
 
                                     });
@@ -381,7 +384,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
                                 promise.then(function (resourceId) {
                                     var promise = reportsService.setResources($scope.reportId, [resourceId]);
                                     promise.then(function (response) {
-
+                                        
                                     }, function (error) {
 
                                     });
@@ -505,6 +508,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             $scope.report.Description = "";
             $scope.reportPicturesData = [];
             $scope.customProperties = [];
+            $scope.customPropertyValues = [];
             $scope.modal = modal;
             $scope.modal.show();
             loadCustomProperties($scope.selectedUnitId);

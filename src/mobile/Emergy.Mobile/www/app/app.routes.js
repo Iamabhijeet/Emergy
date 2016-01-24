@@ -128,7 +128,7 @@
     });
 
     $stateProvider.state('tab.messages', {
-        url: '/messaging/:senderId',
+        url: '/messages/:senderId',
         cache: false,
         views: {
             'tab-messaging': {

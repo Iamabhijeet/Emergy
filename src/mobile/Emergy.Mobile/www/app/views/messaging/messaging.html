@@ -1,11 +1,12 @@
 ﻿<ion-view name="tab-messaging" view-title="Messaging">
     <ion-nav-buttons side="left">
-        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()"></button>
+        <button class="button button-icon icon ion-ios-gear-outline ios-navbutton" ng-click="openSettings()"></button>
+        <button class="button button-icon icon ion-gear-b android-navbutton" ng-click="openSettings()"></button>
     </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="messaging-container" ng-if="messagedUsers.length != 0">
             <ul class="list">
-                <li class="item item-avatar" ng-repeat="messagedUser in messagedUsers" ng-click="openMessages(messagedUser.UserName)">
+                <li class="item item-avatar waves-effect waves-light" ng-repeat="messagedUser in messagedUsers" ng-click="openMessages(messagedUser.UserName)">
                     <img ng-src="{{ messagedUser.ProfilePhoto.Base64 }}">
                     <p>{{ messagedUser.UserName }}</p>
                 </li>
