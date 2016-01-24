@@ -104,17 +104,17 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .login-container .login-button {
     background-color: #00a2b7;
-    border-color: #00a2b7;
+    border: 0;
 }
 
 .login-container .login-button:hover {
     background-color: #08c2da;
-    border-color: #08c2da;
+    border: 0;
 }
 
 .login-container .login-button.activated {
     background-color: #007382;
-    border-color: #007382;
+    border: 0;
 }
 
 .login-container h1 {
@@ -181,7 +181,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     border-radius: 50%;
     width: 165px;
     height: 165px;
-    border: none;
+    border: 0;
     display: block;
     margin-left: auto;
     margin-right: auto;

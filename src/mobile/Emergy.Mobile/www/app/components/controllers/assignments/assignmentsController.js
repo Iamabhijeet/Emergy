@@ -52,7 +52,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 ParameterId: $scope.report.Id
             }
             console.log(notification);
-            notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "Ok");
+            notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "OK");
             if (newStatus === 'Completed' || newStatus === 'Failure') {
                 watch.clearWatch();
                 $state.go('tab.home');
@@ -62,13 +62,13 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 try {
                     hub.server.sendNotification(notificationId);
                 } catch (err) {
-                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                 }
             }, function() {
-                notificationService.displayErrorPopup("There has been an creating a notification!", "Ok");
+                notificationService.displayErrorPopup("There has been an creating a notification!", "OK");
             });
         }, function() {
-            notificationService.displayErrorPopup("There has been an error changing report status!", "Ok");
+            notificationService.displayErrorPopup("There has been an error changing report status!", "OK");
         });
     }
 
@@ -78,7 +78,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
         promise.then(function(report) {
             $scope.report = report;
         }, function(error) {
-            notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "OK");
         }).finally(function() {
             $scope.isLoading = false;
             notificationService.hideLoading();
@@ -124,10 +124,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                                     hub.server.sendNotification(notificationId);
                                 }
                                 catch (err) {
-                                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "Ok");
+                                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "OK");
                                 }
                             }, function() {
-                                notificationService.displayErrorPopup("There has been an error creating a notification!", "Ok");
+                                notificationService.displayErrorPopup("There has been an error creating a notification!", "OK");
                             });
                         }, function() {
                         });
