@@ -8814,5 +8814,5 @@ ionic.views.Slider = ionic.views.View.inherit({
   });
 
 })(ionic);
-
 })();
+

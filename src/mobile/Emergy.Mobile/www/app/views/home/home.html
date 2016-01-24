@@ -9,7 +9,7 @@
     </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="home-container" ng-if="units.length != 0">
-            <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report"></button>
+            <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report waves-effect waves-light"></button>
             <div class="report-inputs" ng-if="!isBusy">
                 <div ng-if="!unitAccess.Checkbox">
                     <label class="item item-input item-select">
@@ -67,7 +67,7 @@
         <ion-content class="padding">
             <div class="home-container modal">
                 <div class="report-inputs">
-                    <span class="camera-button" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
+                    <span class="camera-button waves-effect waves-light" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
                     <p style="text-align: center;" ng-if="reportPicturesData.length != 0 && ionic.Platform.isAndroid()">{{ reportPicturesData.length }} pictures added</p>
                     <div ng-if="!ionic.Platform.isAndroid()">
                         <div class="row" ng-repeat="reportPictureData in reportPicturesData" ng-if="$index % 4 === 0">
@@ -89,7 +89,7 @@
                         </label>
                     </div>
                 </div>
-                <button class="button button-create-report" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
+                <button class="button button-create-report waves-effect waves-light" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
             </div>
         </ion-content>
     </ion-modal-view>
