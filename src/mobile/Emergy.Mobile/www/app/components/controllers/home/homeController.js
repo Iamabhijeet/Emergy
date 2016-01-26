@@ -47,6 +47,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         var promise = unitsService.queryPublicUnits(queryString);
         promise.then(function (publicUnits) {
             console.log("Test");
+            $scope.publicUnits = [];
             $scope.publicUnits = publicUnits;
         });
     };
@@ -96,7 +97,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         });
     };
 
-
     $scope.openQueryUnitsDialog = function () {
         $ionicModal.fromTemplateUrl('searchPublicUnits.html', {
             scope: $scope,
@@ -131,7 +131,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     if (signalR.isConnecting) {
         $scope.connectionStatus = "connecting";
     }
-
     if (signalR.isConnected) {
         $scope.connectionStatus = "connected";
     }
@@ -515,7 +514,7 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
         });
     };
     $scope.openSubmitDialog = function () {
-        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "NO, SUBMIT", "DISMISS", "YES", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
+        notificationService.displayChoicePopup("Do you want to fill additional information before submitting?", "NO, SUBMIT", "CANCEL", "YES", openSubmitWithAdditionalInformationDialog, submitReportWithBasicInformation);
     };
 
     $scope.loadUnits();

@@ -30,7 +30,7 @@ function messagesController($scope, $state, $stateParams, $timeout, $ionicScroll
                 notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "View", function () { $state.go("tab.assignments"); });
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });

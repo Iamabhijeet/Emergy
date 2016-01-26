@@ -37,7 +37,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displaySuccessWithActionPopup = function(message, buttonText, action) {
-        $cordovaDialogs.confirm(message, "Notification", [buttonText, 'Dismiss']).then(function(buttonIndex) {
+        $cordovaDialogs.confirm(message, "Notification", [buttonText, 'DISMISS']).then(function(buttonIndex) {
             if (buttonIndex === 1) {
                 action();
             }
@@ -45,7 +45,7 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displayErrorPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Error", buttonText);
+        $cordovaDialogs.alert(message, "ERROR", buttonText);
     };
 
     var displayChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction) {
