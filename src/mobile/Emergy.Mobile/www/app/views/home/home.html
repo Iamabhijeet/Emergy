@@ -67,7 +67,7 @@
         <ion-content class="padding">
             <div class="home-container modal">
                 <div class="report-inputs">
-                    <span class="camera-button waves-effect waves-light" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
+                    <span class="camera-button waves-effect waves-light waves-block" ng-click="takePicture()"><i class="material-icons">add_a_photo</i></span>
                     <p style="text-align: center;" ng-if="reportPicturesData.length != 0 && ionic.Platform.isAndroid()">{{ reportPicturesData.length }} pictures added</p>
                     <div ng-if="!ionic.Platform.isAndroid()">
                         <div class="row" ng-repeat="reportPictureData in reportPicturesData" ng-if="$index % 4 === 0">
@@ -89,7 +89,7 @@
                         </label>
                     </div>
                 </div>
-                <button class="button button-create-report waves-effect waves-light" ng-click="submitReportWithAdditionalInformation()">Submit report</button>
+                <button class="button button-create-report waves-effect waves-light" ng-click="submitReportWithAdditionalInformation()">SUBMIT REPORT</button>
             </div>
         </ion-content>
     </ion-modal-view>
