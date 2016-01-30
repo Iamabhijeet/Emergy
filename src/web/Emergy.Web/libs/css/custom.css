@@ -98,6 +98,109 @@ html, body {
     height: 100%;
 }
 
+/*-----------LANDING PAGE-----------*/
+
+.landing nav {
+    background-color: #00a2b7;
+    position: absolute;
+    box-shadow: none;
+}
+
+.landing nav .brand-logo {
+    font-weight: 100;
+}
+
+.landing .section.home {
+    background-image: url('../../assets/img/login-background.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 700px;
+}
+
+.landing .section.home h1, .landing .section.home p {
+    color: #ffffff;
+}
+
+.landing .section.home .container {
+    margin-top: 180px;
+}
+
+.landing .section.home .container h1 {
+    font-size: 3.5em;
+    margin-bottom: 0;
+}
+.landing .section.home .container p {
+    font-size: 2.5em;
+    font-style: italic;
+    font-weight: 100;
+    margin-top: 0;
+    letter-spacing: 1px;
+}
+
+.landing .section.home .container img {
+    width: 100%;
+}
+
+.landing .section.home .container a {
+    display: block;
+    width: 150px;
+    height: 45px;
+    line-height: 47px;
+}
+
+.landing .section.overview h2 {
+    font-size: 2.5em;
+    text-align: center;
+    color: #454545;
+    font-weight: 300;
+}
+
+.landing .section.overview .tabs li a  {
+    font-weight: 500;
+    color: #00a2b7;
+}
+
+.landing .section.overview .tabs .indicator  {
+    height: 4px;
+    background-color: #00a2b7;
+}
+
+.landing .section.overview {
+    text-align: center;
+    background-color: #F5F5F5;
+}
+
+.landing .section.overview li {
+    text-align: center;
+    background-color: #F5F5F5;
+}
+
+
+.landing .section.overview h4 {
+    color: #00a2b7;
+    font-weight: 300;
+    font-size: 1.8em;
+}
+
+.landing .section.overview p {
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.landing .section.overview img {
+    width: 130px;
+}
+
+.landing .section.overview #personnel, .landing .section.overview #employees {
+    margin-top: 70px;
+}
+
+.landing .section.features {
+    
+}
+
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
 
 .login-register-container .col.s12 {
@@ -410,15 +513,6 @@ html, body {
     color: #757575;
     background-color: transparent;
 }
-
-/*-----------LANDING PAGE-----------*/
-
-.landing-container .landing-title {
-    color: #ffffff;
-    font-weight: 100;
-    margin-top: 150px;
-}
-
 
 /*-----------UNITS PAGE-----------*/
 
