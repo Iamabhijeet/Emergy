@@ -7,15 +7,7 @@ app.controller(controllerId,
 
 function landingController($scope, $timeout, $rootScope, $state, authService, authData) {
     $rootScope.title = 'Landing';
-    $rootScope.background = 'background-cyan';
+    $rootScope.background = 'background-white';
+    
 
-    $timeout(function () {
-        if (authData.loggedIn && authData.isAdmin()) {
-            $state.go('Units');
-        } else if (authData.loggedIn && authData.isClient()) {
-            $state.go('ClientDashboard', authData.userId);
-        } else {
-            $state.go('Login');
-        }
-    }, 5000);
 }

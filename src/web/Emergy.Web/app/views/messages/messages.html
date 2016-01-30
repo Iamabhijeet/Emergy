@@ -5,7 +5,7 @@
             <h2 style="font-size: 36px">Messages</h2>
         </div>
         <div class="col l1 m1 s1 offset-l3 offset-m1">
-            <a ng-href="/dashboard/notifications" class="center">
+            <a ng-href="/notifications" class="center">
                 <i ng-if="!notificationAvailable" class="material-icons notification-icon">notifications</i>
                 <i ng-if="notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
             </a>
@@ -52,7 +52,7 @@
                 <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
             </div>
             <div class="col l6 m6 s12">
-                <a ng-href="/dashboard/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+                <a ng-href="/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
             </div>
         </div>
     </div>

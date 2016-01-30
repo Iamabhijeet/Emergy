@@ -3,9 +3,9 @@
 var controllerId = 'loginController';
 
 app.controller(controllerId,
-    ['vm', '$rootScope', 'authService', 'notificationService', 'authData', loginCtrl]);
+    ['vm', '$rootScope', '$state', 'authService', 'notificationService', 'authData', loginCtrl]);
 
-function loginCtrl($scope, $rootScope, authService, notificationService, authData) {
+function loginCtrl($scope, $rootScope, $state, authService, notificationService, authData) {
     $rootScope.title = 'Login | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
@@ -13,7 +13,12 @@ function loginCtrl($scope, $rootScope, authService, notificationService, authDat
         userName: '',
         password: ''
     };
-    $rootScope.logOut();
+
+    if (authData.loggedIn && authData.isAdmin()) {
+        $state.go('Units');
+    } else if (authData.loggedIn && authData.isClient()) {
+        $state.go('ClientDashboard', authData.userId);
+    }
 
     $scope.submitForm = function (user) {
         $scope.isBusy = true;

@@ -3,9 +3,9 @@
 var controllerId = 'registerController';
 
 app.controller(controllerId,
-    ['vm', '$state', '$rootScope', '$location', 'authService', 'notificationService', 'accountService', '$q', registerCtrl]);
+    ['vm', '$state', '$rootScope', '$location', 'authService', 'notificationService', 'accountService', '$q', 'authData', registerCtrl]);
 
-function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService, accountService, $q) {
+function registerCtrl($scope, $state, $rootScope, $location, authService, notificationService, accountService, $q, authData) {
     $rootScope.title = 'Register | Emergy';
     $rootScope.background = 'background-image';
     $scope.isBusy = false;
@@ -13,6 +13,12 @@ function registerCtrl($scope, $state, $rootScope, $location, authService, notifi
     $scope.userNameValid = true;
     $scope.isUserNameTaken = false;
     $scope.isEmailTaken = false;
+
+    if (authData.loggedIn && authData.isAdmin()) {
+        $state.go('Units');
+    } else if (authData.loggedIn && authData.isClient()) {
+        $state.go('ClientDashboard', authData.userId);
+    }
 
     var validateUserName = function () {
         var deffered = $q.defer();
