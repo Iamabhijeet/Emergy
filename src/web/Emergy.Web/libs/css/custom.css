@@ -5,6 +5,10 @@
 
 /*-----------GENERAL STYLING-----------*/
 
+.gray {
+    background-color: #FAFAFA;
+}
+
 .row.create-unit [type="checkbox"].filled-in:checked + label:after {
     background-color: #18C0D6;
     border-color: #18C0D6;
@@ -129,12 +133,13 @@ html, body {
 .landing .section.home .container h1 {
     font-size: 3.5em;
     margin-bottom: 0;
+    margin-top: 0;
 }
 .landing .section.home .container p {
     font-size: 2.5em;
     font-style: italic;
     font-weight: 100;
-    margin-top: 0;
+    margin-top: -10px;
     letter-spacing: 1px;
 }
 
@@ -149,10 +154,18 @@ html, body {
     line-height: 47px;
 }
 
-.landing .section.overview h2 {
+.landing .section.overview h2, 
+.landing .section.team h2 {
     font-size: 2.5em;
     text-align: center;
     color: #454545;
+    font-weight: 300;
+}
+
+.landing .section.team h2 {
+    font-size: 2.5em;
+    text-align: center;
+    color: #ffffff;
     font-weight: 300;
 }
 
@@ -168,12 +181,12 @@ html, body {
 
 .landing .section.overview {
     text-align: center;
-    background-color: #F5F5F5;
+    background-color: #FAFAFA;
 }
 
 .landing .section.overview li {
     text-align: center;
-    background-color: #F5F5F5;
+    background-color: #FAFAFA;
 }
 
 
@@ -197,9 +210,156 @@ html, body {
     margin-top: 70px;
 }
 
-.landing .section.features {
-    
+.landing .section.features{
+    padding-top: 35px; 
 }
+
+
+.landing .section.features h3{
+    font-weight: 300;   
+}
+
+.landing .section.features img{
+    max-height: 400px;
+    display: block;
+    margin-left: auto;
+}
+
+.landing .section.features p{
+    font-size: 1.5em;
+    font-weight: 300;
+    width: 80%; 
+}
+
+.landing .section.features.gray h3, 
+.landing .section.features.gray p {
+    text-align: right;
+    width: 100%; 
+}
+
+.landing .section.features.gray img {
+    margin-right: auto; 
+}
+
+.landing .section.team {
+    background-color: #00a2b7;
+}
+
+.landing .section.team img{
+    display: block; 
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.landing .section.team h3{
+    text-align: center;
+    color: #ffffff;
+    font-weight: 300;
+    font-size: 2em;
+    margin-bottom: 0; 
+}
+
+.landing .section.team p{
+    text-align: center;
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #ffffff;
+    font-weight: 500; 
+}
+
+.landing .section.team p.description{
+    display: block;
+    width: 60%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;  
+}
+
+.landing .page-footer {
+    margin-top: 0; 
+    background-color: #37474f;
+}
+
+.landing .page-footer .col.l4{
+    text-align: right;
+}
+
+.landing .page-footer h5{
+    font-size: 2.2em;
+    font-weight: 100; 
+}
+
+@media only screen and (max-width: 1220px) {
+    .landing .section.home .container .row h1 {
+        font-size: 2em;
+    }
+
+    .landing .section.home .container .row p {
+        font-size: 1.5em;
+    }      
+    .landing .section.home .container .row a {
+        height: 30px;
+        line-height: 32px;
+        font-size: 1em;
+    }      
+    .landing .section.home {
+        height: 400px;
+    }
+
+    .landing .section.home .container{
+        margin-top: 100px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .landing .section.home .container .row h1 {
+        line-height: 30px;
+        margin-bottom: 15px;
+    }
+
+    .landing .section.home .container .row {
+        text-align: center;
+    }
+
+    .landing .section.home {
+        height: 300px;
+    }
+
+    .landing .section.home .container .row a {
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .landing .section.home .container .row img {
+        display: none; 
+    }
+
+    .landing .section.features img{
+        max-height: 200px;
+        margin-top: 70px;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .landing .section.features h3, 
+    .landing .section.features p {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .landing .section.features.gray h3, 
+    .landing .section.features.gray p {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+     
+}
+
+
 
 /*-----------LOGIN AND REGISTRATION PAGE-----------*/
 
