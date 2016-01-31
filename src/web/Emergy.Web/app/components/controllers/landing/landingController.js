@@ -6,7 +6,7 @@ app.controller(controllerId,
     ['$rootScope', '$state', 'authData', landingController]);
 
 function landingController($rootScope, $state, authData) {
-    $rootScope.title = 'Landing';
+    $rootScope.title = 'Landing | Emergy';
     $rootScope.background = 'background-white';
     
     if (authData.loggedIn && authData.isAdmin()) {
