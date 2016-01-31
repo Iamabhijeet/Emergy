@@ -93,6 +93,8 @@
     <Content Include="app\views\register\register.html" />
     <Content Include="app\views\shell\shell.html" />
     <Content Include="assets\img\account-icon.png" />
+    <Content Include="assets\img\iphone-report.PNG" />
+    <Content Include="assets\img\manage-reports.png" />
     <Content Include="assets\img\plus.png" />
     <Content Include="assets\img\card-background-notification.jpg" />
     <Content Include="assets\img\card-background-with-user.jpg" />
@@ -112,6 +114,8 @@
     <Content Include="assets\img\notifications-icon.png" />
     <Content Include="assets\img\powered-by-google-on-white.png" />
     <Content Include="assets\img\communicate.png" />
+    <Content Include="assets\img\bborovic.jpg" />
+    <Content Include="assets\img\realtime.png" />
     <Content Include="assets\img\settings-icon.png" />
     <Content Include="assets\img\menu-heading.png" />
     <Content Include="assets\img\reports-icon.png" />
