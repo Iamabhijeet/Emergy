@@ -3,26 +3,34 @@
 var controllerId = 'messagesController';
 
 app.controller(controllerId,
-    ['$scope', '$stateParams', '$timeout', '$ionicScrollDelegate', '$rootScope', 'authService', 'notificationService', 'messagesService', 'hub', 'signalR', messagesController]);
+    ['$scope', '$state', '$stateParams', '$timeout', '$ionicScrollDelegate', '$rootScope', 'authService', 'notificationService', 'messagesService', 'hub', 'signalR', messagesController]);
 
-function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate, $rootScope, authService, notificationService, messagesService, hub, signalR) {
+function messagesController($scope, $state, $stateParams, $timeout, $ionicScrollDelegate, $rootScope, authService, notificationService, messagesService, hub, signalR) {
     var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
     $scope.message = "";
     $scope.messages = [];
     $scope.senderId = $stateParams.senderId;
 
+    $scope.goBack = function() {
+        $state.go("tab.messaging");
+    };
+
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
-            if (notification.Type === "MessageArrived") {
+            if (notification.Type === "MessageArrived" && notification.SenderId !== $scope.senderId) {
+                loadMessages();
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
+            }
+            else if (notification.Type === "MessageArrived" && notification.SenderId === $scope.senderId) {
                 loadMessages();
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -32,7 +40,7 @@ function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate
         promise.then(function (messages) {
             $scope.messages = messages;
         }, function (error) {
-            notificationService.displayErrorPopup("Error has happened while loading messages.", "Ok");
+            notificationService.displayErrorPopup("Error has happened while loading messages.", "OK");
         }).finally(function () {
             $ionicScrollDelegate.scrollBottom(true);
         });
@@ -57,13 +65,13 @@ function messagesController($scope, $stateParams, $timeout, $ionicScrollDelegate
                     hub.server.sendNotification(notificationId);
                 }
                 catch (err) {
-                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "OK");
                 }
             }, function() {
-                notificationService.displayErrorPopup("There has been an error creating a notification!", "Ok");
+                notificationService.displayErrorPopup("There has been an error creating a notification!", "OK");
             });
         }, function(error) {
-            notificationService.displayErrorPopup("There has been an error sending a message.", "Ok");
+            notificationService.displayErrorPopup("There has been an error sending a message.", "OK");
         }).finally(function () {
             notificationService.hideLoading();
             delete $scope.message;
