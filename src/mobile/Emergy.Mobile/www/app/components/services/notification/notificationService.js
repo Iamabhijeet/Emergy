@@ -1,9 +1,9 @@
 ﻿'use strict';
 services.factory('notificationService', notificationService);
 
-notificationService.$inject = ['$http', '$q', '$cordovaDialogs', '$ionicLoading', 'serviceBase', 'authData'];
+notificationService.$inject = ['$http', '$q', '$cordovaDialogs','$cordovaVibration', '$ionicLoading', 'serviceBase', 'authData'];
 
-function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceBase, authData) {
+function notificationService($http, $q, $cordovaDialogs, $cordovaVibration, $ionicLoading, serviceBase, authData) {
     var pushNotification = function (notification) {
         var deffered = $q.defer();
         $http.post(serviceBase + 'api/notifications/create', notification)
@@ -29,14 +29,17 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     };
 
     var displayMessage = function (title, content) {
+        $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(content, title);
     };
 
     var displaySuccessPopup = function (message, buttonText) {
+        $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(message, "Notification", buttonText);
     };
 
-    var displaySuccessWithActionPopup = function(message, buttonText, action) {
+    var displaySuccessWithActionPopup = function (message, buttonText, action) {
+        $cordovaVibration.vibrate(250);
         $cordovaDialogs.confirm(message, "Notification", [buttonText, 'DISMISS']).then(function(buttonIndex) {
             if (buttonIndex === 1) {
                 action();
