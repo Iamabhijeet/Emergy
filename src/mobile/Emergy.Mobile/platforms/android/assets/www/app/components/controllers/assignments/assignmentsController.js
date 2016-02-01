@@ -7,21 +7,33 @@ app.controller(controllerId,
 
 function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, authService, notificationService, reportsService, connectionStatusService, hub, signalR, assignmentService, unitsService, locationService) {
     $scope.report = {};
-    var posOptions = { timeout: 10000, enableHighAccuracy: false };
-    $scope.isLoading = true; 
+    var posOptions = { frequency: 30000, timeout: 5000, enableHighAccuracy: false };
+    $scope.isLoading = true;
+    var watch = {};
+
+    $scope.goBack = function () {
+        try {
+            watch.clearWatch();
+        } catch (err) {
+            $state.go("tab.home");
+        }
+        $state.go("tab.home");
+    };
 
     $rootScope.$on(signalR.events.client.pushNotification, function (event, response) {
         $scope.notificationAvailable = true;
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "MessageArrived") {
-                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                $scope.isLoading = true;
+                $scope.report = {};
+                loadAssignment(); 
             }
         });
     });
@@ -40,8 +52,9 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 ParameterId: $scope.report.Id
             }
             console.log(notification);
-            notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "Ok");
+            notificationService.displaySuccessPopup("Successfully changed report status to " + newStatus + "!", "OK");
             if (newStatus === 'Completed' || newStatus === 'Failure') {
+                watch.clearWatch();
                 $state.go('tab.home');
             }
             var promise = notificationService.pushNotification(notification);
@@ -49,13 +62,13 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 try {
                     hub.server.sendNotification(notificationId);
                 } catch (err) {
-                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "Ok");
+                    notificationService.displayErrorPopup("There has been an error notifying administrator!", "OK");
                 }
             }, function() {
-                notificationService.displayErrorPopup("There has been an creating a notification!", "Ok");
+                notificationService.displayErrorPopup("There has been an creating a notification!", "OK");
             });
         }, function() {
-            notificationService.displayErrorPopup("There has been an error changing report status!", "Ok");
+            notificationService.displayErrorPopup("There has been an error changing report status!", "OK");
         });
     }
 
@@ -65,9 +78,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
         promise.then(function(report) {
             $scope.report = report;
         }, function(error) {
-            notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "Ok");
+            notificationService.displayErrorPopup("There has been an error fetching assignment information.!", "OK");
         }).finally(function() {
-            $scope.isLoading = false; 
+            $scope.isLoading = false;
+            notificationService.hideLoading();
         }); 
     };
 
@@ -79,7 +93,7 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 $scope.assignment = assignment;
                 loadReport($scope.assignment.ReportId);
                 
-                var watch = $cordovaGeolocation.watchPosition(posOptions);
+                watch = $cordovaGeolocation.watchPosition(posOptions);
                 watch.then(null, function (err) {
                 }, function (position) {
                     $scope.latitude = position.coords.latitude;
@@ -110,10 +124,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                                     hub.server.sendNotification(notificationId);
                                 }
                                 catch (err) {
-                                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "Ok");
+                                    notificationService.displayErrorPopup("There has been an error pushing a notification!", "OK");
                                 }
                             }, function() {
-                                notificationService.displayErrorPopup("There has been an error creating a notification!", "Ok");
+                                notificationService.displayErrorPopup("There has been an error creating a notification!", "OK");
                             });
                         }, function() {
                         });
@@ -122,10 +136,10 @@ function assignmentsController($scope, $state, $rootScope, $cordovaGeolocation, 
                 });
             } else {
                 $scope.report = null;
+                notificationService.hideLoading();
             }
         }, function() {
-             $scope.report = null;
-        }).finally(function() {
+            $scope.report = null;
             notificationService.hideLoading();
         });
     }

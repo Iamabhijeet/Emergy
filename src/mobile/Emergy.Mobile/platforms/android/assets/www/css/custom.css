@@ -20,6 +20,13 @@
     background: transparent;  /* optional: just make scrollbar invisible */
 }
 
+.platform-ios .android-navbutton {
+    display: none; 
+}
+
+.platform-android .ios-navbutton {
+    display: none; 
+}
 
 /*-----------begin BAR-----------*/
 .bar.bar-positive {
@@ -97,17 +104,17 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .login-container .login-button {
     background-color: #00a2b7;
-    border-color: #00a2b7;
+    border: 0;
 }
 
 .login-container .login-button:hover {
     background-color: #08c2da;
-    border-color: #08c2da;
+    border: 0;
 }
 
 .login-container .login-button.activated {
     background-color: #007382;
-    border-color: #007382;
+    border: 0;
 }
 
 .login-container h1 {
@@ -129,10 +136,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .home-container.modal-public ul li {
     font-weight: 500;
     border: none;
+    margin-bottom: 15px;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
-    margin-bottom: 15px;
 }
 
 .home-container .public-switch {
@@ -158,8 +165,8 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .toggle.toggle-assertive input:checked+.track {
-    border-color: #D4D4D4;
-    background-color: #D4D4D4;
+    border-color: #14B1C4;
+    background-color: #14B1C4;
 }
 
 .home-container .public-switch .track .handle {
@@ -174,12 +181,14 @@ ion-tabs.tabs-color-active-positive .tab-item {
     border-radius: 50%;
     width: 165px;
     height: 165px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    border: none;
+    border: 0;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 5px;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-container .button-create-report {
@@ -187,13 +196,15 @@ ion-tabs.tabs-color-active-positive .tab-item {
     color: #ffffff;
     width: 100%;
     border-radius: 3%;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     border: none;
     display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 15px;
     margin-bottom: 40px;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
 }
 
 .home-container .button-new-report:before {
@@ -205,7 +216,6 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .home-container .button-new-report.activated {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     background-color: #1293A3;
 }
 
@@ -290,8 +300,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .reports-container .card .status {
-    background-color: #00CEE8;
-
+    background-color:  #14B1C4;
 }
 
 .reports-container .card .status p {
@@ -324,6 +333,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
     margin-top: 15px;
+    width: 100%; 
 }
 
 .messaging-container li.item p{
@@ -345,7 +355,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 .platform-ios .bar.bar-footer.send-message-bar {
     border: none;
-    margin-bottom: 50px;
+    margin-bottom: 48px;
 }
 
 .platform-android .bar.bar-footer.send-message-bar {
@@ -401,7 +411,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 .messages-container:last-child {
-    margin-bottom: 80px !important;
+    margin-bottom: 85px !important;
 }
 
 .messages-container .messages .message {
@@ -451,6 +461,13 @@ ion-tabs.tabs-color-active-positive .tab-item {
 
 /*-----------begin ASSIGNMENTS-----------*/
 
+.assignments-container i {
+    font-size: 25px;
+    position: relative;
+    top: 3px;
+    padding-right: 5px;
+}
+
 .assignments-container .warning-text {
     text-align: center;
     margin-top: 30px;
@@ -463,9 +480,10 @@ ion-tabs.tabs-color-active-positive .tab-item {
     margin-bottom: 15px;
 }
 
-.assignments-container a.button {
+.assignments-container a.button.button-positive {
+    margin-bottom: 15px;
+    width: 100%;
     line-height: 3;
-    margin-bottom: 35px;
     background-color: #00ACC1;
     border: none;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
@@ -526,7 +544,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
 .map-wrapper {
     border-radius: 4px;
     position: relative;
-    padding-bottom: 90%;
+    padding-bottom: 88%;
     height: 0;
     overflow: hidden;
     -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16), 0 1px 9px 0 rgba(0, 0, 0, 0.12);
@@ -600,3 +618,126 @@ ion-tabs.tabs-color-active-positive .tab-item {
 }
 
 /*-----------end DIRECTIONS-----------*/
+
+.spinner-calm
+{
+	 color: #00ACC1;
+}
+
+/*!
+ * Waves v0.6.0
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
+ * https://github.com/fians/Waves/blob/master/LICENSE
+ */
+.waves-effect {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  vertical-align: middle;
+  z-index: 1;
+  will-change: opacity, transform;
+  transition: all .3s ease-out;
+}
+
+.waves-effect .waves-ripple {
+  position: absolute;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.7s ease-out;
+  transition-property: opacity, -webkit-transform;
+  transition-property: transform, opacity;
+  transition-property: transform, opacity, -webkit-transform;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  pointer-events: none;
+}
+
+.waves-effect.waves-light .waves-ripple {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.waves-effect.waves-red .waves-ripple {
+  background-color: rgba(244, 67, 54, 0.7);
+}
+
+.waves-effect.waves-yellow .waves-ripple {
+  background-color: rgba(255, 235, 59, 0.7);
+}
+
+.waves-effect.waves-orange .waves-ripple {
+  background-color: rgba(255, 152, 0, 0.7);
+}
+
+.waves-effect.waves-purple .waves-ripple {
+  background-color: rgba(156, 39, 176, 0.7);
+}
+
+.waves-effect.waves-green .waves-ripple {
+  background-color: rgba(76, 175, 80, 0.7);
+}
+
+.waves-effect.waves-teal .waves-ripple {
+  background-color: rgba(0, 150, 136, 0.7);
+}
+
+.waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"] {
+  border: 0;
+  font-style: normal;
+  font-size: inherit;
+  text-transform: inherit;
+  background: none;
+}
+
+.waves-notransition {
+  transition: none !important;
+}
+
+.waves-circle {
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+}
+
+.waves-input-wrapper {
+  border-radius: 0.2em;
+  vertical-align: bottom;
+}
+
+.waves-input-wrapper .waves-button-input {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.waves-circle {
+  text-align: center;
+  width: 2.5em;
+  height: 2.5em;
+  line-height: 2.5em;
+  border-radius: 50%;
+  -webkit-mask-image: none;
+}
+
+.waves-block {
+  display: block;
+}
+
+/* Firefox Bug: link not triggered */
+a.waves-effect .waves-ripple {
+  z-index: -1;
+}

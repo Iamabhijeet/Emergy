@@ -15,13 +15,14 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         var promise = notificationService.getNotification(response);
         promise.then(function (notification) {
             if (notification.Type === "MessageArrived") {
-                notificationService.displaySuccessPopup("You have received a new message!", "Ok");
+                loadMessagedUsers(); 
+                notificationService.displaySuccessWithActionPopup("You have received a new message!", "VIEW", function () { $state.go("tab.messages", { senderId: notification.SenderId }); });
             }
             else if (notification.Type === "ReportUpdated") {
-                notificationService.displaySuccessPopup("One of the reports that you submitted had its status updated to " + notification.Content + "!", "Ok");
+                notificationService.displaySuccessWithActionPopup("Report that you submitted had its status changed to " + notification.Content + "!", "VIEW", function () { $state.go("tab.reports"); });
             }
             else if (notification.Type === "AssignedForReport") {
-                notificationService.displaySuccessPopup("Administrator has assigned you to resolve a report! Head over to assignments screen to view more information.", "Ok");
+                notificationService.displaySuccessWithActionPopup("Administrator has assigned you to resolve a report!", "VIEW", function () { $state.go("tab.assignments"); });
             }
         });
     });
@@ -52,7 +53,7 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         promise.then(function(user) {
             $state.go("tab.messages", { senderId: user.data.Id });
         }, function () {
-            notificationService.displayErrorPopup("There has been an error loading messages.", "Ok");
+            notificationService.displayErrorPopup("There has been an error loading messages.", "OK");
         }).finally(function() {
             notificationService.hideLoading();
         });
@@ -65,7 +66,7 @@ function messagingController($scope, $state, $rootScope, authService, notificati
         promise.then(function (messagedUsers) {
             $scope.messagedUsers = messagedUsers;
         }, function (error) {
-            notificationService.displayErrorPopup("There has been an error loading messaged users.", "Ok");
+            notificationService.displayErrorPopup("There has been an error loading messaged users.", "OK");
         }).finally(function() {
             notificationService.hideLoading();
             $scope.isLoading = false;

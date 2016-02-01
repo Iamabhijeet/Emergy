@@ -7,20 +7,20 @@ function connectionStatusService($http, $q, serviceBase, signalR, hub, notificat
     var displayConnectionStatusMenu = function (connectionStatus) {
         $ionicActionSheet.show({
             buttons: [
-              { text: 'Reconnect' },
-              { text: 'Log Out'   }
+              { text: 'RECONNECT' },
+              { text: 'LOG OUT'   }
             ],
             titleText: 'Realtime is currently <b>' + connectionStatus + '</b>.',
-            cancelText: 'Cancel',
+            cancelText: 'CANCEL',
             cancel: function () {
                 return true;
             },
             buttonClicked: function (index) {
                 if (index === 0) {
                     if (signalR.isConnected) {
-                        notificationService.displayErrorPopup("Realtime connection is already active.", "Ok");
+                        notificationService.displayErrorPopup("Realtime connection is already active.", "OK");
                     } else if (signalR.isConnecting) {
-                        notificationService.displayErrorPopup("Realtime is already connecting.", "Ok");
+                        notificationService.displayErrorPopup("Realtime is already connecting.", "OK");
                     } else {
                         hub.connectionManager.startConnection();
                     }

@@ -1,4 +1,7 @@
 ﻿<ion-view name="tab-directions" view-title="Directions">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-ios-arrow-back" ng-click="goBack()"></button>
+    </ion-nav-buttons>
     <ion-content class="padding has-header" has-bouncing="false">
         <div ng-if="!isLoading" class="map-wrapper">
             <ng-map zoom="14" center="37.7699298, -122.4469157" on-click="logLatLng()" styles="[{'featureType':'landscape.natural','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'color':'#e0efef'}]},{'featureType':'poi','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'hue':'#1900ff'},{'color':'#c0e8e8'}]},{'featureType':'road','elementType':'geometry','stylers':[{'lightness':100},{'visibility':'simplified'}]},{'featureType':'road','elementType':'labels','stylers':[{'visibility':'off'}]},{'featureType':'transit.line','elementType':'geometry','stylers':[{'visibility':'on'},{'lightness':700}]},{'featureType':'water','elementType':'all','stylers':[{'color':'#00ACC1'}]}]">
@@ -6,7 +9,7 @@
                             travel-mode="DRIVING"
                             panel="directions-panel"
                             origin="{{ originLatitude }}, {{ originLongitude }}"
-                            destination="{{ destinationLatitude }}, {{ destinationLongitude }}" >
+                            destination="{{ destinationLatitude }}, {{ destinationLongitude }}">
                 </directions>
             </ng-map>
         </div>
@@ -14,5 +17,5 @@
     </ion-content>
     <div ng-if="!isLoading" id="directions-panel">
 
-    </div> 
+    </div>
 </ion-view>

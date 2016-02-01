@@ -1,9 +1,9 @@
 ﻿'use strict';
 services.factory('notificationService', notificationService);
 
-notificationService.$inject = ['$http', '$q', '$cordovaDialogs', '$ionicLoading', 'serviceBase', 'authData'];
+notificationService.$inject = ['$http', '$q', '$state', '$cordovaDialogs', '$cordovaVibration', '$ionicLoading', 'serviceBase', 'authData'];
 
-function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceBase, authData) {
+function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibration, $ionicLoading, serviceBase, authData) {
     var pushNotification = function (notification) {
         var deffered = $q.defer();
         $http.post(serviceBase + 'api/notifications/create', notification)
@@ -28,24 +28,47 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
         return deffered.promise;
     };
 
+    var notificationId = 1;
+    var displayLocalNotification = function(message) {
+        cordova.plugins.notification.local.hasPermission(function (granted) {
+            if (granted) {
+                cordova.plugins.notification.local.on('click', function() {
+                    $state.go('tab.home');
+                }, this);
+                cordova.plugins.notification.local.schedule({
+                    id: notificationId,
+                    title: "Emergy - Notification",
+                    message: message,
+                    icon: "http://emergy.xyz/assets/img/menu-heading.png",
+                    at: new Date()
+                });
+                notificationId++;
+            }
+        });
+    };
     var displayMessage = function (title, content) {
+        $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(content, title);
     };
 
     var displaySuccessPopup = function (message, buttonText) {
+        $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(message, "Notification", buttonText);
+        displayLocalNotification(message);
     };
 
-    var displaySuccessWithActionPopup = function(message, buttonText, action) {
-        $cordovaDialogs.confirm(message, "Notification", [buttonText, 'Dismiss']).then(function(buttonIndex) {
+    var displaySuccessWithActionPopup = function (message, buttonText, action) {
+        $cordovaVibration.vibrate(250);
+        $cordovaDialogs.confirm(message, "Notification", [buttonText, 'DISMISS']).then(function(buttonIndex) {
             if (buttonIndex === 1) {
                 action();
             }
         });
+        displayLocalNotification(message);
     };
 
     var displayErrorPopup = function (message, buttonText) {
-        $cordovaDialogs.alert(message, "Error", buttonText);
+        $cordovaDialogs.alert(message, "ERROR", buttonText);
     };
 
     var displayChoicePopup = function (message, firstButtonText, secondButtonText, thirdButtonText, primaryFunction, secondaryFunction) {
@@ -63,11 +86,11 @@ function notificationService($http, $q, $cordovaDialogs, $ionicLoading, serviceB
     var displayLoading = function (message) {
         if (ionic.Platform.isAndroid()) {
             $ionicLoading.show({
-                template: '<ion-spinner icon="android"></ion-spinner> <br/>' + message
+                template: '<ion-spinner class="spinner-calm" icon="ripple"></ion-spinner> <br/>' + message
             });
         } else {
             $ionicLoading.show({
-                template: '<ion-spinner icon="ios"></ion-spinner> <br/>' + message
+                template: '<ion-spinner class="spinner-calm" icon="ripple"></ion-spinner> <br/>' + message
             });
         }
 

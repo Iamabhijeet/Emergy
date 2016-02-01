@@ -21,6 +21,7 @@
                 signalR.isConnected = true;
                 signalR.isConnecting = false;
                 signalR.connectionState = 'connected';
+                cordova.plugins.backgroundMode.enable();
                 $rootScope.$broadcast(signalR.events.realTimeConnected);
                 $rootScope.$applyAsync(function () {
                     callback && callback();
@@ -33,6 +34,7 @@
             signalR.connection = null;
             signalR.hub = null;
             $rootScope.unSubscribeAll();
+            cordova.plugins.backgroundMode.disable();
         };
 
         var configureListeners = function () {

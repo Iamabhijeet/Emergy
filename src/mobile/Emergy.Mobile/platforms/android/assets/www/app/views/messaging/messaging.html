@@ -1,6 +1,7 @@
 ﻿<ion-view name="tab-messaging" view-title="Messaging">
-    <ion-nav-buttons side="primary">
-        <button class="button button-icon icon ion-gear-b" ng-click="openSettings()"></button>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-ios-gear-outline ios-navbutton" ng-click="openSettings()"></button>
+        <button class="button button-icon icon ion-gear-b android-navbutton" ng-click="openSettings()"></button>
     </ion-nav-buttons>
     <ion-content class="padding has-header">
         <div class="messaging-container" ng-if="messagedUsers.length != 0">
