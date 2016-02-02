@@ -8,10 +8,10 @@
         <button class="button button-icon icon ion-gear-b android-navbutton" ng-click="openSettings()"></button>
     </ion-nav-buttons>
     <ion-content class="padding has-header">
-        <div class="home-container" ng-if="units.length != 0">
-            <button ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report waves-effect waves-light"></button>
+        <div class="home-container">
+            <button ng-if="units.length != 0 || publicUnitInformationReady" ng-click="openSubmitDialog()" class="button icon ion-android-add button-new-report waves-effect waves-light"></button>
             <div class="report-inputs" ng-if="!isBusy">
-                <div ng-if="!unitAccess.Checkbox">
+                <div ng-if="!unitAccess.Checkbox && units.length != 0">
                     <label class="item item-input item-select">
                         <div class="input-label">Unit</div>
                         <select ng-change="loadBasicProperties(report.UnitId)" ng-init="report.UnitId = selectedUnitId" ng-model="report.UnitId" ng-options="unit.Id as unit.Name for unit in units"></select>
@@ -41,19 +41,19 @@
                         <select ng-model="report.LocationId" ng-options="location.Id as location.Name for location in locations"></select>
                     </label>
                 </div>
-                <li class="public-switch">
-                    <p>Public unit</p>
-                    <label class="toggle toggle-assertive">
-                        <input type="checkbox" ng-model="unitAccess.Checkbox" ng-change="changeAccess()">
-                        <div class="track">
-                            <div class="handle"></div>
-                        </div>
-                    </label>
-                </li>
             </div>
-        </div>
-        <div class="home-container" ng-if="units.length === 0">
-            <p class="empty-warning">You don't belong to any units. Please contact your administrator in order to start reporting.</p>
+            <div ng-if="units.length === 0 && !publicUnitInformationReady">
+                <p class="empty-warning">You don't belong to any units. Please contact your administrator in order to start reporting or report to a public unit.</p>
+            </div>
+            <li class="public-switch">
+                <p>Public unit</p>
+                <label class="toggle toggle-assertive">
+                    <input type="checkbox" ng-model="unitAccess.Checkbox" ng-change="changeAccess()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
         </div>
     </ion-content>
 </ion-view>
@@ -108,7 +108,7 @@
                     <input type="search" placeholder="Type a unit name..." ng-model="queryString" ng-change="queryPublicUnits(queryString)" style="background: transparent;">
                 </label>
                 <ul class="list">
-                    <li ng-repeat="publicUnit in publicUnits" class="item item-icon-left waves-effect waves-light waves-block" ng-click="selectPublicUnit(publicUnit.Id)">
+                    <li ng-repeat="publicUnit in publicUnits" class="item item-icon-left" ng-click="selectPublicUnit(publicUnit.Id)">
                         <i class="icon ion-android-apps"></i>
                      {{ publicUnit.Name }}
                     </li>

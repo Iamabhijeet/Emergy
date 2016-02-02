@@ -46,7 +46,6 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
     $scope.queryPublicUnits = function (queryString) {
         var promise = unitsService.queryPublicUnits(queryString);
         promise.then(function (publicUnits) {
-            console.log("Test");
             $scope.publicUnits = [];
             $scope.publicUnits = publicUnits;
         });
@@ -168,6 +167,9 @@ function homeController($scope, $state, $q, $rootScope, $cordovaGeolocation, $io
             if (units.length > 0) {
                 $scope.selectedUnitId = units[0].Id;
                 $scope.loadBasicProperties($scope.selectedUnitId);
+            } else {
+                notificationService.hideLoading();
+                $scope.isBusy = false;
             }
         }, function () {
             notificationService.displayErrorPopup("There has been an error fetching unit information.", "OK");
