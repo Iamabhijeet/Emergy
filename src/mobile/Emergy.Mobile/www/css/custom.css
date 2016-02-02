@@ -242,6 +242,7 @@ ion-tabs.tabs-color-active-positive .tab-item {
     border-left: none;
     border-top: none;
     border-right: none;
+    margin-bottom: 15px;
 }
 
 .home-container .report-inputs .input-label {
