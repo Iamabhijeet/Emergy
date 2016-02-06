@@ -31,15 +31,16 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
     });
 
     var loadDestination = function() {
-        notificationService.displayLoading("Loading directions...");
         var promise = locationService.getLocationForReport($stateParams.reportId);
         promise.then(function(location) {
             $scope.destinationLatitude = location.Latitude;
             $scope.destinationLongitude = location.Longitude;
+            notificationService.hideLoading();
         });
     };
 
     var loadOrigin = function() {
+        notificationService.displayLoading("Loading directions...");
         $cordovaGeolocation.getCurrentPosition(posOptions).then(function(position) {
             $scope.originLatitude = position.coords.latitude;
             $scope.originLongitude = position.coords.longitude;
@@ -51,10 +52,9 @@ function directionsController($scope, $state, $rootScope, $stateParams, $cordova
             });
         }).finally(function () {
             $scope.isLoading = false;
-            notificationService.hideLoading();
+                loadDestination();
         });
     };
 
-    loadDestination();
     loadOrigin();
 }
