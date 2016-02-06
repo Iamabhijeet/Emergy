@@ -50,18 +50,14 @@
                     <div class="item item-text-wrap">
                         <div ng-repeat="detail in report.Details.CustomPropertyValues">
                             <p class="information-title">{{ detail.CustomProperty.Name }}</p>
-                            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="information">Yes</p>
-                            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue == 'True'" class="information">No</p>
+                            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue === 'True'" class="information">Yes</p>
+                            <p ng-if="detail.CustomProperty.CustomPropertyType == 'CheckBox' && detail.SerializedValue === 'False'" class="information">No</p>
                             <p ng-if="detail.CustomProperty.CustomPropertyType == 'Field'" class="information">{{ detail.SerializedValue }}</p>
                         </div>
                         <br/>
                     </div>
                 </div>
                 <div class="card" ng-repeat="resource in report.Resources">
-                    <div class="item item-divider">
-                        <i class="ion ion-image"></i>
-                        Resource # {{ resource.Id }}
-                    </div>
                     <div class="item item-image">
                         <img ng-src="{{ resource.Base64 }}">
                     </div>
