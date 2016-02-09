@@ -25,7 +25,7 @@ namespace Emergy.Api.Controllers
             var user = await AccountService.GetUserByIdAsync(User.Identity.GetUserId()).WithoutSync();
             var assignment = (await _assignmentsRepository.GetAssignments(user).WithoutSync())
                 .OrderByDescending(a => a.Timestamp)
-                .ElementAt(0);
+                .FirstOrDefault();
             return (assignment != null) ? dto::AssigmentVm.Create(assignment) : null;
         }
         [HttpGet]
