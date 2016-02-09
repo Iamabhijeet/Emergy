@@ -54,7 +54,7 @@
         </div>
         <div class="col l3 m6 s12" ng-if="!unitId" ng-repeat="report in reports | filter : searchTerm">
             <div class="card report-card">
-                <a ng-href="/dashboard/report/{{ report.Id }}">
+                <a ng-href="/report/{{ report.Id }}">
                     <div class="card-content waves-effect waves-block waves-light white-text">
                         <p ng-if="!report.Description">Client has not provided a description for this report.</p>
                         <p ng-if="report.Description">{{ report.Description }}</p>

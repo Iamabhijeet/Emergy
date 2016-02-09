@@ -48,7 +48,7 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
             }
             else if (notification.Type === "MessageArrived") {
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/messages/' + String(notification.SenderId) + '">View</a>');
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length > 11 && notification.SenderId === $scope.assignment.TargetId) {
                 $scope.isLoading = true;
@@ -60,11 +60,11 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length > 11 && notification.SenderId !== $scope.assignment.TargetId) {
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });
