@@ -28,7 +28,7 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
         return deffered.promise;
     };
 
-    var notificationId = 1;
+    /*var notificationId = 1;
     var displayLocalNotification = function (message) {
         $cordovaLocalNotification.hasPermission(function (granted) {
             $cordovaLocalNotification.cancelAll();
@@ -48,7 +48,8 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
                 notificationId++;
             }
         });
-    };
+    };*/
+
     var displayMessage = function (title, content) {
         $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(content, title);
@@ -57,7 +58,7 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
     var displaySuccessPopup = function (message, buttonText) {
         $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(message, "Notification", buttonText);
-        displayLocalNotification(message);
+        //displayLocalNotification(message);
     };
 
     var displaySuccessWithActionPopup = function (message, buttonText, action) {
@@ -67,7 +68,7 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
                 action();
             }
         });
-        displayLocalNotification(message);
+        //displayLocalNotification(message);
     };
 
     var displayErrorPopup = function (message, buttonText) {
