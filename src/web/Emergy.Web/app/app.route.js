@@ -1,31 +1,31 @@
 ﻿app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise("/landing");
+    $urlRouterProvider.otherwise("/");
 
     //admin routes
     $stateProvider.state("Landing", {
-        url: "/landing",
+        url: "/",
         controller: "landingController",
         templateUrl: "app/views/landing.html"
     });
     $stateProvider.state("Login", {
-        url: "/account/login",
+        url: "/login",
         controller: "loginController",
         templateUrl: "app/views/login/login.html"
     });
     $stateProvider.state("Register", {
-        url: "/account/register",
+        url: "/register",
         controller: "registerController",
         templateUrl: "app/views/register/register.html"
     });
     $stateProvider.state("RegisterSuccess", {
-        url: "/account/register/success",
+        url: "/register/success",
         controller: "registerController",
         templateUrl: "app/views/register/registerSuccess.html"
     });
 
     $stateProvider.state("UserProfile", {
-        url: "/dashboard/profile/:userName",
+        url: "/profile/:userName",
         views: {
             '': {
                 templateUrl: 'app/views/account/profile.html',
@@ -50,7 +50,7 @@
         }
     });
     $stateProvider.state("ReportsForUnit", {
-        url: "/dashboard/reports/:unitId?",
+        url: "/reports/:unitId?",
         views: {
             '': {
                 templateUrl: 'app/views/reports/reports.html',
@@ -75,7 +75,7 @@
         }
     });
     $stateProvider.state("Reports", {
-        url: "/dashboard/reports",
+        url: "/reports",
         views: {
             '': {
                 templateUrl: 'app/views/reports/reports.html',
@@ -100,7 +100,7 @@
         }
     });
     $stateProvider.state("ReportDetails", {
-        url: "/dashboard/report/:reportId",
+        url: "/report/:reportId",
         views: {
             '': {
                 templateUrl: 'app/views/reportDetails/reportDetails.html',
@@ -125,7 +125,7 @@
         }
     });
     $stateProvider.state("Units", {
-        url: "/dashboard/units",
+        url: "/units",
         views: {
             '': {
                 templateUrl: 'app/views/units/units.html',
@@ -150,7 +150,7 @@
         }
     });
     $stateProvider.state("Notifications", {
-        url: "/dashboard/notifications",
+        url: "/notifications",
         views: {
             '': {
                 templateUrl: 'app/views/notifications/notifications.html',
@@ -175,7 +175,7 @@
         }
     });
     $stateProvider.state("Messaging", {
-        url: "/dashboard/messaging",
+        url: "/messaging",
         views: {
             '': {
                 templateUrl: 'app/views/messaging/messaging.html',
@@ -200,7 +200,7 @@
         }
     });
     $stateProvider.state("Messages", {
-        url: "/dashboard/messages/:targetId",
+        url: "/messages/:targetId",
         views: {
             '': {
                 templateUrl: 'app/views/messages/messages.html',
@@ -225,7 +225,7 @@
         }
     });
     $stateProvider.state("UnitSettings", {
-        url: "/dashboard/unit/:unitId/settings",
+        url: "/unit/:unitId/settings",
         views: {
             '': {
                 templateUrl: 'app/views/unitSettings/unitSettings.html',
@@ -250,7 +250,7 @@
         }
     });
     $stateProvider.state("Statistics", {
-        url: "/dashboard/statistics",
+        url: "/statistics",
         views: {
             '': {
                 templateUrl: 'app/views/stats/stats.html',
@@ -277,7 +277,7 @@
 
     //client routes
     $stateProvider.state("ClientDashboard", {
-        url: "/dashboard/client/:userId",
+        url: "/client/:userId",
         views: {
             '': {
                 templateUrl: 'app/views/client/dashboard.html'

@@ -37,24 +37,6 @@
         vm.loadReports = function () {
             reportsService.getReports().then(function (reports) { vm.reports = reports; }, function (error) { notificationService.pushError(error); });
         }
-        vm.deleteReport = function (reportId) {
-            var promise = reportsService.deleteReport(reportId);
-            promise.then(function () {
-                notificationService.pushSuccess("Report has been deleted!");
-                vm.loadReports();
-            }, function () {
-                notificationService.pushError("Error has happened while deleting the report.");
-            });
-        }
-        vm.changeStatus = function (reportId, newStatus) {
-            var promise = reportsService.changeStatus(reportId, JSON.stringify(newStatus));
-            promise.then(function () {
-                notificationService.pushSuccess("Status changed to " + newStatus);
-                vm.loadReports();
-            }, function () {
-                notificationService.pushError("Error has happened while changing the status.");
-            });
-        }
 
         activate();
     }

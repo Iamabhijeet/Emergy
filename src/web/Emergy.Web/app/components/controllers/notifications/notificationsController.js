@@ -51,21 +51,21 @@ function notificationsController($scope, $state, $rootScope, $location, authServ
                 $scope.lastNotificationDateTime = "";
                 $scope.loadNotifications();
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/dashboard/messages/' + String(notification.SenderId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has sent you a message!</p> <a href="/messages/' + String(notification.SenderId) + '">View</a>');
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length > 11) {
                 $scope.notifications = [];
                 $scope.lastNotificationDateTime = "";
                 $scope.loadNotifications();
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
                 $scope.notifications = [];
                 $scope.lastNotificationDateTime = "";
                 $scope.loadNotifications();
                 document.getElementById("notificationSound").play();
-                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/dashboard/report/' + String(notification.ParameterId) + '">View</a>');
+                notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }
         });
     });

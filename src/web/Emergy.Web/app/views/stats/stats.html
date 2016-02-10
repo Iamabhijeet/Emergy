@@ -5,8 +5,11 @@
             <h2>Statistics</h2>
         </div>
         <div class="col l1 m1 s1 offset-l8 offset-m7 offset-s0" style="text-align: right;">
-            <a ng-href="#" class="center">
-                <i class="material-icons notification-icon">notifications</i>
+            <a ng-href="/notifications" class="center">
+                <a ng-href="/notifications" class="center">
+                    <i ng-if="!vm.notificationAvailable" class="material-icons notification-icon">notifications</i>
+                    <i ng-if="vm.notificationAvailable" style="color: #18C0D6;" class="material-icons notification-icon">notifications</i>
+                </a>
             </a>
         </div>
     </div>
@@ -63,8 +66,10 @@
         </div>
     </div>
     <div id="allTime" ng-if="isPastMonth">
-        <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount > 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> reports submitted total</h3>
-        <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount === 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> report submitted total</h3>
+        <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount > 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> reports submitted total
+        </h3>
+        <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount === 1"><span>{{ vm.stats.AllTime.Numbers.ReportsCount }}</span> report submitted total
+        </h3>
         <h3 ng-if="vm.stats.AllTime.Numbers.ReportsCount === 0">Can't display statistics because no reports were submitted total.</h3>
         <div class="row" ng-if="vm.stats.AllTime.Numbers.ReportsCount !== 0">
             <div class="col l4 m6 s12">
@@ -107,3 +112,25 @@
     </div>
 </div>
 
+<script type="text/ng-template" id="reportCreatedModal">
+    <div class="report-modal">
+        <h1>New report received!</h1>
+        <ui-gmap-google-map control="map.control" center="map.center" zoom="map.zoom" styles="map.styles" options="map.options" refresh="true">
+            <ui-gmap-marker options="{icon:'assets/img/notification-marker.png'}" coords="reportMarker" idkey="0">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+        <p>Submitted by <span>{{ arrivedReport.Creator.UserName }}</span> at <span>{{ arrivedReport.Timestamp | date: "HH:mma" }}</span></p>
+        <div class="row">
+            <div class="col l6 m6 s12">
+                <a class="waves-effect waves-light white black-text btn" ng-click="closeThisDialog(0)">Dismiss</a>
+            </div>
+            <div class="col l6 m6 s12">
+                <a ng-href="/report/{{ arrivedReport.Id }}" ng-click="closeThisDialog(0)" class="waves-effect waves-light btn details-button">Details</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<audio id="notificationSound">
+    <source src="/assets/sound/notification.mp3" type="audio/mpeg">
+</audio>

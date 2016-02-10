@@ -69,9 +69,9 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
             setAuthData(data.UserId, user.userName, user.password, data.Token, data.Roles);
             $rootScope.authData = authData;
             if (authData.isAdmin()) {
-                $location.path('/dashboard/units');
+                $location.path('/units');
             } else {
-                $location.path('/dashboard/client/' + data.UserId);
+                $location.path('/client/' + data.UserId);
             }
         }).error(function (data) {
             deffered.reject(data);
@@ -92,7 +92,7 @@ function authService($http, $location, $rootScope, $q, serviceBase, localStorage
         localStorageService.set('loggedIn', false);
         authData.loggedIn = false;
         $rootScope.$broadcast('logout');
-        $location.path('/landing');
+        $location.path('/login');
     }
 
     function changePassword(newPassword, confirmPassword) {
