@@ -584,7 +584,16 @@ html, body {
     background-color: inherit;
 }
 
-    .shell-navigation .spacer:hover, .space:active {
+.shell-navigation .client-spacer {
+    height: calc(100% - 370px);
+    background-color: inherit;
+}
+
+
+    .shell-navigation .spacer:hover, 
+    .shell-navigtion .spacer:active, 
+    .shell-navigation .client-spacer:hover,
+    .shell-navigation .client-spacer:active {
         background-color: inherit;
     }
 
@@ -668,7 +677,7 @@ html, body {
 .shell-wrapper .button-collapse i {
     font-size: 35px;
     position: absolute;
-    top: 25px;
+    top: 15px;
     left: 15px;
     color: #757575;
     background-color: transparent;
@@ -1598,8 +1607,9 @@ html, body {
     font-size: 28px;
     font-weight: 400;
     text-align: center; 
-    margin-top: 40px;
+    margin-top: 110px;
     color: #3B3B3B;
+    margin-bottom: 50px;
 }
 
 .main-container.statistics h3 span {

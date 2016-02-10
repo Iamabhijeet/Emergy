@@ -6,7 +6,7 @@ app.controller(controllerId,
     ['$rootScope', 'vm', '$filter', 'accountService', 'authService', 'authData', 'notificationService', 'resourcesService', '$q', 'reportsService', 'signalR', 'ngDialog', profileController]);
 
 function profileController($rootScope, $scope, $filter, accountService, authService, authData, notificationService, resourcesService, $q, reportsService, signalR, ngDialog) {
-    $rootScope.title = 'User ' + authData.userName;
+    $rootScope.title = authData.userName + " | Emergy";
     $scope.profile = {};
     $scope.notificationAvailable = false;
 
