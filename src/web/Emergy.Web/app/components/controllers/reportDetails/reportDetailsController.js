@@ -63,6 +63,10 @@ function reportDetailsController($scope, $state, $rootScope, $stateParams, $wind
                 notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has updated current location!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }
             else if (notification.Type === "ReportUpdated" && notification.Content.length < 11) {
+                if (notification.Content === 'Completed' || notification.Content === 'Failure')
+                {
+                    $state.reload();
+                }
                 document.getElementById("notificationSound").play();
                 notificationService.pushSuccess('<p><span>' + String(notification.Sender.UserName) + '</span> has changed a report status to ' + String(notification.Content) + '!</p> <a href="/report/' + String(notification.ParameterId) + '">View</a>');
             }

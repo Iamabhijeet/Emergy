@@ -320,10 +320,11 @@ app.run(['$rootScope', 'signalR', function ($rootScope, signalR) {
 }]);
 
 
-app.run(['$rootScope', '$state', 'authService', 'notificationService', 'signalR', function ($rootScope, $state, authService, notificationService, signalR) {
+app.run(['$rootScope', '$state', 'authService', 'notificationService', 'authData', 'signalR', function ($rootScope, $state, authService, notificationService, authData, signalR) {
     authService.fillAuthData();
-    $rootScope.authData = authService.getAuthData();
-    if ($rootScope.authData.loggedIn) {
+    authData = authService.getAuthData();
+    $rootScope.authData = authData;
+    if (authData.loggedIn) {
         $rootScope.$broadcast('userAuthenticated');
     }
     $rootScope.currentState = '';
