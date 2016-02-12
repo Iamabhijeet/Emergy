@@ -35,10 +35,10 @@
             <form name="editUnitForm" role="form" novalidate>
                 <div class="row" style="margin-top: 30px;">
                     <div class="input-field col l3 m3 s6">
-                        <input id="unitName" name="unitName" type="text" ng-model="unitName" placeholder="Type a new name here" required ng-required/>
+                        <input id="unitName" name="unitName" type="text" ng-model="unitName" placeholder="Type a new name here" />
                     </div>
                     <div class="input-field col l3 m3 s6">
-                        <a style="margin-top: 5px;" class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine"><i class="material-icons left">save</i> SAVE</a>
+                        <a style="margin-top: 5px;" class="waves-effect waves-light btn white btn-gray-text center-align" ng-click="editUnit(unit.Id)" ng-disabled="editUnitForm.$invalid || editUnitForm.$pristine" ng-hide="unitName.length < 6 || !unitName || unitName.length > 50"><i class="material-icons left">save</i> SAVE</a>
                     </div>
                     <div class="input-field col l6 m6 s12 delete-button">
                         <a style="margin-top: 5px;" class="waves-effect waves-light btn red white-text center-align" ng-click="openUnitDeleteDialog()"><i class="material-icons left">delete</i>DELETE</a>
