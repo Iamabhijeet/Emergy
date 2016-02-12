@@ -28,27 +28,6 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
         return deffered.promise;
     };
 
-    /*var notificationId = 1;
-    var displayLocalNotification = function (message) {
-        $cordovaLocalNotification.hasPermission(function (granted) {
-            $cordovaLocalNotification.cancelAll();
-            if (!granted) {
-                $cordovaLocalNotification.promptForPermission();
-            };
-            if (granted) {
-                $cordovaLocalNotification.on('click', function() {
-                    $state.go('tab.home');
-                }, this);
-                $cordovaLocalNotification.add({
-                    id: notificationId,
-                    title: "Emergy - Notification",
-                    message: message,
-                    icon: "http://emergy.xyz/assets/img/menu-heading.png"
-                });
-                notificationId++;
-            }
-        });
-    };*/
 
     var displayMessage = function (title, content) {
         $cordovaVibration.vibrate(250);
@@ -58,7 +37,6 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
     var displaySuccessPopup = function (message, buttonText) {
         $cordovaVibration.vibrate(250);
         $cordovaDialogs.alert(message, "Notification", buttonText);
-        //displayLocalNotification(message);
     };
 
     var displaySuccessWithActionPopup = function (message, buttonText, action) {
@@ -68,7 +46,6 @@ function notificationService($http, $q, $state, $cordovaDialogs, $cordovaVibrati
                 action();
             }
         });
-        //displayLocalNotification(message);
     };
 
     var displayErrorPopup = function (message, buttonText) {
