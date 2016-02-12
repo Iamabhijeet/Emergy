@@ -7,7 +7,6 @@ namespace Emergy.Core.Models.Log
     {
         public Exception Exception { get; set; }
         public DateTime ExceptionDate { get; set; }
-        public Exception GetCausingException(Exception exception) => exception.InnerException != null ?
-            GetCausingException(exception.InnerException) : exception;
+        public Exception GetCausingException(Exception exception) => exception.InnerException != null ? GetCausingException(exception.InnerException) : exception;
     }
 }
